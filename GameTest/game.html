@@ -1,0 +1,673 @@
+<!doctype html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+
+    <style type="text/css">
+
+        .mapTable {
+            border-spacing: 0px;
+            border-collapse: collapse;
+        }
+
+        .mapTableRow {
+        }
+
+        .mapTableCell {
+            border: 1px solid #808080;
+        }
+
+        .mapTableCell {
+        }
+
+            .mapTableCell img {
+                display: block;
+            }
+
+        .player img {
+            filter: grayscale(100%);
+        }
+
+        .hiddenCell img {
+            filter: brightness(20%);
+        }
+
+
+
+        .fightCell {
+            /* Start the shake animation and make the animation last for 0.5 seconds */
+            animation: shake 0.5s;
+            /* When the animation is finished, start again */
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+    </style>
+
+</head>
+<body onload="initApp();" style="background-color: #EFEFEF;">
+
+    <div>
+        Life: <span id="playerLife"></span>
+    </div>
+    <hr />
+    <div>
+        <table class="mapTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody id="mapData">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="popupText" style="display: none; background-color: lightblue; color: black; border: 1px solid black; width: 400px; height: 100px; top: 20px; left: 400px; padding: 10px; position: absolute;">
+        <span id="popupInnerText"></span>
+    </div>
+
+    <script src="settings.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var LOC_TOP = 0;
+        var LOC_RIGHT = 1;
+        var LOC_BOTTOM = 2;
+        var LOC_LEFT = 3;
+
+        var TILE_WIDTH = 64;
+        var TILE_HEIGHT = 64;
+
+        var mapCells = [];
+        var items = [];
+        var quests = [];
+
+        var worldWidth = 0;
+        var worldHeight = 0;
+
+        var playerX = 0;
+        var playerY = 0;
+        var playerItems = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+        var playerLife = 10;
+        var playerOppositeLoc = -1;
+
+        var fightTimeout = null;
+
+        function MapCellInformation() {
+            this.id = -1;
+            this.isBegining = false;
+            this.hasStructure = true; // False mean the player will fall
+            this.itemId = -1;
+            this.links = [];
+            this.displayCode = "";
+            this.description = "";
+            this.enemyId = -1;
+            this.questId = -1;
+            this.structureQuestId = -1;
+
+            this.changeDone = false;
+            this.wasVisited = true;
+            this.isHidden = true;
+
+            this.worldPositionX = 0; // Just for the UI
+            this.worldPositionY = 0; // Just for the UI
+        }
+
+        MapCellInformation.prototype.getLink = function (loc) {
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].hasLinkToCell(this.id, loc)) {
+                    return this.links[i];
+                }
+            }
+
+            return null;
+        }
+
+        MapCellInformation.prototype.getLinkedCellId = function (loc) {
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].hasLinkToCell(this.id, loc)) {
+                    return this.links[i].getLinkedCell(this.id, loc);
+                }
+            }
+
+            return -1;
+        }
+
+        function getMapCellFromId(id) {
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].id == id)
+                    return mapCells[i];
+            }
+
+            return null;
+        }
+
+        function findMapCellFromPosition(x, y) {
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].worldPositionX == x && mapCells[i].worldPositionY == y)
+                    return mapCells[i];
+            }
+
+            return null;
+        }
+
+        function getMaxMapCellId() {
+            var maxId = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].id > maxId)
+                    maxId = mapCells[i].id;
+            }
+
+            return maxId;
+        }
+
+        function CellLinkInformation() {
+            //this.locked = false;
+            this.itemIdNeeded = -1;
+
+            this.isProcess = false;
+
+            this.isUpDown = false; // true = up-down, false = left-right
+            this.firstCellId = -1;
+            this.secondCellId = -1;
+        }
+
+        CellLinkInformation.prototype.hasLinkToCell = function (cellId, loc) {
+            if (loc == LOC_TOP && this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return true;
+            }
+            else if (loc == LOC_RIGHT && !this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return true;
+            }
+            else if (loc == LOC_BOTTOM && this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return true;
+            }
+            else if (loc == LOC_LEFT && !this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return true;
+            }
+
+            return false;
+        }
+
+        CellLinkInformation.prototype.getLinkedCell = function (cellId, loc) {
+            if (loc == LOC_TOP && this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return this.firstCellId;
+            }
+            else if (loc == LOC_RIGHT && !this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return this.secondCellId;
+            }
+            else if (loc == LOC_BOTTOM && this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return this.secondCellId;
+            }
+            else if (loc == LOC_LEFT && !this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return this.firstCellId;
+            }
+
+            return -1;
+        }
+
+        function ItemInformation() {
+            this.id = -1;
+            this.code = "";
+            this.name = "";
+        }
+
+        function getItemFromId(id) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id == id)
+                    return items[i];
+            }
+
+            return null;
+        }
+
+        function QuestInformation() {
+            this.id = -1;
+            this.name = "";
+            this.description = "";
+            this.itemIdNeeded = -1;
+            this.itemIdGiven = -1;
+
+            this.isCompleted = false;
+        }
+
+        function getQuestFromId(id) {
+            for (var i = 0; i < quests.length; i++) {
+                if (quests[i].id == id)
+                    return quests[i];
+            }
+
+            return null;
+        }
+
+        function initApp() {
+            loadSettings();
+
+            initGrid();
+
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].isBegining) {
+                    playerX = mapCells[i].worldPositionX;
+                    playerY = mapCells[i].worldPositionY;
+                }
+            }
+
+            processPlayerCell();
+            drawMap();
+        }
+
+        function initGrid() {
+            worldWidth = 0;
+            worldHeight = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                mapCells[i].worldPositionX = 0;
+                mapCells[i].worldPositionY = 0;
+            }
+
+            processInitCell(mapCells[0]);
+
+            var minX = 0, minY = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                if (minX > mapCells[i].worldPositionX)
+                    minX = mapCells[i].worldPositionX;
+                if (minY > mapCells[i].worldPositionY)
+                    minY = mapCells[i].worldPositionY;
+            }
+
+            for (var i = 0; i < mapCells.length; i++) {
+                mapCells[i].worldPositionX += (-minX);
+                mapCells[i].worldPositionY += (-minY);
+
+                if (worldWidth < mapCells[i].worldPositionX)
+                    worldWidth = mapCells[i].worldPositionX;
+                if (worldHeight < mapCells[i].worldPositionY)
+                    worldHeight = mapCells[i].worldPositionY;
+            }
+
+            worldWidth++;
+            worldHeight++;
+        }
+
+        function processInitCell(cell) {
+            if (cell.getLinkedCellId(LOC_TOP) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_TOP));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX;
+                    linkCell.worldPositionY = cell.worldPositionY - 1;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_RIGHT) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_RIGHT));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX + 1;
+                    linkCell.worldPositionY = cell.worldPositionY;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_BOTTOM) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_BOTTOM));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX;
+                    linkCell.worldPositionY = cell.worldPositionY + 1;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_LEFT) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_LEFT));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX - 1;
+                    linkCell.worldPositionY = cell.worldPositionY;
+
+                    processInitCell(linkCell);
+                }
+            }
+        }
+
+        function drawMap() {
+            var html = '';
+
+            for (var y = 0; y < worldHeight; y++) {
+                html += '<tr class="mapTableRow">';
+
+                for (var x = 0; x < worldWidth; x++) {
+                    var c = findMapCellFromPosition(x, y);
+                    var img = "";
+                    var pl = "";
+                    var en = "";
+                    var playerOnTile = false;
+                    var fi = "";
+                    var it = "";
+
+                    if (c != null && !c.isHidden) {
+                        if (c.changeDone)
+                            img = "images/tiles/" + c.displayCode + "b.png";
+                        else
+                            img = "images/tiles/" + c.displayCode + ".png";
+
+                        if (playerX == c.worldPositionX && playerY == c.worldPositionY) {
+                            pl = "url(\'images/player/1.png\'), ";
+                            playerOnTile = true;
+                        }
+                        else if (!c.wasVisited) {
+                            //pl = " hiddenCell";
+                        }
+
+                        if (c.enemyId >= 0) {
+                            en = "url(\'images/enemy/" + c.enemyId + ".png\'), ";
+
+                            if (playerOnTile)
+                                fi = " fightCell";
+                        }
+
+                        if (c.itemId >= 0) {
+                            it = "url(\'images/items/" + c.itemId + ".png\'), ";
+                        }
+                    }
+
+                    if (c != null && !c.isHidden)
+                        html += '<td class="mapTableCell' + pl + '"><div class="' + fi + '" style="background-image: ' + en + ' ' + pl + '  ' + it + '  url(\'' + img + '\'); background-size: cover; width: ' + TILE_WIDTH + 'px; height: ' + TILE_HEIGHT + 'px;"></div></td>';
+                    //html += '<td class="mapTableCell' + pl + '"><img src="' + img + '" border="0" width="' + TILE_WIDTH + '" height="' + TILE_HEIGHT + '" /></td>';
+                    else
+                        html += '<td class="mapTableCell' + pl + '"><div class="' + fi + '" style="width: ' + TILE_WIDTH + 'px; height: ' + TILE_HEIGHT + 'px;"></div></td>';
+                }
+
+                html += '</tr>';
+            }
+
+            document.getElementById("mapData").innerHTML = html;
+
+            document.getElementById("playerLife").innerText = playerLife;
+
+        }
+
+        function processPlayerCell() {
+            var c = findMapCellFromPosition(playerX, playerY);
+
+            if (c != null) {
+                if (c.itemId != -1) {
+                    playerItems[c.itemId] = true;
+                    c.itemId = -1;
+                }
+                if (!c.hasStructure) {
+                    playerY++;
+                    processPlayerCell();
+                }
+
+                if (c.questId >= 0) {
+                    var q = getQuestFromId(c.questId);
+
+                    if (!q.isCompleted) {
+                        if (playerItems[q.itemIdNeeded]) {
+                            q.isCompleted = true;
+
+                            for (var i = 0; i < mapCells.length; i++) {
+                                if (mapCells[i].structureQuestId == q.id)
+                                    mapCells[i].changeDone = true;
+                            }
+
+                            if (q.itemIdGiven >= 0) {
+                                playerItems[q.itemIdGiven] = true;
+                            }
+                        }
+
+                        processPopup(q.description);
+                    }
+                }
+                else {
+                    processPopup(c.description);
+                }
+
+                c.isHidden = false;
+                c.wasVisited = true;
+
+                var sc, link;
+
+                link = c.getLink(LOC_RIGHT);
+                if (link != null && (link.itemIdNeeded < 0 || link.isProcess)) {
+                    sc = findMapCellFromPosition(playerX + 1, playerY);
+                    if (sc != null) sc.isHidden = false;
+                }
+
+                link = c.getLink(LOC_LEFT);
+                if (link != null && (link.itemIdNeeded < 0 || link.isProcess)) {
+                    sc = findMapCellFromPosition(playerX - 1, playerY);
+                    if (sc != null) sc.isHidden = false;
+                }
+
+                link = c.getLink(LOC_BOTTOM);
+                if (link != null && (link.itemIdNeeded < 0 || link.isProcess)) {
+                    sc = findMapCellFromPosition(playerX, playerY + 1);
+                    if (sc != null) sc.isHidden = false;
+                }
+
+                link = c.getLink(LOC_TOP);
+                if (link != null && (link.itemIdNeeded < 0 || link.isProcess)) {
+                    sc = findMapCellFromPosition(playerX, playerY - 1);
+                    if (sc != null) sc.isHidden = false;
+                }
+
+                if (c.enemyId >= 0)
+                    fightTimeout = setTimeout("finishFight();", 2000);
+            }
+
+            drawMap();
+        }
+
+        function finishFight() {
+            fightTimeout = null;
+
+            var c = findMapCellFromPosition(playerX, playerY);
+
+            if (c != null) {
+                c.enemyId = -1;
+                drawMap();
+            }
+        }
+
+        function canPlayerMove(loc) {
+            var c = findMapCellFromPosition(playerX, playerY);
+
+            if (c != null) {
+                var link = c.getLink(loc);
+                var cellId = c.getLinkedCellId(loc);
+
+                if (c.enemyId >= 0) {
+                    if (loc == LOC_TOP && playerOppositeLoc != LOC_BOTTOM)
+                        return false;
+                    if (loc == LOC_RIGHT && playerOppositeLoc != LOC_LEFT)
+                        return false;
+                    if (loc == LOC_BOTTOM && playerOppositeLoc != LOC_TOP)
+                        return false;
+                    if (loc == LOC_LEFT && playerOppositeLoc != LOC_RIGHT)
+                        return false;
+                }
+
+                if (link != null) {
+                    if (getMapCellFromId(cellId).itemNeededId >= 0) {
+                        if (!playerItems[getMapCellFromId(cellId).itemNeededId])
+                            return false;
+                    }
+                    if (link.itemIdNeeded == -1 || playerItems[link.itemIdNeeded])
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        function movePlayer(loc) {
+            if (loc == LOC_TOP && !playerItems[2])
+                return;
+
+            if (canPlayerMove(loc)) {
+                clearTimeout(fightTimeout);
+                fightTimeout = null;
+
+                if (loc == LOC_TOP)
+                    playerY--;
+                if (loc == LOC_RIGHT)
+                    playerX++;
+                if (loc == LOC_BOTTOM)
+                    playerY++;
+                if (loc == LOC_LEFT)
+                    playerX--;
+
+                processPlayerCell();
+
+                playerOppositeLoc = loc;
+
+                drawMap();
+            }
+        }
+
+        document.onkeydown = function (evt) {
+            evt = evt || window.event;
+
+            if (evt.keyCode == 167 || evt.keyCode == 87)
+                movePlayer(LOC_TOP);
+            if (evt.keyCode == 144 || evt.keyCode == 68)
+                movePlayer(LOC_RIGHT);
+            if (evt.keyCode == 163 || evt.keyCode == 83)
+                movePlayer(LOC_BOTTOM);
+            if (evt.keyCode == 141 || evt.keyCode == 65)
+                movePlayer(LOC_LEFT);
+
+            if (evt.keyCode == 38)
+                movePlayer(LOC_TOP);
+            if (evt.keyCode == 39)
+                movePlayer(LOC_RIGHT);
+            if (evt.keyCode == 40)
+                movePlayer(LOC_BOTTOM);
+            if (evt.keyCode == 37)
+                movePlayer(LOC_LEFT);
+        };
+
+        function loadSettings() {
+            mapCells = [];
+            items = [];
+            quests = [];
+
+            for (var i = 0; i < itemConfig.length; i++) {
+                var o = new ItemInformation();
+                o.id = itemConfig[i].id;
+                o.code = itemConfig[i].code;
+                o.name = itemConfig[i].name;
+                items.push(o);
+            }
+
+            for (var i = 0; i < questConfig.length; i++) {
+                var o = new QuestInformation();
+                o.id = questConfig[i].id;
+                o.name = questConfig[i].name;
+                o.description = questConfig[i].description;
+                o.itemIdNeeded = questConfig[i].itemIdNeeded;
+                o.itemIdGiven = questConfig[i].itemIdGiven;
+                quests.push(o);
+            }
+            
+            for (var i = 0; i < mapCellConfig.length; i++) {
+                var o = new MapCellInformation();
+                o.id = mapCellConfig[i].id;
+                o.isBegining = mapCellConfig[i].isBegining;
+                o.hasStructure = mapCellConfig[i].hasStructure;
+                o.itemId = mapCellConfig[i].itemId;
+                o.itemNeededId = mapCellConfig[i].itemNeededId;
+                o.displayCode = mapCellConfig[i].displayCode;
+                o.description = mapCellConfig[i].description;
+                o.enemyId = mapCellConfig[i].enemyId;
+                o.questId = mapCellConfig[i].questId;
+                o.structureQuestId = mapCellConfig[i].structureQuestId;
+                o.links = [];
+                
+                for (var ii = 0; ii < mapCellConfig[i].links.length; ii++) {
+                    var oo = new CellLinkInformation();
+                    oo.itemIdNeeded = mapCellConfig[i].links[ii].itemIdNeeded;
+                    oo.isUpDown = mapCellConfig[i].links[ii].isUpDown;
+                    oo.firstCellId = mapCellConfig[i].links[ii].firstCellId;
+                    oo.secondCellId = mapCellConfig[i].links[ii].secondCellId;
+                    o.links.push(oo);
+                }
+
+                mapCells.push(o);
+            }
+        }
+
+        function processPopup(txt) {
+            if (txt == "") {
+                document.getElementById("popupText").style.display = "none";
+                //$("#popupText").hide();
+            }
+            else {
+                //$("#popupInnerText").text(txt);
+                //$("#popupText").show();
+
+                document.getElementById("popupInnerText").innerText = txt;
+                document.getElementById("popupText").style.display = "block";
+            }
+        }
+
+    </script>
+
+</body>
+</html>

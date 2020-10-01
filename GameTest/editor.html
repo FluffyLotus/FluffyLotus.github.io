@@ -1,0 +1,926 @@
+<!doctype html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+
+        .mapTable {
+        }
+
+        .mapRow {
+        }
+
+        .mapCell {
+            /*
+            width: 64px;
+            height: 64px;
+                */
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            color: red;
+            font-weight: bold;
+        }
+
+        .wallTop {
+            border-top: 1px solid black;
+        }
+
+        .wallRight {
+            border-right: 1px solid black;
+        }
+
+        .wallBottom {
+            border-bottom: 1px solid black;
+        }
+
+        .wallLeft {
+            border-left: 1px solid black;
+        }
+
+        .lockTop {
+            border-top: 1px solid red;
+        }
+
+        .lockRight {
+            border-right: 1px solid red;
+        }
+
+        .lockBottom {
+            border-bottom: 1px solid red;
+        }
+
+        .lockLeft {
+            border-left: 1px solid red;
+        }
+
+        .itemCell {
+            background-color: yellow;
+            filter: opacity(50%);
+        }
+
+        .mapCellSelected {
+            background-color: lightblue;
+            filter: opacity(50%);
+        }
+
+        .mapCellIsBegining {
+            background-color: lightgray;
+            filter: opacity(50%);
+        }
+
+    </style>
+
+</head>
+<body onload="initApp();">
+
+    <div>
+        <div style="        width: 75%;
+        min-height: 700px;
+        float: left;
+        overflow: scroll;">
+            <table class="mapTable" cellspacing="0" cellpadding="0">
+                <tbody id="mapData">
+                </tbody>
+            </table>
+        </div>
+
+        <div style="width: 25%; float: right;">
+            <table>
+                <tr>
+                    <td>ID:</td>
+                    <td><span id="selectCellId"></span></td>
+                </tr>
+                <tr>
+                    <td>Pos:</td>
+                    <td><span id="selectCellX"></span>, <span id="selectCellY"></span></td>
+                </tr>
+                <tr>
+                    <td>Description: </td>
+                    <td><textarea id="selectCellDescription" style="height: 100px; width: 200px;"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Display Code:</td>
+                    <td>
+                        <input type="text" id="selectCellDisplayCode" />
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                            <span class="glyphicon glyphicon-th-large"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Enemy: </td>
+                    <td><input type="text" id="selectCellEnemy" /></td>
+                </tr>
+                <tr>
+                    <td><label for="selectCellHasStructure">Has Structure:</label></td>
+                    <td><input type="checkbox" id="selectCellHasStructure" /></td>
+                </tr>
+                <tr>
+                    <td>Item Given: </td>
+                    <td>
+                        <select id="selectedCellItem">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Item Needed: </td>
+                    <td>
+                        <select id="selectedCellItemNeeded">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quest: </td>
+                    <td>
+                        <select id="selectedCellQuest">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Structure Quest: </td>
+                    <td>
+                        <select id="selectedCellStructureQuest">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <hr />
+            <table>
+                <tr>
+                    <td>Top: </td>
+                    <td><select id="selectedCellTopLinkItem"></select></td>
+                </tr>
+                <tr>
+                    <td>Right: </td>
+                    <td><select id="selectedCellRightLinkItem"></select></td>
+                </tr>
+                <tr>
+                    <td>Bottom: </td>
+                    <td><select id="selectedCellBottomLinkItem"></select></td>
+                </tr>
+                <tr>
+                    <td>Left: </td>
+                    <td><select id="selectedCellLeftLinkItem"></select></td>
+                </tr>
+            </table>
+            <hr />
+            <button onclick="updateSelectedCell();">Update Cell</button>
+            <hr />
+            <button onclick="uiRemoveCell();">Remove</button>
+            <hr />
+            <button onclick="saveSettings();">Save Data</button> <a href="fileUrl" download="settings.js" id="downloadLink">Download</a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Choose a tile</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="allTiles" style="height: 500px; overflow-y: scroll;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="settings.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var LOC_TOP = 0;
+        var LOC_RIGHT = 1;
+        var LOC_BOTTOM = 2;
+        var LOC_LEFT = 3;
+
+        var TILE_WIDTH = 48;
+        var TILE_HEIGHT = 48;
+
+        var MAX_IMAGE = 21;
+
+        var mapCells = [];
+        var items = [];
+        var quests = [];
+
+        var worldWidth = 0;
+        var worldHeight = 0;
+
+        var selectedCellId = -1;
+
+        function MapCellInformation() {
+            this.id = -1;
+            this.isBegining = false;
+            this.hasStructure = true; // False mean the player will fall
+            this.itemId = -1;
+            this.itemNeededId = -1;
+            this.links = [];
+            this.displayCode = "";
+            this.description = "";
+            this.enemyId = -1;
+            this.questId = -1;
+            this.structureQuestId = -1;
+
+            this.worldPositionX = 0; // Just for the UI
+            this.worldPositionY = 0; // Just for the UI
+        }
+
+        MapCellInformation.prototype.getLink = function (loc) {
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].hasLinkToCell(this.id, loc)) {
+                    return this.links[i];
+                }
+            }
+
+            return null;
+        }
+
+        MapCellInformation.prototype.getLinkedCellId = function (loc) {
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].hasLinkToCell(this.id, loc)) {
+                    return this.links[i].getLinkedCell(this.id, loc);
+                }
+            }
+
+            return -1;
+        }
+
+        function getMapCellFromId(id) {
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].id == id)
+                    return mapCells[i];
+            }
+
+            return null;
+        }
+
+        function findMapCellFromPosition(x, y) {
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].worldPositionX == x && mapCells[i].worldPositionY == y)
+                    return mapCells[i];
+            }
+
+            return null;
+        }
+
+        function getMaxMapCellId() {
+            var maxId = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                if (mapCells[i].id > maxId)
+                    maxId = mapCells[i].id;
+            }
+
+            return maxId;
+        }
+
+        function CellLinkInformation() {
+            //this.locked = false;
+            this.itemIdNeeded = -1;
+
+            this.isUpDown = false; // true = up-down, false = left-right
+            this.firstCellId = -1;
+            this.secondCellId = -1;
+        }
+
+        CellLinkInformation.prototype.hasLinkToCell = function (cellId, loc) {
+            if (loc == LOC_TOP && this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return true;
+            }
+            else if (loc == LOC_RIGHT && !this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return true;
+            }
+            else if (loc == LOC_BOTTOM && this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return true;
+            }
+            else if (loc == LOC_LEFT && !this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return true;
+            }
+
+            return false;
+        }
+
+        CellLinkInformation.prototype.getLinkedCell = function (cellId, loc) {
+            if (loc == LOC_TOP && this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return this.firstCellId;
+            }
+            else if (loc == LOC_RIGHT && !this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return this.secondCellId;
+            }
+            else if (loc == LOC_BOTTOM && this.isUpDown) {
+                if (cellId == this.firstCellId)
+                    return this.secondCellId;
+            }
+            else if (loc == LOC_LEFT && !this.isUpDown) {
+                if (cellId == this.secondCellId)
+                    return this.firstCellId;
+            }
+
+            return -1;
+        }
+
+        function ItemInformation() {
+            this.id = -1;
+            this.code = "";
+            this.name = "";
+        }
+
+        function getItemFromId(id) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id == id)
+                    return items[i];
+            }
+
+            return null;
+        }
+
+        function QuestInformation() {
+            this.id = -1;
+            this.name = "";
+            this.description = "";
+            this.itemIdNeeded = -1;
+            this.itemIdGiven = -1;
+        }
+
+        function initApp() {
+            /////////////////////////
+            //var newCell = new MapCellInformation();
+            //newCell.id = 0;
+            //newCell.isBegining = true;
+            //mapCells.push(newCell);
+            ///////////////////////////
+            //var newItem = new ItemInformation();
+            //newItem.id = 0;
+            //newItem.code = "I-O";
+            //newItem.name = "Ore";
+            //items.push(newItem);
+            ///////////////////////////
+            //var newItem = new ItemInformation();
+            //newItem.id = 1;
+            //newItem.code = "Q-1";
+            //newItem.name = "Earthquake";
+            //items.push(newItem);
+            ///////////////////////////
+            //var newItem = new ItemInformation();
+            //newItem.id = 2;
+            //newItem.code = "I-S";
+            //newItem.name = "Jumping Shoes";
+            //items.push(newItem);
+            ///////////////////////////
+            //var newItem = new ItemInformation();
+            //newItem.id = 3;
+            //newItem.code = "Q-2";
+            //newItem.name = "Bridge";
+            //items.push(newItem);
+            /////////////////////////
+            //var newItem = new ItemInformation();
+            //newItem.id = 4;
+            //newItem.code = "I-K";
+            //newItem.name = "Key";
+            //items.push(newItem);
+            ///////////////////////////
+            //var newQuest = new QuestInformation();
+            //newQuest.id = 1;
+            //newQuest.name = "Get Ore";
+            //newQuest.description = "Can you get some ore";
+            //newQuest.itemIdNeeded = 0;
+            //newQuest.itemIdGiven = 1;
+            //quests.push(newQuest);
+            /////////////////////////
+            loadSettings();
+
+            initDropDown();
+            initTiles();
+
+            selectCell(0);
+
+            initGrid();
+            drawMap();
+        }
+
+        function setDisplayCode(code) {
+            document.getElementById("selectCellDisplayCode").value = code;
+        }
+
+        function initTiles() {
+            var html = "";
+
+            for (var i = 1; i < MAX_IMAGE+1; i++) {
+                html += '<a href="javascript: //" data-dismiss="modal" aria-label="Close" onclick="setDisplayCode(' + i + ');"><img src="images/tiles/' + i + '.png" border="0" width="' + TILE_WIDTH + '" height="' + TILE_HEIGHT + '" style="margin: 10px;" /></a>';
+            }
+
+            document.getElementById("allTiles").innerHTML = html;
+        }
+
+        function initGrid() {
+            worldWidth = 0;
+            worldHeight = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                mapCells[i].worldPositionX = 0;
+                mapCells[i].worldPositionY = 0;
+            }
+
+            processInitCell(mapCells[0]);
+
+            var minX = 0, minY = 0;
+
+            for (var i = 0; i < mapCells.length; i++) {
+                if (minX > mapCells[i].worldPositionX)
+                    minX = mapCells[i].worldPositionX;
+                if (minY > mapCells[i].worldPositionY)
+                    minY = mapCells[i].worldPositionY;
+            }
+
+            for (var i = 0; i < mapCells.length; i++) {
+                mapCells[i].worldPositionX += (-minX);
+                mapCells[i].worldPositionY += (-minY);
+
+                if (worldWidth < mapCells[i].worldPositionX)
+                    worldWidth = mapCells[i].worldPositionX;
+                if (worldHeight < mapCells[i].worldPositionY)
+                    worldHeight = mapCells[i].worldPositionY;
+            }
+
+            worldWidth++;
+            worldHeight++;
+
+        }
+
+        function processInitCell(cell) {
+            if (cell.getLinkedCellId(LOC_TOP) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_TOP));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX;
+                    linkCell.worldPositionY = cell.worldPositionY - 1;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_RIGHT) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_RIGHT));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX + 1;
+                    linkCell.worldPositionY = cell.worldPositionY;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_BOTTOM) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_BOTTOM));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX;
+                    linkCell.worldPositionY = cell.worldPositionY + 1;
+
+                    processInitCell(linkCell);
+                }
+            }
+
+            if (cell.getLinkedCellId(LOC_LEFT) != -1) {
+                var linkCell = getMapCellFromId(cell.getLinkedCellId(LOC_LEFT));
+
+                if (linkCell.worldPositionX == 0 && linkCell.worldPositionY == 0 && !linkCell.isBegining) {
+                    linkCell.worldPositionX = cell.worldPositionX - 1;
+                    linkCell.worldPositionY = cell.worldPositionY;
+
+                    processInitCell(linkCell);
+                }
+            }
+        }
+
+        function drawMap() {
+            var html = '';
+
+            for (var y = 0; y < worldHeight; y++) {
+                html += '<tr class="mapRow">';
+
+                for (var x = 0; x < worldWidth; x++) {
+                    var c = findMapCellFromPosition(x, y);
+                    var walls = "";
+                    var sel = "";
+                    var text = "";
+
+                    if (c != null) {
+                        var topLink = c.getLink(LOC_TOP);
+                        var rightLink = c.getLink(LOC_RIGHT);
+                        var bottomLink = c.getLink(LOC_BOTTOM);
+                        var leftLink = c.getLink(LOC_LEFT);
+
+                        if (topLink == null)
+                            walls += " wallTop";
+                        else if (topLink.itemIdNeeded >= 0)
+                            walls += " lockTop";
+
+                        if (rightLink == null)
+                            walls += " wallRight";
+                        else if (rightLink.itemIdNeeded >= 0)
+                            walls += " lockRight";
+
+                        if (bottomLink == null)
+                            walls += " wallBottom";
+                        else if (bottomLink.itemIdNeeded >= 0)
+                            walls += " lockBottom";
+
+                        if (leftLink == null)
+                            walls += " wallLeft";
+                        else if (leftLink.itemIdNeeded >= 0)
+                            walls += " lockLeft";
+
+                        if (selectedCellId == c.id)
+                            sel += " mapCellSelected";
+                        else if (c.itemId >= 0)
+                            sel += " itemCell";
+                        else if (c.isBegining)
+                            sel += " mapCellIsBegining";
+
+                        if (!c.hasStructure)
+                            text = "\\/";
+                        if (c.enemyId >= 0)
+                            text = "E";
+
+                        var item = getItemFromId(c.itemId);
+
+                        if (item != null)
+                            text = item.code;
+                    }
+
+                    if (c != null)
+                        html += '<td class="mapCell' + walls + '" onclick="selectCell(' + c.id + ');" style="background-image: url(\'images/tiles/' + c.displayCode + '.png\'); background-size: cover;"><div class="' + sel + '" style="width: ' + TILE_WIDTH + 'px; height: ' + TILE_HEIGHT + 'px;">' + text + '</div></td>';
+                    else
+                        html += '<td class="mapCell' + walls + '"><div class="' + sel + '" style="width: ' + TILE_WIDTH + 'px; height: ' + TILE_HEIGHT + 'px;">' + text + '</div></td>';
+                }
+
+                html += '</tr>';
+            }
+
+            document.getElementById("mapData").innerHTML = html;
+        }
+
+        function initDropDown() {
+            initItemDropDown("selectedCellItem");
+            initItemDropDown("selectedCellItemNeeded");
+            initItemDropDown("selectedCellTopLinkItem");
+            initItemDropDown("selectedCellRightLinkItem");
+            initItemDropDown("selectedCellBottomLinkItem");
+            initItemDropDown("selectedCellLeftLinkItem");
+            
+            initQuestDropDown("selectedCellQuest");
+            initQuestDropDown("selectedCellStructureQuest");
+        }
+
+        function initItemDropDown(selectId) {
+            var select = document.getElementById(selectId);
+
+            var el = document.createElement("option");
+            el.textContent = "";
+            el.value = -1;
+            select.appendChild(el);
+
+            for (var i = 0; i < items.length; i++) {
+                el = document.createElement("option");
+                el.textContent = items[i].name;
+                el.value = items[i].id;
+                select.appendChild(el);
+            }
+        }
+
+        function initQuestDropDown(selectId) {
+            var select = document.getElementById(selectId);
+
+            var el = document.createElement("option");
+            el.textContent = "";
+            el.value = -1;
+            select.appendChild(el);
+
+            for (var i = 0; i < quests.length; i++) {
+                el = document.createElement("option");
+                el.textContent = quests[i].name;
+                el.value = quests[i].id;
+                select.appendChild(el);
+            }
+        }
+
+        function selectCell(cellId) {
+            selectedCellId = cellId;
+
+            var cell = getMapCellFromId(parseInt(selectedCellId));
+
+            if (cell == null)
+                return;
+
+            var topLink = cell.getLink(LOC_TOP);
+            var rightLink = cell.getLink(LOC_RIGHT);
+            var bottomLink = cell.getLink(LOC_BOTTOM);
+            var leftLink = cell.getLink(LOC_LEFT);
+
+            document.getElementById("selectCellId").innerText = cell.id;
+            document.getElementById("selectCellX").innerText = cell.worldPositionX;
+            document.getElementById("selectCellY").innerText = cell.worldPositionY;
+            document.getElementById("selectCellDisplayCode").value = cell.displayCode;
+            document.getElementById("selectCellDescription").value = cell.description;
+            document.getElementById("selectCellHasStructure").checked = cell.hasStructure;
+            document.getElementById("selectCellEnemy").value = cell.enemyId;
+            
+            selectDropDownItem("selectedCellItem", cell.itemId);
+            selectDropDownItem("selectedCellItemNeeded", cell.itemNeededId);
+            selectDropDownItem("selectedCellQuest", cell.questId);
+            selectDropDownItem("selectedCellStructureQuest", cell.structureQuestId);
+
+            if (topLink != null) selectDropDownItem("selectedCellTopLinkItem", topLink.itemIdNeeded);
+            if (rightLink != null) selectDropDownItem("selectedCellRightLinkItem", rightLink.itemIdNeeded);
+            if (bottomLink != null) selectDropDownItem("selectedCellBottomLinkItem", bottomLink.itemIdNeeded);
+            if (leftLink != null) selectDropDownItem("selectedCellLeftLinkItem", leftLink.itemIdNeeded);
+
+            drawMap();
+        }
+
+        function selectDropDownItem(selectId, value) {
+            var select = document.getElementById(selectId);
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].value == value) {
+                    select.options[i].selected = true;
+                }
+                else
+                    select.options[i].selected = false;
+            }
+        }
+
+        function updateSelectedCell() {
+            var cell = getMapCellFromId(selectedCellId);
+
+            if (cell == null)
+                return;
+
+            var topLink = cell.getLink(LOC_TOP);
+            var rightLink = cell.getLink(LOC_RIGHT);
+            var bottomLink = cell.getLink(LOC_BOTTOM);
+            var leftLink = cell.getLink(LOC_LEFT);
+
+            cell.hasStructure = document.getElementById("selectCellHasStructure").checked;
+            cell.displayCode = document.getElementById("selectCellDisplayCode").value;
+            cell.description = document.getElementById("selectCellDescription").value;
+            cell.enemyId = document.getElementById("selectCellEnemy").value;
+
+            cell.itemId = getDropDownItem("selectedCellItem");
+            cell.itemNeededId = getDropDownItem("selectedCellItemNeeded");
+            cell.questId = getDropDownItem("selectedCellQuest");
+            cell.structureQuestId = getDropDownItem("selectedCellStructureQuest");
+
+            if (topLink != null) topLink.itemIdNeeded = getDropDownItem("selectedCellTopLinkItem");
+            if (rightLink != null) rightLink.itemIdNeeded = getDropDownItem("selectedCellRightLinkItem");
+            if (bottomLink != null) bottomLink.itemIdNeeded = getDropDownItem("selectedCellBottomLinkItem");
+            if (leftLink != null) leftLink.itemIdNeeded = getDropDownItem("selectedCellLeftLinkItem");
+        }
+
+        function getDropDownItem(selectId) {
+            var select = document.getElementById(selectId);
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].selected) {
+                    return parseInt(select.options[i].value);
+                }
+            }
+
+            return null;
+        }
+
+        function uiAddCell(loc) {
+            var cell = getMapCellFromId(parseInt(selectedCellId));
+            var sideCell = null;
+
+            if (cell.getLink(loc) != null)
+                return;
+
+            if (loc == LOC_TOP)
+                sideCell = findMapCellFromPosition(cell.worldPositionX, cell.worldPositionY - 1);
+            if (loc == LOC_RIGHT)
+                sideCell = findMapCellFromPosition(cell.worldPositionX + 1, cell.worldPositionY);
+            if (loc == LOC_BOTTOM)
+                sideCell = findMapCellFromPosition(cell.worldPositionX, cell.worldPositionY + 1);
+            if (loc == LOC_LEFT)
+                sideCell = findMapCellFromPosition(cell.worldPositionX - 1, cell.worldPositionY);
+
+            if (sideCell == null) {
+                sideCell = new MapCellInformation();
+                sideCell.id = getMaxMapCellId() + 1;
+                mapCells.push(sideCell);
+            }
+
+            var newLink = new CellLinkInformation();
+
+            if (loc == LOC_TOP) {
+                newLink.isUpDown = true;
+                newLink.firstCellId = sideCell.id;
+                newLink.secondCellId = cell.id;
+            }
+            if (loc == LOC_RIGHT) {
+                newLink.isUpDown = false;
+                newLink.firstCellId = cell.id;
+                newLink.secondCellId = sideCell.id;
+            }
+            if (loc == LOC_BOTTOM) {
+                newLink.isUpDown = true;
+                newLink.firstCellId = cell.id;
+                newLink.secondCellId = sideCell.id;
+            }
+            if (loc == LOC_LEFT) {
+                newLink.isUpDown = false;
+                newLink.firstCellId = sideCell.id;
+                newLink.secondCellId = cell.id;
+            }
+
+            cell.links.push(newLink);
+            sideCell.links.push(newLink);
+
+            initGrid();
+            drawMap();
+        }
+
+        function uiRemoveCell() {
+            for (var i = mapCells.length - 1; i >= 0; i--) {
+                for (var ii = mapCells[i].links.length - 1; ii >= 0; ii--) {
+                    if (mapCells[i].links[ii].firstCellId == selectedCellId ||
+                        mapCells[i].links[ii].secondCellId == selectedCellId) {
+                        mapCells[i].links.splice(ii, 1);
+                    }
+                }
+
+                if (mapCells[i].id == selectedCellId)
+                    mapCells.splice(i, 1);
+            }
+
+            mapCells.
+
+                selectedCellId = -1;
+
+            initGrid();
+            drawMap();
+        }
+
+        function moveSelectedCell(loc) {
+            var cell = getMapCellFromId(parseInt(selectedCellId));
+
+            if (cell == null)
+                return;
+
+            var cx = cell.worldPositionX;
+            var cy = cell.worldPositionY;
+
+            if (loc == LOC_TOP) {
+                cy--;
+            }
+            if (loc == LOC_RIGHT) {
+                cx++;
+            }
+            if (loc == LOC_BOTTOM) {
+                cy++;
+            }
+            if (loc == LOC_LEFT) {
+                cx--;
+            }
+
+            var newCell = findMapCellFromPosition(cx, cy);
+
+            if (newCell == null)
+                return;
+
+            selectCell(newCell.id);
+
+            drawMap();
+        }
+
+        document.onkeydown = function (evt) {
+            evt = evt || window.event;
+
+            //if (evt.keyCode == 167 || evt.keyCode == 87)
+            //    moveSelectedCell(LOC_TOP);
+            //if (evt.keyCode == 144 || evt.keyCode == 68)
+            //    moveSelectedCell(LOC_RIGHT);
+            //if (evt.keyCode == 163 || evt.keyCode == 83)
+            //    moveSelectedCell(LOC_BOTTOM);
+            //if (evt.keyCode == 141 || evt.keyCode == 65)
+            //    moveSelectedCell(LOC_LEFT);
+
+            if (evt.keyCode == 38) {
+                uiAddCell(LOC_TOP);
+                moveSelectedCell(LOC_TOP);
+            }
+            if (evt.keyCode == 39) {
+                uiAddCell(LOC_RIGHT);
+                moveSelectedCell(LOC_RIGHT);
+            }
+            if (evt.keyCode == 40) {
+                uiAddCell(LOC_BOTTOM);
+                moveSelectedCell(LOC_BOTTOM);
+            }
+            if (evt.keyCode == 37) {
+                uiAddCell(LOC_LEFT);
+                moveSelectedCell(LOC_LEFT);
+            }
+        };
+
+        function saveSettings() {
+            var str = "";
+
+            str += "mapCellConfig = " + JSON.stringify(mapCells) + ";\n";
+            str += "itemConfig = " + JSON.stringify(items) + ";\n";
+            str += "questConfig = " + JSON.stringify(quests) + ";\n";
+
+            //    const data = 'some text';
+            //const blob = new Blob([str], { type: 'application/octet-stream' });
+
+            //document.getElementById("downloadLink").href = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+
+            var element = document.getElementById("downloadLink");
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(str));
+            element.setAttribute('download', "settings.js");
+
+            /*
+            var str = "";
+
+            //for (var i = 0; i < imageConfig.length; i++) {
+            //    delete imageConfig[i].textDisplay;
+            //}
+
+            str += "mapCellConfig = " + JSON.stringify(mapCells) + ";\n";
+            str += "itemConfig = " + JSON.stringify(items) + ";\n";
+
+            var file = new Blob([str], { type: 'text/plain' });
+            alert(window.navigator.msSaveOrOpenBlob);
+            if (window.navigator.msSaveOrOpenBlob)
+                window.navigator.msSaveOrOpenBlob(file, "settings.js");
+                */
+        }
+
+        function loadSettings() {
+            mapCells = [];
+            items = [];
+            quests = [];
+
+            for (var i = 0; i < itemConfig.length; i++) {
+                var o = new ItemInformation();
+                o.id = itemConfig[i].id;
+                o.code = itemConfig[i].code;
+                o.name = itemConfig[i].name;
+                items.push(o);
+            }
+
+            for (var i = 0; i < questConfig.length; i++) {
+                var o = new QuestInformation();
+                o.id = questConfig[i].id;
+                o.name = questConfig[i].name;
+                o.description = questConfig[i].description;
+                o.itemIdNeeded = questConfig[i].itemIdNeeded;
+                o.itemIdGiven = questConfig[i].itemIdGiven;
+                quests.push(o);
+            }
+            
+            for (var i = 0; i < mapCellConfig.length; i++) {
+                var o = new MapCellInformation();
+                o.id = mapCellConfig[i].id;
+                o.isBegining = mapCellConfig[i].isBegining;
+                o.hasStructure = mapCellConfig[i].hasStructure;
+                o.itemId = mapCellConfig[i].itemId;
+                o.itemNeededId = mapCellConfig[i].itemNeededId;
+                o.displayCode = mapCellConfig[i].displayCode;
+                o.description = mapCellConfig[i].description;
+                o.enemyId = mapCellConfig[i].enemyId;
+                o.questId = mapCellConfig[i].questId;
+                o.structureQuestId = mapCellConfig[i].structureQuestId;
+                o.links = [];
+                
+                for (var ii = 0; ii < mapCellConfig[i].links.length; ii++) {
+                    var oo = new CellLinkInformation();
+                    oo.itemIdNeeded = mapCellConfig[i].links[ii].itemIdNeeded;
+                    oo.isUpDown = mapCellConfig[i].links[ii].isUpDown;
+                    oo.firstCellId = mapCellConfig[i].links[ii].firstCellId;
+                    oo.secondCellId = mapCellConfig[i].links[ii].secondCellId;
+                    o.links.push(oo);
+                }
+
+                mapCells.push(o);
+            }
+        }
+
+    </script>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
