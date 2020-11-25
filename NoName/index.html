@@ -1,0 +1,1281 @@
+<!doctype html>
+<!-- saved from url=(0016)http://localhost -->
+<html lang="en">
+<head>
+
+    <!--
+
+     0
+    1 2
+     3
+
+        0000
+        0001
+        0010
+        0011
+        0100
+        0101
+        0110
+        0111
+        1000
+        1001
+        1010
+        1011
+        1100
+        1101
+        1110
+        1111
+
+        -->
+
+    <style type="text/css">
+
+        .viewTable {
+            border-collapse: collapse;
+        }
+
+            .viewTable tbody tr {
+                border-top: 1px solid black;
+            }
+
+        .mapTable tr td {
+            width: 24px;
+            height: 24px;
+            border: 1px solid black;
+        }
+
+        .mapTable div {
+            width: 24px;
+            height: 24px;
+        }
+
+        td.grass {
+            background-image: url("images/grass.png");
+            background-size: 24px 24px;
+        }
+
+        td.tree {
+            background-image: url("images/tree.png");
+            background-size: 24px 24px;
+        }
+
+        td.mountain {
+            background-image: url("images/mountain.png");
+            background-size: 24px 24px;
+        }
+
+        td.water {
+            background-image: url("images/water.png");
+            background-size: 24px 24px;
+        }
+
+        td.greenMana {
+            background-image: url("images/greenMana.png");
+            background-size: 24px 24px;
+        }
+
+        div.sawMill {
+            background-image: url("images/sawMill.png");
+            background-size: 24px 24px;
+        }
+
+        div.quarry {
+            background-image: url("images/quarry.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn {
+            background-image: url("images/roadIn.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut {
+            background-image: url("images/roadOut.png");
+            background-size: 24px 24px;
+        }
+
+        div.storage {
+            background-image: url("images/storage.png");
+            background-size: 24px 24px;
+        }
+
+        div.manaPull {
+            background-image: url("images/manaPull.png");
+            background-size: 24px 24px;
+        }
+
+        div.processingMill {
+            background-image: url("images/processingMill.png");
+            background-size: 24px 24px;
+        }
+
+
+
+
+
+        div.roadIn_0000 {
+            background-image: url("images/roadIn_0000.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0001 {
+            background-image: url("images/roadIn_0001.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0010 {
+            background-image: url("images/roadIn_0010.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0011 {
+            background-image: url("images/roadIn_0011.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0100 {
+            background-image: url("images/roadIn_0100.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0101 {
+            background-image: url("images/roadIn_0101.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0110 {
+            background-image: url("images/roadIn_0110.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_0111 {
+            background-image: url("images/roadIn_0111.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1000 {
+            background-image: url("images/roadIn_1000.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1001 {
+            background-image: url("images/roadIn_1001.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1010 {
+            background-image: url("images/roadIn_1010.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1011 {
+            background-image: url("images/roadIn_1011.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1100 {
+            background-image: url("images/roadIn_1100.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1101 {
+            background-image: url("images/roadIn_1101.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1110 {
+            background-image: url("images/roadIn_1110.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadIn_1111 {
+            background-image: url("images/roadIn_1111.png");
+            background-size: 24px 24px;
+        }
+
+
+        div.roadOut_0000 {
+            background-image: url("images/roadOut_0000.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0001 {
+            background-image: url("images/roadOut_0001.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0010 {
+            background-image: url("images/roadOut_0010.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0011 {
+            background-image: url("images/roadOut_0011.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0100 {
+            background-image: url("images/roadOut_0100.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0101 {
+            background-image: url("images/roadOut_0101.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0110 {
+            background-image: url("images/roadOut_0110.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_0111 {
+            background-image: url("images/roadOut_0111.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1000 {
+            background-image: url("images/roadOut_1000.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1001 {
+            background-image: url("images/roadOut_1001.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1010 {
+            background-image: url("images/roadOut_1010.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1011 {
+            background-image: url("images/roadOut_1011.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1100 {
+            background-image: url("images/roadOut_1100.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1101 {
+            background-image: url("images/roadOut_1101.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1110 {
+            background-image: url("images/roadOut_1110.png");
+            background-size: 24px 24px;
+        }
+
+        div.roadOut_1111 {
+            background-image: url("images/roadOut_1111.png");
+            background-size: 24px 24px;
+        }
+    </style>
+
+</head>
+<body onload="loadApp();">
+
+    <div>
+        <div style="        width: 200px;
+        display: inline-block;
+        vertical-align: top;
+">
+
+            <h2>Resources</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wood: </td>
+                        <td><span id="resourceAmount0"></span></td>
+                        <td><span id="resourceDelta0"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Stone: </td>
+                        <td><span id="resourceAmount1"></span></td>
+                        <td><span id="resourceDelta1"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Green Mana: </td>
+                        <td><span id="resourceAmount2"></span></td>
+                        <td><span id="resourceDelta2"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Plank: </td>
+                        <td><span id="resourceAmount3"></span></td>
+                        <td><span id="resourceDelta3"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div style="width: 350px; display: inline-block; vertical-align: top;">
+
+            <h2>Build Map</h2>
+
+            <table class="mapTable" style="border-collapse: collapse; " id="mainGrid" cellspacing="0" cellpadding="0">
+            </table>
+
+            <h2>Attack</h2>
+
+            <p>Walk in the world and kill enemies.<br />You are currently at <span id="playerDistance"></span>m.<br />Max distance is <span id="playerMaxDistance"></span>m</p>
+
+            <div style="display: inline-block; width: 49%; vertical-align: top;">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Player</h3></td>
+                    </tr>
+                    <tr>
+                        <th>Life: </th>
+                        <td><span id="playerCurrentLife"></span>/10 <span id="playerLifeDelta" style="color: red;"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Attack: </th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>Defence: </th>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th>Magic</th>
+                        <td>Use 10 green mana to heal 1 life</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="display: inline-block; width: 49%; vertical-align: top;">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Enemy</h3></td>
+                    </tr>
+                    <tr>
+                        <th>Life: </th>
+                        <td><span id="enemyCurrentLife"></span>/3 <span id="enemyLifeDelta" style="color: red;"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Attack: </th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>Defence: </th>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div style="width: 500px; display: inline-block; vertical-align: top;">
+
+            <h2>Build and actions</h2>
+
+            <table style="width: 100%;" class="viewTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Cost</th>
+                        <th>Requirement / Reward</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td><label><input type="radio" name="building" id="buildingNone" value="-1" checked /> Click</label></td>
+                        <td colspan="2">Click on tile to get resource</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label><input type="radio" name="building" id="buildingNone" value="-2" /> Sell</label></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><div class="sawMill" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingSawMill" value="0" /> Saw Mill</label></td>
+                        <td><span id="buildingCost0"></span></td>
+                        <td><span id="buildingRequirementReward0"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="quarry" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingQuarry" value="1" /> Quarry</label></td>
+                        <td><span id="buildingCost1"></span></td>
+                        <td><span id="buildingRequirementReward1"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="roadIn" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingRoad" value="2" /> Road In</label></td>
+                        <td><span id="buildingCost2"></span></td>
+                        <td><span id="buildingRequirementReward2"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="roadOut" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingRoad" value="6" /> Road Out</label></td>
+                        <td><span id="buildingCost6"></span></td>
+                        <td><span id="buildingRequirementReward6"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="storage" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingStorage" value="3" /> Storage</label></td>
+                        <td><span id="buildingCost3"></span></td>
+                        <td><span id="buildingRequirementReward3"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="manaPull" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingStorage" value="4" /> Mana Pull</label></td>
+                        <td><span id="buildingCost4"></span></td>
+                        <td><span id="buildingRequirementReward4"></span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="processingMill" style="width: 24px; height: 24px;"></div></td>
+                        <td><label><input type="radio" name="building" id="buildingStorage" value="5" /> Processing Mill</label></td>
+                        <td><span id="buildingCost5"></span></td>
+                        <td><span id="buildingRequirementReward5"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Upgrade building</h2>
+
+            <table style="width: 100%;" class="viewTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Cost</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Saw Mill</td>
+                        <td><span id="buildingLevel0"></span></td>
+                        <td><span id="buildingLevelCost0"></span></td>
+                        <td><button onclick="uiUpgradeBuilding(0);">Upgrade</button><button onclick="uiDowngradeBuilding(0);">Downgrade</button></td>
+                    </tr>
+                    <tr>
+                        <td>Quarry</td>
+                        <td><span id="buildingLevel1"></span></td>
+                        <td><span id="buildingLevelCost1"></span></td>
+                        <td><button onclick="uiUpgradeBuilding(1);">Upgrade</button><button onclick="uiDowngradeBuilding(1);">Downgrade</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mana Pull</td>
+                        <td><span id="buildingLevel4"></span></td>
+                        <td><span id="buildingLevelCost4"></span></td>
+                        <td><button onclick="uiUpgradeBuilding(4);">Upgrade</button><button onclick="uiDowngradeBuilding(4);">Downgrade</button></td>
+                    </tr>
+                    <tr>
+                        <td>Processing Mill</td>
+                        <td><span id="buildingLevel5"></span></td>
+                        <td><span id="buildingLevelCost5"></span></td>
+                        <td><button onclick="uiUpgradeBuilding(5);">Upgrade</button><button onclick="uiDowngradeBuilding(5);">Downgrade</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var mapGrid = [];
+
+        var cells = [];
+        var resources = [];
+        var buildings = [];
+
+        var mapWidth = 12;
+        var mapHeight = 12;
+
+        /////////////////////////////////////////////
+
+        var RESOURCE_WOOD = 0
+        var RESOURCE_STONE = 1
+        var RESOURCE_GREENMANA = 2;
+        var RESOURCE_PLANK = 3;
+
+        function resourceInformation() {
+            this.id = 0;
+            this.name = "";
+            this.amount = 0;
+
+            this.tickDelta = 0;
+        }
+
+        resourceInformation.prototype.prepareTick = function () {
+            this.tickDelta = 0;
+        }
+
+        resourceInformation.prototype.addAmount = function (a) {
+            this.amount += a;
+            this.tickDelta += a;
+        }
+
+        function loadResources() {
+            resources[0] = new resourceInformation();
+            resources[0].id = 0;
+            resources[0].name = "Wood";
+
+            resources[1] = new resourceInformation();
+            resources[1].id = 1;
+            resources[1].name = "Stone";
+
+            resources[2] = new resourceInformation();
+            resources[2].id = 2;
+            resources[2].name = "Green Mana";
+
+            resources[3] = new resourceInformation();
+            resources[3].id = 3;
+            resources[3].name = "Plank";
+
+            resources[0].amount = 100;
+            resources[1].amount = 100;
+        }
+
+        /////////////////////////////////////////////
+
+        function resourceLink() {
+            this.resourceId = 0;
+            this.amount = 0;
+            this.delta = 0;
+        }
+
+        function createResourceLink(resourceId, amount, delta) {
+            var item = new resourceLink();
+
+            item.resourceId = resourceId;
+            item.amount = amount;
+            item.delta = delta;
+
+            return item;
+        }
+
+        function hasResourceLink(links) {
+            for (var t = 0; t < links.length; t++) {
+                if (resources[links[t].resourceId].amount < links[t].amount)
+                    return false;
+            }
+
+            return true;
+        }
+
+        function removeResourceLink(links) {
+            for (var t = 0; t < links.length; t++) {
+                resources[links[t].resourceId].addAmount(-links[t].amount);
+            }
+        }
+
+        function addResourceLink(links) {
+            for (var t = 0; t < links.length; t++) {
+                resources[links[t].resourceId].addAmount(links[t].amount);
+            }
+        }
+
+        /////////////////////////////////////////////
+
+        var BUILDING_NONE = -1;
+        var BUILDING_SAWMILL = 0;
+        var BUILDING_QUARRY = 1;
+        var BUILDING_ROADIN = 2;
+        var BUILDING_STORAGE = 3;
+        var BUILDING_MANAPULL = 4;
+        var BUILDING_PROCESSINGMILL = 5;
+        var BUILDING_ROADOUT = 6;
+
+        function buildingInformation() {
+            this.id = 0;
+            this.name = "";
+            this.typeString = "";
+            this.costRequirement = [];
+            this.upgradeRequirement = [];
+            this.requirement = [];
+            this.reward = [];
+            this.buildOnCellId = -1;
+            this.level = 1;
+
+            this.buildAmount = 0;
+        }
+
+        buildingInformation.prototype.getReward = function () {
+            var ret = [];
+
+            for (var t = 0; t < this.reward.length; t++) {
+                var req = this.reward[t];
+
+                ret.push(createResourceLink(req.resourceId, req.amount + (req.delta * this.level), 0));
+            }
+
+            return ret;
+        }
+
+        buildingInformation.prototype.getRequirement = function () {
+            var ret = [];
+
+            for (var t = 0; t < this.requirement.length; t++) {
+                var req = this.requirement[t];
+
+                ret.push(createResourceLink(req.resourceId, req.amount + (req.delta * this.level), 0));
+            }
+
+            return ret;
+        }
+
+        buildingInformation.prototype.getUpgradeRequirement = function () {
+            var ret = [];
+
+            for (var t = 0; t < this.upgradeRequirement.length; t++) {
+                var req = this.upgradeRequirement[t];
+
+                ret.push(createResourceLink(req.resourceId, req.amount + (req.delta * this.level), 0));
+            }
+
+            return ret;
+        }
+
+        buildingInformation.prototype.getCost = function () {
+            var cost = [];
+
+            for (var t = 0; t < this.costRequirement.length; t++) {
+                var req = this.costRequirement[t];
+
+                cost.push(createResourceLink(req.resourceId, req.amount + (req.delta * this.buildAmount), 0));
+            }
+
+            return cost;
+        }
+
+        buildingInformation.prototype.canUpgrade = function () {
+            if (this.level == 0)
+                return;
+
+            var req = this.getUpgradeRequirement();
+
+            return hasResourceLink(req);
+        }
+
+        buildingInformation.prototype.upgrade = function () {
+            if (this.level == 0)
+                return;
+            if (!this.canUpgrade())
+                return;
+
+            var req = this.getUpgradeRequirement();
+
+            removeResourceLink(req);
+            this.level += 1;
+        }
+
+        buildingInformation.prototype.downgrade = function () {
+            if (this.level <= 1)
+                return;
+
+            this.level -= 1;
+        }
+
+        function loadBuildings() {
+            buildings[0] = new buildingInformation();
+            buildings[0].id = 0;
+            buildings[0].name = "Saw Mill";
+            buildings[0].typeString = "sawMill";
+            buildings[0].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[0].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[0].reward.push(createResourceLink(RESOURCE_WOOD, 0, 1));
+            buildings[0].buildOnCellId = CELL_TREE;
+            buildings[0].level = 1;
+
+            buildings[1] = new buildingInformation();
+            buildings[1].id = 1;
+            buildings[1].name = "Quarry";
+            buildings[1].typeString = "quarry";
+            buildings[1].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[1].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[1].reward.push(createResourceLink(RESOURCE_STONE, 0, 1));
+            buildings[1].buildOnCellId = CELL_MOUNTAIN;
+            buildings[1].level = 1;
+
+            buildings[2] = new buildingInformation();
+            buildings[2].id = 2;
+            buildings[2].name = "Road In";
+            buildings[2].typeString = "roadIn";
+            buildings[2].costRequirement.push(createResourceLink(RESOURCE_STONE, 10, 10));
+            buildings[2].buildOnCellId = CELL_GRASS;
+            buildings[2].level = 0;
+
+            buildings[3] = new buildingInformation();
+            buildings[3].id = 3;
+            buildings[3].name = "Storage";
+            buildings[3].typeString = "storage";
+            buildings[3].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[3].buildOnCellId = CELL_GRASS;
+            buildings[3].level = 0;
+
+            buildings[4] = new buildingInformation();
+            buildings[4].id = 4;
+            buildings[4].name = "Mana Pull";
+            buildings[4].typeString = "manaPull";
+            buildings[4].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[4].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[4].reward.push(createResourceLink(RESOURCE_GREENMANA, 0, 1));
+            buildings[4].buildOnCellId = CELL_GREENMANA;
+            buildings[4].level = 1;
+
+            buildings[5] = new buildingInformation();
+            buildings[5].id = 5;
+            buildings[5].name = "Processing Mill";
+            buildings[5].typeString = "processingMill";
+            buildings[5].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[5].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[5].requirement.push(createResourceLink(RESOURCE_WOOD, 0, 10));
+            buildings[5].reward.push(createResourceLink(RESOURCE_PLANK, 0, 1));
+            buildings[5].buildOnCellId = CELL_GRASS;
+            buildings[5].level = 1;
+
+            buildings[6] = new buildingInformation();
+            buildings[6].id = 6;
+            buildings[6].name = "Road Out";
+            buildings[6].typeString = "roadOut";
+            buildings[6].costRequirement.push(createResourceLink(RESOURCE_STONE, 10, 10));
+            buildings[6].buildOnCellId = CELL_GRASS;
+            buildings[6].level = 0;
+        }
+
+        /////////////////////////////////////////////
+
+        var CELL_GRASS = 0;
+        var CELL_TREE = 1;
+        var CELL_MOUNTAIN = 2;
+        var CELL_WATER = 3;
+        var CELL_GREENMANA = 4;
+
+        function cellInformation() {
+            this.id = 0;
+            this.name = "";
+            this.typeString = "";
+            this.clickReward = [];
+        }
+
+        function loadCells() {
+            cells[0] = new cellInformation();
+            cells[0].id = 0;
+            cells[0].name = "Grass";
+            cells[0].typeString = "grass";
+
+            cells[1] = new cellInformation();
+            cells[1].id = 1
+            cells[1].name = "Tree";
+            cells[1].typeString = "tree";
+            cells[1].clickReward.push(createResourceLink(RESOURCE_WOOD, 1, 0));
+
+            cells[2] = new cellInformation();
+            cells[2].id = 2;
+            cells[2].name = "Mountain";
+            cells[2].typeString = "mountain";
+            cells[2].clickReward.push(createResourceLink(RESOURCE_STONE, 1, 0));
+
+            cells[3] = new cellInformation();
+            cells[3].id = 3;
+            cells[3].name = "Water";
+            cells[3].typeString = "water";
+
+            cells[4] = new cellInformation();
+            cells[4].id = 4;
+            cells[4].name = "Green Mana";
+            cells[4].typeString = "greenMana";
+            cells[4].clickReward.push(createResourceLink(RESOURCE_GREENMANA, 1, 0));
+        }
+
+        /////////////////////////////////////////////
+
+        var mapData = [
+            0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+            0, 4, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            3, 3, 0, 0, 0, 4, 2, 2, 0, 0, 0, 0,
+            3, 3, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0,
+            3, 3, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0];
+
+        function mapGridInformation() {
+            this.cellId = 0;
+            this.buildingId = -1;
+
+            this.isConnectedToStorage = false;
+            this.isConnectedFromStorage = false;
+        }
+
+        mapGridInformation.prototype.canBuildOn = function () {
+            if (this.cellId == CELL_GRASS && this.buildingId == -1)
+                return true;
+            return false;
+        }
+
+        function loadMap() {
+            for (var y = 0; y < mapHeight; y++) {
+                for (var x = 0; x < mapWidth; x++) {
+                    var c = new mapGridInformation();
+
+                    c.cellId = mapData[x + (y * mapWidth)];
+
+                    mapGrid[x + (y * mapWidth)] = c;
+                }
+            }
+        }
+
+        function processGridClick(gridX, gridY) {
+            var curGrid = mapGrid[gridX + (gridY * mapWidth)];
+            var curCell = cells[curGrid.cellId];
+
+            for (var t = 0; t < curCell.clickReward.length; t++) {
+                var curReward = curCell.clickReward[t];
+
+                resources[curReward.resourceId].addAmount(curReward.amount);
+            }
+        }
+
+        function calculateGridConnection() {
+            var points = [];
+
+            for (var y = 0; y < mapHeight; y++) {
+                for (var x = 0; x < mapWidth; x++) {
+                    if (mapGrid[x + (y * mapWidth)].buildingId == BUILDING_STORAGE) {
+                        mapGrid[x + (y * mapWidth)].isConnectedToStorage = true;
+                        mapGrid[x + (y * mapWidth)].isConnectedFromStorage = true;
+
+                        var newP = new Object();
+                        newP.x = x;
+                        newP.y = y;
+                        points.push(newP);
+                    }
+                    else {
+                        mapGrid[x + (y * mapWidth)].isConnectedToStorage = false;
+                        mapGrid[x + (y * mapWidth)].isConnectedFromStorage = false;
+                    }
+                }
+            }
+
+            while (points.length > 0) {
+                var p = points.pop();
+
+                for (t = 0; t < 4; t++) {
+                    var tx = p.x;
+                    var ty = p.y;
+
+                    var orgGrid = mapGrid[p.x + (p.y * mapWidth)];
+
+                    if (t == 0) ty -= 1;
+                    if (t == 1) tx -= 1;
+                    if (t == 2) tx += 1;
+                    if (t == 3) ty += 1;
+
+                    if (tx >= 0 && ty >= 0 && tx < mapWidth && ty < mapHeight) {
+                        var curGrid = mapGrid[tx + (ty * mapWidth)];
+
+                        if (!curGrid.isConnectedToStorage && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_ROADOUT && orgGrid.isConnectedToStorage == true) {
+                            curGrid.isConnectedToStorage = true;
+
+                            if (curGrid.buildingId == BUILDING_ROADIN) {
+                                var newP = new Object();
+                                newP.x = tx;
+                                newP.y = ty;
+                                points.push(newP);
+                            }
+                        }
+
+                        if (!curGrid.isConnectedFromStorage && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_ROADIN && orgGrid.isConnectedFromStorage == true) {
+                            curGrid.isConnectedFromStorage = true;
+
+                            if (curGrid.buildingId == BUILDING_ROADOUT) {
+                                var newP = new Object();
+                                newP.x = tx;
+                                newP.y = ty;
+                                points.push(newP);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function addBuilding(gridX, gridY, buildingId) {
+            if (buildingId == -1)
+                return;
+
+            var curGrid = mapGrid[gridX + (gridY * mapWidth)];
+            var curBuilding = buildings[buildingId];
+            var cost = curBuilding.getCost();
+
+            if (hasResourceLink(cost)) {
+                if (curGrid.buildingId == -1 && curGrid.cellId == curBuilding.buildOnCellId) {
+                    removeResourceLink(cost);
+
+                    curBuilding.buildAmount += 1;
+                    curGrid.buildingId = curBuilding.id;
+
+                    calculateGridConnection();
+                }
+            }
+        }
+
+        function sellBuilding(gridX, gridY) {
+            var curGrid = mapGrid[gridX + (gridY * mapWidth)];
+
+            if (curGrid.buildingId >= 0) {
+                var curBuilding = buildings[curGrid.buildingId];
+
+                curBuilding.buildAmount -= 1;
+                curGrid.buildingId = -1;
+
+                var cost = curBuilding.getCost();
+
+                addResourceLink(cost);
+
+                calculateGridConnection();
+            }
+        }
+
+        /////////////////////////////////////////////
+
+        function loadApp() {
+
+            loadMap();
+            loadResources();
+            loadCells();
+            loadBuildings();
+
+            uiCreateGrid();
+            uiDrawGrid();
+
+            processTick();
+            setInterval(processTick, 1000);
+        }
+
+        function prepareTick() {
+            for (var t = 0; t < resources.length; t++) {
+                resources[t].prepareTick();
+            }
+        }
+
+        function processTick() {
+            prepareTick();
+
+            for (var y = 0; y < mapHeight; y++) {
+                for (var x = 0; x < mapWidth; x++) {
+                    var curGrid = mapGrid[x + (y * mapWidth)];
+
+                    if (curGrid.buildingId >= 0 && curGrid.isConnectedToStorage) {
+                        var curBuilding = buildings[curGrid.buildingId];
+
+                        if (curBuilding.getRequirement().length == 0 || curGrid.isConnectedFromStorage) {
+                            if (hasResourceLink(curBuilding.getRequirement())) {
+                                removeResourceLink(curBuilding.getRequirement());
+                                addResourceLink(curBuilding.getReward());
+                            }
+                        }
+                    }
+                }
+            }
+
+            processTempAttack();
+
+            uiDrawResources();
+        }
+
+        /////////////////////////////////////////////
+
+        function uiCreateGrid() {
+            var str = "";
+
+            for (var y = 0; y < mapHeight; y++) {
+                str += "<tr>";
+
+                for (var x = 0; x < mapWidth; x++) {
+                    str += '<td id="cell_' + x + '_' + y + '"><div id="building_' + x + '_' + y + '"></div></td>';
+                }
+
+                str += "</tr>";
+            }
+
+            document.getElementById("mainGrid").innerHTML = str;
+
+            for (let y = 0; y < mapHeight; y++) {
+                for (let x = 0; x < mapWidth; x++) {
+                    document.getElementById('cell_' + x + '_' + y).onclick = function () { uiCellClick(x, y); };
+                }
+            }
+        }
+
+        function uiDrawResources() {
+            for (var t = 0; t < resources.length; t++) {
+                var curResource = resources[t];
+
+                document.getElementById("resourceAmount" + t).innerText = curResource.amount;
+
+                if (curResource.tickDelta > 0) {
+                    document.getElementById("resourceDelta" + t).innerText = "+" + curResource.tickDelta;
+                    document.getElementById("resourceDelta" + t).style.color = "green";
+                }
+                else if (curResource.tickDelta < 0) {
+                    document.getElementById("resourceDelta" + t).innerText = curResource.tickDelta;
+                    document.getElementById("resourceDelta" + t).style.color = "red";
+                }
+                else {
+                    document.getElementById("resourceDelta" + t).innerText = curResource.tickDelta;
+                    document.getElementById("resourceDelta" + t).style.color = "black";
+                }
+            }
+
+            for (var t = 0; t < buildings.length; t++) {
+                var curBuilding = buildings[t];
+
+                document.getElementById("buildingCost" + buildings[t].id).innerText = uiGetLinksString(curBuilding.getCost());
+
+                var str = uiGetNegLinksString(curBuilding.getRequirement());
+
+                if (str != "")
+                    str += "<br />";
+
+                str += uiGetLinksString(curBuilding.getReward());
+
+                document.getElementById("buildingRequirementReward" + buildings[t].id).innerHTML = str;
+            }
+
+            for (var t = 0; t < buildings.length; t++) {
+                var curBuilding = buildings[t];
+
+                if (curBuilding.level > 0) {
+                    document.getElementById("buildingLevel" + buildings[t].id).innerText = curBuilding.level;
+                    document.getElementById("buildingLevelCost" + buildings[t].id).innerText = uiGetLinksString(curBuilding.getUpgradeRequirement());
+                }
+            }
+        }
+
+        function uiGetLinksString(links) {
+            var str = "";
+
+            for (var t = 0; t < links.length; t++) {
+                var curLink = links[t];
+
+                if (str != "")
+                    str += ", ";
+
+                str += curLink.amount + " " + resources[curLink.resourceId].name;
+            }
+
+            return str;
+        }
+
+        function uiGetNegLinksString(links) {
+            var str = "";
+
+            for (var t = 0; t < links.length; t++) {
+                var curLink = links[t];
+
+                if (str != "")
+                    str += ", ";
+
+                str += "-" + curLink.amount + " " + resources[curLink.resourceId].name;
+            }
+
+            return str;
+        }
+
+        function uiDrawGrid() {
+            for (var y = 0; y < mapHeight; y++) {
+                for (var x = 0; x < mapWidth; x++) {
+                    var curGrid = mapGrid[x + (y * mapWidth)];
+
+                    document.getElementById("cell_" + x + "_" + y).className = cells[curGrid.cellId].typeString;
+
+                    if (curGrid.buildingId == BUILDING_ROADIN)
+                        document.getElementById("building_" + x + "_" + y).className = buildings[curGrid.buildingId].typeString + "_" + sideConnectionToStr(x, y);
+                    else if (curGrid.buildingId == BUILDING_ROADOUT)
+                        document.getElementById("building_" + x + "_" + y).className = buildings[curGrid.buildingId].typeString + "_" + sideConnectionFromStr(x, y);
+                    else if (curGrid.buildingId >= 0)
+                        document.getElementById("building_" + x + "_" + y).className = buildings[curGrid.buildingId].typeString;
+                    else
+                        document.getElementById("building_" + x + "_" + y).className = "";
+
+                    //document.getElementById("building_" + x + "_" + y).innerHTML = curGrid.isConnectedToStorage + "<br />" + curGrid.isConnectedFromStorage;
+                }
+            }
+        }
+
+        function uiCellClick(gridX, gridY) {
+            var selectedBuildingId = parseInt(document.querySelector('input[name="building"]:checked').value);
+
+            if (selectedBuildingId >= 0)
+                addBuilding(gridX, gridY, selectedBuildingId);
+            else if (selectedBuildingId == -1)
+                processGridClick(gridX, gridY);
+            else if (selectedBuildingId == -2)
+                sellBuilding(gridX, gridY);
+
+            uiDrawGrid();
+            uiDrawResources();
+        }
+
+        function uiUpgradeBuilding(buildingId) {
+            var curBuilding = buildings[buildingId];
+
+            if (curBuilding.level > 0) {
+                if (curBuilding.canUpgrade()) {
+                    curBuilding.upgrade();
+                }
+            }
+
+            uiDrawGrid();
+        }
+
+        function uiDowngradeBuilding(buildingId) {
+            var curBuilding = buildings[buildingId];
+
+            if (curBuilding.level > 1) {
+                curBuilding.downgrade();
+            }
+
+            uiDrawGrid();
+        }
+
+        function sideConnectionToStr(x, y) {
+            var s = ["0", "0", "0", "0"];
+
+            for (t = 0; t < 4; t++) {
+                var tx = x;
+                var ty = y;
+
+                if (t == 0) ty -= 1;
+                if (t == 1) tx -= 1;
+                if (t == 2) tx += 1;
+                if (t == 3) ty += 1;
+
+                if (tx >= 0 && ty >= 0 && tx < mapWidth && ty < mapHeight) {
+                    var curGrid = mapGrid[tx + (ty * mapWidth)];
+
+                    if (curGrid.isConnectedToStorage) {
+                        s[t] = "1";
+                    }
+                }
+            }
+
+            return s[0] + s[1] + s[2] + s[3];
+        }
+
+        function sideConnectionFromStr(x, y) {
+            var s = ["0", "0", "0", "0"];
+
+            for (t = 0; t < 4; t++) {
+                var tx = x;
+                var ty = y;
+
+                if (t == 0) ty -= 1;
+                if (t == 1) tx -= 1;
+                if (t == 2) tx += 1;
+                if (t == 3) ty += 1;
+
+                if (tx >= 0 && ty >= 0 && tx < mapWidth && ty < mapHeight) {
+                    var curGrid = mapGrid[tx + (ty * mapWidth)];
+
+                    if (curGrid.isConnectedFromStorage) {
+                        s[t] = "1";
+                    }
+                }
+            }
+
+            return s[0] + s[1] + s[2] + s[3];
+        }
+
+        //////////////////////////
+
+        var playerDistance = 0;
+        var playerMaxDistance = 0;
+
+        var playerLife = 10;
+        var enemyLife = 3;
+
+        var playerLifeDelta = 0;
+        var enemyLifeDelta = 0;
+
+        function processTempAttack() {
+            playerLifeDelta = 0;
+            enemyLifeDelta = 0;
+
+            playerLife -= 1;
+            enemyLife -= 1;
+
+            playerLifeDelta -= 1;
+            enemyLifeDelta -= 1;
+
+            if (resources[RESOURCE_GREENMANA].amount >= 10) {
+                resources[RESOURCE_GREENMANA].addAmount(-10);
+
+                playerLife += 1;
+                playerLifeDelta += 1;
+            }
+
+            if (enemyLife <= 0) {
+                playerDistance += 10;
+                enemyLife = 3;
+
+                if (playerDistance > playerMaxDistance)
+                    playerMaxDistance = playerDistance;
+            }
+
+            if (playerLife <= 0) {
+                playerDistance = 0;
+                playerLife = 10;
+                enemyLife = 3;
+            }
+
+            document.getElementById("playerDistance").innerText = playerDistance;
+            document.getElementById("playerMaxDistance").innerText = playerMaxDistance;
+
+            document.getElementById("playerCurrentLife").innerText = playerLife;
+            document.getElementById("enemyCurrentLife").innerText = enemyLife;
+            
+
+            if (playerLifeDelta > 0) {
+                document.getElementById("playerLifeDelta").innerText = "+" + playerLifeDelta;
+                document.getElementById("playerLifeDelta").style.color = "green";
+            }
+            else if (playerLifeDelta < 0) {
+                document.getElementById("playerLifeDelta").innerText = playerLifeDelta;
+                document.getElementById("playerLifeDelta").style.color = "red";
+            }
+            else {
+                document.getElementById("playerLifeDelta").innerText = playerLifeDelta;
+                document.getElementById("playerLifeDelta").style.color = "black";
+            }
+
+            if (enemyLifeDelta > 0) {
+                document.getElementById("enemyLifeDelta").innerText = "+" + enemyLifeDelta;
+                document.getElementById("enemyLifeDelta").style.color = "green";
+            }
+            else if (enemyLifeDelta < 0) {
+                document.getElementById("enemyLifeDelta").innerText = enemyLifeDelta;
+                document.getElementById("enemyLifeDelta").style.color = "red";
+            }
+            else {
+                document.getElementById("enemyLifeDelta").innerText = enemyLifeDelta;
+                document.getElementById("enemyLifeDelta").style.color = "black";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
