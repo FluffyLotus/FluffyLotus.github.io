@@ -155,6 +155,26 @@
             background-size: 24px 24px;
         }
 
+        div.building_8 {
+            background-image: url("images/building_8.png");
+            background-size: 24px 24px;
+        }
+
+        div.building_9 {
+            background-image: url("images/building_9.png");
+            background-size: 24px 24px;
+        }
+
+        div.building_10 {
+            background-image: url("images/building_10.png");
+            background-size: 24px 24px;
+        }
+
+        div.building_11 {
+            background-image: url("images/building_11.png");
+            background-size: 24px 24px;
+        }
+
 
 
 
@@ -320,6 +340,16 @@
             background-size: 24px 24px;
         }
 
+        div.particle_0 {
+            background-image: url("images/particle_0.png");
+            background-size: 24px 24px;
+        }
+
+        div.particle_1 {
+            background-image: url("images/particle_1.png");
+            background-size: 24px 24px;
+        }
+
         .buildingSelected {
             border: 1px solid yellow;
         }
@@ -376,14 +406,24 @@
                         <td><small><span id="resourceInfoTickDelta1"></span></small></td>
                     </tr>
                     <tr>
+                        <td><span id="resourceInfoName3">Plank</span></td>
+                        <td><span id="resourceInfoAmount3"></span></td>
+                        <td><small><span id="resourceInfoTickDelta3"></span></small></td>
+                    </tr>
+                    <tr>
+                        <td><span id="resourceInfoName5">Green Essence</span></td>
+                        <td><span id="resourceInfoAmount5"></span></td>
+                        <td><small><span id="resourceInfoTickDelta5"></span></small></td>
+                    </tr>
+                    <tr>
                         <td><span id="resourceInfoName2">Green Mana</span></td>
                         <td><span id="resourceInfoAmount2"></span></td>
                         <td><small><span id="resourceInfoTickDelta2"></span></small></td>
                     </tr>
                     <tr>
-                        <td><span id="resourceInfoName3">Plank</span></td>
-                        <td><span id="resourceInfoAmount3"></span></td>
-                        <td><small><span id="resourceInfoTickDelta3"></span></small></td>
+                        <td><span id="resourceInfoName6">Blue Essence</span></td>
+                        <td><span id="resourceInfoAmount6"></span></td>
+                        <td><small><span id="resourceInfoTickDelta6"></span></small></td>
                     </tr>
                     <tr>
                         <td><span id="resourceInfoName4">Blue Mana</span></td>
@@ -421,7 +461,11 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
 
-                    <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 600px;">
+                    <div style="height: 80px;
+        border-bottom: 1px dashed gray;
+        vertical-align: top;
+        width: 600px;
+    ">
                         <div class="row">
                             <div id="cellHover" class="col-6"></div>
                             <div id="cellHoverUpgrade" class="col-6"></div>
@@ -452,9 +496,17 @@
                             <div id="building2" onclick="uiSelectBuilding(2);" onmouseover="uiBuildingHover(2, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_2" style="width: 24px; height: 24px;">&nbsp;</div></div>
                             <div id="building6" onclick="uiSelectBuilding(6);" onmouseover="uiBuildingHover(6, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_6" style="width: 24px; height: 24px;">&nbsp;</div></div>
                             <div id="building3" onclick="uiSelectBuilding(3);" onmouseover="uiBuildingHover(3, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_3" style="width: 24px; height: 24px;">&nbsp;</div></div>
-                            <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_4" style="width: 24px; height: 24px;">&nbsp;</div></div>
                             <div id="building5" onclick="uiSelectBuilding(5);" onmouseover="uiBuildingHover(5, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_5" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                        </div>
+                        <div>
+                            <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_4" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                            <div id="building8" onclick="uiSelectBuilding(8);" onmouseover="uiBuildingHover(8, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_8" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                            <div id="building10" onclick="uiSelectBuilding(10);" onmouseover="uiBuildingHover(10, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_10" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                        </div>
+                        <div>
                             <div id="building7" onclick="uiSelectBuilding(7);" onmouseover="uiBuildingHover(7, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_7" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                            <div id="building9" onclick="uiSelectBuilding(9);" onmouseover="uiBuildingHover(9, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_9" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                            <div id="building11" onclick="uiSelectBuilding(11);" onmouseover="uiBuildingHover(11, 1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_11" style="width: 24px; height: 24px;">&nbsp;</div></div>
                         </div>
                     </div>
                 </div>
@@ -537,6 +589,7 @@
         var resources = [];
         var buildings = [];
         var enemies = [];
+        var particles = [];
 
         var mapWidth = 12;
         var mapHeight = 12;
@@ -548,6 +601,8 @@
         var RESOURCE_GREENMANA = 2;
         var RESOURCE_PLANK = 3;
         var RESOURCE_BLUEMANA = 4;
+        var RESOURCE_GREENESSENCE = 5;
+        var RESOURCE_BLUEESSENCE = 6;
 
         function resourceInformation() {
             this.id = 0;
@@ -587,8 +642,16 @@
             resources[4].id = 4;
             resources[4].name = "Blue Mana";
 
-            //resources[0].amount = 100;
-            //resources[1].amount = 100;
+            resources[5] = new resourceInformation();
+            resources[5].id = 5;
+            resources[5].name = "Green Essence";
+
+            resources[6] = new resourceInformation();
+            resources[6].id = 6;
+            resources[6].name = "Blue Essence";
+
+            resources[0].amount = 200;
+            resources[1].amount = 200;
         }
 
         /////////////////////////////////////////////
@@ -641,17 +704,19 @@
         var BUILDING_PROCESSINGMILL = 5;
         var BUILDING_ROADOUT = 6;
         var BUILDING_BMANAPULL = 7;
+        var BUILDING_GREENPUSH = 8;
+        var BUILDING_BLUEPUSH = 9;
+        var BUILDING_GREENCONVERT = 10;
+        var BUILDING_BLUECONVERT = 11;
 
         function buildingInformation() {
             this.id = 0;
             this.name = "";
-            //this.typeString = "";
             this.costRequirement = [];
             this.upgradeRequirement = [];
             this.requirement = [];
             this.reward = [];
             this.buildOnCellId = -1;
-            //this.level = 1;
             this.canUpgrade = false;
 
             this.buildAmount = 0;
@@ -669,10 +734,6 @@
             return ret;
         }
 
-        //buildingInformation.prototype.getReward = function () {
-        //    return this.getRewardByLevel(this.level);
-        //}
-
         buildingInformation.prototype.getRequirementByLevel = function (level) {
             var ret = [];
 
@@ -682,16 +743,12 @@
                 ret.push(createResourceLink(req.resourceId, req.amount + (req.delta * level), 0));
             }
 
-            if (level > 1 && (this.id == BUILDING_SAWMILL || this.id == BUILDING_QUARRY || this.id == BUILDING_PROCESSINGMILL)) {
-                ret.push(createResourceLink(RESOURCE_GREENMANA, level - 1, 0));
-            }
+            //if (level > 1 && (this.id == BUILDING_SAWMILL || this.id == BUILDING_QUARRY || this.id == BUILDING_PROCESSINGMILL)) {
+            //    ret.push(createResourceLink(RESOURCE_GREENMANA, level - 1, 0));
+            //}
 
             return ret;
         }
-
-        //buildingInformation.prototype.getRequirement = function () {
-        //    return this.getRequirementByLevel(this.level);
-        //}
 
         buildingInformation.prototype.getUpgradeRequirementByLevel = function (level) {
             var ret = [];
@@ -704,10 +761,6 @@
 
             return ret;
         }
-
-        //buildingInformation.prototype.getUpgradeRequirement = function () {
-        //    return this.getUpgradeRequirementByLevel(this.level);
-        //}
 
         buildingInformation.prototype.getInitialCost = function () {
             var cost = [];
@@ -739,99 +792,111 @@
             var req = this.getUpgradeRequirementByLevel(level);
 
             removeResourceLink(req);
-            //this.level += 1;
         }
-
-        //buildingInformation.prototype.downgrade = function () {
-        //    if (this.level <= 1)
-        //        return;
-
-        //    this.level -= 1;
-        //}
 
         function loadBuildings() {
             buildings[0] = new buildingInformation();
             buildings[0].id = 0;
             buildings[0].name = "Axe";
-            //buildings[0].typeString = "sawMill";
             buildings[0].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
             buildings[0].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
             buildings[0].reward.push(createResourceLink(RESOURCE_WOOD, 0, 1));
             buildings[0].buildOnCellId = CELL_TREE;
-            //buildings[0].level = 1;
             buildings[0].canUpgrade = true;
 
             buildings[1] = new buildingInformation();
             buildings[1].id = 1;
             buildings[1].name = "Quarry";
-            //buildings[1].typeString = "quarry";
             buildings[1].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
             buildings[1].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
             buildings[1].reward.push(createResourceLink(RESOURCE_STONE, 0, 1));
             buildings[1].buildOnCellId = CELL_MOUNTAIN;
-            //buildings[1].level = 1;
             buildings[1].canUpgrade = true;
 
             buildings[2] = new buildingInformation();
             buildings[2].id = 2;
             buildings[2].name = "Road In";
-            //buildings[2].typeString = "roadIn";
             buildings[2].costRequirement.push(createResourceLink(RESOURCE_STONE, 10, 10));
             buildings[2].buildOnCellId = CELL_GRASS;
-            //buildings[2].level = 0;
             buildings[2].canUpgrade = false;
 
             buildings[3] = new buildingInformation();
             buildings[3].id = 3;
             buildings[3].name = "Storage";
-            //buildings[3].typeString = "storage";
             buildings[3].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
             buildings[3].buildOnCellId = CELL_GRASS;
-            //buildings[3].level = 0;
             buildings[3].canUpgrade = false;
 
             buildings[4] = new buildingInformation();
             buildings[4].id = 4;
             buildings[4].name = "Green Mana Pull";
-            //buildings[4].typeString = "manaPull";
             buildings[4].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
             buildings[4].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
-            buildings[4].reward.push(createResourceLink(RESOURCE_GREENMANA, 0, 1));
+            buildings[4].reward.push(createResourceLink(RESOURCE_GREENESSENCE, 0, 1));
             buildings[4].buildOnCellId = CELL_GREENMANA;
-            //buildings[4].level = 1;
             buildings[4].canUpgrade = true;
 
             buildings[5] = new buildingInformation();
             buildings[5].id = 5;
             buildings[5].name = "Saw Mill";
-            //buildings[5].typeString = "processingMill";
             buildings[5].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
             buildings[5].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
             buildings[5].requirement.push(createResourceLink(RESOURCE_WOOD, 0, 10));
             buildings[5].reward.push(createResourceLink(RESOURCE_PLANK, 0, 1));
             buildings[5].buildOnCellId = CELL_GRASS;
-            //buildings[5].level = 1;
             buildings[5].canUpgrade = true;
 
             buildings[6] = new buildingInformation();
             buildings[6].id = 6;
             buildings[6].name = "Road Out";
-            //buildings[6].typeString = "roadOut";
             buildings[6].costRequirement.push(createResourceLink(RESOURCE_STONE, 10, 10));
             buildings[6].buildOnCellId = CELL_GRASS;
-            //buildings[6].level = 0;
             buildings[6].canUpgrade = false;
 
             buildings[7] = new buildingInformation();
             buildings[7].id = 7;
             buildings[7].name = "Blue Mana Pull";
-            //buildings[7].typeString = "bmanaPull";
             buildings[7].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
             buildings[7].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
-            buildings[7].reward.push(createResourceLink(RESOURCE_BLUEMANA, 0, 1));
+            buildings[7].reward.push(createResourceLink(RESOURCE_BLUEESSENCE, 0, 1));
             buildings[7].buildOnCellId = CELL_BLUEMANA;
-            //buildings[7].level = 1;
             buildings[7].canUpgrade = true;
+
+            buildings[8] = new buildingInformation();
+            buildings[8].id = 8;
+            buildings[8].name = "Green Mana Push";
+            buildings[8].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[8].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[8].buildOnCellId = CELL_GRASS;
+            buildings[8].canUpgrade = true;
+
+            buildings[9] = new buildingInformation();
+            buildings[9].id = 9;
+            buildings[9].name = "Blue Mana Push";
+            buildings[9].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[9].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[9].buildOnCellId = CELL_GRASS;
+            buildings[9].canUpgrade = true;
+
+            buildings[10] = new buildingInformation();
+            buildings[10].id = 10;
+            buildings[10].name = "Green Converter";
+            buildings[10].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[10].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[10].requirement.push(createResourceLink(RESOURCE_GREENESSENCE, 0, 10));
+            buildings[10].reward.push(createResourceLink(RESOURCE_GREENMANA, 0, 1));
+            buildings[10].buildOnCellId = CELL_GRASS;
+            buildings[10].canUpgrade = true;
+
+            buildings[11] = new buildingInformation();
+            buildings[11].id = 11;
+            buildings[11].name = "Blue Converter";
+            buildings[11].costRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 100));
+            buildings[11].upgradeRequirement.push(createResourceLink(RESOURCE_WOOD, 10, 10));
+            buildings[11].requirement.push(createResourceLink(RESOURCE_BLUEESSENCE, 0, 10));
+            buildings[11].reward.push(createResourceLink(RESOURCE_BLUEMANA, 0, 1));
+            buildings[11].buildOnCellId = CELL_GRASS;
+            buildings[11].canUpgrade = true;
         }
 
         /////////////////////////////////////////////
@@ -846,7 +911,6 @@
         function cellInformation() {
             this.id = 0;
             this.name = "";
-            //this.typeString = "";
             this.clickReward = [];
         }
 
@@ -854,36 +918,47 @@
             cells[0] = new cellInformation();
             cells[0].id = 0;
             cells[0].name = "Grass";
-            //cells[0].typeString = "grass";
 
             cells[1] = new cellInformation();
             cells[1].id = 1
             cells[1].name = "Tree";
-            //cells[1].typeString = "tree";
             cells[1].clickReward.push(createResourceLink(RESOURCE_WOOD, 1, 0));
 
             cells[2] = new cellInformation();
             cells[2].id = 2;
             cells[2].name = "Mountain";
-            //cells[2].typeString = "mountain";
             cells[2].clickReward.push(createResourceLink(RESOURCE_STONE, 1, 0));
 
             cells[3] = new cellInformation();
             cells[3].id = 3;
             cells[3].name = "Water";
-            //cells[3].typeString = "water";
 
             cells[4] = new cellInformation();
             cells[4].id = 4;
-            cells[4].name = "Green Mana";
-            //cells[4].typeString = "greenMana";
-            cells[4].clickReward.push(createResourceLink(RESOURCE_GREENMANA, 1, 0));
+            cells[4].name = "Green Essence";
+            cells[4].clickReward.push(createResourceLink(RESOURCE_GREENESSENCE, 1, 0));
 
             cells[5] = new cellInformation();
             cells[5].id = 5;
-            cells[5].name = "Blue Mana";
-            //cells[5].typeString = "blueMana";
-            cells[5].clickReward.push(createResourceLink(RESOURCE_BLUEMANA, 1, 0));
+            cells[5].name = "Blue Essence";
+            cells[5].clickReward.push(createResourceLink(RESOURCE_BLUEESSENCE, 1, 0));
+        }
+
+        /////////////////////////////////////////////
+
+        function particleInformation() {
+            this.id = 0;
+            this.name = "";
+        }
+        
+        function loadParticles() {
+            particles[0] = new cellInformation();
+            particles[0].id = 0;
+            particles[0].name = "Green Particle";
+            
+            particles[1] = new cellInformation();
+            particles[1].id = 1;
+            particles[1].name = "Blue Particle";
         }
 
         /////////////////////////////////////////////
@@ -905,6 +980,7 @@
         function mapGridInformation() {
             this.cellId = 0;
             this.buildingId = -1;
+            this.particleId = -1;
             this.buildingLevel = -1;
 
             this.isConnectedToStorage = false;
@@ -1282,6 +1358,7 @@
             loadMap();
             loadResources();
             loadCells();
+            loadParticles();
             loadBuildings();
             loadAdventure();
             loadEnemies();
@@ -1338,7 +1415,7 @@
                 str += "<tr>";
 
                 for (var x = 0; x < mapWidth; x++) {
-                    str += '<td id="cell_' + x + '_' + y + '"><div id="building_' + x + '_' + y + '"></div></td>';
+                    str += '<td id="cell_' + x + '_' + y + '"><div id="particle_' + x + '_' + y + '"><div id="building_' + x + '_' + y + '"></div></div></td>';
                 }
 
                 str += "</tr>";
@@ -1373,30 +1450,6 @@
                     document.getElementById("resourceInfoTickDelta" + t).style.color = "black";
                 }
             }
-
-            //for (var t = 0; t < buildings.length; t++) {
-            //    var curBuilding = buildings[t];
-
-            //    document.getElementById("buildingCost" + buildings[t].id).innerText = uiGetLinksString(curBuilding.getCost());
-
-            //    var str = uiGetNegLinksString(curBuilding.getRequirement());
-
-            //    if (str != "")
-            //        str += "<br />";
-
-            //    str += uiGetLinksString(curBuilding.getReward());
-
-            //    document.getElementById("buildingRequirementReward" + buildings[t].id).innerHTML = str;
-            //}
-
-            //for (var t = 0; t < buildings.length; t++) {
-            //    var curBuilding = buildings[t];
-
-            //    if (curBuilding.level > 0) {
-            //        document.getElementById("buildingLevel" + buildings[t].id).innerText = curBuilding.level;
-            //        document.getElementById("buildingLevelCost" + buildings[t].id).innerText = uiGetLinksString(curBuilding.getUpgradeRequirement());
-            //    }
-            //}
         }
 
         function uiGetLinksString(links) {
@@ -1436,6 +1489,11 @@
 
                     document.getElementById("cell_" + x + "_" + y).className = "cell_" + cells[curGrid.cellId].id;
 
+                    if (curGrid.particleId >= 0)
+                        document.getElementById("particle_" + x + "_" + y).className = "particle_" + particles[curGrid.particleId].id;
+                    else
+                        document.getElementById("particle_" + x + "_" + y).className = "";
+
                     if (curGrid.buildingId == BUILDING_ROADIN)
                         document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + sideConnectionToStr(x, y);
                     else if (curGrid.buildingId == BUILDING_ROADOUT)
@@ -1444,17 +1502,11 @@
                         document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
                     else
                         document.getElementById("building_" + x + "_" + y).className = "";
-
-                    //document.getElementById("building_" + x + "_" + y).innerHTML = curGrid.isConnectedToStorage + "<br />" + curGrid.isConnectedFromStorage;
                 }
             }
         }
 
         function uiCellClick(gridX, gridY) {
-            //uiCellHover(gridX, gridY);
-
-            //var selectedBuildingId = parseInt(document.querySelector('input[name="building"]:checked').value);
-
             if (selectedBuildingId >= 0)
                 addBuilding(gridX, gridY, selectedBuildingId);
             else if (selectedBuildingId == -1)
@@ -1622,28 +1674,6 @@
             document.getElementById("cellHoverUpgrade").innerHTML = htmlData2;
         }
 
-        //function uiUpgradeBuilding(buildingId) {
-        //    var curBuilding = buildings[buildingId];
-
-        //    if (curBuilding.level > 0) {
-        //        if (curBuilding.canUpgrade()) {
-        //            curBuilding.upgrade();
-        //        }
-        //    }
-
-        //    uiDrawGrid();
-        //}
-
-        //function uiDowngradeBuilding(buildingId) {
-        //    var curBuilding = buildings[buildingId];
-
-        //    if (curBuilding.level > 1) {
-        //        curBuilding.downgrade();
-        //    }
-
-        //    uiDrawGrid();
-        //}
-
         function uiDrawAdventure() {
             document.getElementById("playerDistance").innerText = mapAdventure.currentDistance;
             document.getElementById("playerMaxDistance").innerText = mapAdventure.maxDistance;
@@ -1695,84 +1725,6 @@
                 }
             }
         }
-
-            //////////////////////////
-
-            //var playerDistance = 0;
-            //var playerMaxDistance = 0;
-
-            //var playerLife = 10;
-            //var enemyLife = 3;
-
-            //var playerLifeDelta = 0;
-            //var enemyLifeDelta = 0;
-
-            //function processTempAttack() {
-            //    playerLifeDelta = 0;
-            //    enemyLifeDelta = 0;
-
-            //    playerLife -= 1;
-            //    enemyLife -= 1;
-
-            //    playerLifeDelta -= 1;
-            //    enemyLifeDelta -= 1;
-
-            //    if (document.getElementById("playerUseManaHeal").checked) {
-            //        if (resources[RESOURCE_GREENMANA].amount >= 10) {
-            //            resources[RESOURCE_GREENMANA].addAmount(-10);
-
-            //            playerLife += 1;
-            //            playerLifeDelta += 1;
-            //        }
-            //    }
-
-            //    if (enemyLife <= 0) {
-            //        playerDistance += 10;
-            //        enemyLife = 3;
-
-            //        if (playerDistance > playerMaxDistance)
-            //            playerMaxDistance = playerDistance;
-            //    }
-
-            //    if (playerLife <= 0) {
-            //        playerDistance = 0;
-            //        playerLife = 10;
-            //        enemyLife = 3;
-            //    }
-
-            //    document.getElementById("playerDistance").innerText = playerDistance;
-            //    document.getElementById("playerMaxDistance").innerText = playerMaxDistance;
-
-            //    document.getElementById("playerCurrentLife").innerText = playerLife;
-            //    document.getElementById("enemyCurrentLife").innerText = enemyLife;
-
-
-            //    if (playerLifeDelta > 0) {
-            //        document.getElementById("playerLifeDelta").innerText = "+" + playerLifeDelta;
-            //        document.getElementById("playerLifeDelta").style.color = "green";
-            //    }
-            //    else if (playerLifeDelta < 0) {
-            //        document.getElementById("playerLifeDelta").innerText = playerLifeDelta;
-            //        document.getElementById("playerLifeDelta").style.color = "red";
-            //    }
-            //    else {
-            //        document.getElementById("playerLifeDelta").innerText = playerLifeDelta;
-            //        document.getElementById("playerLifeDelta").style.color = "black";
-            //    }
-
-            //    if (enemyLifeDelta > 0) {
-            //        document.getElementById("enemyLifeDelta").innerText = "+" + enemyLifeDelta;
-            //        document.getElementById("enemyLifeDelta").style.color = "green";
-            //    }
-            //    else if (enemyLifeDelta < 0) {
-            //        document.getElementById("enemyLifeDelta").innerText = enemyLifeDelta;
-            //        document.getElementById("enemyLifeDelta").style.color = "red";
-            //    }
-            //    else {
-            //        document.getElementById("enemyLifeDelta").innerText = enemyLifeDelta;
-            //        document.getElementById("enemyLifeDelta").style.color = "black";
-            //    }
-            //}
 
     </script>
 
