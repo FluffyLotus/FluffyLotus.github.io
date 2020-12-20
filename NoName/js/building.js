@@ -15,6 +15,8 @@ var BUILDING_REDCONVERT = 12;
 var BUILDING_WATERPUMP = 13;
 var BUILDING_WATERGEN = 14;
 var BUILDING_ESSENCEGRAB = 15;
+var BUILDING_STONEMASSON = 16;
+var BUILDING_STEAMENERGY = 17;
 
 function buildingParticleOutputInformation() {
     this.particleId = -1;
@@ -128,10 +130,12 @@ function loadBuildings() {
     buildings[1] = new buildingInformation();
     buildings[1].id = 1;
     buildings[1].name = "Quarry";
+    buildings[1].description = "Blue particle: 10% ore generation.";
     buildings[1].costRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
     buildings[1].upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
     buildings[1].rewards.push(createResourceLink(RESOURCE_STONE, 0, 1, 0, 1.0));
     buildings[1].buildOnCellIds = [CELL_MOUNTAIN];
+    buildings[1].particleOutput.push(createBuildingParticleOutput(PARTICLE_BLUE, [createResourceLink(RESOURCE_ORE, 0, 1, 0, 0.1)]));
 
     buildings[2] = new buildingInformation();
     buildings[2].id = 2;
@@ -159,7 +163,9 @@ function loadBuildings() {
     buildings[5].id = 5;
     buildings[5].name = "Saw Mill";
     buildings[5].costRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 100, 0, 1.0));
+    buildings[5].costRequirements.push(createResourceLink(RESOURCE_STONE, 10, 100, 0, 1.0));
     buildings[5].upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
+    buildings[5].upgradeRequirements.push(createResourceLink(RESOURCE_STONE, 10, 10, 0, 1.0));
     buildings[5].requirements.push(createResourceLink(RESOURCE_WOOD, 0, 10, 0, 1.0));
     buildings[5].rewards.push(createResourceLink(RESOURCE_PLANK, 0, 1, 0, 1.0));
     buildings[5].buildOnCellIds = [CELL_GRASS];
@@ -251,4 +257,36 @@ function loadBuildings() {
     buildings[15].particleOutput.push(createBuildingParticleOutput(PARTICLE_GREEN, [createResourceLink(RESOURCE_GREENESSENCE, 0, 1, 0, 1.0)]));
     buildings[15].particleOutput.push(createBuildingParticleOutput(PARTICLE_BLUE, [createResourceLink(RESOURCE_BLUEESSENCE, 0, 1, 0, 1.0)]));
     buildings[15].particleOutput.push(createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_REDESSENCE, 0, 1, 0, 1.0)]));
+
+    buildings[16] = new buildingInformation();
+    buildings[16].id = 16;
+    buildings[16].name = "Masson";
+    buildings[16].costRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 100, 0, 1.0));
+    buildings[16].costRequirements.push(createResourceLink(RESOURCE_STONE, 10, 100, 0, 1.0));
+    buildings[16].upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
+    buildings[16].upgradeRequirements.push(createResourceLink(RESOURCE_STONE, 10, 10, 0, 1.0));
+    buildings[16].requirements.push(createResourceLink(RESOURCE_STONE, 0, 10, 0, 1.0));
+    buildings[16].rewards.push(createResourceLink(RESOURCE_BLOCK, 0, 1, 0, 1.0));
+    buildings[16].buildOnCellIds = [CELL_GRASS];
+
+    buildings[17] = new buildingInformation();
+    buildings[17].id = 17;
+    buildings[17].name = "Iron Factory";
+    buildings[17].costRequirements.push(createResourceLink(RESOURCE_PLANK, 10, 100, 0, 1.0));
+    buildings[17].costRequirements.push(createResourceLink(RESOURCE_BLOCK, 10, 100, 0, 1.0));
+    buildings[17].upgradeRequirements.push(createResourceLink(RESOURCE_PLANK, 10, 10, 0, 1.0));
+    buildings[17].upgradeRequirements.push(createResourceLink(RESOURCE_BLOCK, 10, 10, 0, 1.0));
+    buildings[17].requirements.push(createResourceLink(RESOURCE_ORE, 0, 10, 0, 1.0));
+    buildings[17].requirements.push(createResourceLink(RESOURCE_COAL, 0, 10, 0, 1.0));
+    buildings[17].rewards.push(createResourceLink(RESOURCE_IRON, 0, 1, 0, 1.0));
+    buildings[17].buildOnCellIds = [CELL_GRASS];
+
+    buildings[18] = new buildingInformation();
+    buildings[18].id = 18;
+    buildings[18].name = "Steam Energy";
+    buildings[18].description = "Grab steam from the air for energy.";
+    buildings[18].costRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 100, 0, 1.0));
+    buildings[18].upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
+    buildings[18].buildOnCellIds = [CELL_GRASS];
+    buildings[18].particleOutput.push(createBuildingParticleOutput(PARTICLE_STEAM, [createResourceLink(RESOURCE_ENERGY, 0, 1, 0, 1.0)]));
 }

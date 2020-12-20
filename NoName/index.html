@@ -5,42 +5,8 @@
     <link href="3rd/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="3rd/bootstrap-darkmode-master/atom-one-dark.min.css" rel="stylesheet" />
 
-    <title>Secret Of The Basilisk v0.1</title>
+    <title>Secret Of The Basilisk v0.01</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-    <!--
-
-     0
-    1 2
-     3
-
-        0000
-        0001
-        0010
-        0011
-        0100
-        0101
-        0110
-        0111
-        1000
-        1001
-        1010
-        1011
-        1100
-        1101
-        1110
-        1111
-
-
-        mana upgrade (ex: red give 1% coal)
-        both way pipe
-        water pipe
-        water pump
-        mana fetcher 1
-        mana fetcher 2 need water, produce steam
-        water creator from blue mana
-
-        -->
 
     <style type="text/css">
 
@@ -446,7 +412,7 @@
     <textarea id="debug" style="display: none;"></textarea>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.1</small></a>
+            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.01</small></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -530,6 +496,26 @@
                         <td><span id="resourceInfoAmount9"></span></td>
                         <td><small><span id="resourceInfoTickDelta9"></span></small></td>
                     </tr>
+                    <tr id="resourceInfoRow11">
+                        <td><span id="resourceInfoName11">Block</span></td>
+                        <td><span id="resourceInfoAmount11"></span></td>
+                        <td><small><span id="resourceInfoTickDelta11"></span></small></td>
+                    </tr>
+                    <tr id="resourceInfoRow12">
+                        <td><span id="resourceInfoName12">Ore</span></td>
+                        <td><span id="resourceInfoAmount12"></span></td>
+                        <td><small><span id="resourceInfoTickDelta12"></span></small></td>
+                    </tr>
+                    <tr id="resourceInfoRow13">
+                        <td><span id="resourceInfoName13">Iron</span></td>
+                        <td><span id="resourceInfoAmount13"></span></td>
+                        <td><small><span id="resourceInfoTickDelta13"></span></small></td>
+                    </tr>
+                    <tr id="resourceInfoRow14">
+                        <td><span id="resourceInfoName14">Energy</span></td>
+                        <td><span id="resourceInfoAmount14"></span></td>
+                        <td><small><span id="resourceInfoTickDelta14"></span></small></td>
+                    </tr>
 
                     <tr id="resourceInfoRow" style="display: none;">
                         <td><span id="resourceInfoName">aaaa</span></td>
@@ -546,16 +532,19 @@
                     <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="attack-tab" data-toggle="tab" href="#attack" role="tab" aria-controls="attack" aria-selected="false">Adventure</a>
+                    <a class="nav-link" id="adventure-tab" data-toggle="tab" href="#adventure" role="tab" aria-controls="adventure" aria-selected="false">Adventure</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="research-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Quest</a>
+                    <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">Quest</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Player</a>
                 </li>
                 <!--
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievement" role="tab" aria-controls="achievement" aria-selected="false">Achievements</a>
-                </li>
-                    -->
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievement" role="tab" aria-controls="achievement" aria-selected="false">Achievements</a>
+    </li>
+        -->
             </ul>
 
             <div class="tab-content" id="myTabContent" style="width: 610px;">
@@ -595,6 +584,9 @@
                                 <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_4" style="width: 24px; height: 24px;">&nbsp;</div></div>
                                 <div id="building15" onclick="uiSelectBuilding(15);" onmouseover="uiBuildingHover(15, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_15" style="width: 24px; height: 24px;">&nbsp;</div></div>
                                 <div id="building5" onclick="uiSelectBuilding(5);" onmouseover="uiBuildingHover(5, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_5" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                                <div id="building16" onclick="uiSelectBuilding(16);" onmouseover="uiBuildingHover(16, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_16" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                                <div id="building17" onclick="uiSelectBuilding(17);" onmouseover="uiBuildingHover(17, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_17" style="width: 24px; height: 24px;">&nbsp;</div></div>
+                                <div id="building18" onclick="uiSelectBuilding(18);" onmouseover="uiBuildingHover(18, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_18" style="width: 24px; height: 24px;">&nbsp;</div></div>
                             </div>
                             <div>
                                 <div id="building7" onclick="uiSelectBuilding(7);" onmouseover="uiBuildingHover(7, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_7" style="width: 24px; height: 24px;">&nbsp;</div></div>
@@ -616,9 +608,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="attack" role="tabpanel" aria-labelledby="attack-tab">
+                <div class="tab-pane fade" id="adventure" role="tabpanel" aria-labelledby="adventure-tab">
 
-                    <h2>Attack</h2>
+                    <h2>Adventure</h2>
 
                     <p>Walk in the world and kill enemies.<br />You are currently at <span id="playerDistance"></span>m.<br />Max distance is <span id="playerMaxDistance"></span>m</p>
 
@@ -642,11 +634,6 @@
                                 <td><span id="playerDefence"></span></td>
                             </tr>
                         </table>
-
-                        <h4>Magic</h4>
-
-                        <label><input type="checkbox" id="playerUseManaHeal" /> Use 10 green mana to heal 1 life</label><br />
-                        <label><input type="checkbox" id="playerUseManaFire" /> Use 10 red mana to double hit</label>
                     </div>
 
                     <div style="display: inline-block; width: 49%; vertical-align: top;">
@@ -677,11 +664,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
+                <div class="tab-pane fade" id="quest" role="tabpanel" aria-labelledby="quest-tab">
                     <h2>Quest</h2>
                 </div>
+                <div class="tab-pane fade" id="player" role="tabpanel" aria-labelledby="player-tab">
+                    <h2>Player</h2>
+
+                    <table>
+                        <tr>
+                            <td><img src="images/player.png" /></td>
+                        </tr>
+                        <tr>
+                            <th>Vitality: </th>
+                            <td><span id="playerInfoVitality"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Strength: </th>
+                            <td><span id="playerInfoStrength"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Defence: </th>
+                            <td><span id="playerInfoDefence"></span></td>
+                        </tr>
+                    </table>
+
+                    <h3>Magic</h3>
+
+                    <label><input type="checkbox" id="playerUseManaHeal" /> Use 10 green mana to heal 10 life</label><br />
+                    <label><input type="checkbox" id="playerUseManaFire" /> Use 10 red mana to double hit</label>
+                </div>
                 <div class="tab-pane fade" id="achievement" role="tabpanel" aria-labelledby="achievement-tab">
-                    aaa
+                    <h2>Achievement</h2>
                 </div>
             </div>
         </div>

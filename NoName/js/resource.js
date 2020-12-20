@@ -9,6 +9,10 @@ var RESOURCE_REDESSENCE = 7;
 var RESOURCE_REDMANA = 8;
 var RESOURCE_TIMEESSENCE = 9;
 var RESOURCE_COAL = 10;
+var RESOURCE_BLOCK = 11;
+var RESOURCE_ORE = 12;
+var RESOURCE_IRON = 13;
+var RESOURCE_ENERGY = 14;
 
 function resourceInformation() {
     this.id = 0;
@@ -80,7 +84,23 @@ function loadResources() {
     resources[10].id = 10;
     resources[10].name = "Coal";
 
-    resources[0].addAmount(2000);
-    resources[1].addAmount(2000);
-    resources[9].addAmount(2000);
+    resources[11] = new resourceInformation();
+    resources[11].id = 11;
+    resources[11].name = "Block";
+
+    resources[12] = new resourceInformation();
+    resources[12].id = 12;
+    resources[12].name = "Ore";
+
+    resources[13] = new resourceInformation();
+    resources[13].id = 13;
+    resources[13].name = "Iron";
+
+    resources[14] = new resourceInformation();
+    resources[14].id = 14;
+    resources[14].name = "Energy";
+
+    resources[RESOURCE_WOOD].addAmount(2000);
+    resources[RESOURCE_STONE].addAmount(2000);
+    resources[RESOURCE_TIMEESSENCE].addAmount(2000);
 }

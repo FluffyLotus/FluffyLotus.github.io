@@ -159,6 +159,10 @@ function uiCellHover(gridX, gridY) {
             htmlData += "<br />Click reward: " + curCell.getClickRewardString() + ".";
         }
 
+        if (curCell.innerParticleId >= 0) {
+            htmlData += "<br />Buried particles: " + particles[curCell.innerParticleId].name + ".";
+        }
+
         document.getElementById("cellHover").innerHTML = htmlData;
         document.getElementById("cellHoverUpgrade").innerHTML = htmlData2;
     }

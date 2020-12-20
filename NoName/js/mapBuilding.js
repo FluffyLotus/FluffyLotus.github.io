@@ -107,75 +107,37 @@ mapBuilding.prototype.processTick = function () {
 
 mapBuilding.prototype.processGridClick = function (x, y) {
     var curGrid = this.grid[x + (y * this.mapWidth)];
-    var curCell = cells[curGrid.cellId];
 
-    addResourceLink(curCell.clickReward, 1);
+    curGrid.processClick();
 }
 
 mapBuilding.prototype.upgradeGrid = function (x, y) {
     var curGrid = this.grid[x + (y * this.mapWidth)];
 
-    if (curGrid.buildingId >= 0) {
-        var building = buildings[curGrid.buildingId];
-
-        if (building.upgradeRequirements.length > 0) {
-            if (building.hasUpgradeRequirements(curGrid.buildingLevel)) {
-                building.processUpgradeRequirements(curGrid.buildingLevel);
-
-                curGrid.buildingLevel += 1;
-            }
-        }
-    }
+    curGrid.processUpgrade();
 }
 
 mapBuilding.prototype.downgradeGrid = function (x, y) {
     var curGrid = this.grid[x + (y * this.mapWidth)];
 
-    if (curGrid.buildingId >= 0) {
-        var building = buildings[curGrid.buildingId];
-
-        if (building.upgradeRequirements.length > 0) {
-            if (curGrid.buildingLevel > 1)
-                curGrid.buildingLevel -= 1;
-        }
-    }
+    curGrid.processDowngrade();
 }
 
 mapBuilding.prototype.addBuilding = function (x, y, buildingId) {
-    if (buildingId == -1)
+    if (buildingId < 0)
         return;
 
     var curGrid = this.grid[x + (y * this.mapWidth)];
-    var curBuilding = buildings[buildingId];
 
-    if (curBuilding.hasCost()) {
-        if (curGrid.buildingId == -1 && curBuilding.canBuildHere(curGrid)) {
-            curBuilding.processCost();
-
-            curBuilding.addBuildingAmount(1);
-            curGrid.buildingId = curBuilding.id;
-            curGrid.buildingLevel = 1;
-
-            this.calculateGridConnection();
-        }
-    }
+    if (curGrid.processAddBuilding(buildingId))
+        this.calculateGridConnection();
 }
 
 mapBuilding.prototype.sellBuilding = function (x, y) {
     var curGrid = this.grid[x + (y * this.mapWidth)];
 
-    if (curGrid.buildingId >= 0) {
-        var curBuilding = buildings[curGrid.buildingId];
-
-        curBuilding.buildAmount -= 1;
-        curGrid.buildingId = -1;
-
-        //var cost = curBuilding.getInitialCost();
-
-        //addResourceLink(cost);
-
+    if (curGrid.processSellBuilding())
         this.calculateGridConnection();
-    }
 }
 
 mapBuilding.prototype.calculateGridConnection = function () {
@@ -183,18 +145,20 @@ mapBuilding.prototype.calculateGridConnection = function () {
 
     for (var y = 0; y < this.mapHeight; y++) {
         for (var x = 0; x < this.mapWidth; x++) {
-            if (this.grid[x + (y * this.mapWidth)].buildingId == BUILDING_STORAGE) {
-                this.grid[x + (y * this.mapWidth)].isConnectedToStorage = true;
-                this.grid[x + (y * this.mapWidth)].isConnectedToWater = false;
+            var curGrid = this.grid[x + (y * this.mapWidth)];
+
+            if (curGrid.buildingId == BUILDING_STORAGE) {
+                curGrid.isConnectedToStorage = true;
+                curGrid.isConnectedToWater = false;
 
                 var newP = new Object();
                 newP.x = x;
                 newP.y = y;
                 points.push(newP);
             }
-            else if (this.grid[x + (y * this.mapWidth)].buildingId == BUILDING_WATERPUMP || this.grid[x + (y * this.mapWidth)].buildingId == BUILDING_WATERGEN) {
-                this.grid[x + (y * this.mapWidth)].isConnectedToStorage = false;
-                this.grid[x + (y * this.mapWidth)].isConnectedToWater = true;
+            else if (curGrid.buildingId == BUILDING_WATERPUMP || curGrid.buildingId == BUILDING_WATERGEN) {
+                curGrid.isConnectedToStorage = false;
+                curGrid.isConnectedToWater = true;
 
                 var newP = new Object();
                 newP.x = x;
@@ -202,8 +166,8 @@ mapBuilding.prototype.calculateGridConnection = function () {
                 points.push(newP);
             }
             else {
-                this.grid[x + (y * this.mapWidth)].isConnectedToStorage = false;
-                this.grid[x + (y * this.mapWidth)].isConnectedToWater = false;
+                curGrid.isConnectedToStorage = false;
+                curGrid.isConnectedToWater = false;
             }
         }
     }
@@ -211,16 +175,11 @@ mapBuilding.prototype.calculateGridConnection = function () {
     while (points.length > 0) {
         var p = points.pop();
 
-        for (t = 0; t < 4; t++) {
-            var tx = p.x;
-            var ty = p.y;
+        for (t = 0; t < sideCross.length; t++) {
+            var tx = p.x + sideCross[t].x;
+            var ty = p.y + sideCross[t].y;
 
             var orgGrid = this.grid[p.x + (p.y * this.mapWidth)];
-
-            if (t == 0) ty -= 1;
-            if (t == 1) tx -= 1;
-            if (t == 2) tx += 1;
-            if (t == 3) ty += 1;
 
             if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
                 var curGrid = this.grid[tx + (ty * this.mapWidth)];
@@ -250,6 +209,29 @@ mapBuilding.prototype.calculateGridConnection = function () {
         }
     }
 }
+
+/*
+     0
+    1 2
+     3
+
+        0000
+        0001
+        0010
+        0011
+        0100
+        0101
+        0110
+        0111
+        1000
+        1001
+        1010
+        1011
+        1100
+        1101
+        1110
+        1111
+*/
 
 mapBuilding.prototype.getSideStorageConnectionStr = function (x, y) {
     var s = ["0", "0", "0", "0"];

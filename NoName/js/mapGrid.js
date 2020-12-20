@@ -63,3 +63,72 @@ mapGridInformation.prototype.getOutputParticleLevel = function () {
         return this.particles[0].particleLevel;
     return 1;
 }
+
+mapGridInformation.prototype.processClick = function () {
+    var curCell = cells[this.cellId];
+
+    addResourceLink(curCell.clickReward, 1);
+}
+
+mapGridInformation.prototype.processUpgrade = function () {
+    if (this.buildingId >= 0) {
+        var building = buildings[this.buildingId];
+
+        if (building.upgradeRequirements.length > 0) {
+            if (building.hasUpgradeRequirements(this.buildingLevel)) {
+                building.processUpgradeRequirements(this.buildingLevel);
+
+                this.buildingLevel += 1;
+            }
+        }
+    }
+}
+
+mapGridInformation.prototype.processDowngrade = function () {
+    if (this.buildingId >= 0) {
+        var building = buildings[this.buildingId];
+
+        if (building.upgradeRequirements.length > 0) {
+            if (this.buildingLevel > 1) {
+                // TODO: Give back resource
+                this.buildingLevel -= 1;
+            }
+        }
+    }
+}
+
+mapGridInformation.prototype.processAddBuilding = function (buildingId) {
+    if (this.buildingId == -1) {
+        var curBuilding = buildings[buildingId];
+
+        if (curBuilding.hasCost()) {
+            if (curBuilding.canBuildHere(this)) {
+                curBuilding.processCost();
+
+                curBuilding.addBuildingAmount(1);
+                this.buildingId = curBuilding.id;
+                this.buildingLevel = 1;
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+mapGridInformation.prototype.processSellBuilding = function () {
+    if (this.buildingId >= 0) {
+        var curBuilding = buildings[this.buildingId];
+
+        curBuilding.buildAmount -= 1;
+        this.buildingId = -1;
+
+        // TODO: Give back resource
+
+        return true;
+    }
+
+    return false;
+}
+

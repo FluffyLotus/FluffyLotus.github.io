@@ -26,7 +26,7 @@ mapAdventureInformation.prototype.processTick = function () {
             if (resources[RESOURCE_GREENMANA].amount >= 10) {
                 resources[RESOURCE_GREENMANA].addAmount(-10);
 
-                this.currentPlayer.addVitality(1);
+                this.currentPlayer.addVitality(10);
             }
         }
     }
@@ -40,12 +40,12 @@ mapAdventureInformation.prototype.processTick = function () {
         if ((this.currentDistance % 10) == 0) {
             this.currentAction = ADV_ACTION_ATTACK;
 
-            if (this.currentDistance < 500)
-                this.currentEnemy = createEnemyInstance(ENEMY_BUNNY, 1);
-            else if (this.currentDistance < 1000)
-                this.currentEnemy = createEnemyInstance(ENEMY_RAT, 1);
+            if (this.currentDistance < 1500)
+                this.currentEnemy = createEnemyInstance(ENEMY_BUNNY, parseInt(this.currentDistance / 1000) + 1);
+            else if (this.currentDistance < 2500)
+                this.currentEnemy = createEnemyInstance(ENEMY_RAT, parseInt(this.currentDistance / 1000) + 1);
             else
-                this.currentEnemy = createEnemyInstance(ENEMY_DEVIL, 1);
+                this.currentEnemy = createEnemyInstance(ENEMY_DEVIL, parseInt(this.currentDistance / 1000) + 1);
         }
     }
     else if (this.currentAction == ADV_ACTION_ATTACK) {
