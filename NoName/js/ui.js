@@ -261,9 +261,9 @@ function uiDrawAdventure() {
     document.getElementById("playerMaxDistance").innerText = mapAdventure.maxDistance;
 
     document.getElementById("playerCurrentLife").innerText = mapAdventure.currentPlayer.vitality;
-    document.getElementById("playerMaxLife").innerText = mapAdventure.currentPlayer.maxVatility;
-    document.getElementById("playerAttack").innerText = mapAdventure.currentPlayer.strength;
-    document.getElementById("playerDefence").innerText = mapAdventure.currentPlayer.defence;
+    document.getElementById("playerMaxLife").innerText = mapAdventure.currentPlayer.getVitality();
+    document.getElementById("playerAttack").innerText = mapAdventure.currentPlayer.getStrength();
+    document.getElementById("playerDefence").innerText = mapAdventure.currentPlayer.getDefence();
 
     if (mapAdventure.currentPlayer.vitalityTickDelta > 0) {
         document.getElementById("playerLifeDelta").innerText = "+" + mapAdventure.currentPlayer.vitalityTickDelta;
@@ -308,6 +308,43 @@ function uiDrawAdventure() {
             document.getElementById("enemyLifeDelta").style.color = "black";
         }
     }
+
+    ///////////////
+
+    document.getElementById("playerInfoExperience").innerText = mapAdventure.currentPlayer.experience;
+    document.getElementById("playerInfoVitality").innerText = mapAdventure.currentPlayer.getVitality();
+    document.getElementById("playerInfoStrength").innerText = mapAdventure.currentPlayer.getStrength();
+    document.getElementById("playerInfoDefence").innerText = mapAdventure.currentPlayer.getDefence();
+
+    document.getElementById("playerInfoVitalityPoint").innerText = mapAdventure.currentPlayer.pointVitality;
+    document.getElementById("playerInfoStrengthPoint").innerText = mapAdventure.currentPlayer.pointStrength;
+    document.getElementById("playerInfoDefencePoint").innerText = mapAdventure.currentPlayer.pointDefence;
+
+    document.getElementById("playerInfoPointLeft").innerText = mapAdventure.currentPlayer.getPointLeft();
+    document.getElementById("playerInfoTotalPoint").innerText = mapAdventure.currentPlayer.getTotalPoint();
+}
+
+function uiChangeVitalityPoint(pointDelta) {
+    mapAdventure.currentPlayer.changeVitalityPoint(pointDelta);
+    uiDrawAdventure();
+}
+
+function uiChangeStrengthPoint(pointDelta) {
+    mapAdventure.currentPlayer.changeStrengthPoint(pointDelta);
+    uiDrawAdventure();
+}
+
+function uiChangeDefencePoint(pointDelta) {
+    mapAdventure.currentPlayer.changeDefencePoint(pointDelta);
+    uiDrawAdventure();
+}
+
+function uiStartStopHealMagic() {
+    mapAdventure.currentPlayer.canUseHealMagic = document.getElementById("playerUseManaHeal").checked;
+}
+
+function uiStartStopFireMagic() {
+    mapAdventure.currentPlayer.canUseFireMagic = document.getElementById("playerUseManaFire").checked;
 }
 
 function uiWriteDebug(msg) {

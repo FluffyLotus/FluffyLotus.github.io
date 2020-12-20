@@ -424,7 +424,6 @@
                     <li class="nav-item"><a class="nav-link" href="#" onclick="alert('Not implemented');">About</a></li>
                     <li class="nav-item"></li>
                 </ul>
-                <button id="btnFast" class="btn" onclick="uiToggleFast();" style="margin-right: 10px;">Fast &gt;&gt;</button>
             </div>
         </nav>
     </header>
@@ -524,6 +523,8 @@
                     </tr>
                 </tbody>
             </table>
+
+            <button id="btnFast" class="btn" onclick="uiToggleFast();" style="margin-right: 10px;">Fast &gt;&gt;</button>
         </div>
         <div class="col-10 bg-dark">
 
@@ -666,6 +667,8 @@
                 </div>
                 <div class="tab-pane fade" id="quest" role="tabpanel" aria-labelledby="quest-tab">
                     <h2>Quest</h2>
+
+                    <p>ToDo</p>
                 </div>
                 <div class="tab-pane fade" id="player" role="tabpanel" aria-labelledby="player-tab">
                     <h2>Player</h2>
@@ -673,25 +676,45 @@
                     <table>
                         <tr>
                             <td><img src="images/player.png" /></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Experience: </th>
+                            <td><span id="playerInfoExperience"></span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><small>1,000 xp = 1 point</small></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <th>Points: </th>
+                            <td align="center"><span id="playerInfoPointLeft">0</span> / <span id="playerInfoTotalPoint">0</span></td>
                         </tr>
                         <tr>
                             <th>Vitality: </th>
                             <td><span id="playerInfoVitality"></span></td>
+                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeVitalityPoint(-1);">-</button> <span id="playerInfoVitalityPoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeVitalityPoint(1);">+</button></td>
                         </tr>
                         <tr>
                             <th>Strength: </th>
                             <td><span id="playerInfoStrength"></span></td>
+                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeStrengthPoint(-1);">-</button> <span id="playerInfoStrengthPoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeStrengthPoint(1);">+</button></td>
                         </tr>
                         <tr>
                             <th>Defence: </th>
                             <td><span id="playerInfoDefence"></span></td>
+                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeDefencePoint(-1);">-</button> <span id="playerInfoDefencePoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeDefencePoint(-1);">+</button></td>
                         </tr>
                     </table>
 
                     <h3>Magic</h3>
 
-                    <label><input type="checkbox" id="playerUseManaHeal" /> Use 10 green mana to heal 10 life</label><br />
-                    <label><input type="checkbox" id="playerUseManaFire" /> Use 10 red mana to double hit</label>
+                    <label><input type="checkbox" id="playerUseManaHeal" onclick="uiStartStopHealMagic();" /> Use 10 green mana to heal 10 life</label><br />
+                    <label><input type="checkbox" id="playerUseManaFire" onclick="uiStartStopFireMagic();" /> Use 10 red mana to double hit</label>
                 </div>
                 <div class="tab-pane fade" id="achievement" role="tabpanel" aria-labelledby="achievement-tab">
                     <h2>Achievement</h2>
