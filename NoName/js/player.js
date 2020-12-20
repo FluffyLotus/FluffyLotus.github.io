@@ -1,8 +1,8 @@
 ﻿function playerInformation() {
     this.vitality = 500;
 
-    this.baseVitality = 5000;
-    this.baseStrength = 100;
+    this.baseVitality = 500;
+    this.baseStrength = 10;
     this.baseDefence = 0;
 
     this.mulVitality = 100;
