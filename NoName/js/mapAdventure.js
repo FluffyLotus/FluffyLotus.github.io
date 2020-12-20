@@ -22,9 +22,9 @@ mapAdventureInformation.prototype.prepareTick = function () {
 }
 
 mapAdventureInformation.prototype.getEnemyInstanceFromDistance = function () {
-    if (this.currentDistance < 1500)
+    if (this.currentDistance < 1000)
         return createEnemyInstance(ENEMY_BUNNY, parseInt(this.currentDistance / 1000) + 1);
-    else if (this.currentDistance < 2500)
+    else if (this.currentDistance < 2000)
         return createEnemyInstance(ENEMY_RAT, parseInt(this.currentDistance / 1000) + 1);
     return createEnemyInstance(ENEMY_DEVIL, parseInt(this.currentDistance / 1000) + 1);
 }

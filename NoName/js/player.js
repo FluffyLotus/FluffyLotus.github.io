@@ -1,4 +1,6 @@
-﻿function playerInformation() {
+﻿var XP_PER_POINT = 500;
+
+function playerInformation() {
     this.vitality = 500;
 
     this.baseVitality = 500;
@@ -55,7 +57,7 @@ playerInformation.prototype.getPointLeft = function () {
 }
 
 playerInformation.prototype.getTotalPoint = function () {
-    return parseInt(this.experience / 1000);
+    return parseInt(this.experience / XP_PER_POINT);
 }
 
 playerInformation.prototype.getUsedTotalPoint = function () {
