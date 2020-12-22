@@ -58,6 +58,8 @@ function uiDrawResources() {
             document.getElementById("resourceInfoTickDelta" + t).style.color = "black";
         }
     }
+
+    uiDrawNewMessage();
 }
 
 function uiGetLinksString(links) {
@@ -95,7 +97,7 @@ function uiDrawGrid() {
         document.getElementById("btnFast").className = "btn btn-success";
     }
     else {
-        document.getElementById("btnFast").className = "btn";
+        document.getElementById("btnFast").className = "btn btn-dark";
     }
 
     for (var y = 0; y < mapBuilding.mapHeight; y++) {
@@ -349,4 +351,57 @@ function uiStartStopFireMagic() {
 
 function uiWriteDebug(msg) {
     document.getElementById("debug").value = msg;
+}
+
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    uiClearTooltipSection();
+});
+
+function uiClearTooltipSection() {
+    document.getElementById("cellHover").innerText = "";
+    document.getElementById("cellHoverUpgrade").innerText = "";
+}
+
+//////////////////////
+
+var textToWrite = "";
+var textToWriteSpeed = 10;
+var textToWriteIndex = 0;
+
+function uiDrawNewMessage() {
+    if (messages.length > 0) {
+        if (document.getElementById("messageSection").style.display == "none") {
+            document.getElementById("messageSection").style.display = "block";
+            document.getElementById("tooltipSection").style.display = "none";
+
+            var msg = messages[0];
+            messages.shift();
+
+            uiDrawMessage(msg);
+        }
+    }
+}
+
+function uiDrawMessage(msg) {
+    textToWrite = msg;
+    textToWriteIndex = 0;
+
+    document.getElementById("messageInnerText").innerHTML = "";
+
+    setTimeout(uiDrawMessageAnim, textToWriteSpeed);
+}
+
+function uiCloseMessage() {
+    document.getElementById("messageSection").style.display = "none";
+    document.getElementById("tooltipSection").style.display = "block";
+
+    uiDrawNewMessage();
+}
+
+function uiDrawMessageAnim() {
+    if (textToWriteIndex < textToWrite.length) {
+        document.getElementById("messageInnerText").innerHTML += textToWrite.charAt(textToWriteIndex);
+        textToWriteIndex++;
+        setTimeout(uiDrawMessageAnim, textToWriteSpeed);
+    }
 }

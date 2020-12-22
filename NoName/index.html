@@ -15,10 +15,6 @@
             background-color: #343a40;
         }
 
-        .btn {
-            border: 1px solid black;
-        }
-
         .input-transparent .form-control {
             background-color: transparent;
             color: white;
@@ -41,6 +37,11 @@
         .card-text {
             color: white;
         }
+
+        .btn {
+            border: 1px solid black;
+        }
+
     </style>
 
     <style type="text/css">
@@ -524,7 +525,9 @@
                 </tbody>
             </table>
 
-            <button id="btnFast" class="btn" onclick="uiToggleFast();" style="margin-right: 10px;">Fast &gt;&gt;</button>
+            <div>
+                <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();">Fast &gt;&gt;</button>
+            </div>
         </div>
         <div class="col-10 bg-dark">
 
@@ -542,21 +545,34 @@
                     <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Player</a>
                 </li>
                 <!--
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievement" role="tab" aria-controls="achievement" aria-selected="false">Achievements</a>
-    </li>
-        -->
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievement" role="tab" aria-controls="achievement" aria-selected="false">Achievements</a>
+        </li>
+            -->
             </ul>
+
+            <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 600px;">
+                <div id="tooltipSection" style="width: 100%; height: 100%; display: block;">
+                    <div class="row">
+                        <div id="cellHover" class="col-6"></div>
+                        <div id="cellHoverUpgrade" class="col-6"></div>
+                    </div>
+                </div>
+                <div id="messageSection" style="width: 100%; height: 100%; display: none;">
+                    <div class="row">
+                        <div class="col-12" style="color: yellow;">
+                            <span id="messageInnerText">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close Message</button></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="tab-content" id="myTabContent" style="width: 610px;">
                 <div class="tab-pane fade show active" id="map" role="tabpanel" aria-labelledby="map-tab">
-
-                    <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 600px; ">
-                        <div class="row">
-                            <div id="cellHover" class="col-6"></div>
-                            <div id="cellHoverUpgrade" class="col-6"></div>
-                        </div>
-                    </div>
 
                     <div>
                         <div style="width: 350px; display: inline-block; vertical-align: top;">
@@ -697,17 +713,17 @@
                         <tr>
                             <th>Vitality: </th>
                             <td><span id="playerInfoVitality"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeVitalityPoint(-1);">-</button> <span id="playerInfoVitalityPoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeVitalityPoint(1);">+</button></td>
+                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(-1);">-</button> <span id="playerInfoVitalityPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(1);">+</button></td>
                         </tr>
                         <tr>
                             <th>Strength: </th>
                             <td><span id="playerInfoStrength"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeStrengthPoint(-1);">-</button> <span id="playerInfoStrengthPoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeStrengthPoint(1);">+</button></td>
+                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(-1);">-</button> <span id="playerInfoStrengthPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(1);">+</button></td>
                         </tr>
                         <tr>
                             <th>Defence: </th>
                             <td><span id="playerInfoDefence"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-default" onclick="uiChangeDefencePoint(-1);">-</button> <span id="playerInfoDefencePoint">0</span> <button class="btn btn-sm btn-default" onclick="uiChangeDefencePoint(-1);">+</button></td>
+                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">-</button> <span id="playerInfoDefencePoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">+</button></td>
                         </tr>
                     </table>
 

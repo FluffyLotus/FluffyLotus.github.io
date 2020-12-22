@@ -11,6 +11,8 @@ var fastIsOn = false;
 
 var mainInterval = null;
 
+var messages = [];
+
 function loadApp() {
     loadResources();
     loadCells();
@@ -20,11 +22,13 @@ function loadApp() {
     loadMapBuilding();
     loadEnemies();
 
+    messages.push("Something strange is hapenning lately. The animals are more aggressive than usual. We should make sure we are prepared.");
+    messages.push("Click on mountain and forest to get resources. Build axe on a forest and attach a storage to it. Close this message to see tooltips.");
+
     uiCreateGrid();
     uiDrawGrid();
 
     processTick();
-    resetInterval();
 }
 
 function prepareTick() {
@@ -49,41 +53,28 @@ function processTick() {
 
         if (resources[RESOURCE_TIMEESSENCE].amount <= 0) {
             fastIsOn = false;
-
-            resetInterval();
         }
     }
 
     uiDrawResources();
     uiDrawAdventure();
     uiDrawGrid();
+
+    setTimeout(processTick, getTimeoutSpeed()); // requestAnimationFrame
 }
 
 function toggleFast() {
     if (fastIsOn) {
         fastIsOn = false;
-
-        resetInterval();
     }
     else {
         if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
             fastIsOn = true;
-
-            resetInterval();
         }
     }
 }
 
-function resetInterval() {
-    if (mainInterval != null) {
-        clearInterval(mainInterval);
-        mainInterval = null;
-    }
-
-    mainInterval = setInterval(processTick, getIntervalSpeed());
-}
-
-function getIntervalSpeed() {
+function getTimeoutSpeed() {
     if (!fastIsOn)
         return 1000;
     return 100;

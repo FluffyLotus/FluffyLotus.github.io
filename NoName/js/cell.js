@@ -3,6 +3,7 @@ var CELL_TREE = 1;
 var CELL_MOUNTAIN = 2;
 var CELL_WATER = 3;
 var CELL_LAVA = 4;
+var CELL_HOME = 5;
 
 function cellInformation() {
     this.id = 0;
@@ -40,4 +41,12 @@ function loadCells() {
     cells[4].id = 4;
     cells[4].name = "Lava";
     cells[4].innerParticleId = PARTICLE_RED;
+
+    cells[5] = new cellInformation();
+    cells[5].id = 5;
+    cells[5].name = "Home";
+
+    cells[6] = new cellInformation();
+    cells[6].id = 6;
+    cells[6].name = "Dirt Road";
 }
