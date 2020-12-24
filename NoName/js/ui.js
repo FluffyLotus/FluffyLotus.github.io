@@ -362,6 +362,23 @@ function uiClearTooltipSection() {
     document.getElementById("cellHoverUpgrade").innerText = "";
 }
 
+function uiTestBuildingGrade() {
+    var newGrade = parseInt(document.getElementById("manaPowerTest").value);
+
+    buildings[BUILDING_ESSENCEPULL].gradeLevel = newGrade;
+    buildings[BUILDING_GREENPUSH].gradeLevel = newGrade;
+    buildings[BUILDING_BLUEPUSH].gradeLevel = newGrade;
+    buildings[BUILDING_REDPUSH].gradeLevel = newGrade;
+}
+
+function uiDrawQuest() {
+    document.getElementById("quest0Test").innerText = mapAdventure.maxDistance;
+
+    if (quests[0].isCompleted) {
+        document.getElementById("quest0Test2").style.display = "block";
+    }
+}
+
 //////////////////////
 
 var textToWrite = "";

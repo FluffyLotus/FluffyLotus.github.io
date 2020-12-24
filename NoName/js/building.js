@@ -44,6 +44,7 @@ function buildingInformation() {
     this.extractCellParticle = false;
     this.particleOutput = [];
     this.generateParticleId = -1;
+    this.gradeLevel = 0;
 
     this.buildAmount = 0;
 }

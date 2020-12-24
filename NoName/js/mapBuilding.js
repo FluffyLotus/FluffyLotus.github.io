@@ -75,9 +75,17 @@ mapBuilding.prototype.processTick = function () {
                     particleId = cell.innerParticleId;
 
                 if (particleId >= 0) {
-                    for (var i = 0; i < side8.length; i++) {
-                        var tx = x + side8[i].x;
-                        var ty = y + side8[i].y;
+                    var buildingGrade = building.gradeLevel;
+
+                    for (var i = 0; i < side8rotPossibilities[buildingGrade].length; i++) {
+                        var pos = side8rotPossibilities[buildingGrade][i] + sourceGrid.buildingRotation;
+
+                        while (pos >= 8) {
+                            pos -= 8;
+                        }
+
+                        var tx = x + side8rot[pos].x;
+                        var ty = y + side8rot[pos].y;
 
                         if (tx >= 0 && tx < this.mapWidth && ty >= 0 && ty < this.mapHeight) {
                             var targetGrid = this.grid[tx + (ty * this.mapWidth)];

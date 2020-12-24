@@ -9,6 +9,8 @@ function mapGridInformation() {
     this.buildingId = -1;
     this.buildingLevel = -1;
 
+    this.buildingRotation = 0;
+
     this.particles = [];
 
     this.processBuildingTick = false;
@@ -68,6 +70,13 @@ mapGridInformation.prototype.processClick = function () {
     var curCell = cells[this.cellId];
 
     addResourceLink(curCell.clickReward, 1);
+
+    if (this.buildingId != -1) {
+        this.buildingRotation += 1;
+
+        if (this.buildingRotation >= 8)
+            this.buildingRotation = 0;
+    }
 }
 
 mapGridInformation.prototype.processUpgrade = function () {
@@ -108,6 +117,7 @@ mapGridInformation.prototype.processAddBuilding = function (buildingId) {
                 curBuilding.addBuildingAmount(1);
                 this.buildingId = curBuilding.id;
                 this.buildingLevel = 1;
+                this.buildingRotation = 0;
 
                 return true;
             }
@@ -123,6 +133,7 @@ mapGridInformation.prototype.processSellBuilding = function () {
 
         curBuilding.buildAmount -= 1;
         this.buildingId = -1;
+        this.buildingRotation = 0;
 
         // TODO: Give back resource
 

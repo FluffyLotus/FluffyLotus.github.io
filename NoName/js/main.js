@@ -6,6 +6,7 @@ var resources = [];
 var buildings = [];
 var enemies = [];
 var particles = [];
+var quests = [];
 
 var fastIsOn = false;
 
@@ -21,9 +22,12 @@ function loadApp() {
     loadAdventure();
     loadMapBuilding();
     loadEnemies();
+    loadQuests();
 
     messages.push("Something strange is hapenning lately. The animals are more aggressive than usual. We should make sure we are prepared.");
     messages.push("Click on mountain and forest to get resources. Build axe on a forest and attach a storage to it. Close this message to see tooltips.");
+
+    quests[0].setAsActive();
 
     uiCreateGrid();
     uiDrawGrid();
@@ -45,6 +49,7 @@ function processTick() {
 
     mapBuilding.processTick();
     mapAdventure.processTick();
+    processQuestTick();
 
     if (fastIsOn) {
         if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
@@ -59,6 +64,7 @@ function processTick() {
     uiDrawResources();
     uiDrawAdventure();
     uiDrawGrid();
+    uiDrawQuest();
 
     setTimeout(processTick, getTimeoutSpeed()); // requestAnimationFrame
 }
