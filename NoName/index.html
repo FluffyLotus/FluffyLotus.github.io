@@ -5,7 +5,7 @@
     <link href="3rd/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="3rd/bootstrap-darkmode-master/atom-one-dark.min.css" rel="stylesheet" />
 
-    <title>Secret Of The Basilisk v0.01</title>
+    <title>Secret Of The Basilisk v0.02</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <style type="text/css">
@@ -626,18 +626,18 @@
                             </div>
                             <div>
                                 <br /><br />
-                                <label>
-                                    Test mana output power:
-                                    <select id="manaPowerTest" class="form-control form-control-sm" style="color: white; background-color: #343a40;" onchange="uiTestBuildingGrade();">
-                                        <option value="0">1</option>
-                                        <option value="1">2</option>
-                                        <option value="2">3</option>
-                                        <option value="3">4</option>
-                                        <option value="4">8</option>
-                                    </select>
-                                </label>
+                                      <label>
+                                          Test essence output power:
+                                          <select id="manaPowerTest" class="form-control form-control-sm" style="color: white; background-color: #343a40;" onchange="uiTestBuildingGrade();">
+                                              <option value="0">1</option>
+                                              <option value="1">2</option>
+                                              <option value="2">3</option>
+                                              <option value="3">4</option>
+                                              <option value="4">8</option>
+                                          </select>
+                                      </label>
                                 <br />
-                                <small>Click on grid cell to rotate mana output</small>
+                                <small>Click on grid cell to rotate essence output</small>
                             </div>
                         </div>
                     </div>
@@ -708,11 +708,11 @@
                                     Find Carpenter
                                 </a>
                                 <!--
-    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-    <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
-    -->
+                                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                                <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+                                -->
                             </div>
                         </div>
                         <div class="col-8">
@@ -737,50 +737,139 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="player" role="tabpanel" aria-labelledby="player-tab">
-                    <h2>Player</h2>
+                    <!--<h2>Player</h2>-->
 
-                    <table>
-                        <tr>
-                            <td><img src="images/player.png" /></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Experience: </th>
-                            <td><span id="playerInfoExperience"></span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><small>500 xp = 1 point</small></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <th>Points: </th>
-                            <td align="center"><span id="playerInfoPointLeft">0</span> / <span id="playerInfoTotalPoint">0</span></td>
-                        </tr>
-                        <tr>
-                            <th>Vitality: </th>
-                            <td><span id="playerInfoVitality"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(-1);">-</button> <span id="playerInfoVitalityPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(1);">+</button></td>
-                        </tr>
-                        <tr>
-                            <th>Strength: </th>
-                            <td><span id="playerInfoStrength"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(-1);">-</button> <span id="playerInfoStrengthPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(1);">+</button></td>
-                        </tr>
-                        <tr>
-                            <th>Defence: </th>
-                            <td><span id="playerInfoDefence"></span></td>
-                            <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">-</button> <span id="playerInfoDefencePoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">+</button></td>
-                        </tr>
+                    <h3>Status</h3>
+
+                    <table class="table table-hover table-dark table-sm">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Level</th>
+                                <th>Train</th>
+                                <th>Progress until next level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="uiShowSkillTooltip(0);" onmouseover="uiShowSkillTooltip(0);" onmouseout="uiClearTooltipSection();">
+                                <td><span id="skill0Name">Vitality I</span></td>
+                                <td><span id="skill0Level">1.00</span></td>
+                                <td><input id="skill0Training" type="checkbox" onchange="uiSetSkillTraining(0);" /></td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div id="skill0Progress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr onclick="uiShowSkillTooltip(1);" onmouseover="uiShowSkillTooltip(1);" onmouseout="uiClearTooltipSection();">
+                                <td><span id="skill1Name">Strength I</span></td>
+                                <td><span id="skill1Level">1.00</span></td>
+                                <td><input id="skill1Training" type="checkbox" onchange="uiSetSkillTraining(1);" /></td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div id="skill1Progress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr onclick="uiShowSkillTooltip(2);" onmouseover="uiShowSkillTooltip(2);" onmouseout="uiClearTooltipSection();">
+                                <td><span id="skill2Name">Defence I</span></td>
+                                <td><span id="skill2Level">1.00</span></td>
+                                <td><input id="skill2Training" type="checkbox" onchange="uiSetSkillTraining(2);" /></td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div id="skill2Progress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
 
                     <h3>Magic</h3>
 
-                    <label><input type="checkbox" id="playerUseManaHeal" onclick="uiStartStopHealMagic();" /> Use 10 green mana to heal 10 life</label><br />
-                    <label><input type="checkbox" id="playerUseManaFire" onclick="uiStartStopFireMagic();" /> Use 10 red mana to double hit</label>
+                    <table class="table table-hover table-dark table-sm">
+                        <thead>
+                            <tr>
+                                <th>Use</th>
+                                <th>Name</th>
+                                <th>Level</th>
+                                <th>Train</th>
+                                <th>Progress until next level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="uiShowSkillTooltip(3);" onmouseover="uiShowSkillTooltip(3);" onmouseout="uiClearTooltipSection();">
+                                <td><input id="skill3Equip" type="checkbox" onchange="uiSetSkillEquip(3);" /></td>
+                                <td><span id="skill3Name">Heal I</span></td>
+                                <td><span id="skill3Level">1.00</span></td>
+                                <td><input id="skill3Training" type="checkbox" onchange="uiSetSkillTraining(3);" /></td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div id="skill3Progress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr onclick="uiShowSkillTooltip(4);" onmouseover="uiShowSkillTooltip(4);" onmouseout="uiClearTooltipSection();">
+                                <td><input id="skill4Equip" type="checkbox" onchange="uiSetSkillEquip(4);" /></td>
+                                <td><span id="skill4Name">Fire I</span></td>
+                                <td><span id="skill4Level">1.00</span></td>
+                                <td><input id="skill4Training" type="checkbox" onchange="uiSetSkillTraining(4);" /></td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div id="skill4Progress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row" style="display: none;">
+                        <div class="col-6">
+                            <table>
+                                <tr>
+                                    <td><img src="images/player.png" /></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>Experience: </th>
+                                    <td><span id="playerInfoExperience"></span></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><small>500 xp = 1 point</small></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th>Points: </th>
+                                    <td align="center"><span id="playerInfoPointLeft">0</span> / <span id="playerInfoTotalPoint">0</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Vitality: </th>
+                                    <td><span id="playerInfoVitality"></span></td>
+                                    <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(-1);">-</button> <span id="playerInfoVitalityPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeVitalityPoint(1);">+</button></td>
+                                </tr>
+                                <tr>
+                                    <th>Strength: </th>
+                                    <td><span id="playerInfoStrength"></span></td>
+                                    <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(-1);">-</button> <span id="playerInfoStrengthPoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeStrengthPoint(1);">+</button></td>
+                                </tr>
+                                <tr>
+                                    <th>Defence: </th>
+                                    <td><span id="playerInfoDefence"></span></td>
+                                    <td align="center"><button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">-</button> <span id="playerInfoDefencePoint">0</span> <button class="btn btn-sm btn-dark" onclick="uiChangeDefencePoint(-1);">+</button></td>
+                                </tr>
+                            </table>
+
+                            <h3>Magic</h3>
+
+                            <label><input type="checkbox" id="playerUseManaHeal" onclick="uiStartStopHealMagic();" /> Use 10 green mana to heal 10 life</label><br />
+                            <label><input type="checkbox" id="playerUseManaFire" onclick="uiStartStopFireMagic();" /> Use 10 red mana to double hit</label>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="achievement" role="tabpanel" aria-labelledby="achievement-tab">
                     <h2>Achievement</h2>
@@ -831,22 +920,24 @@
     <script src="3rd/popper/popper.min.js"></script>
     <script src="3rd/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
 
-    <script src="js/building.js?v=0.01"></script>
-    <script src="js/cell.js?v=0.01"></script>
-    <script src="js/dataLink.js?v=0.01"></script>
-    <script src="js/enemy.js?v=0.01"></script>
-    <script src="js/enemyInstance.js?v=0.01"></script>
-    <script src="js/global.js?v=0.01"></script>
-    <script src="js/main.js?v=0.01"></script>
-    <script src="js/mapAdventure.js?v=0.01"></script>
-    <script src="js/mapBuilding.js?v=0.01"></script>
-    <script src="js/mapGrid.js?v=0.01"></script>
-    <script src="js/particle.js?v=0.01"></script>
-    <script src="js/player.js?v=0.01"></script>
-    <script src="js/quest.js?v=0.01"></script>
-    <script src="js/resource.js?v=0.01"></script>
-    <script src="js/resourceLink.js?v=0.01"></script>
-    <script src="js/ui.js?v=0.01"></script>
+    <script src="js/building.js?v=0.02"></script>
+    <script src="js/cell.js?v=0.02"></script>
+    <script src="js/dataLink.js?v=0.02"></script>
+    <script src="js/enemy.js?v=0.02"></script>
+    <script src="js/enemyInstance.js?v=0.02"></script>
+    <script src="js/global.js?v=0.02"></script>
+    <script src="js/main.js?v=0.02"></script>
+    <script src="js/mapAdventure.js?v=0.02"></script>
+    <script src="js/mapBuilding.js?v=0.02"></script>
+    <script src="js/mapGrid.js?v=0.02"></script>
+    <script src="js/particle.js?v=0.02"></script>
+    <script src="js/player.js?v=0.02"></script>
+    <script src="js/quest.js?v=0.02"></script>
+    <script src="js/resource.js?v=0.02"></script>
+    <script src="js/resourceLink.js?v=0.02"></script>
+    <script src="js/skill.js?v=0.02"></script>
+    <script src="js/skillInstance.js?v=0.02"></script>
+    <script src="js/ui.js?v=0.02"></script>
 
     <script type="text/javascript">
 

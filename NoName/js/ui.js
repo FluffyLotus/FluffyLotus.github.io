@@ -342,11 +342,11 @@ function uiChangeDefencePoint(pointDelta) {
 }
 
 function uiStartStopHealMagic() {
-    mapAdventure.currentPlayer.canUseHealMagic = document.getElementById("playerUseManaHeal").checked;
+    //mapAdventure.currentPlayer.canUseHealMagic = document.getElementById("playerUseManaHeal").checked;
 }
 
 function uiStartStopFireMagic() {
-    mapAdventure.currentPlayer.canUseFireMagic = document.getElementById("playerUseManaFire").checked;
+    //mapAdventure.currentPlayer.canUseFireMagic = document.getElementById("playerUseManaFire").checked;
 }
 
 function uiWriteDebug(msg) {
@@ -379,6 +379,73 @@ function uiDrawQuest() {
     }
 }
 
+function uiShowSkillTooltip(skillId) {
+    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+    var s = skills[si.skillId];
+
+    document.getElementById("cellHover").innerHTML = "<b>" + s.name + "</b>, lvl " + si.level + "<br />";
+
+    if (skillId == SKILL_VITALITY) {
+        document.getElementById("cellHover").innerHTML += "+" + si.getAmount() + " life";
+    }
+    else if (skillId == SKILL_STRENGTH) {
+        document.getElementById("cellHover").innerHTML += "+" + si.getAmount() + " regular damage";
+    }
+    else if (skillId == SKILL_DEFENCE) {
+        document.getElementById("cellHover").innerHTML += "+" + si.getAmount() + " regular defence";
+    }
+    else if (skillId == SKILL_HEAL) {
+        document.getElementById("cellHover").innerHTML += "Use " + si.getAmount() + " green mana to heal " + si.getAmount() + " life<br />Cooldown: " + s.cooldown + " ticks";
+    }
+    else if (skillId == SKILL_FIRE) {
+        document.getElementById("cellHover").innerHTML += "Use " + si.getAmount() + " red mana to hit " + si.getAmount() + " fire damage<br />Cooldown: " + s.cooldown + " tick";
+    }
+
+    document.getElementById("cellHoverUpgrade").innerHTML = "Training Requirements<br />" + getResourceLinkString(s.trainingRequirements, si.level);
+}
+
+function uiDrawSkills() {
+    for (var i = 0; i < mapAdventure.currentPlayer.passiveSkills.length; i++) {
+        var si = mapAdventure.currentPlayer.passiveSkills[i];
+        var s = skills[si.skillId];
+
+        document.getElementById("skill" + si.skillId + "Name").innerHTML = s.name
+
+        if (si.trainingLevel < 10)
+            document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + ".0" + si.trainingLevel;
+        else
+            document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + "." + si.trainingLevel;
+
+        document.getElementById("skill" + si.skillId + "Progress").style.width = si.trainingLevel + "%";
+    }
+
+    for (var i = 0; i < mapAdventure.currentPlayer.activeSkills.length; i++) {
+        var si = mapAdventure.currentPlayer.activeSkills[i];
+        var s = skills[si.skillId];
+
+        document.getElementById("skill" + si.skillId + "Name").innerHTML = s.name;
+
+        if (si.trainingLevel < 10)
+            document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + ".0" + si.trainingLevel;
+        else
+            document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + "." + si.trainingLevel;
+
+        document.getElementById("skill" + si.skillId + "Progress").style.width = si.trainingLevel + "%";
+    }
+}
+
+function uiSetSkillEquip(skillId) {
+    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+
+    si.isEquip = document.getElementById("skill" + skillId + "Equip").checked;
+}
+
+function uiSetSkillTraining(skillId) {
+    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+
+    si.isTraining = document.getElementById("skill" + skillId + "Training").checked;
+}
+
 //////////////////////
 
 var textToWrite = "";
@@ -388,13 +455,13 @@ var textToWriteIndex = 0;
 function uiDrawNewMessage() {
     if (messages.length > 0) {
         if (document.getElementById("messageSection").style.display == "none") {
-            document.getElementById("messageSection").style.display = "block";
-            document.getElementById("tooltipSection").style.display = "none";
+            //document.getElementById("messageSection").style.display = "block";
+            //document.getElementById("tooltipSection").style.display = "none";
 
             var msg = messages[0];
             messages.shift();
 
-            uiDrawMessage(msg);
+            //uiDrawMessage(msg);
         }
     }
 }

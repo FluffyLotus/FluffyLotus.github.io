@@ -12,7 +12,7 @@ function mapAdventureInformation() {
 
 function loadAdventure() {
     mapAdventure = new mapAdventureInformation();
-    mapAdventure.currentPlayer = new playerInformation();
+    mapAdventure.currentPlayer = createPlayer();
     mapAdventure.currentPlayer.revive();
 }
 
@@ -30,13 +30,19 @@ mapAdventureInformation.prototype.getEnemyInstanceFromDistance = function () {
 }
 
 mapAdventureInformation.prototype.processTick = function () {
-    if (this.currentPlayer.canUseHealMagic) {
-        if (this.currentPlayer.vitality < this.currentPlayer.getVitality()) {
-            if (resources[RESOURCE_GREENMANA].amount >= 10) {
-                resources[RESOURCE_GREENMANA].addAmount(-10);
+    mapAdventure.currentPlayer.processTick();
 
-                this.currentPlayer.addVitality(10);
-            }
+    //if (this.currentPlayer.canUseHealMagic) {
+    if (this.currentPlayer.getSkillInstance(SKILL_HEAL).canExecute()) {
+        if (this.currentPlayer.vitality < this.currentPlayer.getVitality()) {
+            this.currentPlayer.getSkillInstance(SKILL_HEAL).execute();
+            this.currentPlayer.addVitality(this.currentPlayer.getSkillInstance(SKILL_HEAL).getAmount());
+
+            //if (resources[RESOURCE_GREENMANA].amount >= 10) {
+            //    resources[RESOURCE_GREENMANA].addAmount(-10);
+
+            //    this.currentPlayer.addVitality(10);
+            //}
         }
     }
 
@@ -54,17 +60,24 @@ mapAdventureInformation.prototype.processTick = function () {
     }
     else if (this.currentAction == ADV_ACTION_ATTACK) {
         var mul = 1;
+        var add = 0;
 
-        if (this.currentPlayer.canUseFireMagic) {
-            if (resources[RESOURCE_REDMANA].amount >= 10) {
-                resources[RESOURCE_REDMANA].addAmount(-10);
+        //if (this.currentPlayer.canUseFireMagic) {
+        if (this.currentPlayer.getSkillInstance(SKILL_FIRE).canExecute()) {
+            this.currentPlayer.getSkillInstance(SKILL_FIRE).execute();
 
-                mul = 2;
-            }
+            mul = 1;
+            add = this.currentPlayer.getSkillInstance(SKILL_FIRE).getAmount();
+
+            //if (resources[RESOURCE_REDMANA].amount >= 10) {
+            //    resources[RESOURCE_REDMANA].addAmount(-10);
+
+            //    mul = 2;
+            //}
         }
 
         this.currentPlayer.addVitality(-this.currentEnemy.strength);
-        this.currentEnemy.addVitality(-this.currentPlayer.getStrength() * mul);
+        this.currentEnemy.addVitality(-(this.currentPlayer.getStrength() * mul + add));
 
         if (this.currentPlayer.isDead()) {
             enemies[this.currentEnemy.enemyId].killCount += 1;

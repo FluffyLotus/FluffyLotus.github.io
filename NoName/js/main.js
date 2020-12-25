@@ -7,6 +7,7 @@ var buildings = [];
 var enemies = [];
 var particles = [];
 var quests = [];
+var skills = [];
 
 var fastIsOn = false;
 
@@ -15,6 +16,7 @@ var mainInterval = null;
 var messages = [];
 
 function loadApp() {
+    loadSkills();
     loadResources();
     loadCells();
     loadParticles();
@@ -65,6 +67,7 @@ function processTick() {
     uiDrawAdventure();
     uiDrawGrid();
     uiDrawQuest();
+    uiDrawSkills();
 
     setTimeout(processTick, getTimeoutSpeed()); // requestAnimationFrame
 }
