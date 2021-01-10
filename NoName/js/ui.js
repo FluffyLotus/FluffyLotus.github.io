@@ -14,10 +14,10 @@ function uiToggleFast() {
 function uiCreateGrid() {
     var str = "";
 
-    for (var y = 0; y < mapBuilding.mapHeight; y++) {
+    for (var y = 0; y < mapBuildings[currentMapBuilding].mapHeight; y++) {
         str += "<tr>";
 
-        for (var x = 0; x < mapBuilding.mapWidth; x++) {
+        for (var x = 0; x < mapBuildings[currentMapBuilding].mapWidth; x++) {
             str += '<td id="cell_' + x + '_' + y + '"><div id="particle_' + x + '_' + y + '"><div id="building_' + x + '_' + y + '"></div></div></td>';
         }
 
@@ -26,8 +26,8 @@ function uiCreateGrid() {
 
     document.getElementById("mainGrid").innerHTML = str;
 
-    for (let y = 0; y < mapBuilding.mapHeight; y++) {
-        for (let x = 0; x < mapBuilding.mapWidth; x++) {
+    for (let y = 0; y < mapBuildings[currentMapBuilding].mapHeight; y++) {
+        for (let x = 0; x < mapBuildings[currentMapBuilding].mapWidth; x++) {
             document.getElementById('cell_' + x + '_' + y).onclick = function () { uiCellClick(x, y); };
             document.getElementById('cell_' + x + '_' + y).onmouseover = function () { uiCellHover(x, y); };
         }
@@ -100,9 +100,9 @@ function uiDrawGrid() {
         document.getElementById("btnFast").className = "btn btn-dark";
     }
 
-    for (var y = 0; y < mapBuilding.mapHeight; y++) {
-        for (var x = 0; x < mapBuilding.mapWidth; x++) {
-            var curGrid = mapBuilding.grid[x + (y * mapBuilding.mapWidth)];
+    for (var y = 0; y < mapBuildings[currentMapBuilding].mapHeight; y++) {
+        for (var x = 0; x < mapBuildings[currentMapBuilding].mapWidth; x++) {
+            var curGrid = mapBuildings[currentMapBuilding].grid[x + (y * mapBuildings[currentMapBuilding].mapWidth)];
 
             document.getElementById("cell_" + x + "_" + y).className = "cell_" + cells[curGrid.cellId].id;
 
@@ -113,9 +113,9 @@ function uiDrawGrid() {
                 document.getElementById("particle_" + x + "_" + y).className = "";
 
             if (curGrid.buildingId == BUILDING_STORAGEPIPE)
-                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuilding.getSideStorageConnectionStr(x, y);
+                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y);
             else if (curGrid.buildingId == BUILDING_WATERPIPE)
-                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuilding.getSideWaterConnectionStr(x, y);
+                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y);
             else if (curGrid.buildingId >= 0)
                 document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
             else
@@ -126,16 +126,16 @@ function uiDrawGrid() {
 
 function uiCellClick(gridX, gridY) {
     if (selectedBuildingId >= 0)
-        mapBuilding.addBuilding(gridX, gridY, selectedBuildingId);
+        mapBuildings[currentMapBuilding].addBuilding(gridX, gridY, selectedBuildingId);
     else if (selectedBuildingId == -1)
-        mapBuilding.processGridClick(gridX, gridY);
+        mapBuildings[currentMapBuilding].processGridClick(gridX, gridY);
     else if (selectedBuildingId == -2)
-        mapBuilding.sellBuilding(gridX, gridY);
+        mapBuildings[currentMapBuilding].sellBuilding(gridX, gridY);
     else if (selectedBuildingId == -3) {
-        mapBuilding.upgradeGrid(gridX, gridY);
+        mapBuildings[currentMapBuilding].upgradeGrid(gridX, gridY);
     }
     else if (selectedBuildingId == -4) {
-        mapBuilding.downgradeGrid(gridX, gridY);
+        mapBuildings[currentMapBuilding].downgradeGrid(gridX, gridY);
     }
 
     uiCellHover(gridX, gridY);
@@ -146,7 +146,7 @@ function uiCellClick(gridX, gridY) {
 function uiCellHover(gridX, gridY) {
     var htmlData = "";
     var htmlData2 = "";
-    var curGrid = mapBuilding.grid[gridX + (gridY * mapBuilding.mapWidth)];
+    var curGrid = mapBuildings[currentMapBuilding].grid[gridX + (gridY * mapBuildings[currentMapBuilding].mapWidth)];
 
     if (curGrid.buildingId == -1) {
         var curCell = cells[curGrid.cellId];
@@ -259,28 +259,28 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
 }
 
 function uiDrawAdventure() {
-    document.getElementById("playerDistance").innerText = mapAdventure.currentDistance;
-    document.getElementById("playerMaxDistance").innerText = mapAdventure.maxDistance;
+    document.getElementById("playerDistance").innerText = mapAdventures[currentMapAdventure.currentMapAdventureId].currentDistance;
+    document.getElementById("playerMaxDistance").innerText = mapAdventures[currentMapAdventure.currentMapAdventureId].maxDistance;
 
-    document.getElementById("playerCurrentLife").innerText = mapAdventure.currentPlayer.vitality;
-    document.getElementById("playerMaxLife").innerText = mapAdventure.currentPlayer.getVitality();
-    document.getElementById("playerAttack").innerText = mapAdventure.currentPlayer.getStrength();
-    document.getElementById("playerDefence").innerText = mapAdventure.currentPlayer.getDefence();
+    document.getElementById("playerCurrentLife").innerText = currentMapAdventure.currentPlayer.vitality;
+    document.getElementById("playerMaxLife").innerText = currentMapAdventure.currentPlayer.getVitality();
+    document.getElementById("playerAttack").innerText = currentMapAdventure.currentPlayer.getStrength();
+    document.getElementById("playerDefence").innerText = currentMapAdventure.currentPlayer.getDefence();
 
-    if (mapAdventure.currentPlayer.vitalityTickDelta > 0) {
-        document.getElementById("playerLifeDelta").innerText = "+" + mapAdventure.currentPlayer.vitalityTickDelta;
+    if (currentMapAdventure.currentPlayer.vitalityTickDelta > 0) {
+        document.getElementById("playerLifeDelta").innerText = "+" + currentMapAdventure.currentPlayer.vitalityTickDelta;
         document.getElementById("playerLifeDelta").style.color = "green";
     }
-    else if (mapAdventure.currentPlayer.vitalityTickDelta < 0) {
-        document.getElementById("playerLifeDelta").innerText = mapAdventure.currentPlayer.vitalityTickDelta;
+    else if (currentMapAdventure.currentPlayer.vitalityTickDelta < 0) {
+        document.getElementById("playerLifeDelta").innerText = currentMapAdventure.currentPlayer.vitalityTickDelta;
         document.getElementById("playerLifeDelta").style.color = "red";
     }
     else {
-        document.getElementById("playerLifeDelta").innerText = mapAdventure.currentPlayer.vitalityTickDelta;
+        document.getElementById("playerLifeDelta").innerText = currentMapAdventure.currentPlayer.vitalityTickDelta;
         document.getElementById("playerLifeDelta").style.color = "black";
     }
 
-    if (mapAdventure.currentEnemy == null) {
+    if (currentMapAdventure.currentEnemy == null) {
         document.getElementById("adventureWalk").style.display = "block";
         document.getElementById("adventureAttack").style.display = "none";
     }
@@ -288,31 +288,31 @@ function uiDrawAdventure() {
         document.getElementById("adventureWalk").style.display = "none";
         document.getElementById("adventureAttack").style.display = "block";
 
-        document.getElementById("enemyImage").src = "images/enemy_" + mapAdventure.currentEnemy.enemyId + ".png";
+        document.getElementById("enemyImage").src = "images/enemy_" + currentMapAdventure.currentEnemy.enemyId + ".png";
 
-        document.getElementById("enemyCurrentLife").innerText = mapAdventure.currentEnemy.vitality;
+        document.getElementById("enemyCurrentLife").innerText = currentMapAdventure.currentEnemy.vitality;
 
-        document.getElementById("enemyName").innerText = enemies[mapAdventure.currentEnemy.enemyId].name + " lvl " + mapAdventure.currentEnemy.level;
-        document.getElementById("enemyMaxLife").innerText = mapAdventure.currentEnemy.maxVitality;
-        document.getElementById("enemyAttack").innerText = mapAdventure.currentEnemy.strength;
-        document.getElementById("enemyDefence").innerText = mapAdventure.currentEnemy.defence;
+        document.getElementById("enemyName").innerText = enemies[currentMapAdventure.currentEnemy.enemyId].name + " lvl " + currentMapAdventure.currentEnemy.level;
+        document.getElementById("enemyMaxLife").innerText = currentMapAdventure.currentEnemy.maxVitality;
+        document.getElementById("enemyAttack").innerText = currentMapAdventure.currentEnemy.strength;
+        document.getElementById("enemyDefence").innerText = currentMapAdventure.currentEnemy.defence;
 
-        if (mapAdventure.currentEnemy.vitalityTickDelta > 0) {
-            document.getElementById("enemyLifeDelta").innerText = "+" + mapAdventure.currentEnemy.vitalityTickDelta;
+        if (currentMapAdventure.currentEnemy.vitalityTickDelta > 0) {
+            document.getElementById("enemyLifeDelta").innerText = "+" + currentMapAdventure.currentEnemy.vitalityTickDelta;
             document.getElementById("enemyLifeDelta").style.color = "green";
         }
-        else if (mapAdventure.currentEnemy.vitalityTickDelta < 0) {
-            document.getElementById("enemyLifeDelta").innerText = mapAdventure.currentEnemy.vitalityTickDelta;
+        else if (currentMapAdventure.currentEnemy.vitalityTickDelta < 0) {
+            document.getElementById("enemyLifeDelta").innerText = currentMapAdventure.currentEnemy.vitalityTickDelta;
             document.getElementById("enemyLifeDelta").style.color = "red";
         }
         else {
-            document.getElementById("enemyLifeDelta").innerText = mapAdventure.currentEnemy.vitalityTickDelta;
+            document.getElementById("enemyLifeDelta").innerText = currentMapAdventure.currentEnemy.vitalityTickDelta;
             document.getElementById("enemyLifeDelta").style.color = "black";
         }
     }
 
     ///////////////
-
+    /*
     document.getElementById("playerInfoExperience").innerText = mapAdventure.currentPlayer.experience;
     document.getElementById("playerInfoVitality").innerText = mapAdventure.currentPlayer.getVitality();
     document.getElementById("playerInfoStrength").innerText = mapAdventure.currentPlayer.getStrength();
@@ -324,8 +324,10 @@ function uiDrawAdventure() {
 
     document.getElementById("playerInfoPointLeft").innerText = mapAdventure.currentPlayer.getPointLeft();
     document.getElementById("playerInfoTotalPoint").innerText = mapAdventure.currentPlayer.getTotalPoint();
+    */
 }
 
+/*
 function uiChangeVitalityPoint(pointDelta) {
     mapAdventure.currentPlayer.changeVitalityPoint(pointDelta);
     uiDrawAdventure();
@@ -340,7 +342,8 @@ function uiChangeDefencePoint(pointDelta) {
     mapAdventure.currentPlayer.changeDefencePoint(pointDelta);
     uiDrawAdventure();
 }
-
+*/
+/*
 function uiStartStopHealMagic() {
     //mapAdventure.currentPlayer.canUseHealMagic = document.getElementById("playerUseManaHeal").checked;
 }
@@ -348,7 +351,7 @@ function uiStartStopHealMagic() {
 function uiStartStopFireMagic() {
     //mapAdventure.currentPlayer.canUseFireMagic = document.getElementById("playerUseManaFire").checked;
 }
-
+*/
 function uiWriteDebug(msg) {
     document.getElementById("debug").value = msg;
 }
@@ -362,25 +365,19 @@ function uiClearTooltipSection() {
     document.getElementById("cellHoverUpgrade").innerText = "";
 }
 
-function uiTestBuildingGrade() {
-    var newGrade = parseInt(document.getElementById("manaPowerTest").value);
-
-    buildings[BUILDING_ESSENCEPULL].gradeLevel = newGrade;
-    buildings[BUILDING_GREENPUSH].gradeLevel = newGrade;
-    buildings[BUILDING_BLUEPUSH].gradeLevel = newGrade;
-    buildings[BUILDING_REDPUSH].gradeLevel = newGrade;
-}
-
 function uiDrawQuest() {
-    document.getElementById("quest0Test").innerText = mapAdventure.maxDistance;
 
     if (quests[0].isCompleted) {
+        document.getElementById("quest0Test").innerText = "600";
         document.getElementById("quest0Test2").style.display = "block";
+    }
+    else {
+        document.getElementById("quest0Test").innerText = mapAdventures[currentMapAdventure.currentMapAdventureId].maxDistance;
     }
 }
 
 function uiShowSkillTooltip(skillId) {
-    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+    var si = currentMapAdventure.currentPlayer.getSkillInstance(skillId);
     var s = skills[si.skillId];
 
     document.getElementById("cellHover").innerHTML = "<b>" + s.name + "</b>, lvl " + si.level + "<br />";
@@ -405,8 +402,8 @@ function uiShowSkillTooltip(skillId) {
 }
 
 function uiDrawSkills() {
-    for (var i = 0; i < mapAdventure.currentPlayer.passiveSkills.length; i++) {
-        var si = mapAdventure.currentPlayer.passiveSkills[i];
+    for (var i = 0; i < currentMapAdventure.currentPlayer.passiveSkills.length; i++) {
+        var si = currentMapAdventure.currentPlayer.passiveSkills[i];
         var s = skills[si.skillId];
 
         document.getElementById("skill" + si.skillId + "Name").innerHTML = s.name
@@ -417,10 +414,15 @@ function uiDrawSkills() {
             document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + "." + si.trainingLevel;
 
         document.getElementById("skill" + si.skillId + "Progress").style.width = si.trainingLevel + "%";
+
+        if (si.canUpgrade())
+            $("#skill" + si.skillId + "UpgradeButton").show();
+        else
+            $("#skill" + si.skillId + "UpgradeButton").hide();
     }
 
-    for (var i = 0; i < mapAdventure.currentPlayer.activeSkills.length; i++) {
-        var si = mapAdventure.currentPlayer.activeSkills[i];
+    for (var i = 0; i < currentMapAdventure.currentPlayer.activeSkills.length; i++) {
+        var si = currentMapAdventure.currentPlayer.activeSkills[i];
         var s = skills[si.skillId];
 
         document.getElementById("skill" + si.skillId + "Name").innerHTML = s.name;
@@ -431,19 +433,60 @@ function uiDrawSkills() {
             document.getElementById("skill" + si.skillId + "Level").innerHTML = si.level + "." + si.trainingLevel;
 
         document.getElementById("skill" + si.skillId + "Progress").style.width = si.trainingLevel + "%";
+
+        if (si.canUpgrade())
+            $("#skill" + si.skillId + "UpgradeButton").show();
+        else
+            $("#skill" + si.skillId + "UpgradeButton").hide();
     }
 }
 
+function uiUpgradeSkill(skillId) {
+    var si = currentMapAdventure.currentPlayer.getSkillInstance(skillId);
+
+    si.upgrade();
+}
+
 function uiSetSkillEquip(skillId) {
-    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+    var si = currentMapAdventure.currentPlayer.getSkillInstance(skillId);
 
     si.isEquip = document.getElementById("skill" + skillId + "Equip").checked;
 }
 
 function uiSetSkillTraining(skillId) {
-    var si = mapAdventure.currentPlayer.getSkillInstance(skillId);
+    var si = currentMapAdventure.currentPlayer.getSkillInstance(skillId);
 
     si.isTraining = document.getElementById("skill" + skillId + "Training").checked;
+}
+
+function uiDrawCards() {
+    for (var i = 0; i < cards.length; i++) {
+        var c = cards[i];
+
+        document.getElementById("card" + c.id + "Name").innerHTML = c.name;
+
+        if (c.getCurrentLevelAmount() < 10)
+            document.getElementById("card" + c.id + "Level").innerHTML = c.getCurrentLevel() + ".0" + c.getCurrentLevelAmount();
+        else
+            document.getElementById("card" + c.id + "Level").innerHTML = c.getCurrentLevel() + "." + c.getCurrentLevelAmount();
+
+        document.getElementById("card" + c.id + "Description").innerHTML = c.description;
+
+        if (c.canUpgrade())
+            $("#card" + c.id + "UpgradeButton").show();
+        else
+            $("#card" + c.id + "UpgradeButton").hide();
+    }
+}
+
+function uiUpgradeCard(cardId) {
+    var c = cards[cardId];
+
+    c.upgrade();
+}
+
+function uiTempChangeMap() {
+    currentMapBuilding = parseInt(document.getElementById("mapSelected").value);
 }
 
 //////////////////////

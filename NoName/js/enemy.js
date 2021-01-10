@@ -14,6 +14,8 @@ function enemyInformation() {
 
     this.deathCount = []; // How many time it died
     this.killCount = 0; // How many time it killed something
+
+    this.cardGiven = 0;
 }
 
 enemyInformation.prototype.getVitality = function (level) {
@@ -34,7 +36,7 @@ enemyInformation.prototype.processDeath = function (level) {
     else
         this.deathCount[level] += 1;
 }
-
+/*
 enemyInformation.prototype.experienceGiven = function (level) {
     var dc = this.deathCount[level];
     var xp = 10;
@@ -49,7 +51,7 @@ enemyInformation.prototype.experienceGiven = function (level) {
 
     return xp;
 }
-
+*/
 function loadEnemies() {
     enemies[0] = new enemyInformation();
     enemies[0].id = 0;
@@ -60,7 +62,8 @@ function loadEnemies() {
     enemies[0].mulVitality = 10;
     enemies[0].mulStrength = 10;
     enemies[0].mulDefence = 0;
-
+    enemies[0].cardGiven = CARD_RABBIT;
+    
     enemies[1] = new enemyInformation();
     enemies[1].id = 1;
     enemies[1].name = "Evil Rat";
@@ -70,6 +73,7 @@ function loadEnemies() {
     enemies[1].mulVitality = 10;
     enemies[1].mulStrength = 10;
     enemies[1].mulDefence = 10;
+    enemies[1].cardGiven = CARD_RAT;
 
     enemies[2] = new enemyInformation();
     enemies[2].id = 1;
@@ -80,4 +84,5 @@ function loadEnemies() {
     enemies[2].mulVitality = 20;
     enemies[2].mulStrength = 15;
     enemies[2].mulDefence = 10;
+    enemies[2].cardGiven = CARD_DEVIL;
 }

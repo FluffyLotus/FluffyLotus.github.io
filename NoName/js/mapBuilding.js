@@ -12,7 +12,26 @@
     3, 3, 0, 0, 0, 2, 2, 2, 0, 0, 4, 4,
     3, 3, 0, 0, 2, 2, 2, 2, 0, 4, 4, 4];
 
+var mapData2 = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 5, 6, 6, 6, 6,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+    2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1];
+
+var MAP_BUILDING_START = 0;
+var MAP_BUILDING_SECOND = 1;
+
 function mapBuilding() {
+    this.id = 0;
+    this.name = "";
     this.mapWidth = 12;
     this.mapHeight = 12;
     this.grid = [];
@@ -47,7 +66,7 @@ mapBuilding.prototype.processTick = function () {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
             if (curGrid.buildingId >= 0) {
-                if (curGrid.isConnectedToStorage || curGrid.buildingId == BUILDING_ESSENCEPULL) {
+                if (curGrid.isConnectedToStorage || !buildings[curGrid.buildingId].needStorage) {
                     var curBuilding = buildings[curGrid.buildingId];
 
                     if (curBuilding.hasTickRequirements(curGrid.buildingLevel)) {
@@ -279,7 +298,26 @@ mapBuilding.prototype.getSideWaterConnectionStr = function (x, y) {
     return s[0] + s[1] + s[2] + s[3];
 }
 
+function prepareMapBuildingTick() {
+    for (var i = 0; i < mapBuildings.length; i++) {
+        mapBuildings[i].prepareTick();
+    }
+}
+
+function processMapBuildingTick() {
+    for (var i = 0; i < mapBuildings.length; i++) {
+        mapBuildings[i].processTick();
+    }
+}
+
 function loadMapBuilding() {
-    mapBuilding = new mapBuilding();
-    mapBuilding.generateGrid(mapData1);
+    mapBuildings[0] = new mapBuilding();
+    mapBuildings[0].id = 0;
+    mapBuildings[0].name = "Starting Town";
+    mapBuildings[0].generateGrid(mapData1);
+
+    mapBuildings[1] = new mapBuilding();
+    mapBuildings[1].id = 1;
+    mapBuildings[1].name = "Second Town";
+    mapBuildings[1].generateGrid(mapData2);
 }

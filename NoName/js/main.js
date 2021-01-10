@@ -1,13 +1,16 @@
-﻿var mapBuilding = null;
-var mapAdventure = null;
-
-var cells = [];
+﻿var cells = [];
 var resources = [];
 var buildings = [];
 var enemies = [];
 var particles = [];
 var quests = [];
 var skills = [];
+var cards = [];
+var mapBuildings = [];
+var mapAdventures = [];
+
+var currentMapBuilding = 0;
+var currentMapAdventure = null;
 
 var fastIsOn = false;
 
@@ -17,6 +20,7 @@ var messages = [];
 
 function loadApp() {
     loadSkills();
+    loadCards();
     loadResources();
     loadCells();
     loadParticles();
@@ -25,6 +29,8 @@ function loadApp() {
     loadMapBuilding();
     loadEnemies();
     loadQuests();
+
+    loadMapAdventureInstance();
 
     messages.push("Something strange is hapenning lately. The animals are more aggressive than usual. We should make sure we are prepared.");
     messages.push("Click on mountain and forest to get resources. Build axe on a forest and attach a storage to it. Close this message to see tooltips.");
@@ -42,15 +48,15 @@ function prepareTick() {
         resources[t].prepareTick();
     }
 
-    mapAdventure.prepareTick();
-    mapBuilding.prepareTick();
+    currentMapAdventure.prepareTick();
+    prepareMapBuildingTick();
 }
 
 function processTick() {
     prepareTick();
 
-    mapBuilding.processTick();
-    mapAdventure.processTick();
+    processMapBuildingTick();
+    currentMapAdventure.processTick();
     processQuestTick();
 
     if (fastIsOn) {
@@ -68,6 +74,7 @@ function processTick() {
     uiDrawGrid();
     uiDrawQuest();
     uiDrawSkills();
+    uiDrawCards();
 
     setTimeout(processTick, getTimeoutSpeed()); // requestAnimationFrame
 }

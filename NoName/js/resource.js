@@ -13,6 +13,8 @@ var RESOURCE_BLOCK = 11;
 var RESOURCE_ORE = 12;
 var RESOURCE_IRON = 13;
 var RESOURCE_ENERGY = 14;
+var RESOURCE_GEAR = 15;
+var RESOURCE_TIMEMANA = 16;
 
 function resourceInformation() {
     this.id = 0;
@@ -99,6 +101,14 @@ function loadResources() {
     resources[14] = new resourceInformation();
     resources[14].id = 14;
     resources[14].name = "Energy";
+
+    resources[15] = new resourceInformation();
+    resources[15].id = 15;
+    resources[15].name = "Gear";
+
+    resources[16] = new resourceInformation();
+    resources[16].id = 16;
+    resources[16].name = "Time Mana";
 
     resources[RESOURCE_WOOD].addAmount(2000);
     resources[RESOURCE_STONE].addAmount(2000);

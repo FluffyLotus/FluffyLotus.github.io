@@ -7,15 +7,15 @@ function playerInformation() {
     this.baseStrength = 9; //10;
     this.baseDefence = -1; //0;
 
-    this.mulVitality = 100; // REMOVE
-    this.mulStrength = 10; // REMOVE
-    this.mulDefence = 10; // REMOVE
+    //this.mulVitality = 100; // REMOVE
+    //this.mulStrength = 10; // REMOVE
+    //this.mulDefence = 10; // REMOVE
 
-    this.pointVitality = 0; // REMOVE
-    this.pointStrength = 0; // REMOVE
-    this.pointDefence = 0; // REMOVE
+    //this.pointVitality = 0; // REMOVE
+    //this.pointStrength = 0; // REMOVE
+    //this.pointDefence = 0; // REMOVE
 
-    this.experience = 0; // REMOVE
+    //this.experience = 0; // REMOVE
 
     this.vitalityTickDelta = 0;
     this.deathCount = 0;
@@ -28,15 +28,15 @@ function playerInformation() {
 }
 
 playerInformation.prototype.getVitality = function () {
-    return this.baseVitality + this.pointVitality * this.mulVitality + this.getSkillInstance(SKILL_VITALITY).getAmount();
+    return this.baseVitality + this.getSkillInstance(SKILL_VITALITY).getAmount() + (cards[CARD_RAT].getCurrentLevel() * 50); //  + this.pointVitality * this.mulVitality
 }
 
 playerInformation.prototype.getStrength = function () {
-    return this.baseStrength + this.pointStrength * this.mulStrength + this.getSkillInstance(SKILL_STRENGTH).getAmount();
+    return this.baseStrength + this.getSkillInstance(SKILL_STRENGTH).getAmount() + (cards[CARD_RABBIT].getCurrentLevel() * 5); //  + this.pointStrength * this.mulStrength
 }
 
 playerInformation.prototype.getDefence = function () {
-    return this.baseDefence + this.pointDefence * this.mulDefence + this.getSkillInstance(SKILL_DEFENCE).getAmount();
+    return this.baseDefence + this.getSkillInstance(SKILL_DEFENCE).getAmount() + (cards[CARD_DEVIL].getCurrentLevel() * 5); //  + this.pointDefence * this.mulDefence
 }
 
 playerInformation.prototype.prepareTick = function () {
@@ -66,7 +66,7 @@ playerInformation.prototype.addVitality = function (d) {
 playerInformation.prototype.isDead = function () {
     return this.vitality <= 0;
 }
-
+/*
 playerInformation.prototype.getPointLeft = function () {
     return this.getTotalPoint() - this.getUsedTotalPoint();
 }
@@ -111,7 +111,7 @@ playerInformation.prototype.changeDefencePoint = function (pointDelta) {
             this.pointDefence += 1;
     }
 }
-
+*/
 playerInformation.prototype.revive = function () {
     this.vitality = this.getVitality();
 }

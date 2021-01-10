@@ -5,6 +5,8 @@ var SKILL_DEFENCE = 2;
 var SKILL_HEAL = 3;
 var SKILL_FIRE = 4;
 
+// Walking speed, use time essence
+
 function skillInformation() {
     this.id = 0;
     this.name = "";

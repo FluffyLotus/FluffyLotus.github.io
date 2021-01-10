@@ -37,7 +37,7 @@ questInformation.prototype.canComplete = function () {
 questInformation.prototype.setAsCompleted = function () {
     if (!this.canComplete())
         return false;
-
+    
     this.isCompleted = true;
 
     if (this.compleDescription != "")

@@ -12,6 +12,9 @@ skillInstanceInformation.prototype.canTrain = function () {
     if (!this.isTraining)
         return false;
 
+    if (this.trainingLevel >= 100)
+        return false;
+
     return skills[this.skillId].canTrain(this.level);
 }
 
@@ -21,15 +24,24 @@ skillInstanceInformation.prototype.train = function () {
 
         this.trainingLevel += 1;
 
-        if (this.trainingLevel == 100) {
-            this.trainingLevel = 0;
-            this.level += 1;
-        }
-
         return true;
     }
 
     return false;
+}
+
+skillInstanceInformation.prototype.canUpgrade = function () {
+    if (this.trainingLevel >= 100)
+        return true;
+    return false;
+}
+
+skillInstanceInformation.prototype.upgrade = function () {
+    if (!this.canUpgrade())
+        return;
+
+    this.trainingLevel = 0;
+    this.level += 1;
 }
 
 skillInstanceInformation.prototype.canExecute = function () {

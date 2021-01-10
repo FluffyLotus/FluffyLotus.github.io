@@ -18,13 +18,13 @@ function mapGridInformation() {
     this.isConnectedToStorage = false;
     this.isConnectedToWater = false;
 }
-
+/*
 mapGridInformation.prototype.canBuildOn = function () {
     if (this.cellId == CELL_GRASS && this.buildingId == -1)
         return true;
     return false;
 }
-
+*/
 mapGridInformation.prototype.prepareTick = function () {
     this.processBuildingTick = false;
     this.particles = [];

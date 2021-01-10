@@ -11,7 +11,7 @@ function dataLink() {
 dataLink.prototype.getCurrentValue = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-
+            return mapAdventures[this.entityId].maxDistance;
         }
     }
 }

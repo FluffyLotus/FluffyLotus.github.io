@@ -2,6 +2,7 @@
 var PARTICLE_BLUE = 1;
 var PARTICLE_RED = 2;
 var PARTICLE_STEAM = 3;
+var PARTICLE_TIME = 4;
 
 function particleInformation() {
     this.id = 0;
@@ -24,4 +25,8 @@ function loadParticles() {
     particles[3] = new cellInformation();
     particles[3].id = 3;
     particles[3].name = "Steam Particle";
+
+    particles[4] = new cellInformation();
+    particles[4].id = 4;
+    particles[4].name = "Time Particle";
 }
