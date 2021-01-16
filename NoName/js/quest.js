@@ -12,6 +12,10 @@
     this.isCompleted = false;
 }
 
+questInformation.prototype.isVisible = function () {
+    return this.isActivated;
+}
+
 questInformation.prototype.processTick = function () {
     if (this.isActivated && !this.isCompleted) {
         if (this.canComplete()) {
@@ -50,10 +54,18 @@ function loadQuests() {
     quests[0] = new questInformation();
     quests[0].id = 0;
     quests[0].name = "Find Carpenter";
-    quests[0].smallDescription = "Our carpenter went to the next village a few days ago. I hope everything is ok, can you search for him?";
+    quests[0].smallDescription = "Our carpenter went to Barock a few days ago. I hope everything is ok, can you search for him?";
     quests[0].longDescription = "";
     quests[0].compleDescription = "Found the carpenter! But the quest ends here... The developper need to do something.";
     quests[0].passiveRequirements.push(createDataLink("adventure", "maxDistance", 0, 600));
+
+    quests[1] = new questInformation();
+    quests[1].id = 1;
+    quests[1].name = "Find Carpenter 123";
+    quests[1].smallDescription = "Our carpenter went to the next village a few days ago. I hope everything is ok, can you search for him? 123";
+    quests[1].longDescription = "";
+    quests[1].compleDescription = "Found the carpenter! But the quest ends here... The developper need to do something. 123";
+    quests[1].passiveRequirements.push(createDataLink("adventure", "maxDistance", 0, 600));
 }
 
 function processQuestTick() {

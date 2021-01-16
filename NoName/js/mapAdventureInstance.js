@@ -9,6 +9,14 @@ function mapAdventureInstanceInformation() {
     this.currentEnemy = null;
 }
 
+mapAdventureInstanceInformation.prototype.changeMap = function (newMapId) {
+    this.currentMapAdventureId = newMapId;
+    this.currentAction = ADV_ACTION_WALK;
+    this.currentEnemy = null;
+
+    mapAdventures[this.currentMapAdventureId].setDistance(0);
+}
+
 mapAdventureInstanceInformation.prototype.prepareTick = function () {
     if (this.currentPlayer != null) this.currentPlayer.prepareTick();
     if (this.currentEnemy != null) this.currentEnemy.prepareTick();

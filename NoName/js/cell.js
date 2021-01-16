@@ -5,6 +5,8 @@ var CELL_WATER = 3;
 var CELL_LAVA = 4;
 var CELL_HOME = 5;
 var CELL_DIRTROAD = 6;
+var CELL_DEEPWATER = 7;
+var CELL_BRIDGE = 8;
 
 var CELL_TYPE_NONE = 0;
 var CELL_TYPE_GRASS = 1;
@@ -64,5 +66,15 @@ function loadCells() {
     cells[6] = new cellInformation();
     cells[6].id = 6;
     cells[6].name = "Dirt Road";
-    cells[6].type = CELL_TYPE_NONE;
+    cells[6].type = CELL_TYPE_GRASS;
+
+    cells[7] = new cellInformation();
+    cells[7].id = 7;
+    cells[7].name = "Deep Water";
+    cells[7].type = CELL_TYPE_NONE;
+
+    cells[8] = new cellInformation();
+    cells[8].id = 8;
+    cells[8].name = "Bridge";
+    cells[8].type = CELL_TYPE_NONE;
 }

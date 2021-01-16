@@ -18,6 +18,11 @@ var mainInterval = null;
 
 var messages = [];
 
+var SLOW_SPEED = 1000;
+var FAST_SPEED = 100;
+
+var lastTick = Date.now() - SLOW_SPEED;
+
 function loadApp() {
     loadSkills();
     loadCards();
@@ -53,30 +58,41 @@ function prepareTick() {
 }
 
 function processTick() {
-    prepareTick();
+    var hadChange = false;
 
-    processMapBuildingTick();
-    currentMapAdventure.processTick();
-    processQuestTick();
+    while (lastTick + getTimeoutSpeed() < Date.now()) {
+        prepareTick();
 
-    if (fastIsOn) {
-        if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
-            resources[RESOURCE_TIMEESSENCE].addAmount(-1);
+        processMapBuildingTick();
+        currentMapAdventure.processTick();
+        processQuestTick();
+
+        if (fastIsOn) {
+            if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
+                resources[RESOURCE_TIMEESSENCE].addAmount(-1);
+            }
+
+            if (resources[RESOURCE_TIMEESSENCE].amount <= 0) {
+                fastIsOn = false;
+            }
         }
 
-        if (resources[RESOURCE_TIMEESSENCE].amount <= 0) {
-            fastIsOn = false;
-        }
+        hadChange = true;
+        lastTick += getTimeoutSpeed();
     }
 
-    uiDrawResources();
-    uiDrawAdventure();
-    uiDrawGrid();
-    uiDrawQuest();
-    uiDrawSkills();
-    uiDrawCards();
+    if (hadChange) {
+        uiDrawResources();
+        uiDrawAdventure();
+        uiDrawGrid();
+        uiDrawQuest();
+        uiDrawSkills();
+        uiDrawEnemyInfo();
+        uiDrawNewMessage();
+        uiDrawBuildingIcon();
+    }
 
-    setTimeout(processTick, getTimeoutSpeed()); // requestAnimationFrame
+    setTimeout(processTick, FAST_SPEED); // requestAnimationFrame
 }
 
 function toggleFast() {
@@ -92,6 +108,6 @@ function toggleFast() {
 
 function getTimeoutSpeed() {
     if (!fastIsOn)
-        return 1000;
-    return 100;
+        return SLOW_SPEED;
+    return FAST_SPEED;
 }

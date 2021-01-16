@@ -1,6 +1,11 @@
 ﻿var CARD_RABBIT = 0;
 var CARD_RAT = 1;
 var CARD_DEVIL = 2;
+var CARD_BEAR = 3;
+var CARD_BIRD = 4;
+var CARD_DOG = 5;
+var CARD_PIG = 6;
+var CARD_WOLF = 7;
 
 function cardInformation() {
     this.id = 0;
@@ -9,6 +14,15 @@ function cardInformation() {
     this.description = 0;
 
     this.level = 0;
+}
+
+cardInformation.prototype.isVisible = function () {
+    for (var t = 0; t < enemies.length; t++) {
+        if (enemies[t].cardGiven == this.id && enemies[t].totalDeath > 0)
+            return true;
+    }
+
+    return false;
 }
 
 cardInformation.prototype.getAmountNeeded = function () {
@@ -52,4 +66,29 @@ function loadCards() {
     cards[2].id = 2;
     cards[2].name = "Devil";
     cards[2].description = "Each level increase defence by 5.";
+
+    cards[3] = new cardInformation();
+    cards[3].id = 3;
+    cards[3].name = "Bear";
+    cards[3].description = "Nothing";
+
+    cards[4] = new cardInformation();
+    cards[4].id = 4;
+    cards[4].name = "Bird";
+    cards[4].description = "Nothing";
+
+    cards[5] = new cardInformation();
+    cards[5].id = 5;
+    cards[5].name = "Dog";
+    cards[5].description = "Nothing";
+
+    cards[6] = new cardInformation();
+    cards[6].id = 6;
+    cards[6].name = "Pig";
+    cards[6].description = "Nothing";
+
+    cards[7] = new cardInformation();
+    cards[7].id = 7;
+    cards[7].name = "Wolf";
+    cards[7].description = "Nothing";
 }

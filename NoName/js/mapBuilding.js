@@ -1,4 +1,5 @@
-﻿var mapData1 = [
+﻿/*
+var mapData1 = [
     0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
     0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
@@ -25,6 +26,39 @@ var mapData2 = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
     2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1];
+    */
+
+var mapsData = [];
+
+mapsData[0] = [
+    7, 7, 7, 7, 7, 7, 7, 3, 3, 2, 2, 2,
+    7, 7, 7, 7, 7, 7, 3, 3, 3, 0, 0, 0,
+    7, 7, 7, 7, 3, 3, 3, 1, 3, 3, 0, 0,
+    7, 7, 7, 3, 3, 3, 1, 1, 1, 3, 0, 0,
+    7, 7, 3, 3, 1, 0, 0, 3, 3, 0, 0, 0,
+    7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0,
+    7, 7, 7, 3, 3, 0, 0, 0, 5, 6, 6, 6,
+    7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0,
+    7, 7, 7, 3, 3, 3, 3, 0, 0, 0, 0, 0,
+    7, 7, 7, 7, 3, 3, 3, 3, 1, 1, 1, 1,
+    7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1, 1,
+    7, 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1
+];
+
+mapsData[1] = [
+    2, 2, 2, 2, 3, 7, 7, 3, 3, 2, 2, 2,
+    2, 2, 2, 3, 3, 7, 3, 3, 2, 2, 2, 2,
+    0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0,
+    1, 0, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0,
+    0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0,
+    6, 6, 6, 8, 6, 6, 5, 6, 6, 6, 6, 6,
+    0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 3, 3, 3, 0, 0, 0, 0, 1, 0, 0,
+    1, 0, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0,
+    0, 3, 3, 7, 3, 3, 0, 0, 0, 0, 1, 0,
+    3, 3, 7, 7, 7, 3, 3, 3, 3, 0, 0, 0 
+];
 
 var MAP_BUILDING_START = 0;
 var MAP_BUILDING_SECOND = 1;
@@ -313,11 +347,11 @@ function processMapBuildingTick() {
 function loadMapBuilding() {
     mapBuildings[0] = new mapBuilding();
     mapBuildings[0].id = 0;
-    mapBuildings[0].name = "Starting Town";
-    mapBuildings[0].generateGrid(mapData1);
+    mapBuildings[0].name = "Naposhore";
+    mapBuildings[0].generateGrid(mapsData[0]);
 
     mapBuildings[1] = new mapBuilding();
     mapBuildings[1].id = 1;
-    mapBuildings[1].name = "Second Town";
-    mapBuildings[1].generateGrid(mapData2);
+    mapBuildings[1].name = "Barock";
+    mapBuildings[1].generateGrid(mapsData[1]);
 }

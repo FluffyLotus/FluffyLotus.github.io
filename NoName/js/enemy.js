@@ -1,6 +1,11 @@
 ﻿var ENEMY_BUNNY = 0;
 var ENEMY_RAT = 1;
 var ENEMY_DEVIL = 2;
+var ENEMY_BEAR = 3;
+var ENEMY_BIRD = 4;
+var ENEMY_DOG = 5;
+var ENEMY_PIG = 6;
+var ENEMY_WOLF = 7;
 
 function enemyInformation() {
     this.id = 0;
@@ -12,6 +17,7 @@ function enemyInformation() {
     this.mulStrength = 0;
     this.mulDefence = 0;
 
+    this.totalDeath = 0;
     this.deathCount = []; // How many time it died
     this.killCount = 0; // How many time it killed something
 
@@ -35,6 +41,8 @@ enemyInformation.prototype.processDeath = function (level) {
         this.deathCount[level] = 1;
     else
         this.deathCount[level] += 1;
+
+    this.totalDeath += 1;
 }
 /*
 enemyInformation.prototype.experienceGiven = function (level) {
@@ -85,4 +93,59 @@ function loadEnemies() {
     enemies[2].mulStrength = 15;
     enemies[2].mulDefence = 10;
     enemies[2].cardGiven = CARD_DEVIL;
+
+    enemies[3] = new enemyInformation();
+    enemies[3].id = 3;
+    enemies[3].name = "Bear";
+    enemies[3].baseVitality = 50;
+    enemies[3].baseStrength = 10;
+    enemies[3].baseDefence = 0;
+    enemies[3].mulVitality = 20;
+    enemies[3].mulStrength = 15;
+    enemies[3].mulDefence = 10;
+    enemies[3].cardGiven = CARD_BEAR;
+
+    enemies[4] = new enemyInformation();
+    enemies[4].id = 4;
+    enemies[4].name = "Bird";
+    enemies[4].baseVitality = 50;
+    enemies[4].baseStrength = 10;
+    enemies[4].baseDefence = 0;
+    enemies[4].mulVitality = 20;
+    enemies[4].mulStrength = 15;
+    enemies[4].mulDefence = 10;
+    enemies[4].cardGiven = CARD_BIRD;
+
+    enemies[5] = new enemyInformation();
+    enemies[5].id = 5;
+    enemies[5].name = "Dog";
+    enemies[5].baseVitality = 50;
+    enemies[5].baseStrength = 10;
+    enemies[5].baseDefence = 0;
+    enemies[5].mulVitality = 20;
+    enemies[5].mulStrength = 15;
+    enemies[5].mulDefence = 10;
+    enemies[5].cardGiven = CARD_DOG;
+
+    enemies[6] = new enemyInformation();
+    enemies[6].id = 6;
+    enemies[6].name = "Pig";
+    enemies[6].baseVitality = 50;
+    enemies[6].baseStrength = 10;
+    enemies[6].baseDefence = 0;
+    enemies[6].mulVitality = 20;
+    enemies[6].mulStrength = 15;
+    enemies[6].mulDefence = 10;
+    enemies[6].cardGiven = CARD_PIG;
+
+    enemies[7] = new enemyInformation();
+    enemies[7].id = 7;
+    enemies[7].name = "Wolf";
+    enemies[7].baseVitality = 50;
+    enemies[7].baseStrength = 10;
+    enemies[7].baseDefence = 0;
+    enemies[7].mulVitality = 20;
+    enemies[7].mulStrength = 15;
+    enemies[7].mulDefence = 10;
+    enemies[7].cardGiven = CARD_WOLF;
 }

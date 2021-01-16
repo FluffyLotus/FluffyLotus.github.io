@@ -8,6 +8,10 @@
     this.isEquip = false;
 }
 
+skillInstanceInformation.prototype.isVisible = function () {
+    return true;
+}
+
 skillInstanceInformation.prototype.canTrain = function () {
     if (!this.isTraining)
         return false;

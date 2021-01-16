@@ -20,6 +20,7 @@ function resourceInformation() {
     this.id = 0;
     this.name = "";
     this.amount = 0;
+    this.isSpecial = false; // Resource needed for a short period of time
 
     this.maxAmount = 0;
     this.totalAmount = 0;
@@ -39,6 +40,12 @@ resourceInformation.prototype.addAmount = function (a) {
         this.totalAmount += a;
     if (this.amount > this.maxAmount)
         this.maxAmount = this.amount;
+}
+
+resourceInformation.prototype.isVisible = function () {
+    if (this.isSpecial)
+        return this.amount > 0;
+    return this.maxAmount > 0;
 }
 
 function loadResources() {
@@ -110,7 +117,7 @@ function loadResources() {
     resources[16].id = 16;
     resources[16].name = "Time Mana";
 
-    resources[RESOURCE_WOOD].addAmount(2000);
-    resources[RESOURCE_STONE].addAmount(2000);
-    resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+    //resources[RESOURCE_WOOD].addAmount(2000);
+    //resources[RESOURCE_STONE].addAmount(2000);
+    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
 }

@@ -61,6 +61,7 @@ function buildingInformation() {
     this.id = 0;
     this.name = "";
     this.description = "";
+    this.helpDescription = "";
     this.costRequirements = [];
     this.upgradeRequirements = [];
     this.requirements = [];
@@ -71,8 +72,13 @@ function buildingInformation() {
     this.generateParticleId = -1;
     this.gradeLevel = 0;
     this.needStorage = true;
+    this.available = false;
 
     this.buildAmount = 0;
+}
+
+buildingInformation.prototype.isVisible = function () {
+    return this.available;
 }
 
 buildingInformation.prototype.addBuildingAmount = function (d) {
@@ -148,6 +154,7 @@ function loadBuildings() {
     buildings[0].id = 0;
     buildings[0].name = "Axe";
     buildings[0].description = "Red particle: 10% coal generation.";
+    buildings[0].helpDescription = "Need to be connected to a storage directly or with a pipe.";
     buildings[0].costRequirements.push(createResourceLink(RESOURCE_STONE, 10, 10, 0, 1.0));
     buildings[0].upgradeRequirements.push(createResourceLink(RESOURCE_STONE, 10, 10, 0, 1.0));
     buildings[0].rewards.push(createResourceLink(RESOURCE_WOOD, 0, 1, 0, 1.0));
@@ -158,6 +165,7 @@ function loadBuildings() {
     buildings[1].id = 1;
     buildings[1].name = "Quarry";
     buildings[1].description = "Blue particle: 10% ore generation.";
+    buildings[1].helpDescription = "Need to be connected to a storage directly or with a pipe.";
     buildings[1].costRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
     buildings[1].upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, 10, 10, 0, 1.0));
     buildings[1].rewards.push(createResourceLink(RESOURCE_STONE, 0, 1, 0, 1.0));
@@ -570,4 +578,8 @@ function loadBuildings() {
     buildings[41].generateParticleId = PARTICLE_TIME;
     buildings[41].gradeLevel = 4;
     buildings[41].needStorage = false;
+
+    buildings[0].available = true;
+    buildings[1].available = true;
+    buildings[3].available = true;
 }
