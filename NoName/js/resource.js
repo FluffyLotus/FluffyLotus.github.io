@@ -119,5 +119,5 @@ function loadResources() {
 
     //resources[RESOURCE_WOOD].addAmount(2000);
     //resources[RESOURCE_STONE].addAmount(2000);
-    resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
 }
