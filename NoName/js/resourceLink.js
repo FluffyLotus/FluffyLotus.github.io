@@ -1,13 +1,11 @@
 ﻿function resourceLink() {
     this.resourceId = 0;
-    this.formulaA = 0;
-    this.formulaB = 0;
-    this.formulaC = 0;
+    this.formula = null;
     this.chance = 1;
 }
 
 resourceLink.prototype.getAmount = function (x) {
-    return this.formulaA + x * this.formulaB + x * x * this.formulaC;
+    return this.formula.getResult(x);
 }
 
 resourceLink.prototype.hasResource = function (x) {
@@ -28,13 +26,11 @@ resourceLink.prototype.gotChance = function () {
     return Math.random() <= this.chance;
 }
 
-function createResourceLink(resourceId, formulaA, formulaB, formulaC, chance) {
+function createResourceLink(resourceId, formula, chance) {
     var item = new resourceLink();
 
     item.resourceId = resourceId;
-    item.formulaA = formulaA;
-    item.formulaB = formulaB;
-    item.formulaC = formulaC;
+    item.formula = formula;
     item.chance = chance;
 
     return item;
@@ -70,7 +66,7 @@ function getResourceLinkString(links, x) {
         if (str != "")
             str += ", ";
 
-        str += links[t].getAmount(x) + " " + resources[links[t].resourceId].name;
+        str += nFormatter(links[t].getAmount(x)) + " " + resources[links[t].resourceId].name;
     }
 
     return str;

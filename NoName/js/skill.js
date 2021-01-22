@@ -46,7 +46,7 @@ function loadSkills() {
     skills[0].cooldown = 0;
     skills[0].baseAmount = 0;
     skills[0].mulAmount = 10;
-    skills[0].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, 0, 1, 0, 1.0));
+    skills[0].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
 
     skills[1] = new skillInformation();
     skills[1].id = 1;
@@ -54,7 +54,7 @@ function loadSkills() {
     skills[1].cooldown = 0;
     skills[1].baseAmount = 0;
     skills[1].mulAmount = 1;
-    skills[1].trainingRequirements.push(createResourceLink(RESOURCE_WOOD, 0, 1, 0, 1.0));
+    skills[1].trainingRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(3, 2), 1.0));
 
     skills[2] = new skillInformation();
     skills[2].id = 2;
@@ -62,7 +62,7 @@ function loadSkills() {
     skills[2].cooldown = 0;
     skills[2].baseAmount = 0;
     skills[2].mulAmount = 1;
-    skills[2].trainingRequirements.push(createResourceLink(RESOURCE_STONE, 0, 1, 0, 1.0));
+    skills[2].trainingRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(3, 2), 1.0));
 
     skills[3] = new skillInformation();
     skills[3].id = 3;
@@ -70,8 +70,8 @@ function loadSkills() {
     skills[3].cooldown = 10;
     skills[3].baseAmount = 0;
     skills[3].mulAmount = 10;
-    skills[3].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, 0, 1, 0, 1.0));
-    skills[3].useRequirements.push(createResourceLink(RESOURCE_GREENMANA, 0, 1, 0, 1.0));
+    skills[3].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    skills[3].useRequirements.push(createResourceLink(RESOURCE_GREENMANA, new formulaLinear(0, 1), 1.0));
 
     skills[4] = new skillInformation();
     skills[4].id = 4;
@@ -79,6 +79,6 @@ function loadSkills() {
     skills[4].cooldown = 1;
     skills[4].baseAmount = 0;
     skills[4].mulAmount = 1;
-    skills[4].trainingRequirements.push(createResourceLink(RESOURCE_REDESSENCE, 0, 1, 0, 1.0));
-    skills[4].useRequirements.push(createResourceLink(RESOURCE_REDMANA, 0, 1, 0, 1.0));
+    skills[4].trainingRequirements.push(createResourceLink(RESOURCE_REDESSENCE, new formulaLinear(0, 1), 1.0));
+    skills[4].useRequirements.push(createResourceLink(RESOURCE_REDMANA, new formulaLinear(0, 1), 1.0));
 }

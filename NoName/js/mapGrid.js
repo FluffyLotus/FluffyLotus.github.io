@@ -18,13 +18,7 @@ function mapGridInformation() {
     this.isConnectedToStorage = false;
     this.isConnectedToWater = false;
 }
-/*
-mapGridInformation.prototype.canBuildOn = function () {
-    if (this.cellId == CELL_GRASS && this.buildingId == -1)
-        return true;
-    return false;
-}
-*/
+
 mapGridInformation.prototype.prepareTick = function () {
     this.processBuildingTick = false;
     this.particles = [];
@@ -99,8 +93,8 @@ mapGridInformation.prototype.processDowngrade = function () {
 
         if (building.upgradeRequirements.length > 0) {
             if (this.buildingLevel > 1) {
-                // TODO: Give back resource
                 this.buildingLevel -= 1;
+                building.processDowngradeRequirements(this.buildingLevel);
             }
         }
     }
@@ -131,11 +125,17 @@ mapGridInformation.prototype.processSellBuilding = function () {
     if (this.buildingId >= 0) {
         var curBuilding = buildings[this.buildingId];
 
+        if (curBuilding.upgradeRequirements.length > 0) {
+            while (this.buildingLevel > 1) {
+                this.processDowngrade();
+            }
+        }
+
         curBuilding.buildAmount -= 1;
+        curBuilding.processSellCost();
+
         this.buildingId = -1;
         this.buildingRotation = 0;
-
-        // TODO: Give back resource
 
         return true;
     }

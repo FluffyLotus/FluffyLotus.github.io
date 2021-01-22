@@ -45,12 +45,12 @@ playerInformation.prototype.prepareTick = function () {
 
 playerInformation.prototype.processTick = function () {
     for (var i = 0; i < this.passiveSkills.length; i++) {
-        this.passiveSkills[i].train();
+        //this.passiveSkills[i].train();
         this.passiveSkills[i].processTick();
     }
 
     for (var i = 0; i < this.activeSkills.length; i++) {
-        this.activeSkills[i].train();
+        //this.activeSkills[i].train();
         this.activeSkills[i].processTick();
     }
 }
@@ -145,12 +145,12 @@ playerInformation.prototype.setSkillEquipStatus = function (skillId, isEquip) {
 function createPlayer() {
     var pi = new playerInformation();
 
-    pi.passiveSkills.push(createSkillInstance(SKILL_VITALITY));
-    pi.passiveSkills.push(createSkillInstance(SKILL_STRENGTH));
-    pi.passiveSkills.push(createSkillInstance(SKILL_DEFENCE));
+    pi.passiveSkills.push(createSkillInstance(SKILL_VITALITY, false));
+    pi.passiveSkills.push(createSkillInstance(SKILL_STRENGTH, true));
+    pi.passiveSkills.push(createSkillInstance(SKILL_DEFENCE, true));
 
-    pi.activeSkills.push(createSkillInstance(SKILL_HEAL));
-    pi.activeSkills.push(createSkillInstance(SKILL_FIRE));
+    pi.activeSkills.push(createSkillInstance(SKILL_HEAL, false));
+    pi.activeSkills.push(createSkillInstance(SKILL_FIRE, false));
 
     return pi;
 }

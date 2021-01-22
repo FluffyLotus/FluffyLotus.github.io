@@ -579,7 +579,7 @@
     <textarea id="debug" style="display: none;"></textarea> <!--  style="display: none;" -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.01</small></a>
+            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.02</small></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -587,8 +587,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
-                    <li class="nav-item"></li>
                 </ul>
             </div>
         </nav>
@@ -620,16 +620,16 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map <span id="mapTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li id="tabItemAdventure" class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="adventure-tab" data-toggle="tab" href="#adventure" role="tab" aria-controls="adventure" aria-selected="false">Adventure <span id="adventureTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">Quest <span id="questTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li id="tabItemPlayer" class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Player <span id="playerTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="enemyInfo-tab" data-toggle="tab" href="#enemyInfo" role="tab" aria-controls="enemyInfo" aria-selected="false">Card <span id="enemyInfoTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <!--
@@ -644,8 +644,8 @@
         height: 100%;
         display: block;">
                     <div class="row">
-                        <div id="cellHover" class="col-6"></div>
-                        <div id="cellHoverUpgrade" class="col-6"></div>
+                        <div id="tooltipSectionLeft" class="col-6"></div>
+                        <div id="tooltipSectionRight" class="col-6"></div>
                     </div>
                 </div>
                 <div id="messageSection" style="width: 100%; height: 100%; display: none;">
@@ -656,7 +656,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close Message</button></div>
+                        <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close this message to see tooltips</button></div>
                     </div>
                 </div>
             </div>
@@ -672,9 +672,7 @@
                                     <h2>Build Map</h2>
                                 </div>
                                 <div class="col-6">
-                                    <select id="mapSelected" onchange="uiTempChangeMap();" class="form-control form-control-sm">
-                                        <option value="0">Starting Town</option>
-                                        <option value="1">Second Town</option>
+                                    <select id="mapSelected" onchange="uiChangeBuildMap();" class="form-control form-control-sm" style="margin-top: 5px;">
                                     </select>
                                 </div>
                             </div>
@@ -771,7 +769,7 @@
                             <td>
                                 <select id="adventureMapSelected" onchange="uiTempChangeAdventure();" class="form-control form-control-sm">
                                     <option value="0">Forest</option>
-                                    <option value="1">Desert</option>
+                                    <!--<option value="1">Desert</option>-->
                                 </select>
                             </td>
                         </tr>
@@ -850,7 +848,7 @@
                                     <hr />
                                     <span id="singleQuestInfoCompletedDescription">Title</span>
                                     <hr />
-                                    Status: Completed!
+                                    Status: <span style="color: green;">Completed!</span>
                                 </div>
                                 <table class="table table-hover table-dark table-sm">
                                     <thead>
@@ -1003,7 +1001,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Nothing to see here for now.
+                    Hope you enjoy this game! You can reach me on <a href="https://fluffy-lotus.itch.io/" target="_new">itch.io</a>.
+                    <hr />
+                    <span id="tickCount"></span> tick for a time of <span id="tickTime"></span>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Help</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Something strange is hapenning lately. The animals are more aggressive than usual. We need to make sure we are prepared.</p>
+                    <p>Click on mountain and forest to get resources.</p>
+                    <p><img src="images/tutorial/0.png" /></p>
+                    <p>To automatically gain resources, build axe on forest and make sure to attach a storage to it. A storage unit need to be right beside a building.</p>
+                    <p><img src="images/tutorial/1.png" /></p>
+                    <p>After gaining the resource pipe, it can be used to link buildings with storage unit.</p>
+                    <p><img src="images/tutorial/2.png" /></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1022,6 +1047,7 @@
     <script src="js/dataLink.js?v=0.02"></script>
     <script src="js/enemy.js?v=0.02"></script>
     <script src="js/enemyInstance.js?v=0.02"></script>
+    <script src="js/formula.js?v=0.02"></script>
     <script src="js/global.js?v=0.02"></script>
     <script src="js/main.js?v=0.02"></script>
     <script src="js/mapAdventure.js?v=0.02"></script>

@@ -1,4 +1,8 @@
 ﻿function uiDrawSkills() {
+    if (canViewskills) {
+        $("#tabItemPlayer").show();
+    }
+
     uiDrawPassiveSkills();
     uiDrawActiveSkills();
 }

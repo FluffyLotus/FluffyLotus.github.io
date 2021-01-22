@@ -30,6 +30,8 @@ function uiDrawBuildingIcon() {
             $("#building" + buildings[t].id).hide();
         }
     }
+
+    uiDrawBuildMapSelection();
 }
 
 function uiDrawGrid() {
@@ -200,6 +202,16 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
     uiSetTooltip(htmlData, htmlData2);
 }
 
-function uiTempChangeMap() {
+function uiChangeBuildMap() {
     currentMapBuilding = parseInt(document.getElementById("mapSelected").value);
+}
+
+function uiDrawBuildMapSelection() {
+    for (var t = 0; t < mapBuildings.length; t++) {
+        if (mapBuildings[t].isActive) {
+            if ($("#mapSelected option[value='" + mapBuildings[t].id + "']").length == 0) {
+                $("#mapSelected").append("<option value='" + mapBuildings[t].id + "'>" + mapBuildings[t].name + "</option>");
+            }
+        }
+    }
 }

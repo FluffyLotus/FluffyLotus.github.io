@@ -24,13 +24,15 @@ function uiDrawQuest() {
             }
 
             if (curQuest.id == currentUISelectedQuest) {
+                var allRequirements = curQuest.getAllRequirements();
+
                 for (var i = 0; i < 4; i++) {
-                    if (i < curQuest.passiveRequirements.length) {
+                    if (i < allRequirements.length) {
                         if (curQuest.isCompleted) {
-                            $("#singleQuestInfoRowValue" + i).text(curQuest.passiveRequirements[i].amount);
+                            $("#singleQuestInfoRowValue" + i).text(nFormatter(allRequirements[i].amount));
                         }
                         else {
-                            $("#singleQuestInfoRowValue" + i).text(curQuest.passiveRequirements[i].getCurrentValue());
+                            $("#singleQuestInfoRowValue" + i).text(nFormatter(allRequirements[i].getCurrentValue()));
                         }
                     }
                 }
@@ -71,15 +73,17 @@ function uiShowQuestInformation(event) {
 
     $("#singleQuestInfoContainer").show();
     $("#singleQuestInfoTitle").text(curQuest.name);
-    $("#singleQuestInfoDescription").text(curQuest.smallDescription);
+    $("#singleQuestInfoDescription").text(curQuest.activatedDescription);
     $("#singleQuestInfoCompletedDescription").text(curQuest.compleDescription);
 
+    var allRequirements = curQuest.getAllRequirements();
+
     for (var i = 0; i < 4; i++) {
-        if (i < curQuest.passiveRequirements.length) {
+        if (i < allRequirements.length) {
             $("#singleQuestInfoRow" + i).show();
 
-            $("#singleQuestInfoRowName" + i).text(curQuest.passiveRequirements[i].getDataName());
-            $("#singleQuestInfoRowTotal" + i).text(curQuest.passiveRequirements[i].amount);
+            $("#singleQuestInfoRowName" + i).text(allRequirements[i].getDataName());
+            $("#singleQuestInfoRowTotal" + i).text(nFormatter(allRequirements[i].amount));
         }
         else {
             $("#singleQuestInfoRow" + i).hide();
@@ -89,12 +93,12 @@ function uiShowQuestInformation(event) {
     ////
 
     for (var i = 0; i < 4; i++) {
-        if (i < curQuest.passiveRequirements.length) {
+        if (i < allRequirements.length) {
             if (curQuest.isCompleted) {
-                $("#singleQuestInfoRowValue" + i).text(curQuest.passiveRequirements[i].amount);
+                $("#singleQuestInfoRowValue" + i).text(nFormatter(allRequirements[i].amount));
             }
             else {
-                $("#singleQuestInfoRowValue" + i).text(curQuest.passiveRequirements[i].getCurrentValue());
+                $("#singleQuestInfoRowValue" + i).text(nFormatter(allRequirements[i].getCurrentValue()));
             }
         }
     }

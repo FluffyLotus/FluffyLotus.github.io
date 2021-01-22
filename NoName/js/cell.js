@@ -38,13 +38,13 @@ function loadCells() {
     cells[1].id = 1
     cells[1].name = "Tree";
     cells[1].type = CELL_TYPE_TREE;
-    cells[1].clickReward.push(createResourceLink(RESOURCE_WOOD, 1, 0, 0, 1.0));
+    cells[1].clickReward.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(1, 0), 1.0));
 
     cells[2] = new cellInformation();
     cells[2].id = 2;
     cells[2].name = "Mountain";
     cells[2].type = CELL_TYPE_MOUNTAIN;
-    cells[2].clickReward.push(createResourceLink(RESOURCE_STONE, 1, 0, 0, 1.0));
+    cells[2].clickReward.push(createResourceLink(RESOURCE_STONE, new formulaLinear(1, 0), 1.0));
 
     cells[3] = new cellInformation();
     cells[3].id = 3;

@@ -26,18 +26,19 @@
                 $(newElement).mouseout(uiClearTooltip);
             }
 
-            $("#resourceInfoAmount" + curResource.id).text(curResource.amount);
+            $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount));
 
             if (curResource.tickDelta > 0) {
-                $("#resourceInfoTickDelta" + curResource.id).text("+" + curResource.tickDelta);
+                $("#resourceInfoTickDelta" + curResource.id).text("+" + nFormatter(curResource.tickDelta));
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "green");
             }
             else if (curResource.tickDelta < 0) {
-                $("#resourceInfoTickDelta" + curResource.id).text(curResource.tickDelta);
+                $("#resourceInfoTickDelta" + curResource.id).text(nFormatter(curResource.tickDelta));
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "red");
             }
             else {
-                $("#resourceInfoTickDelta" + curResource.id).text(curResource.tickDelta);
+                //$("#resourceInfoTickDelta" + curResource.id).text(nFormatter(curResource.tickDelta));
+                $("#resourceInfoTickDelta" + curResource.id).text("");
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "black");
             }
         }
@@ -47,7 +48,7 @@
 function uiShowResourceTooltip(event) {
     var curResource = resources[event.data.id];
 
-    var left = "<b>" + curResource.name + "</b><br />Amount: " + curResource.amount;
+    var left = "<b>" + curResource.name + "</b><br />Amount: " + nFormatter(curResource.amount);
 
     uiSetTooltip(left, "");
 }

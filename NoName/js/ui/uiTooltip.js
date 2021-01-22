@@ -1,6 +1,6 @@
 ﻿function uiSetTooltip(leftText, rightText) {
-    $("#cellHover").html(leftText);
-    $("#cellHoverUpgrade").html(rightText);
+    $("#tooltipSectionLeft").html(leftText);
+    $("#tooltipSectionRight").html(rightText);
 }
 
 function uiClearTooltip() {

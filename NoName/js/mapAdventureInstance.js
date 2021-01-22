@@ -5,6 +5,8 @@ function mapAdventureInstanceInformation() {
     this.currentMapAdventureId = 0;
     this.currentAction = ADV_ACTION_WALK;
 
+    this.canRun = false;
+
     this.currentPlayer = null;
     this.currentEnemy = null;
 }
@@ -18,11 +20,17 @@ mapAdventureInstanceInformation.prototype.changeMap = function (newMapId) {
 }
 
 mapAdventureInstanceInformation.prototype.prepareTick = function () {
+    if (!this.canRun)
+        return;
+
     if (this.currentPlayer != null) this.currentPlayer.prepareTick();
     if (this.currentEnemy != null) this.currentEnemy.prepareTick();
 }
 
 mapAdventureInstanceInformation.prototype.processTick = function () {
+    if (!this.canRun)
+        return;
+
     this.currentPlayer.processTick();
 
     //if (this.currentPlayer.canUseHealMagic) {
@@ -100,6 +108,12 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
 
             this.currentEnemy = null;
         }
+    }
+
+    // This should be a quest?
+    if (this.currentMapAdventureId == 0 && mapAdventures[this.currentMapAdventureId].maxDistance == 65) {
+        canViewskills = true;
+        messages.push("These animals are more aggresive than expected. You should use some of the resource to increase your skills.");
     }
 }
 

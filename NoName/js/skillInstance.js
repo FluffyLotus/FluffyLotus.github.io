@@ -3,13 +3,14 @@
     this.level = 1;
     this.trainingLevel = 0;
     this.colldown = 0;
+    this.isActive = false;
 
     this.isTraining = false;
     this.isEquip = false;
 }
 
 skillInstanceInformation.prototype.isVisible = function () {
-    return true;
+    return this.isActive;
 }
 
 skillInstanceInformation.prototype.canTrain = function () {
@@ -82,7 +83,7 @@ skillInstanceInformation.prototype.getAmount = function () {
     return skills[this.skillId].getAmount(this.level);
 }
 
-function createSkillInstance(skillId) {
+function createSkillInstance(skillId, isActive) {
     var ret = new skillInstanceInformation();
 
     ret.skillId = skillId;
@@ -90,6 +91,7 @@ function createSkillInstance(skillId) {
     ret.trainingLevel = 0;
     ret.isTraining = false;
     ret.isEquip = false;
+    ret.isActive = isActive;
 
     return ret;
 }

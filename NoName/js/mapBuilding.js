@@ -32,10 +32,10 @@ var mapsData = [];
 
 mapsData[0] = [
     7, 7, 7, 7, 7, 7, 7, 3, 3, 2, 2, 2,
-    7, 7, 7, 7, 7, 7, 3, 3, 3, 0, 0, 0,
+    7, 7, 7, 7, 7, 7, 3, 3, 3, 0, 0, 2,
     7, 7, 7, 7, 3, 3, 3, 1, 3, 3, 0, 0,
     7, 7, 7, 3, 3, 3, 1, 1, 1, 3, 0, 0,
-    7, 7, 3, 3, 1, 0, 0, 3, 3, 0, 0, 0,
+    7, 7, 3, 3, 1, 1, 0, 3, 3, 0, 0, 0,
     7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0,
     7, 7, 7, 3, 3, 0, 0, 0, 5, 6, 6, 6,
     7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0,
@@ -69,6 +69,7 @@ function mapBuilding() {
     this.mapWidth = 12;
     this.mapHeight = 12;
     this.grid = [];
+    this.isActive = false;
 }
 
 mapBuilding.prototype.generateGrid = function (mapData) {
@@ -347,11 +348,11 @@ function processMapBuildingTick() {
 function loadMapBuilding() {
     mapBuildings[0] = new mapBuilding();
     mapBuildings[0].id = 0;
-    mapBuildings[0].name = "Naposhore";
+    mapBuildings[0].name = "Town of Naposhore";
     mapBuildings[0].generateGrid(mapsData[0]);
 
     mapBuildings[1] = new mapBuilding();
     mapBuildings[1].id = 1;
-    mapBuildings[1].name = "Barock";
+    mapBuildings[1].name = "Town of Barock";
     mapBuildings[1].generateGrid(mapsData[1]);
 }
