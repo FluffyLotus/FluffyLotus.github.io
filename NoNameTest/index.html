@@ -81,12 +81,11 @@
         }
 
         footer {
-    position: fixed;
-    height: 100px;
-    bottom: 0;
-    width: 100%;
-}
-
+            position: fixed;
+            height: 100px;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 
     <style type="text/css">
@@ -599,34 +598,6 @@
 </head>
 <body onload="loadApp();">
 
-    <button type="button" class="btn btn-primary" id="liveToastBtn" onclick="$('#liveToast1').toast('show');">1</button>
-    <button type="button" class="btn btn-primary" id="liveToastBtn" onclick="$('#liveToast2').toast('show');">2</button>
-    <!--
-    <div class="position-absolute w-100 d-flex flex-column p-4">
-        <div id="liveToast1" class="toast ml-auto" role="alert" data-delay="700" data-autohide="false">
-            <div class="toast-header">
-                <strong class="mr-auto text-primary">Toast</strong>
-                <small class="text-muted">3 mins ago</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="toast-body"> Hey, there! This is a Bootstrap 4 toast. </div>
-        </div>
-        <div id="liveToast2" class="toast ml-auto" role="alert" data-delay="700" data-autohide="false">
-            <div class="toast-header">
-                <strong class="mr-auto text-primary">Another Toast</strong>
-                <small class="text-muted">8 mins ago</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="toast-body"> Hey, there! This is a Bootstrap 4 toast. </div>
-        </div>
-    </div>
-        -->
- 
-
     <textarea id="debug" style="display: none;"></textarea> <!--  style="display: none;" -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -886,6 +857,9 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="list-group" id="questInfoContainer">
+                            </div>
+
+                            <div>
                                 <a href="#" class="list-group-item list-group-item-action list-group-item-dark" id="questInfoRow" style="display: none;">
                                     Quest Name
                                 </a>
@@ -1097,32 +1071,18 @@
     </div>
 
     <footer>
-        <div class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0;">
-            <div id="liveToast1" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000">
+        <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0;">
+            <div id="toastTemplate" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000">
                 <div class="toast-header">
                     <!--<img src="..." class="rounded mr-2" alt="...">-->
-                    <strong class="mr-auto">Quest Update</strong>
+                    <strong class="mr-auto"><span id="toastTemplateTitle"></span></strong>
                     <!--<small>1 mins ago</small>-->
                     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="toast-body">
-                    Hello, world! This is a toast message. 12345
-                </div>
-            </div>
-
-            <div id="liveToast2" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000">
-                <div class="toast-header">
-                    <!--<img src="..." class="rounded mr-2" alt="...">-->
-                    <strong class="mr-auto">Quest Update</strong>
-                    <!--<small>1 mins ago</small>-->
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message. 12345
+                    <span id="toastTemplateBody"></span>
                 </div>
             </div>
         </div>
@@ -1163,6 +1123,7 @@
     <script src="js/ui/uiBuilding.js?v=v0.03"></script>
     <script src="js/ui/uiAdventure.js?v=v0.03"></script>
     <script src="js/ui/uiGeneric.js?v=v0.03"></script>
+    <script src="js/ui/uiToast.js?v=v0.03"></script>
     <script src="js/ui/uiDebug.js?v=v0.03"></script>
 
     <script type="text/javascript">

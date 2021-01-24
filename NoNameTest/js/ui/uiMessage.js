@@ -4,6 +4,7 @@ var textToWriteIndex = 0;
 
 function uiDrawNewMessage() {
     if (messages.length > 0) {
+        /*
         if (document.getElementById("messageSection").style.display == "none") {
             document.getElementById("messageSection").style.display = "block";
             document.getElementById("tooltipSection").style.display = "none";
@@ -13,6 +14,11 @@ function uiDrawNewMessage() {
 
             uiDrawMessage(msg);
         }
+        */
+        var msg = messages[0];
+        messages.shift();
+
+        uiAddToastMessage("Quest Update", msg);
     }
 }
 
