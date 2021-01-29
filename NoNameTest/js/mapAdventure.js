@@ -3,6 +3,7 @@
     this.name = "";
     this.currentDistance = 0;
     this.maxDistance = 0;
+    this.isActive = false;
 }
 
 mapAdventureInformation.prototype.getEnemyInstanceFromDistance = function () {

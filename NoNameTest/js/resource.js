@@ -125,8 +125,4 @@ function loadResources() {
     resources[16] = new resourceInformation();
     resources[16].id = 16;
     resources[16].name = "Time Mana";
-
-    //resources[RESOURCE_WOOD].addAmount(2000);
-    //resources[RESOURCE_STONE].addAmount(2000);
-    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
 }

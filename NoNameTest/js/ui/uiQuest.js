@@ -1,14 +1,16 @@
 ﻿var currentUISelectedQuest = -1;
 
 function uiDrawQuest() {
+    var showCompletedQuest = $("#showCompletedQuest").is(":checked");
+
     for (var t = 0; t < quests.length; t++) {
         var curQuest = quests[t];
 
-        if (!curQuest.isVisible() && $("#questInfoRow" + curQuest.id).length > 0) {
+        if ((!curQuest.isVisible() || (curQuest.isCompleted && !showCompletedQuest)) && $("#questInfoRow" + curQuest.id).length > 0) {
             $("#questInfoRow" + curQuest.id).remove();
         }
 
-        if (curQuest.isVisible()) {
+        if (curQuest.isVisible() && (showCompletedQuest || !curQuest.isCompleted)) {
             if ($("#questInfoRow" + curQuest.id).length == 0) {
                 var newElement = $("#questInfoRow").clone();
 

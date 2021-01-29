@@ -2,12 +2,11 @@
 <!-- saved from url=(0016)http://localhost -->
 <html lang="en">
 <head>
-    <!--
     <link href="3rd/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="3rd/bootstrap-darkmode-master/atom-one-dark.min.css" rel="stylesheet" />
-        -->
+    <!--
     <link href="3rd/dark-bootstrap.min.css" rel="stylesheet" />
-
+        -->
 
     <title>Secret Of The Basilisk v0.03</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -80,11 +79,24 @@
             border-color: black;
         }
 
+        .toast-header {
+            color: yellow;
+            background-color: #303030;
+        }
+
+        .toast-body {
+            background-color: #444444;
+        }
+
         footer {
             position: fixed;
             height: 100px;
             bottom: 0;
             width: 100%;
+        }
+
+        button.close {
+            color: white;
         }
     </style>
 
@@ -183,6 +195,11 @@
 
         td.cell_7 {
             background-image: url("images/cell_7.png");
+            background-size: 24px 24px;
+        }
+
+        td.cell_8 {
+            background-image: url("images/cell_8.png");
             background-size: 24px 24px;
         }
 
@@ -774,6 +791,20 @@
                                 <div id="building13" onclick="uiSelectBuilding(13);" onmouseover="uiBuildingHover(13, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_13" style="width: 24px; height: 24px;">&nbsp;</div></div>
                                 <div id="building14" onclick="uiSelectBuilding(14);" onmouseover="uiBuildingHover(14, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="building_14" style="width: 24px; height: 24px;">&nbsp;</div></div>
                             </div>
+                            <div>
+                                <div class="form-group">
+                                    <label for="formControlRange">Building Level</label>
+
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <input id="buildingLevelBar" type="range" class="form-control-range" min="1" max="5" value="1" oninput="uiChangeBuildingLevelDisplay();" onchange="uiChangeBuildingLevelDisplay();">
+                                        </div>
+                                        <div class="col-4">
+                                            <span id="buildingLevelBarValue">1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -785,19 +816,25 @@
                         Walk in the world and kill enemies.
                     </p>
 
-                    <table>
-                        <tr>
-                            <td><label for="mapSelected">Map: </label></td>
-                            <td>
-                                <select id="adventureMapSelected" onchange="uiTempChangeAdventure();" class="form-control form-control-sm">
-                                    <option value="0">Forest</option>
-                                    <!--<option value="1">Desert</option>-->
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <p>You are currently at <span id="playerDistance"></span>m.<br />Max distance is <span id="playerMaxDistance"></span>m</p>
+                    <div class="row">
+                        <div class="col-1">
+                            <label for="adventureMapSelected">
+                                Map:
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <select id="adventureMapSelected" onchange="uiTempChangeAdventure();" class="form-control form-control-sm">
+                                <option value="0">Forest</option>
+                                <!--<option value="1">Desert</option>-->
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            Current Distance: <span id="playerDistance"></span>m
+                        </div>
+                        <div class="col-4">
+                            Max Distance: <span id="playerMaxDistance"></span>m
+                        </div>
+                    </div>
 
                     <div style="display: inline-block; width: 49%; vertical-align: top;">
                         <h3>Player</h3>
@@ -853,6 +890,10 @@
                     <h2>Quest</h2>
 
                     <p>Finish quest to gain resource or unlock new features.</p>
+
+                    <div>
+                        <label><input id="showCompletedQuest" type="checkbox" /> Show completed quests</label>
+                    </div>
 
                     <div class="row">
                         <div class="col-4">
@@ -1008,13 +1049,17 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <button class="btn btn-dark" onclick="uiGetSaveGame();">Get Save Game</button>
+                        <button class="btn btn-dark" onclick="uiGetSaveGame();">Export Save Game</button>
                     </div>
                     <div style="margin-top: 15px; margin-bottom: 15px;">
                         <textarea id="gameStateData" class="form-control textarea-dark" style="height: 100px;"></textarea>
                     </div>
                     <div>
-                        <button class="btn btn-dark" onclick="uiLoadSaveGame();">Load Save Game</button>
+                        <button class="btn btn-dark" onclick="uiLoadSaveGame();">Import Save Game</button>
+                    </div>
+                    <hr />
+                    <div>
+                        <label><input type="checkbox" id="showOverTooltip" /> Show message over tooltip</label>
                     </div>
                 </div>
                 <div class="modal-footer">

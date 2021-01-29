@@ -40,8 +40,30 @@ function loadApp() {
 
     loadMapAdventureInstance();
 
+    ////////////////
+    for (var t = 0; t < buildings.length; t++)
+        buildings[t].available = true;
+
+    for (var t = 0; t < mapBuildings.length; t++)
+        mapBuildings[t].isActive = true;
+
+    for (var t = 0; t < mapAdventures.length; t++)
+        mapAdventures[t].isActive = true;
+
+    canViewskills = true;
+    currentMapAdventure.canRun = true;
+
+    for (var t = 0; t < resources.length; t++)
+        resources[t].addAmount(200000);
+
+    //resources[RESOURCE_WOOD].addAmount(2000);
+    //resources[RESOURCE_STONE].addAmount(2000);
+    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+    ////////////////
+
     quests[3].setAsActive();
     mapBuildings[0].isActive = true;
+    mapAdventures[0].isActive = true;
 
     uiCreateGrid();
     uiDrawGrid();

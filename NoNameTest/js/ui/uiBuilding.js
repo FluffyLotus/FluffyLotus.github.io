@@ -215,3 +215,9 @@ function uiDrawBuildMapSelection() {
         }
     }
 }
+
+function uiChangeBuildingLevelDisplay() {
+    var lvl = parseInt($("#buildingLevelBar").val());
+
+    $("#buildingLevelBarValue").text(lvl);
+}
