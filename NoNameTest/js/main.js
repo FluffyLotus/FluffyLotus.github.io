@@ -26,6 +26,30 @@ var tickCount = 0;
 
 var canViewskills = false;
 
+function loadIcon() {
+    var elems = $("[data-spritesheetimage]");
+
+    for (var t = 0; t < elems.length; t++) {
+        var id = parseInt($(elems[t]).data("spritesheetimage"));
+        var name = "";
+
+        if ($(elems[t]).hasClass("spriteSheetBuilding"))
+            name = "building";
+        if ($(elems[t]).hasClass("spriteSheetCell"))
+            name = "cell";
+        if ($(elems[t]).hasClass("spriteSheetIcon"))
+            name = "icon";
+        if ($(elems[t]).hasClass("spriteSheetParticle"))
+            name = "particle";
+
+        var imgX = getImagePositionX(name, id, 0);
+        var imgY = getImagePositionY(name, id, 0);
+
+        $(elems[t]).css('background-position-x', -imgX + 'px');
+        $(elems[t]).css('background-position-y', -imgY + 'px');
+    }
+}
+
 function loadApp() {
     loadSkills();
     loadCards();
@@ -39,6 +63,8 @@ function loadApp() {
     loadQuests();
 
     loadMapAdventureInstance();
+
+    loadIcon();
 
     ////////////////
     for (var t = 0; t < buildings.length; t++)

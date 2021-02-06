@@ -1,0 +1,1 @@
+var particleImageInfo = [{ID:0,SID:0,X:0,Y:0,W:24,H:24,N:"particle_0"},{ID:1,SID:0,X:24,Y:0,W:24,H:24,N:"particle_1"},{ID:2,SID:0,X:48,Y:0,W:24,H:24,N:"particle_2"},{ID:3,SID:0,X:72,Y:0,W:24,H:24,N:"particle_3"},{ID:4,SID:0,X:96,Y:0,W:24,H:24,N:"particle_4"}];

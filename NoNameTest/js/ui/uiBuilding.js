@@ -5,7 +5,7 @@
         str += "<tr>";
 
         for (var x = 0; x < mapBuildings[currentMapBuilding].mapWidth; x++) {
-            str += '<td id="cell_' + x + '_' + y + '"><div id="particle_' + x + '_' + y + '"><div id="building_' + x + '_' + y + '"></div></div></td>';
+            str += '<td id="cell_' + x + '_' + y + '" class="spriteSheetCell"><div id="particle_' + x + '_' + y + '" class="spriteSheetParticle"><div id="building_' + x + '_' + y + '" class="spriteSheetBuilding"></div></div></td>';
         }
 
         str += "</tr>";
@@ -45,23 +45,58 @@ function uiDrawGrid() {
     for (var y = 0; y < mapBuildings[currentMapBuilding].mapHeight; y++) {
         for (var x = 0; x < mapBuildings[currentMapBuilding].mapWidth; x++) {
             var curGrid = mapBuildings[currentMapBuilding].grid[x + (y * mapBuildings[currentMapBuilding].mapWidth)];
+            var imgX, imgY;
 
-            document.getElementById("cell_" + x + "_" + y).className = "cell_" + cells[curGrid.cellId].id;
+            imgX = getImagePositionX("cell", cells[curGrid.cellId].id);
+            imgY = getImagePositionY("cell", cells[curGrid.cellId].id);
+
+            //document.getElementById("cell_" + x + "_" + y).className = "cell_" + cells[curGrid.cellId].id;
+            $("#cell_" + x + "_" + y).css('background-position-x', -imgX + 'px');
+            $("#cell_" + x + "_" + y).css('background-position-y', -imgY + 'px');
 
             if (curGrid.particles.length > 0) {
-                document.getElementById("particle_" + x + "_" + y).className = "particle_" + particles[curGrid.getOutputParticleId()].id;
-            }
-            else
-                document.getElementById("particle_" + x + "_" + y).className = "";
+                //document.getElementById("particle_" + x + "_" + y).className = "particle_" + particles[curGrid.getOutputParticleId()].id;
+                imgX = getImagePositionX("particle", particles[curGrid.getOutputParticleId()].id);
+                imgY = getImagePositionY("particle", particles[curGrid.getOutputParticleId()].id);
 
-            if (curGrid.buildingId == BUILDING_STORAGEPIPE)
-                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y);
-            else if (curGrid.buildingId == BUILDING_WATERPIPE)
-                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y);
-            else if (curGrid.buildingId >= 0)
-                document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
-            else
-                document.getElementById("building_" + x + "_" + y).className = "";
+                $("#particle_" + x + "_" + y).css('background-position-x', -imgX + 'px');
+                $("#particle_" + x + "_" + y).css('background-position-y', -imgY + 'px');
+            }
+            else {
+                //document.getElementById("particle_" + x + "_" + y).className = "";
+                $("#particle_" + x + "_" + y).css('background-position-x', '-9999px');
+                $("#particle_" + x + "_" + y).css('background-position-y', '-9999px');
+            }
+
+            if (curGrid.buildingId == BUILDING_STORAGEPIPE) {
+                //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y);
+                imgX = getImagePositionX("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y));
+                imgY = getImagePositionY("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y));
+
+                $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
+                $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
+            }
+            else if (curGrid.buildingId == BUILDING_WATERPIPE) {
+                //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y);
+                imgX = getImagePositionX("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y));
+                imgY = getImagePositionY("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y));
+
+                $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
+                $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
+            }
+            else if (curGrid.buildingId >= 0) {
+                //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
+                imgX = getImagePositionX("building", buildings[curGrid.buildingId].id);
+                imgY = getImagePositionY("building", buildings[curGrid.buildingId].id);
+                
+                $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
+                $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
+            }
+            else {
+                //document.getElementById("building_" + x + "_" + y).className = "";
+                $("#building_" + x + "_" + y).css('background-position-x', '-9999px');
+                $("#building_" + x + "_" + y).css('background-position-y', '-9999px');
+            }
         }
     }
 }
