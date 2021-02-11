@@ -16,7 +16,7 @@ mapAdventureInstanceInformation.prototype.changeMap = function (newMapId) {
     this.currentAction = ADV_ACTION_WALK;
     this.currentEnemy = null;
 
-    mapAdventures[this.currentMapAdventureId].setDistance(0);
+    getMapAdventureFromId(this.currentMapAdventureId).setDistance(0);
 }
 
 mapAdventureInstanceInformation.prototype.prepareTick = function () {
@@ -48,9 +48,9 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
     }
 
     if (this.currentAction == ADV_ACTION_WALK) {
-        mapAdventures[this.currentMapAdventureId].increaseDistance();
+        getMapAdventureFromId(this.currentMapAdventureId).increaseDistance();
 
-        var newEnemy = mapAdventures[this.currentMapAdventureId].getPossibleEnemy();
+        var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy();
 
         if (newEnemy != null) {
             this.currentAction = ADV_ACTION_ATTACK;
@@ -88,10 +88,10 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
         this.currentEnemy.addVitality(-hit);
 
         if (this.currentPlayer.isDead()) {
-            enemies[this.currentEnemy.enemyId].killCount += 1;
+            getEnemyFromId(this.currentEnemy.enemyId).killCount += 1;
             this.currentPlayer.deathCount += 1;
 
-            mapAdventures[this.currentMapAdventureId].setDistance(0);
+            getMapAdventureFromId(this.currentMapAdventureId).setDistance(0);
             this.currentAction = ADV_ACTION_WALK;
             this.currentEnemy = null;
 
@@ -102,16 +102,12 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
             this.currentEnemy.processDeath();
             //this.currentPlayer.experience += this.currentEnemy.experienceGiven();
 
-            if (Math.random() < 0.1) {
-                cards[enemies[this.currentEnemy.enemyId].cardGiven].amount++;
-            }
-
             this.currentEnemy = null;
         }
     }
 
     // This should be a quest?
-    if (this.currentMapAdventureId == 0 && mapAdventures[this.currentMapAdventureId].maxDistance == 65) {
+    if (this.currentMapAdventureId == 0 && getMapAdventureFromId(this.currentMapAdventureId).maxDistance == 65) {
         canViewskills = true;
         messages.push("These animals are more aggresive than expected. You should use some of the resource to increase your skills.");
     }

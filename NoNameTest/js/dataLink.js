@@ -17,25 +17,25 @@ function dataLink() {
 dataLink.prototype.getCurrentValue = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            return mapAdventures[this.entityId].maxDistance;
+            return getMapAdventureFromId(this.entityId).maxDistance;
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            return resources[this.entityId].amount;
+            return getResourceFromId(this.entityId).amount;
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "available") {
-            return buildings[this.entityId].available;
+            return getBuildingFromId(this.entityId).available;
         }
         if (this.subCategory == "buildAmount") {
-            return buildings[this.entityId].buildAmount;
+            return getBuildingFromId(this.entityId).buildAmount;
         }
     } 
     if (this.category == "quest") {
         if (this.subCategory == "isActivated") {
-            return quests[this.entityId].isActivated;
+            return getQuestFromId(this.entityId).isActivated;
         }
     }
 }
@@ -43,22 +43,22 @@ dataLink.prototype.getCurrentValue = function () {
 dataLink.prototype.getDataName = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            return mapAdventures[this.entityId].name + " Walking Distance";
+            return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            return resources[this.entityId].name + " Amount";
+            return getResourceFromId(this.entityId).name + " Amount";
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "buildAmount") {
-            return buildings[this.entityId].name + " Builded";
+            return getBuildingFromId(this.entityId).name + " Builded";
         }
     }
     //if (this.category == "quest") {
     //    if (this.subCategory == "isActivated") {
-    //        return quests[this.entityId].isActivated;
+    //        return getQuestFromId(this.entityId).isActivated;
     //    }
     //}
     
@@ -68,26 +68,26 @@ dataLink.prototype.getDataName = function () {
 dataLink.prototype.processDataLink = function (v) {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            //return mapAdventures[this.entityId].name + " Walking Distance";
+            //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            resources[this.entityId].addAmount(v);
+            getResourceFromId(this.entityId).addAmount(v);
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "available") {
             if(v == 1)
-                buildings[this.entityId].available = true;
+                getBuildingFromId(this.entityId).available = true;
             else
-                buildings[this.entityId].available = false;
+                getBuildingFromId(this.entityId).available = false;
         }
     }
     if (this.category == "quest") {
         if (this.subCategory == "isActivated") {
             if (v == 1)
-                quests[this.entityId].setAsActive();
+                getQuestFromId(this.entityId).setAsActive();
         }
     }
     if (this.category == "other") {

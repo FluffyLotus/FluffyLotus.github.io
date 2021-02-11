@@ -1,6 +1,6 @@
 ﻿function uiDrawAdventure() {
-    document.getElementById("playerDistance").innerText = mapAdventures[currentMapAdventure.currentMapAdventureId].currentDistance;
-    document.getElementById("playerMaxDistance").innerText = mapAdventures[currentMapAdventure.currentMapAdventureId].maxDistance;
+    document.getElementById("playerDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
+    document.getElementById("playerMaxDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).maxDistance;
 
     document.getElementById("playerCurrentLife").innerText = currentMapAdventure.currentPlayer.vitality;
     document.getElementById("playerMaxLife").innerText = currentMapAdventure.currentPlayer.getVitality();
@@ -32,7 +32,7 @@
 
         document.getElementById("enemyCurrentLife").innerText = currentMapAdventure.currentEnemy.vitality;
 
-        document.getElementById("enemyName").innerText = enemies[currentMapAdventure.currentEnemy.enemyId].name + " lvl " + currentMapAdventure.currentEnemy.level;
+        document.getElementById("enemyName").innerText = getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).name + " lvl " + currentMapAdventure.currentEnemy.level;
         document.getElementById("enemyMaxLife").innerText = currentMapAdventure.currentEnemy.maxVitality;
         document.getElementById("enemyAttack").innerText = currentMapAdventure.currentEnemy.strength;
         document.getElementById("enemyDefence").innerText = currentMapAdventure.currentEnemy.defence;

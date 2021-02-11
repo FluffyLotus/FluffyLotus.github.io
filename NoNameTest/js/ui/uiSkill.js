@@ -12,7 +12,7 @@ function uiDrawPassiveSkills() {
 
     for (var t = 0; t < passiveSkills.length; t++) {
         var curSkill = passiveSkills[t];
-        var skillInfo = skills[curSkill.skillId];
+        var skillInfo = getSkillFromId(curSkill.skillId);
 
         if (!curSkill.isVisible() && $("#passiveSkillRow" + curSkill.skillId).length > 0) {
             $("#passiveSkillRow" + curSkill.skillId).remove();
@@ -63,7 +63,7 @@ function uiDrawActiveSkills() {
 
     for (var t = 0; t < activeSkills.length; t++) {
         var curSkill = activeSkills[t];
-        var skillInfo = skills[curSkill.skillId];
+        var skillInfo = getSkillFromId(curSkill.skillId);
 
         if (!curSkill.isVisible() && $("#activeSkillRow" + curSkill.skillId).length > 0) {
             $("#activeSkillRow" + curSkill.skillId).remove();
@@ -113,7 +113,7 @@ function uiDrawActiveSkills() {
 
 function uiShowSkillTooltip(event) {
     var curSkill = currentMapAdventure.currentPlayer.getSkillInstance(event.data.id);
-    var skillInfo = skills[curSkill.skillId];
+    var skillInfo = getSkillFromId(curSkill.skillId);
 
     var left = "";
     var right = "";

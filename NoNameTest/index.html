@@ -45,7 +45,6 @@
 
         .card {
             margin: 10px;
-            border-color: white;
         }
 
         .card-title {
@@ -56,18 +55,15 @@
             color: white;
         }
 
+        .card-body {
+            background-color: #343a40;
+        }
+
         .btn {
             border: 1px solid black;
         }
 
         .modal-content {
-            background-color: #343a40;
-        }
-
-        .card {
-        }
-
-        .card-body {
             background-color: #343a40;
         }
 
@@ -250,10 +246,13 @@
                     <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">Quest <span id="questTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <li id="tabItemPlayer" class="nav-item" role="presentation" style="display: none;">
-                    <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Player <span id="playerTabBadge" class="badge badge-danger"></span></a>
+                    <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Skills <span id="playerTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation" style="display: none;">
-                    <a class="nav-link" id="enemyInfo-tab" data-toggle="tab" href="#enemyInfo" role="tab" aria-controls="enemyInfo" aria-selected="false">Card <span id="enemyInfoTabBadge" class="badge badge-danger"></span></a>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="enemyInfo-tab" data-toggle="tab" href="#enemyInfo" role="tab" aria-controls="enemyInfo" aria-selected="false">Enemy <span id="enemyInfoTabBadge" class="badge badge-danger"></span></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="buildingInfo-tab" data-toggle="tab" href="#buildingInfo" role="tab" aria-controls="buildingInfo" aria-selected="false">Building <span id="buildingInfoTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <!--
                 <li class="nav-item" role="presentation">
@@ -309,82 +308,34 @@
                             <h2>Constructions</h2>
 
                             <div>
-                                <div id="building-1" onclick="uiSelectBuilding(-1);" onmouseover="uiBuildingHover(-1, 1, -1, -1, true);" class="buildingSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="-1">&nbsp;</div></div>
-                                <div id="building-2" onclick="uiSelectBuilding(-2);" onmouseover="uiBuildingHover(-2, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="-2">&nbsp;</div></div>
-                                <div id="building-3" onclick="uiSelectBuilding(-3);" onmouseover="uiBuildingHover(-3, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="-3">&nbsp;</div></div>
-                                <div id="building-4" onclick="uiSelectBuilding(-4);" onmouseover="uiBuildingHover(-4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="-4">&nbsp;</div></div>
+                                <div id="building-1" onclick="uiSelectBuilding(-1);" onmouseover="uiBuildingHover(-1, 1, -1, -1, true);" class="buildingSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="icon_-1">&nbsp;</div></div>
+                                <div id="building-2" onclick="uiSelectBuilding(-2);" onmouseover="uiBuildingHover(-2, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="icon_-2">&nbsp;</div></div>
+                                <div id="building-3" onclick="uiSelectBuilding(-3);" onmouseover="uiBuildingHover(-3, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="icon_-3">&nbsp;</div></div>
+                                <div id="building-4" onclick="uiSelectBuilding(-4);" onmouseover="uiBuildingHover(-4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetIcon" data-spritesheetimage="icon_-4">&nbsp;</div></div>
                             </div>
                             <div>
-                                <div id="building0" onclick="uiSelectBuilding(0);" onmouseover="uiBuildingHover(0, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="0">&nbsp;</div></div>
-                                <div id="building1" onclick="uiSelectBuilding(1);" onmouseover="uiBuildingHover(1, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="1">&nbsp;</div></div>
-                                <div id="building2" onclick="uiSelectBuilding(2);" onmouseover="uiBuildingHover(2, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="2">&nbsp;</div></div>
-                                <div id="building3" onclick="uiSelectBuilding(3);" onmouseover="uiBuildingHover(3, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="3">&nbsp;</div></div>
-                                <div id="building5" onclick="uiSelectBuilding(5);" onmouseover="uiBuildingHover(5, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="5">&nbsp;</div></div>
-                                <div id="building16" onclick="uiSelectBuilding(16);" onmouseover="uiBuildingHover(16, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="16">&nbsp;</div></div>
-                                <div id="building17" onclick="uiSelectBuilding(17);" onmouseover="uiBuildingHover(17, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="17">&nbsp;</div></div>
-                                <div id="building18" onclick="uiSelectBuilding(18);" onmouseover="uiBuildingHover(18, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="18">&nbsp;</div></div>
-                                <div id="building35" onclick="uiSelectBuilding(35);" onmouseover="uiBuildingHover(35, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="35">&nbsp;</div></div>
+                                <div id="building0" onclick="uiSelectBuilding(0);" onmouseover="uiBuildingHover(0, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building1" onclick="uiSelectBuilding(1);" onmouseover="uiBuildingHover(1, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building2" onclick="uiSelectBuilding(2);" onmouseover="uiBuildingHover(2, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building6" onclick="uiSelectBuilding(6);" onmouseover="uiBuildingHover(6, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building3" onclick="uiSelectBuilding(3);" onmouseover="uiBuildingHover(3, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building5" onclick="uiSelectBuilding(5);" onmouseover="uiBuildingHover(5, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building16" onclick="uiSelectBuilding(16);" onmouseover="uiBuildingHover(16, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building17" onclick="uiSelectBuilding(17);" onmouseover="uiBuildingHover(17, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building18" onclick="uiSelectBuilding(18);" onmouseover="uiBuildingHover(18, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building35" onclick="uiSelectBuilding(35);" onmouseover="uiBuildingHover(35, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building15" onclick="uiSelectBuilding(15);" onmouseover="uiBuildingHover(15, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                             </div>
                             <div>
-                                <div id="building15" onclick="uiSelectBuilding(15);" onmouseover="uiBuildingHover(15, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="15">&nbsp;</div></div>
-                                <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="4">&nbsp;</div></div>
-
-                                <div id="building19" onclick="uiSelectBuilding(19);" onmouseover="uiBuildingHover(19, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="19">&nbsp;</div></div>
-                                <div id="building20" onclick="uiSelectBuilding(20);" onmouseover="uiBuildingHover(20, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="20">&nbsp;</div></div>
-                                <div id="building21" onclick="uiSelectBuilding(21);" onmouseover="uiBuildingHover(21, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="21">&nbsp;</div></div>
-                                <div id="building22" onclick="uiSelectBuilding(22);" onmouseover="uiBuildingHover(22, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="22">&nbsp;</div></div>
-                            </div>
-                            <div>
-                                <div id="building8" onclick="uiSelectBuilding(8);" onmouseover="uiBuildingHover(8, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="8">&nbsp;</div></div>
-                                <div id="building7" onclick="uiSelectBuilding(7);" onmouseover="uiBuildingHover(7, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="7">&nbsp;</div></div>
-
-                                <div id="building27" onclick="uiSelectBuilding(27);" onmouseover="uiBuildingHover(27, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="27">&nbsp;</div></div>
-                                <div id="building28" onclick="uiSelectBuilding(28);" onmouseover="uiBuildingHover(28, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="28">&nbsp;</div></div>
-                                <div id="building29" onclick="uiSelectBuilding(29);" onmouseover="uiBuildingHover(29, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="29">&nbsp;</div></div>
-                                <div id="building30" onclick="uiSelectBuilding(30);" onmouseover="uiBuildingHover(30, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="30">&nbsp;</div></div>
-                            </div>
-                            <div>
-                                <div id="building10" onclick="uiSelectBuilding(10);" onmouseover="uiBuildingHover(10, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="10">&nbsp;</div></div>
-                                <div id="building9" onclick="uiSelectBuilding(9);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="        margin: 2px;
-        width: 26px;
-        height: 26px;
-        display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="9">&nbsp;</div></div>
-
-                                <div id="building23" onclick="uiSelectBuilding(23);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="        margin: 2px;
-        width: 26px;
-        height: 26px;
-        display: inline-block;
-"><div class="spriteSheetBuilding" data-spritesheetimage="23">&nbsp;</div></div>
-                                <div id="building24" onclick="uiSelectBuilding(24);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="24">&nbsp;</div></div>
-                                <div id="building25" onclick="uiSelectBuilding(25);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="25">&nbsp;</div></div>
-                                <div id="building26" onclick="uiSelectBuilding(26);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="26">&nbsp;</div></div>
-                            </div>
-                            <div>
-                                <div id="building12" onclick="uiSelectBuilding(12);" onmouseover="uiBuildingHover(12, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="12">&nbsp;</div></div>
-                                <div id="building11" onclick="uiSelectBuilding(11);" onmouseover="uiBuildingHover(11, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="11">&nbsp;</div></div>
-
-                                <div id="building31" onclick="uiSelectBuilding(31);" onmouseover="uiBuildingHover(31, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="31">&nbsp;</div></div>
-                                <div id="building32" onclick="uiSelectBuilding(32);" onmouseover="uiBuildingHover(32, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="32">&nbsp;</div></div>
-                                <div id="building33" onclick="uiSelectBuilding(33);" onmouseover="uiBuildingHover(33, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="33">&nbsp;</div></div>
-                                <div id="building34" onclick="uiSelectBuilding(34);" onmouseover="uiBuildingHover(34, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="34">&nbsp;</div></div>
-                            </div>
-                            <div>
-                                <div id="building36" onclick="uiSelectBuilding(36);" onmouseover="uiBuildingHover(36, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="36">&nbsp;</div></div>
-                                <div id="building37" onclick="uiSelectBuilding(37);" onmouseover="uiBuildingHover(37, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="37">&nbsp;</div></div>
-
-                                <div id="building38" onclick="uiSelectBuilding(38);" onmouseover="uiBuildingHover(38, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="38">&nbsp;</div></div>
-                                <div id="building39" onclick="uiSelectBuilding(39);" onmouseover="uiBuildingHover(39, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="39">&nbsp;</div></div>
-                                <div id="building40" onclick="uiSelectBuilding(40);" onmouseover="uiBuildingHover(40, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="40">&nbsp;</div></div>
-                                <div id="building41" onclick="uiSelectBuilding(41);" onmouseover="uiBuildingHover(41, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="41">&nbsp;</div></div>
-                            </div>
-                            <div style="display: none;">
-                                <div id="building6" onclick="uiSelectBuilding(6);" onmouseover="uiBuildingHover(6, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="6">&nbsp;</div></div>
-                                <div id="building13" onclick="uiSelectBuilding(13);" onmouseover="uiBuildingHover(13, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="13">&nbsp;</div></div>
-                                <div id="building14" onclick="uiSelectBuilding(14);" onmouseover="uiBuildingHover(14, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding" data-spritesheetimage="14">&nbsp;</div></div>
+                                <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building7" onclick="uiSelectBuilding(7);" onmouseover="uiBuildingHover(7, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building9" onclick="uiSelectBuilding(9);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building11" onclick="uiSelectBuilding(11);" onmouseover="uiBuildingHover(11, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building37" onclick="uiSelectBuilding(37);" onmouseover="uiBuildingHover(37, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                             </div>
                             <div>
                                 <div class="form-group">
-                                    <label for="formControlRange">Building Level</label>
+                                    <label for="formControlRange">Building Grade</label>
 
                                     <div class="row">
                                         <div class="col-8">
@@ -599,28 +550,84 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="enemyInfo" role="tabpanel" aria-labelledby="enemyInfo-tab">
-                    <h2>Cards</h2>
+                    <h2>Enemies</h2>
 
-                    <p>Gain cards by killing enemies.</p>
+                    <p>Gain soul gem from killing enemies.</p>
 
                     <table class="table table-hover table-dark table-sm">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Level</th>
-                                <th>Description</th>
-                                <th></th>
+                                <th>Sould Shard</th>
+                                <th>Next Shard</th>
                             </tr>
                         </thead>
                         <tbody id="enemyInfoContainer">
                             <tr id="enemyInfoRow" style="display: none;">
-                                <td><span id="enemyInfoName">Rat Card</span></td>
-                                <td><span id="enemyInfoLevel">1.00</span></td>
-                                <td><span id="enemyInfoDescription">Each level increase attack by 5.</span></td>
-                                <td><button id="enemyInfoUpgradeButton" class="btn btn-sm btn-success">Upgrade</button></td>
+                                <td><span id="enemyInfoName">Rat</span></td>
+                                <td><span id="enemyInfoSouldShard">1</span></td>
+                                <td><span id="enemyInfoNextShard">50%</span></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="tab-pane fade" id="buildingInfo" role="tabpanel" aria-labelledby="buildingInfo-tab">
+                    <h2>Building</h2>
+
+                    <div class="card" style="margin-top: 5px;">
+                        <div class="card-body">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="card-title mb-1">Axe</h5>
+                                <div class="spriteSheetBuilding" data-spritesheetimage="building_0">&nbsp;</div>
+                            </div>
+
+                            <div class="row resourceRow">
+                                <div class="col-8">Gain 1% coal with red mana</div>
+                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
+                            </div>
+                            <div class="row resourceRow">
+                                <div class="col-8">Gain 1% coal with red mana</div>
+                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 5px;">
+                        <div class="card-body">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="card-title mb-1">Quarry</h5>
+                                <div class="spriteSheetBuilding" data-spritesheetimage="building_1">&nbsp;</div>
+                            </div>
+
+                            <div class="row resourceRow">
+                                <div class="col-8">Gain 1% iron with red mana</div>
+                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
+                            </div>
+                            <div class="row resourceRow">
+                                <div class="col-8">Gain 1% iron with red mana</div>
+                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 5px;">
+                        <div class="card-body">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="card-title mb-1">Essence Pull</h5>
+                                <div class="spriteSheetBuilding" data-spritesheetimage="building_4">&nbsp;</div>
+                            </div>
+
+                            <div class="row resourceRow">
+                                <div class="col-8">Increase building grade</div>
+                                <div class="col-4"><button class="btn btn-primary" disabled>100 shard</button></div>
+                            </div>
+                            <div class="row resourceRow">
+                                <div class="col-8">Increase building grade</div>
+                                <div class="col-4"><button class="btn btn-primary" disabled>100 shard</button></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="tab-pane fade" id="achievement" role="tabpanel" aria-labelledby="achievement-tab">
                     <h2>Achievement</h2>
@@ -726,7 +733,7 @@
     </div>
 
     <footer>
-        <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0;">
+        <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0; pointer-events: none;">
             <div id="toastTemplate" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000">
                 <div class="toast-header">
                     <!--<img src="..." class="rounded mr-2" alt="...">-->
@@ -753,7 +760,6 @@
     <script src="images/SpriteSheet/particleImageInfo.js?v=0.02"></script>
 
     <script src="js/building.js?v=v0.03"></script>
-    <script src="js/card.js?v=v0.03"></script>
     <script src="js/cell.js?v=v0.03"></script>
     <script src="js/dataLink.js?v=v0.03"></script>
     <script src="js/enemy.js?v=v0.03"></script>

@@ -46,7 +46,7 @@
 }
 
 function uiShowResourceTooltip(event) {
-    var curResource = resources[event.data.id];
+    var curResource = getResourceFromId(event.data.id);
 
     var left = "<b>" + curResource.name + "</b><br />Amount: " + nFormatter(curResource.amount);
 

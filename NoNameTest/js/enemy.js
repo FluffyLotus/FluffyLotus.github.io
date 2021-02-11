@@ -20,8 +20,50 @@ function enemyInformation() {
     this.totalDeath = 0;
     this.deathCount = []; // How many time it died
     this.killCount = 0; // How many time it killed something
+}
 
-    this.cardGiven = 0;
+enemyInformation.prototype.getShardCount = function () {
+    var ret = 0;
+
+    for (var k in this.deathCount) {
+        if (this.deathCount.hasOwnProperty(k)) {
+            var needed = 100;
+
+            value = parseInt(this.deathCount[k]);
+
+            while (value >= needed) {
+                ret += 1;
+                value -= needed;
+                needed *= 4;
+            }
+        }
+    }
+
+    return ret;
+}
+
+enemyInformation.prototype.getNextShard = function () {
+    var ret = "";
+
+    for (var k in this.deathCount) {
+        if (this.deathCount.hasOwnProperty(k)) {
+            var needed = 100;
+
+            value = parseInt(this.deathCount[k]);
+
+            while (value >= needed) {
+                value -= needed;
+                needed *= 4;
+            }
+
+            if (ret != "")
+                ret += ", ";
+
+            ret += k + ": " + parseInt(value * 100 / needed) + "%";
+        }
+    }
+
+    return ret;
 }
 
 enemyInformation.prototype.getVitality = function (level) {
@@ -60,6 +102,16 @@ enemyInformation.prototype.experienceGiven = function (level) {
     return xp;
 }
 */
+
+function getEnemyFromId(id) {
+    for (var t = 0; t < enemies.length; t++) {
+        if (enemies[t].id == id)
+            return enemies[t];
+    }
+
+    return null;
+}
+
 function loadEnemies() {
     enemies[0] = new enemyInformation();
     enemies[0].id = 0;
@@ -70,7 +122,6 @@ function loadEnemies() {
     enemies[0].mulVitality = 10;
     enemies[0].mulStrength = 10;
     enemies[0].mulDefence = 0;
-    enemies[0].cardGiven = CARD_RABBIT;
     
     enemies[1] = new enemyInformation();
     enemies[1].id = 1;
@@ -81,7 +132,6 @@ function loadEnemies() {
     enemies[1].mulVitality = 10;
     enemies[1].mulStrength = 10;
     enemies[1].mulDefence = 10;
-    enemies[1].cardGiven = CARD_RAT;
 
     enemies[2] = new enemyInformation();
     enemies[2].id = 1;
@@ -92,7 +142,6 @@ function loadEnemies() {
     enemies[2].mulVitality = 20;
     enemies[2].mulStrength = 15;
     enemies[2].mulDefence = 10;
-    enemies[2].cardGiven = CARD_DEVIL;
 
     enemies[3] = new enemyInformation();
     enemies[3].id = 3;
@@ -103,7 +152,6 @@ function loadEnemies() {
     enemies[3].mulVitality = 20;
     enemies[3].mulStrength = 15;
     enemies[3].mulDefence = 10;
-    enemies[3].cardGiven = CARD_BEAR;
 
     enemies[4] = new enemyInformation();
     enemies[4].id = 4;
@@ -114,7 +162,6 @@ function loadEnemies() {
     enemies[4].mulVitality = 20;
     enemies[4].mulStrength = 15;
     enemies[4].mulDefence = 10;
-    enemies[4].cardGiven = CARD_BIRD;
 
     enemies[5] = new enemyInformation();
     enemies[5].id = 5;
@@ -125,7 +172,6 @@ function loadEnemies() {
     enemies[5].mulVitality = 20;
     enemies[5].mulStrength = 15;
     enemies[5].mulDefence = 10;
-    enemies[5].cardGiven = CARD_DOG;
 
     enemies[6] = new enemyInformation();
     enemies[6].id = 6;
@@ -136,7 +182,6 @@ function loadEnemies() {
     enemies[6].mulVitality = 20;
     enemies[6].mulStrength = 15;
     enemies[6].mulDefence = 10;
-    enemies[6].cardGiven = CARD_PIG;
 
     enemies[7] = new enemyInformation();
     enemies[7].id = 7;
@@ -147,5 +192,4 @@ function loadEnemies() {
     enemies[7].mulVitality = 20;
     enemies[7].mulStrength = 15;
     enemies[7].mulDefence = 10;
-    enemies[7].cardGiven = CARD_WOLF;
 }

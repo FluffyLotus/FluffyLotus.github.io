@@ -5,7 +5,6 @@ var enemies = [];
 var particles = [];
 var quests = [];
 var skills = [];
-var cards = [];
 var mapBuildings = [];
 var mapAdventures = [];
 
@@ -30,20 +29,30 @@ function loadIcon() {
     var elems = $("[data-spritesheetimage]");
 
     for (var t = 0; t < elems.length; t++) {
-        var id = parseInt($(elems[t]).data("spritesheetimage"));
+        var imageName = $(elems[t]).data("spritesheetimage");
         var name = "";
+        var imgX, imgY;
 
-        if ($(elems[t]).hasClass("spriteSheetBuilding"))
+        if ($(elems[t]).hasClass("spriteSheetBuilding")) {
             name = "building";
-        if ($(elems[t]).hasClass("spriteSheetCell"))
+            imgX = getImagePositionX(name, imageName);
+            imgY = getImagePositionY(name, imageName);
+        }
+        if ($(elems[t]).hasClass("spriteSheetCell")) {
             name = "cell";
-        if ($(elems[t]).hasClass("spriteSheetIcon"))
+            imgX = getImagePositionX(name, imageName);
+            imgY = getImagePositionY(name, imageName);
+        }
+        if ($(elems[t]).hasClass("spriteSheetIcon")) {
             name = "icon";
-        if ($(elems[t]).hasClass("spriteSheetParticle"))
+            imgX = getImagePositionX(name, imageName);
+            imgY = getImagePositionY(name, imageName);
+        }
+        if ($(elems[t]).hasClass("spriteSheetParticle")) {
             name = "particle";
-
-        var imgX = getImagePositionX(name, id, 0);
-        var imgY = getImagePositionY(name, id, 0);
+            imgX = getImagePositionX(name, imageName);
+            imgY = getImagePositionY(name, imageName);
+        }
 
         $(elems[t]).css('background-position-x', -imgX + 'px');
         $(elems[t]).css('background-position-y', -imgY + 'px');
@@ -52,7 +61,6 @@ function loadIcon() {
 
 function loadApp() {
     loadSkills();
-    loadCards();
     loadResources();
     loadCells();
     loadParticles();
@@ -79,20 +87,27 @@ function loadApp() {
     canViewskills = true;
     currentMapAdventure.canRun = true;
 
-    for (var t = 0; t < resources.length; t++)
-        resources[t].addAmount(200000);
+    for (var t = 0; t < resources.length; t++) {
+        if (resources[t].id != RESOURCE_GREENMANA && resources[t].id != RESOURCE_BLUEMANA && resources[t].id != RESOURCE_REDMANA && resources[t].id != RESOURCE_TIMEMANA)
+            resources[t].addAmount(200000);
+    }
 
     //resources[RESOURCE_WOOD].addAmount(2000);
     //resources[RESOURCE_STONE].addAmount(2000);
     //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
     ////////////////
 
-    quests[3].setAsActive();
-    mapBuildings[0].isActive = true;
-    mapAdventures[0].isActive = true;
+    getBuildingFromId(0).available = true;
+    getBuildingFromId(1).available = true;
+    getBuildingFromId(3).available = true;
+
+    getQuestFromId(3).setAsActive();
+    getMapBuildingFromId(0).isActive = true;
+    getMapAdventureFromId(0).isActive = true;
 
     uiCreateGrid();
     uiDrawGrid();
+    uiDrawBuildingIcon2();
 
     processTick();
 
@@ -119,11 +134,11 @@ function processTick() {
         processQuestTick();
 
         if (fastIsOn) {
-            if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
-                resources[RESOURCE_TIMEESSENCE].addAmount(-1);
+            if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0) {
+                getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(-1);
             }
 
-            if (resources[RESOURCE_TIMEESSENCE].amount <= 0) {
+            if (getResourceFromId(RESOURCE_TIMEESSENCE).amount <= 0) {
                 fastIsOn = false;
             }
         }
@@ -151,7 +166,7 @@ function processTick() {
         $("#tickTime").text(displayTime(tickCount * SLOW_SPEED / 1000));
         //
 
-        if (resources[RESOURCE_TIMEESSENCE].amount > 0)
+        if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0)
             $("#btnFast").show();
         else
             $("#btnFast").hide();
@@ -165,7 +180,7 @@ function toggleFast() {
         fastIsOn = false;
     }
     else {
-        if (resources[RESOURCE_TIMEESSENCE].amount > 0) {
+        if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0) {
             fastIsOn = true;
         }
     }

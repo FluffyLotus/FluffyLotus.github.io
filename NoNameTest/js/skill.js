@@ -39,6 +39,15 @@ skillInformation.prototype.execute = function (level) {
     removeResourceLink(this.useRequirements, level);
 }
 
+function getSkillFromId(id) {
+    for (var t = 0; t < skills.length; t++) {
+        if (skills[t].id == id)
+            return skills[t];
+    }
+
+    return null;
+}
+
 function loadSkills() {
     skills[0] = new skillInformation();
     skills[0].id = 0;

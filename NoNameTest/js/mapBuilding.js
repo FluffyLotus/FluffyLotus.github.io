@@ -39,7 +39,7 @@ mapsData[0] = [
     7, 3, 3, 3, 1, 1, 0, 3, 3, 0, 0, 0,
     7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0,
     7, 7, 7, 3, 3, 0, 0, 0, 5, 6, 6, 6,
-    7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0,
+    7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 69,
     7, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0,
     3, 3, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1,
     3, 1, 0, 0, 3, 7, 7, 3, 3, 3, 1, 1,
@@ -183,11 +183,11 @@ mapBuilding.prototype.processTick = function () {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
             if (curGrid.buildingId >= 0) {
-                if (curGrid.isConnectedToStorage || !buildings[curGrid.buildingId].needStorage) {
-                    var curBuilding = buildings[curGrid.buildingId];
+                if (curGrid.isConnectedToStorage || !getBuildingFromId(curGrid.buildingId).needStorage) {
+                    var curBuilding = getBuildingFromId(curGrid.buildingId);
 
-                    if (curBuilding.hasTickRequirements(curGrid.buildingLevel)) {
-                        curBuilding.processTickRequirements(curGrid.buildingLevel);
+                    if (curBuilding.hasTickRequirements(curGrid.buildingLevel, curGrid.buildingGradeLevel)) {
+                        curBuilding.processTickRequirements(curGrid.buildingLevel, curGrid.buildingGradeLevel);
                         curGrid.processBuildingTick = true;
                     }
                 }
@@ -199,8 +199,8 @@ mapBuilding.prototype.processTick = function () {
     for (var y = 0; y < this.mapHeight; y++) {
         for (var x = 0; x < this.mapWidth; x++) {
             var sourceGrid = this.grid[x + (y * this.mapWidth)];
-            var cell = cells[sourceGrid.cellId];
-            var building = buildings[sourceGrid.buildingId];
+            var cell = getCellFromId(sourceGrid.cellId);
+            var building = getBuildingFromId(sourceGrid.buildingId);
 
             if (sourceGrid.processBuildingTick) {
                 var particleId = -1;
@@ -211,7 +211,7 @@ mapBuilding.prototype.processTick = function () {
                     particleId = cell.innerParticleId;
 
                 if (particleId >= 0) {
-                    var buildingGrade = building.gradeLevel;
+                    var buildingGrade = sourceGrid.buildingGradeLevel;
 
                     for (var i = 0; i < side8rotPossibilities[buildingGrade].length; i++) {
                         var pos = side8rotPossibilities[buildingGrade][i] + sourceGrid.buildingRotation;
@@ -240,9 +240,9 @@ mapBuilding.prototype.processTick = function () {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
             if (curGrid.buildingId >= 0 && curGrid.isConnectedToStorage && curGrid.processBuildingTick) {
-                var curBuilding = buildings[curGrid.buildingId];
+                var curBuilding = getBuildingFromId(curGrid.buildingId);
 
-                curBuilding.processTickRewards(curGrid.buildingLevel);
+                curBuilding.processTickRewards(curGrid.buildingLevel, curGrid.buildingGradeLevel);
                 curBuilding.processParticleOutput(curGrid.getOutputParticleId(), Math.min(curGrid.getOutputParticleLevel(), curGrid.buildingLevel));
             }
         }
@@ -267,13 +267,13 @@ mapBuilding.prototype.downgradeGrid = function (x, y) {
     curGrid.processDowngrade();
 }
 
-mapBuilding.prototype.addBuilding = function (x, y, buildingId) {
+mapBuilding.prototype.addBuilding = function (x, y, buildingId, processAddBuilding) {
     if (buildingId < 0)
         return;
 
     var curGrid = this.grid[x + (y * this.mapWidth)];
 
-    if (curGrid.processAddBuilding(buildingId))
+    if (curGrid.processAddBuilding(buildingId, processAddBuilding))
         this.calculateGridConnection();
 }
 
@@ -293,7 +293,7 @@ mapBuilding.prototype.calculateGridConnection = function () {
 
             if (curGrid.buildingId == BUILDING_STORAGE) {
                 curGrid.isConnectedToStorage = true;
-                curGrid.isConnectedToWater = false;
+                //curGrid.isConnectedToWater = false;
 
                 var newP = new Object();
                 newP.x = x;
@@ -302,7 +302,7 @@ mapBuilding.prototype.calculateGridConnection = function () {
             }
             else if (curGrid.buildingId == BUILDING_WATERPUMP || curGrid.buildingId == BUILDING_WATERGEN) {
                 curGrid.isConnectedToStorage = false;
-                curGrid.isConnectedToWater = true;
+                //curGrid.isConnectedToWater = true;
 
                 var newP = new Object();
                 newP.x = x;
@@ -311,7 +311,7 @@ mapBuilding.prototype.calculateGridConnection = function () {
             }
             else {
                 curGrid.isConnectedToStorage = false;
-                curGrid.isConnectedToWater = false;
+                //curGrid.isConnectedToWater = false;
             }
         }
     }
@@ -328,21 +328,10 @@ mapBuilding.prototype.calculateGridConnection = function () {
             if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
                 var curGrid = this.grid[tx + (ty * this.mapWidth)];
 
-                if (!curGrid.isConnectedToStorage && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_WATERPIPE && orgGrid.isConnectedToStorage == true) {
+                if (!curGrid.isConnectedToStorage && curGrid.buildingId >= 0 && orgGrid.isConnectedToStorage == true) {
                     curGrid.isConnectedToStorage = true;
 
-                    if (curGrid.buildingId == BUILDING_STORAGEPIPE) {
-                        var newP = new Object();
-                        newP.x = tx;
-                        newP.y = ty;
-                        points.push(newP);
-                    }
-                }
-
-                if (!curGrid.isConnectedToWater && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_STORAGEPIPE && orgGrid.isConnectedToWater == true) {
-                    curGrid.isConnectedToWater = true;
-
-                    if (curGrid.buildingId == BUILDING_WATERPIPE) {
+                    if (curGrid.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingId == BUILDING_UNDERGROUNDPIPE) {
                         var newP = new Object();
                         newP.x = tx;
                         newP.y = ty;
@@ -396,24 +385,24 @@ mapBuilding.prototype.getSideStorageConnectionStr = function (x, y) {
     return s[0] + s[1] + s[2] + s[3];
 }
 
-mapBuilding.prototype.getSideWaterConnectionStr = function (x, y) {
-    var s = ["0", "0", "0", "0"];
+//mapBuilding.prototype.getSideWaterConnectionStr = function (x, y) {
+//    var s = ["0", "0", "0", "0"];
 
-    for (var i = 0; i < sideCross.length; i++) {
-        var tx = x + sideCross[i].x;
-        var ty = y + sideCross[i].y;
+//    for (var i = 0; i < sideCross.length; i++) {
+//        var tx = x + sideCross[i].x;
+//        var ty = y + sideCross[i].y;
 
-        if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
-            var curGrid = this.grid[tx + (ty * this.mapWidth)];
+//        if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
+//            var curGrid = this.grid[tx + (ty * this.mapWidth)];
 
-            if (curGrid.isConnectedToWater) {
-                s[i] = "1";
-            }
-        }
-    }
+//            if (curGrid.isConnectedToWater) {
+//                s[i] = "1";
+//            }
+//        }
+//    }
 
-    return s[0] + s[1] + s[2] + s[3];
-}
+//    return s[0] + s[1] + s[2] + s[3];
+//}
 
 function prepareMapBuildingTick() {
     for (var i = 0; i < mapBuildings.length; i++) {

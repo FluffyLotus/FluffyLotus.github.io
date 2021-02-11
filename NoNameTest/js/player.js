@@ -28,15 +28,15 @@ function playerInformation() {
 }
 
 playerInformation.prototype.getVitality = function () {
-    return this.baseVitality + this.getSkillInstance(SKILL_VITALITY).getAmount() + (cards[CARD_RAT].getCurrentLevel() * 50); //  + this.pointVitality * this.mulVitality
+    return this.baseVitality + this.getSkillInstance(SKILL_VITALITY).getAmount(); //  + this.pointVitality * this.mulVitality
 }
 
 playerInformation.prototype.getStrength = function () {
-    return this.baseStrength + this.getSkillInstance(SKILL_STRENGTH).getAmount() + (cards[CARD_RABBIT].getCurrentLevel() * 5); //  + this.pointStrength * this.mulStrength
+    return this.baseStrength + this.getSkillInstance(SKILL_STRENGTH).getAmount(); //  + this.pointStrength * this.mulStrength
 }
 
 playerInformation.prototype.getDefence = function () {
-    return this.baseDefence + this.getSkillInstance(SKILL_DEFENCE).getAmount() + (cards[CARD_DEVIL].getCurrentLevel() * 5); //  + this.pointDefence * this.mulDefence
+    return this.baseDefence + this.getSkillInstance(SKILL_DEFENCE).getAmount(); //  + this.pointDefence * this.mulDefence
 }
 
 playerInformation.prototype.prepareTick = function () {

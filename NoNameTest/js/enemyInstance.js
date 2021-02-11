@@ -23,7 +23,7 @@ enemyInstanceInformation.prototype.isDead = function () {
 }
 
 enemyInstanceInformation.prototype.processDeath = function () {
-    enemies[this.enemyId].processDeath(this.level);
+    getEnemyFromId(this.enemyId).processDeath(this.level);
 }
 /*
 enemyInstanceInformation.prototype.experienceGiven = function () {
@@ -32,7 +32,7 @@ enemyInstanceInformation.prototype.experienceGiven = function () {
 */
 function createEnemyInstance(enemyId, level) {
     var inst = new enemyInstanceInformation();
-    var enemy = enemies[enemyId];
+    var enemy = getEnemyFromId(enemyId);
 
     inst.enemyId = enemyId;
     inst.level = level;

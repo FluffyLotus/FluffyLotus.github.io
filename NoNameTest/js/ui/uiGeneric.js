@@ -20,7 +20,7 @@ function uiGetLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += curLink.amount + " " + resources[curLink.resourceId].name;
+        str += curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
     }
 
     return str;
@@ -35,7 +35,7 @@ function uiGetNegLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += "-" + curLink.amount + " " + resources[curLink.resourceId].name;
+        str += "-" + curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
     }
 
     return str;

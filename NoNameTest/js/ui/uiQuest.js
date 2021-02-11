@@ -63,7 +63,7 @@ function uiDrawQuest() {
 }
 
 function uiShowQuestInformation(event) {
-    var curQuest = quests[event.data.id];
+    var curQuest = getQuestFromId(event.data.id);
 
     if (currentUISelectedQuest != -1) {
         $("#questInfoRow" + currentUISelectedQuest).removeClass("active");

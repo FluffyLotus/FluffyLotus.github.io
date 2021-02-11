@@ -1,1 +1,1 @@
-var iconImageInfo = [{ID:-1,SID:0,X:0,Y:0,W:24,H:24,N:"icon_-1"},{ID:-2,SID:0,X:24,Y:0,W:24,H:24,N:"icon_-2"},{ID:-3,SID:0,X:48,Y:0,W:24,H:24,N:"icon_-3"},{ID:-4,SID:0,X:72,Y:0,W:24,H:24,N:"icon_-4"}];
+var iconImageInfo = [{ID:0,SID:0,X:0,Y:0,W:24,H:24,N:"icon_-1"},{ID:1,SID:0,X:24,Y:0,W:24,H:24,N:"icon_-2"},{ID:2,SID:0,X:48,Y:0,W:24,H:24,N:"icon_-3"},{ID:3,SID:0,X:72,Y:0,W:24,H:24,N:"icon_-4"}];
