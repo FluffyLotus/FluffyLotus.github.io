@@ -49,45 +49,52 @@ function getSkillFromId(id) {
 }
 
 function loadSkills() {
-    skills[0] = new skillInformation();
-    skills[0].id = 0;
-    skills[0].name = "Vitality";
-    skills[0].cooldown = 0;
-    skills[0].baseAmount = 0;
-    skills[0].mulAmount = 10;
-    skills[0].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    var newItem;
 
-    skills[1] = new skillInformation();
-    skills[1].id = 1;
-    skills[1].name = "Strength";
-    skills[1].cooldown = 0;
-    skills[1].baseAmount = 0;
-    skills[1].mulAmount = 1;
-    skills[1].trainingRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(3, 2), 1.0));
+    newItem = new skillInformation();
+    newItem.id = 0;
+    newItem.name = "Vitality";
+    newItem.cooldown = 0;
+    newItem.baseAmount = 0;
+    newItem.mulAmount = 10;
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    skills.push(newItem);
 
-    skills[2] = new skillInformation();
-    skills[2].id = 2;
-    skills[2].name = "Defence";
-    skills[2].cooldown = 0;
-    skills[2].baseAmount = 0;
-    skills[2].mulAmount = 1;
-    skills[2].trainingRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(3, 2), 1.0));
+    newItem = new skillInformation();
+    newItem.id = 1;
+    newItem.name = "Strength";
+    newItem.cooldown = 0;
+    newItem.baseAmount = 0;
+    newItem.mulAmount = 1;
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(3, 2), 1.0));
+    skills.push(newItem);
 
-    skills[3] = new skillInformation();
-    skills[3].id = 3;
-    skills[3].name = "Heal";
-    skills[3].cooldown = 10;
-    skills[3].baseAmount = 0;
-    skills[3].mulAmount = 10;
-    skills[3].trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
-    skills[3].useRequirements.push(createResourceLink(RESOURCE_GREENMANA, new formulaLinear(0, 1), 1.0));
+    newItem = new skillInformation();
+    newItem.id = 2;
+    newItem.name = "Defence";
+    newItem.cooldown = 0;
+    newItem.baseAmount = 0;
+    newItem.mulAmount = 1;
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(3, 2), 1.0));
+    skills.push(newItem);
 
-    skills[4] = new skillInformation();
-    skills[4].id = 4;
-    skills[4].name = "Fire";
-    skills[4].cooldown = 1;
-    skills[4].baseAmount = 0;
-    skills[4].mulAmount = 1;
-    skills[4].trainingRequirements.push(createResourceLink(RESOURCE_REDESSENCE, new formulaLinear(0, 1), 1.0));
-    skills[4].useRequirements.push(createResourceLink(RESOURCE_REDMANA, new formulaLinear(0, 1), 1.0));
+    newItem = new skillInformation();
+    newItem.id = 3;
+    newItem.name = "Heal";
+    newItem.cooldown = 10;
+    newItem.baseAmount = 0;
+    newItem.mulAmount = 10;
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    newItem.useRequirements.push(createResourceLink(RESOURCE_GREENMANA, new formulaLinear(0, 1), 1.0));
+    skills.push(newItem);
+
+    newItem = new skillInformation();
+    newItem.id = 4;
+    newItem.name = "Fire";
+    newItem.cooldown = 1;
+    newItem.baseAmount = 0;
+    newItem.mulAmount = 1;
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_REDESSENCE, new formulaLinear(0, 1), 1.0));
+    newItem.useRequirements.push(createResourceLink(RESOURCE_REDMANA, new formulaLinear(0, 1), 1.0));
+    skills.push(newItem);
 }

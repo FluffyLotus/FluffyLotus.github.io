@@ -74,13 +74,21 @@ function buildingInformation() {
     this.maxGradeLevel = 0;
     this.needStorage = true;
     this.available = false;
+    this.upgrades = [];
 
     this.buildAmount = 0;
 }
 
 buildingInformation.prototype.getMaxAvailableGrade = function (grade) {
-    if (grade >= this.maxGradeLevel)
+    if (grade > this.maxGradeLevel)
         grade = this.maxGradeLevel;
+
+    for (var t = 0; t < this.upgrades.length; t++) {
+        if (this.upgrades[t].upgradeType == UPGRADE_TYPE_GRADE) {
+            if (grade > this.upgrades[t].level)
+                grade = this.upgrades[t].level;
+        }
+    }
 
     return grade;
 }
@@ -145,13 +153,41 @@ buildingInformation.prototype.processTickRequirements = function (buildingLevel,
 }
 
 buildingInformation.prototype.processTickRewards = function (buildingLevel, grade) {
-    addResourceLink(this.rewards, buildingLevel, this.getGradeExtraAmount(grade));
+    var r = [];
+    var m = 1;
+
+    r = r.concat(this.rewards);
+
+    for (var t = 0; t < this.upgrades.length; t++) {
+        if (this.upgrades[t].upgradeType == UPGRADE_TYPE_NEW_REWARD) {
+            if (this.upgrades[t].level > 0) {
+
+                if (this.upgrades[t].rewards != null)
+                    r = r.concat(this.upgrades[t].rewards);
+                m *= this.upgrades[t].getMulNumber();
+            }
+        }
+    }
+
+    addResourceLink(r, buildingLevel, this.getGradeExtraAmount(grade) * m);
 }
 
 buildingInformation.prototype.processParticleOutput = function (particleId, particleLevel) {
     for (var i = 0; i < this.particleOutput.length; i++) {
         if (this.particleOutput[i].particleId == particleId) {
             addResourceLink(this.particleOutput[i].rewards, particleLevel);
+        }
+    }
+
+    for (var t = 0; t < this.upgrades.length; t++) {
+        if (this.upgrades[t].upgradeType == UPGRADE_TYPE_NEW_POUTPUT) {
+            if (this.upgrades[t].level > 0) {
+
+                if (this.upgrades[t].particleOutput.particleId == particleId) {
+                    addResourceLink(this.upgrades[t].particleOutput.rewards, particleLevel, this.upgrades[t].getMulNumber());
+                }
+
+            }
         }
     }
 }
@@ -169,7 +205,24 @@ buildingInformation.prototype.getTickRequirementsString = function (buildingLeve
 }
 
 buildingInformation.prototype.getTickRewardsString = function (buildingLevel, grade) {
-    return getResourceLinkString(this.rewards, buildingLevel, this.getGradeExtraAmount(grade));
+    var r = [];
+    var m = 1;
+
+    r = r.concat(this.rewards);
+
+    for (var t = 0; t < this.upgrades.length; t++) {
+        if (this.upgrades[t].upgradeType == UPGRADE_TYPE_NEW_REWARD) {
+            if (this.upgrades[t].level > 0) {
+
+                if (this.upgrades[t].rewards != null)
+                    r = r.concat(this.upgrades[t].rewards);
+                m *= this.upgrades[t].getMulNumber();
+
+            }
+        }
+    }
+
+    return getResourceLinkString(r, buildingLevel, this.getGradeExtraAmount(grade) * m);
 }
 
 buildingInformation.prototype.canBuildHere = function (mapGrid) {
@@ -198,7 +251,7 @@ function loadBuildings() {
     newItem = new buildingInformation();
     newItem.id = 0;
     newItem.name = "Axe";
-    newItem.description = "Red particle: 10% coal generation.";
+    //newItem.description = "Red particle: 10% coal generation.";
     newItem.helpDescription = "Need to be connected to a storage directly or with a pipe.";
     newItem.imageName = ["building_0"];
     newItem.costRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(10, 10, true), 1.0));
@@ -206,7 +259,11 @@ function loadBuildings() {
     //newItem.rewards.push(createResourceLink(RESOURCE_WOOD, new formulaPow0(1, 2, 0), 1.0));
     newItem.rewards.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(0, 1, 0), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_TREE];
-    newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 0.1)]));
+    //newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 0.1)]));
+    newItem.upgrades.push(createBuildingUpgrade_ParticleOutput("Burning of trees", "Put red particle to have a 10% of gaining coal.", 10,
+        new formulaLinear(10, 100),
+        createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 1)]),
+        new formulaLinear(1, 1)));
     buildings.push(newItem);
 
     // !!!
@@ -222,6 +279,11 @@ function loadBuildings() {
     newItem.rewards.push(createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1, 0), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_MOUNTAIN];
     newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_BLUE, [createResourceLink(RESOURCE_ORE, new formulaLinear(0, 1), 0.1)]));
+    //newItem.upgrades.push(createBuildingUpgrade("Burning of trees", "Use red mana to give some coal.", 10, new formulaLinear(10, 100)));
+    newItem.upgrades.push(createBuildingUpgrade_Reward("Increase Production", "Increase production of stone.", 10,
+        new formulaLinear(1, 10),
+        createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1, 0), 1.0),
+        new formulaLinear(1, 1)));
     buildings.push(newItem);
 
     // !!!
@@ -257,6 +319,7 @@ function loadBuildings() {
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_WATER, CELL_TYPE_LAVA, CELL_TYPE_DARKPOUND];
     newItem.needStorage = false;
     newItem.maxGradeLevel = 4;
+    newItem.upgrades.push(createBuildingUpgrade_Grade("Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     // !!!

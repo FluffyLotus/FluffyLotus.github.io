@@ -61,428 +61,521 @@ function getCellFromId(id) {
 }
 
 function loadCells() {
-    cells[0] = new cellInformation();
-    cells[0].id = 0;
-    cells[0].name = "Grass";
-    cells[0].imageName = "f_grass";
-    cells[0].type = CELL_TYPE_GRASS;
-    cells[0].innerParticleId = PARTICLE_GREEN;
-
-    cells[1] = new cellInformation();
-    cells[1].id = 1
-    cells[1].name = "Tree";
-    cells[1].imageName = "f_tree";
-    cells[1].type = CELL_TYPE_TREE;
-    cells[1].clickReward.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(1, 0), 1.0));
-
-    cells[2] = new cellInformation();
-    cells[2].id = 2;
-    cells[2].name = "Mountain";
-    cells[2].imageName = "f_mountain";
-    cells[2].type = CELL_TYPE_MOUNTAIN;
-    cells[2].clickReward.push(createResourceLink(RESOURCE_STONE, new formulaLinear(1, 0), 1.0));
-
-    cells[3] = new cellInformation();
-    cells[3].id = 3;
-    cells[3].name = "Water";
-    cells[3].imageName = "water";
-    cells[3].type = CELL_TYPE_WATER;
-    cells[3].innerParticleId = PARTICLE_BLUE;
-
-    cells[4] = new cellInformation();
-    cells[4].id = 4;
-    cells[4].name = "Lava";
-    cells[4].imageName = "lava";
-    cells[4].type = CELL_TYPE_LAVA;
-    cells[4].innerParticleId = PARTICLE_RED;
-
-    cells[5] = new cellInformation();
-    cells[5].id = 5;
-    cells[5].name = "Home";
-    cells[5].imageName = "f_town";
-    cells[5].type = CELL_TYPE_OBSTACLE;
-
-    cells[6] = new cellInformation();
-    cells[6].id = 6;
-    cells[6].name = "Dirt Road";
-    cells[6].imageName = "f_path";
-    cells[6].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[7] = new cellInformation();
-    cells[7].id = 7;
-    cells[7].name = "Deep Water";
-    cells[7].imageName = "deepWater";
-    cells[7].type = CELL_TYPE_OBSTACLE;
-
-    cells[8] = new cellInformation();
-    cells[8].id = 8;
-    cells[8].name = "Bridge";
-    cells[8].imageName = "waterBridge";
-    cells[8].type = CELL_TYPE_OBSTACLE;
-
-    cells[9] = new cellInformation();
-    cells[9].id = 9;
-    cells[9].name = "Poison";
-    cells[9].imageName = "poison";
-    cells[9].type = CELL_TYPE_OBSTACLE;
-
-    cells[10] = new cellInformation();
-    cells[10].id = 10;
-    cells[10].name = "Swamp";
-    cells[10].imageName = "s_ground";
-    cells[10].type = CELL_TYPE_GROUND;
-
-    cells[11] = new cellInformation();
-    cells[11].id = 11;
-    cells[11].name = "Swamp Tree";
-    cells[11].imageName = "s_tree";
-    cells[11].type = CELL_TYPE_TREE;
-
-    cells[12] = new cellInformation();
-    cells[12].id = 12;
-    cells[12].name = "Swamp Town";
-    cells[12].imageName = "s_town";
-    cells[12].type = CELL_TYPE_OBSTACLE;
-
-    cells[13] = new cellInformation();
-    cells[13].id = 13;
-    cells[13].name = "Sand";
-    cells[13].imageName = "d_ground";
-    cells[13].type = CELL_TYPE_GROUND;
-
-    cells[14] = new cellInformation();
-    cells[14].id = 14;
-    cells[14].name = "Cactus";
-    cells[14].imageName = "d_cactus";
-    cells[14].type = CELL_TYPE_OBSTACLE;
-
-    cells[15] = new cellInformation();
-    cells[15].id = 15;
-    cells[15].name = "Town";
-    cells[15].imageName = "d_town";
-    cells[15].type = CELL_TYPE_OBSTACLE;
-
-    cells[16] = new cellInformation();
-    cells[16].id = 16;
-    cells[16].name = "Obsidian";
-    cells[16].imageName = "v_ground";
-    cells[16].type = CELL_TYPE_GROUND;
-
-    cells[17] = new cellInformation();
-    cells[17].id = 17;
-    cells[17].name = "City";
-    cells[17].imageName = "v_town";
-    cells[17].type = CELL_TYPE_OBSTACLE;
-
-    cells[18] = new cellInformation();
-    cells[18].id = 18;
-    cells[18].name = "Bridge";
-    cells[18].imageName = "v_bridge";
-    cells[18].type = CELL_TYPE_OBSTACLE;
-
-    cells[19] = new cellInformation();
-    cells[19].id = 19;
-    cells[19].name = "Hard Sand";
-    cells[19].imageName = "c_ground";
-    cells[19].type = CELL_TYPE_GROUND;
-
-    cells[20] = new cellInformation();
-    cells[20].id = 20;
-    cells[20].name = "Hard Sand Rock";
-    cells[20].imageName = "c_rock";
-    cells[20].type = CELL_TYPE_OBSTACLE;
-
-    cells[21] = new cellInformation();
-    cells[21].id = 21;
-    cells[21].name = "Road";
-    cells[21].imageName = "f_road";
-    cells[21].type = CELL_TYPE_OBSTACLE;
-
-    cells[22] = new cellInformation();
-    cells[22].id = 22;
-    cells[22].name = "City";
-    cells[22].imageName = "f_city";
-    cells[22].type = CELL_TYPE_OBSTACLE;
-
-    cells[23] = new cellInformation();
-    cells[23].id = 23;
-    cells[23].name = "Mountain Cave";
-    cells[23].imageName = "f_cave";
-    cells[23].type = CELL_TYPE_NONE;
-
-    cells[24] = new cellInformation();
-    cells[24].id = 24;
-    cells[24].name = "Boulder";
-    cells[24].imageName = "f_boulder";
-    cells[24].type = CELL_TYPE_S_BOULDER;
-
-    cells[25] = new cellInformation();
-    cells[25].id = 25;
-    cells[25].name = "Lava path";
-    cells[25].imageName = "v_path";
-    cells[25].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[26] = new cellInformation();
-    cells[26].id = 26;
-    cells[26].name = "Lava stream";
-    cells[26].imageName = "v_stream_1100";
-    cells[26].type = CELL_TYPE_OBSTACLE;
-
-    cells[27] = new cellInformation();
-    cells[27].id = 27;
-    cells[27].name = "Lava stream";
-    cells[27].imageName = "v_stream_1010";
-    cells[27].type = CELL_TYPE_OBSTACLE;
-
-    cells[28] = new cellInformation();
-    cells[28].id = 28;
-    cells[28].name = "Lava stream";
-    cells[28].imageName = "v_stream_0011";
-    cells[28].type = CELL_TYPE_OBSTACLE;
-
-    cells[29] = new cellInformation();
-    cells[29].id = 29;
-    cells[29].name = "Lava stream";
-    cells[29].imageName = "v_stream_0101";
-    cells[29].type = CELL_TYPE_OBSTACLE;
-
-    cells[30] = new cellInformation();
-    cells[30].id = 30;
-    cells[30].name = "Lava stream";
-    cells[30].imageName = "v_stream_1001";
-    cells[30].type = CELL_TYPE_OBSTACLE;
-
-    cells[31] = new cellInformation();
-    cells[31].id = 31;
-    cells[31].name = "Lava stream";
-    cells[31].imageName = "v_stream_0110";
-    cells[31].type = CELL_TYPE_OBSTACLE;
-
-    cells[32] = new cellInformation();
-    cells[32].id = 32;
-    cells[32].name = "Lava mountain";
-    cells[32].imageName = "v_mountain";
-    cells[32].type = CELL_TYPE_MOUNTAIN;
-
-    cells[33] = new cellInformation();
-    cells[33].id = 33;
-    cells[33].name = "Lava tree";
-    cells[33].imageName = "v_tree";
-    cells[33].type = CELL_TYPE_TREE;
-
-    cells[34] = new cellInformation();
-    cells[34].id = 34;
-    cells[34].name = "Dry lake";
-    cells[34].imageName = "v_dryLake";
-    cells[34].type = CELL_TYPE_S_POUND;
-
-    cells[35] = new cellInformation();
-    cells[35].id = 35;
-    cells[35].name = "Swamp Mountain";
-    cells[35].imageName = "s_mountain";
-    cells[35].type = CELL_TYPE_MOUNTAIN;
-
-    cells[36] = new cellInformation();
-    cells[36].id = 36;
-    cells[36].name = "Swamp Cave";
-    cells[36].imageName = "v_cave";
-    cells[36].type = CELL_TYPE_NONE;
-
-    cells[37] = new cellInformation();
-    cells[37].id = 37;
-    cells[37].name = "Swamp Spider Web";
-    cells[37].imageName = "s_web";
-    cells[37].type = CELL_TYPE_S_WEB;
-
-    cells[38] = new cellInformation();
-    cells[38].id = 38;
-    cells[38].name = "Dark Pound";
-    cells[38].imageName = "darkPound";
-    cells[38].type = CELL_TYPE_DARKPOUND;
-
-    cells[39] = new cellInformation();
-    cells[39].id = 39;
-    cells[39].name = "Swamp Path";
-    cells[39].imageName = "s_path";
-    cells[39].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[40] = new cellInformation();
-    cells[40].id = 40;
-    cells[40].name = "Swamp River";
-    cells[40].imageName = "s_stream_1001";
-    cells[40].type = CELL_TYPE_OBSTACLE;
-
-    cells[41] = new cellInformation();
-    cells[41].id = 41;
-    cells[41].name = "Swamp River";
-    cells[41].imageName = "s_stream_0110";
-    cells[41].type = CELL_TYPE_OBSTACLE;
-
-    cells[42] = new cellInformation();
-    cells[42].id = 42;
-    cells[42].name = "Swamp River Bridge";
-    cells[42].imageName = "s_bridge";
-    cells[42].type = CELL_TYPE_OBSTACLE;
-
-    cells[43] = new cellInformation();
-    cells[43].id = 43;
-    cells[43].name = "Swamp River";
-    cells[43].imageName = "s_stream_1100";
-    cells[43].type = CELL_TYPE_OBSTACLE;
-
-    cells[44] = new cellInformation();
-    cells[44].id = 44;
-    cells[44].name = "Swamp River";
-    cells[44].imageName = "s_stream_1010";
-    cells[44].type = CELL_TYPE_OBSTACLE;
-
-    cells[45] = new cellInformation();
-    cells[45].id = 45;
-    cells[45].name = "Swamp River";
-    cells[45].imageName = "s_stream_0011";
-    cells[45].type = CELL_TYPE_OBSTACLE;
-
-    cells[46] = new cellInformation();
-    cells[46].id = 46;
-    cells[46].name = "Swamp River";
-    cells[46].imageName = "s_stream_0101";
-    cells[46].type = CELL_TYPE_OBSTACLE;
-
-    cells[47] = new cellInformation();
-    cells[47].id = 47;
-    cells[47].name = "Swamp River";
-    cells[47].imageName = "s_stream_1110";
-    cells[47].type = CELL_TYPE_OBSTACLE;
-
-    cells[48] = new cellInformation();
-    cells[48].id = 48;
-    cells[48].name = "Swamp River";
-    cells[48].imageName = "s_stream_1011";
-    cells[48].type = CELL_TYPE_OBSTACLE;
-
-    cells[49] = new cellInformation();
-    cells[49].id = 49;
-    cells[49].name = "Swamp River";
-    cells[49].imageName = "s_stream_0111";
-    cells[49].type = CELL_TYPE_OBSTACLE;
-
-    cells[50] = new cellInformation();
-    cells[50].id = 50;
-    cells[50].name = "Swamp River";
-    cells[50].imageName = "s_stream_1101";
-    cells[50].type = CELL_TYPE_OBSTACLE;
-
-    cells[51] = new cellInformation();
-    cells[51].id = 51;
-    cells[51].name = "Swamp Cave";
-    cells[51].imageName = "s_cave";
-    cells[51].type = CELL_TYPE_NONE;
-
-    cells[52] = new cellInformation();
-    cells[52].id = 52;
-    cells[52].name = "Pipe";
-    cells[52].imageName = "f_pipe";
-    cells[52].type = CELL_TYPE_OBSTACLE;
-
-    cells[53] = new cellInformation();
-    cells[53].id = 53;
-    cells[53].name = "Pipe 2";
-    cells[53].imageName = "f_pipe2";
-    cells[53].type = CELL_TYPE_OBSTACLE;
-
-    cells[54] = new cellInformation();
-    cells[54].id = 54;
-    cells[54].name = "Train Track";
-    cells[54].imageName = "f_rail_1001";
-    cells[54].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[55] = new cellInformation();
-    cells[55].id = 55;
-    cells[55].name = "Train Track";
-    cells[55].imageName = "f_rail_0110";
-    cells[55].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[56] = new cellInformation();
-    cells[56].id = 56;
-    cells[56].name = "Train Track";
-    cells[56].imageName = "f_rail_0101";
-    cells[56].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[57] = new cellInformation();
-    cells[57].id = 57;
-    cells[57].name = "Train Track";
-    cells[57].imageName = "f_rail_1100";
-    cells[57].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[58] = new cellInformation();
-    cells[58].id = 58;
-    cells[58].name = "Train Track";
-    cells[58].imageName = "f_rail_1010";
-    cells[58].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[59] = new cellInformation();
-    cells[59].id = 59;
-    cells[59].name = "Train Track";
-    cells[59].imageName = "f_rail_0011";
-    cells[59].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[60] = new cellInformation();
-    cells[60].id = 60;
-    cells[60].name = "Trash";
-    cells[60].imageName = "trash";
-    cells[60].type = CELL_TYPE_TRASH;
-
-    cells[61] = new cellInformation();
-    cells[61].id = 61;
-    cells[61].name = "Desert Tree";
-    cells[61].imageName = "d_tree";
-    cells[61].type = CELL_TYPE_TREE;
-
-    cells[62] = new cellInformation();
-    cells[62].id = 62;
-    cells[62].name = "Light Sand";
-    cells[62].imageName = "d_sand";
-    cells[62].type = CELL_TYPE_SAND;
-
-    cells[63] = new cellInformation();
-    cells[63].id = 63;
-    cells[63].name = "Desert Path";
-    cells[63].imageName = "d_path";
-    cells[63].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[64] = new cellInformation();
-    cells[64].id = 64;
-    cells[64].name = "Canyon Path";
-    cells[64].imageName = "c_path";
-    cells[64].type = CELL_TYPE_SMALLOBSTACLE;
-
-    cells[65] = new cellInformation();
-    cells[65].id = 65;
-    cells[65].name = "Canyon House";
-    cells[65].imageName = "c_town";
-    cells[65].type = CELL_TYPE_OBSTACLE;
-
-    cells[66] = new cellInformation();
-    cells[66].id = 66;
-    cells[66].name = "Canyon Mountain";
-    cells[66].imageName = "c_mountain";
-    cells[66].type = CELL_TYPE_MOUNTAIN;
-
-    cells[67] = new cellInformation();
-    cells[67].id = 67;
-    cells[67].name = "Canyon Statue";
-    cells[67].imageName = "c_statue";
-    cells[67].type = CELL_TYPE_S_STATUE;
-
-    cells[68] = new cellInformation();
-    cells[68].id = 68;
-    cells[68].name = "Canyon Side";
-    cells[68].imageName = "c_side";
-    cells[68].type = CELL_TYPE_OBSTACLE;
-
-    cells[69] = new cellInformation();
-    cells[69].id = 69;
-    cells[69].name = "Cemetary";
-    cells[69].imageName = "f_cemetary";
-    cells[69].type = CELL_TYPE_S_CEMETARY;
+    var newItem;
+
+    newItem = new cellInformation();
+    newItem.id = 0;
+    newItem.name = "Grass";
+    newItem.imageName = "f_grass";
+    newItem.type = CELL_TYPE_GRASS;
+    newItem.innerParticleId = PARTICLE_GREEN;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 1
+    newItem.name = "Tree";
+    newItem.imageName = "f_tree";
+    newItem.type = CELL_TYPE_TREE;
+    newItem.clickReward.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(1, 0), 1.0));
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 2;
+    newItem.name = "Mountain";
+    newItem.imageName = "f_mountain";
+    newItem.type = CELL_TYPE_MOUNTAIN;
+    newItem.clickReward.push(createResourceLink(RESOURCE_STONE, new formulaLinear(1, 0), 1.0));
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 3;
+    newItem.name = "Water";
+    newItem.imageName = "water";
+    newItem.type = CELL_TYPE_WATER;
+    newItem.innerParticleId = PARTICLE_BLUE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 4;
+    newItem.name = "Lava";
+    newItem.imageName = "lava";
+    newItem.type = CELL_TYPE_LAVA;
+    newItem.innerParticleId = PARTICLE_RED;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 5;
+    newItem.name = "Home";
+    newItem.imageName = "f_town";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 6;
+    newItem.name = "Dirt Road";
+    newItem.imageName = "f_path";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 7;
+    newItem.name = "Deep Water";
+    newItem.imageName = "deepWater";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 8;
+    newItem.name = "Bridge";
+    newItem.imageName = "waterBridge";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 9;
+    newItem.name = "Poison";
+    newItem.imageName = "poison";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 10;
+    newItem.name = "Swamp";
+    newItem.imageName = "s_ground";
+    newItem.type = CELL_TYPE_GROUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 11;
+    newItem.name = "Swamp Tree";
+    newItem.imageName = "s_tree";
+    newItem.type = CELL_TYPE_TREE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 12;
+    newItem.name = "Swamp Town";
+    newItem.imageName = "s_town";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 13;
+    newItem.name = "Sand";
+    newItem.imageName = "d_ground";
+    newItem.type = CELL_TYPE_GROUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 14;
+    newItem.name = "Cactus";
+    newItem.imageName = "d_cactus";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 15;
+    newItem.name = "Town";
+    newItem.imageName = "d_town";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 16;
+    newItem.name = "Obsidian";
+    newItem.imageName = "v_ground";
+    newItem.type = CELL_TYPE_GROUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 17;
+    newItem.name = "City";
+    newItem.imageName = "v_town";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 18;
+    newItem.name = "Bridge";
+    newItem.imageName = "v_bridge";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 19;
+    newItem.name = "Hard Sand";
+    newItem.imageName = "c_ground";
+    newItem.type = CELL_TYPE_GROUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 20;
+    newItem.name = "Hard Sand Rock";
+    newItem.imageName = "c_rock";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 21;
+    newItem.name = "Road";
+    newItem.imageName = "f_road";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 22;
+    newItem.name = "City";
+    newItem.imageName = "f_city";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 23;
+    newItem.name = "Mountain Cave";
+    newItem.imageName = "f_cave";
+    newItem.type = CELL_TYPE_NONE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 24;
+    newItem.name = "Boulder";
+    newItem.imageName = "f_boulder";
+    newItem.type = CELL_TYPE_S_BOULDER;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 25;
+    newItem.name = "Lava path";
+    newItem.imageName = "v_path";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 26;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_1100";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 27;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_1010";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 28;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_0011";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 29;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_0101";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 30;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_1001";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 31;
+    newItem.name = "Lava stream";
+    newItem.imageName = "v_stream_0110";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 32;
+    newItem.name = "Lava mountain";
+    newItem.imageName = "v_mountain";
+    newItem.type = CELL_TYPE_MOUNTAIN;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 33;
+    newItem.name = "Lava tree";
+    newItem.imageName = "v_tree";
+    newItem.type = CELL_TYPE_TREE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 34;
+    newItem.name = "Dry lake";
+    newItem.imageName = "v_dryLake";
+    newItem.type = CELL_TYPE_S_POUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 35;
+    newItem.name = "Swamp Mountain";
+    newItem.imageName = "s_mountain";
+    newItem.type = CELL_TYPE_MOUNTAIN;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 36;
+    newItem.name = "Swamp Cave";
+    newItem.imageName = "v_cave";
+    newItem.type = CELL_TYPE_NONE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 37;
+    newItem.name = "Swamp Spider Web";
+    newItem.imageName = "s_web";
+    newItem.type = CELL_TYPE_S_WEB;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 38;
+    newItem.name = "Dark Pound";
+    newItem.imageName = "darkPound";
+    newItem.type = CELL_TYPE_DARKPOUND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 39;
+    newItem.name = "Swamp Path";
+    newItem.imageName = "s_path";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 40;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1001";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 41;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_0110";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 42;
+    newItem.name = "Swamp River Bridge";
+    newItem.imageName = "s_bridge";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 43;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1100";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 44;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1010";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 45;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_0011";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 46;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_0101";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 47;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1110";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 48;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1011";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 49;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_0111";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 50;
+    newItem.name = "Swamp River";
+    newItem.imageName = "s_stream_1101";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 51;
+    newItem.name = "Swamp Cave";
+    newItem.imageName = "s_cave";
+    newItem.type = CELL_TYPE_NONE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 52;
+    newItem.name = "Pipe";
+    newItem.imageName = "f_pipe";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 53;
+    newItem.name = "Pipe 2";
+    newItem.imageName = "f_pipe2";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 54;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_1001";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 55;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_0110";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 56;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_0101";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 57;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_1100";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 58;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_1010";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 59;
+    newItem.name = "Train Track";
+    newItem.imageName = "f_rail_0011";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 60;
+    newItem.name = "Trash";
+    newItem.imageName = "trash";
+    newItem.type = CELL_TYPE_TRASH;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 61;
+    newItem.name = "Desert Tree";
+    newItem.imageName = "d_tree";
+    newItem.type = CELL_TYPE_TREE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 62;
+    newItem.name = "Light Sand";
+    newItem.imageName = "d_sand";
+    newItem.type = CELL_TYPE_SAND;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 63;
+    newItem.name = "Desert Path";
+    newItem.imageName = "d_path";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 64;
+    newItem.name = "Canyon Path";
+    newItem.imageName = "c_path";
+    newItem.type = CELL_TYPE_SMALLOBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 65;
+    newItem.name = "Canyon House";
+    newItem.imageName = "c_town";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 66;
+    newItem.name = "Canyon Mountain";
+    newItem.imageName = "c_mountain";
+    newItem.type = CELL_TYPE_MOUNTAIN;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 67;
+    newItem.name = "Canyon Obelisk";
+    newItem.imageName = "c_statue";
+    newItem.type = CELL_TYPE_S_STATUE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 68;
+    newItem.name = "Canyon Side";
+    newItem.imageName = "c_side";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 69;
+    newItem.name = "Cemetary";
+    newItem.imageName = "f_cemetary";
+    newItem.type = CELL_TYPE_S_CEMETARY;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 70;
+    newItem.name = "Desert Dead Tree";
+    newItem.imageName = "d_deadTree";
+    newItem.type = CELL_TYPE_S_DEADTREE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 71;
+    newItem.name = "Canyon Side";
+    newItem.imageName = "c_side_l";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 72;
+    newItem.name = "Canyon Side";
+    newItem.imageName = "c_side_r";
+    newItem.type = CELL_TYPE_OBSTACLE;
+    cells.push(newItem);
 }

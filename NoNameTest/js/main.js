@@ -111,7 +111,7 @@ function loadApp() {
 
     processTick();
 
-    $('#helpModal').modal('show');
+    //$('#helpModal').modal('show');
 }
 
 function prepareTick() {
@@ -132,6 +132,7 @@ function processTick() {
         processMapBuildingTick();
         currentMapAdventure.processTick();
         processQuestTick();
+        processSkillTick();
 
         if (fastIsOn) {
             if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0) {
@@ -157,6 +158,7 @@ function processTick() {
         uiDrawEnemyInfo();
         uiDrawNewMessage();
         uiDrawBuildingIcon();
+        uiDrawBuildingUpgrade();
 
         //
         if (currentMapAdventure.canRun)

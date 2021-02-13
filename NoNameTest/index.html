@@ -205,10 +205,10 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#worldMapModal">World Map</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#worldMapModal">World Map</a></li>
                 </ul>
             </div>
         </nav>
@@ -247,12 +247,12 @@
                     <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">Quest <span id="questTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <li id="tabItemPlayer" class="nav-item" role="presentation" style="display: none;">
-                    <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Skills <span id="playerTabBadge" class="badge badge-danger"></span></a>
+                    <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Skill <span id="playerTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="enemyInfo-tab" data-toggle="tab" href="#enemyInfo" role="tab" aria-controls="enemyInfo" aria-selected="false">Enemy <span id="enemyInfoTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li id="tabItemBuilding" class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="buildingInfo-tab" data-toggle="tab" href="#buildingInfo" role="tab" aria-controls="buildingInfo" aria-selected="false">Building <span id="buildingInfoTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <!--
@@ -501,7 +501,6 @@
                                 <th>Level</th>
                                 <th>Train</th>
                                 <th>Progress until next level</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="passiveSkillContainer">
@@ -514,7 +513,6 @@
                                         <div id="passiveSkillProgress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
-                                <td><button id="passiveSkillUpgradeButton" class="btn btn-sm btn-success">Upgrade</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -522,6 +520,7 @@
                     <h3>Magic</h3>
 
                     <p>Use resource to train special abilities.</p>
+                    <p>Space to equip <span id="magicSpaceCount"></span> magic.</p>
 
                     <table class="table table-hover table-dark table-sm">
                         <thead>
@@ -531,7 +530,6 @@
                                 <th>Level</th>
                                 <th>Train</th>
                                 <th>Progress until next level</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="activeSkillContainer">
@@ -545,7 +543,6 @@
                                         <div id="activeSkillProgress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
-                                <td><button id="activeSkillUpgradeButton" class="btn btn-sm btn-success">Upgrade</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -575,56 +572,25 @@
                 <div class="tab-pane fade" id="buildingInfo" role="tabpanel" aria-labelledby="buildingInfo-tab">
                     <h2>Building</h2>
 
-                    <div class="card" style="margin-top: 5px;">
-                        <div class="card-body">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="card-title mb-1">Axe</h5>
-                                <div class="spriteSheetBuilding" data-spritesheetimage="building_0">&nbsp;</div>
+                    <p>Available Shards: <span id="availableShards"></span></p>
+
+                    <div id="buildingUpgradeContainer">
+
+                        <div id="buildingUpgradeInfo" style="margin-top: 5px; display: none;">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div class="spriteSheetBuilding" id="buildingUpgradeInfoIcon">&nbsp;</div>
+                                </div>
+                                <div class="col-11">
+                                    <h5 class="card-title" id="buildingUpgradeInfoName">Axe</h5>
+                                </div>
                             </div>
 
-                            <div class="row resourceRow">
-                                <div class="col-8">Gain 1% coal with red mana</div>
-                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
-                            </div>
-                            <div class="row resourceRow">
-                                <div class="col-8">Gain 1% coal with red mana</div>
-                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card" style="margin-top: 5px;">
-                        <div class="card-body">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="card-title mb-1">Quarry</h5>
-                                <div class="spriteSheetBuilding" data-spritesheetimage="building_1">&nbsp;</div>
-                            </div>
-
-                            <div class="row resourceRow">
-                                <div class="col-8">Gain 1% iron with red mana</div>
-                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
-                            </div>
-                            <div class="row resourceRow">
-                                <div class="col-8">Gain 1% iron with red mana</div>
-                                <div class="col-4"><button class="btn btn-primary">1 shard</button></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card" style="margin-top: 5px;">
-                        <div class="card-body">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="card-title mb-1">Essence Pull</h5>
-                                <div class="spriteSheetBuilding" data-spritesheetimage="building_4">&nbsp;</div>
-                            </div>
-
-                            <div class="row resourceRow">
-                                <div class="col-8">Increase building grade</div>
-                                <div class="col-4"><button class="btn btn-primary" disabled>100 shard</button></div>
-                            </div>
-                            <div class="row resourceRow">
-                                <div class="col-8">Increase building grade</div>
-                                <div class="col-4"><button class="btn btn-primary" disabled>100 shard</button></div>
+                            <div style="margin-left: 20px;" id="buildingUpgradeInnerContainer">
+                                <div class="row resourceRow" id="buildingUpgradeInnerInfo" style="display: none;">
+                                    <div class="col-8"><span id="buildingUpgradeInnerInfoName"></span></div>
+                                    <div class="col-4"><button class="btn btn-primary btn-block" id="buildingUpgradeInnerInfoButton">1 shard</button></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -647,6 +613,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <p>It's important to export your save game on your local computer. Some website like itch delete the save states when there's an update.</p>
                     <div>
                         <button class="btn btn-dark" onclick="uiGetSaveGame();">Export Save Game</button>
                     </div>
@@ -658,7 +625,7 @@
                     </div>
                     <hr />
                     <div>
-                        <label><input type="checkbox" id="showOverTooltip" /> Show message over tooltip</label>
+                        <label><input type="checkbox" id="showOverTooltip" /> Show message over tooltip instead of a popup</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -721,8 +688,8 @@
                     <p>Something strange is hapenning lately. The animals are more aggressive than usual. We need to make sure we are prepared.</p>
                     <p>Click on mountain and forest to get resources.</p>
                     <p><img src="images/tutorial/0.png" /></p>
-                    <p>To automatically gain resources, build axe on forest and make sure to attach a storage to it. A storage unit need to be right beside a building.</p>
-                    <p><img src="images/tutorial/1.png" /></p>
+                    <p>To automatically gain resources, build axe on forest and make sure to attach a storage to it. A storage unit need to be right beside a building. It cannot be diagonal.</p>
+                    <p><img src="images/tutorial/1.png" /> <img src="images/tutorial/3.png" style="padding-left: 50px;" /></p>
                     <p>After gaining the resource pipe, it can be used to link buildings with storage unit.</p>
                     <p><img src="images/tutorial/2.png" /></p>
                 </div>
@@ -761,6 +728,7 @@
     <script src="images/SpriteSheet/particleImageInfo.js?v=0.02"></script>
 
     <script src="js/building.js?v=v0.03"></script>
+    <script src="js/buildingUpgrade.js?v=v0.03"></script>
     <script src="js/cell.js?v=v0.03"></script>
     <script src="js/dataLink.js?v=v0.03"></script>
     <script src="js/enemy.js?v=v0.03"></script>
@@ -789,6 +757,7 @@
     <script src="js/ui/uiSkill.js?v=v0.03"></script>
     <script src="js/ui/uiMessage.js?v=v0.03"></script>
     <script src="js/ui/uiBuilding.js?v=v0.03"></script>
+    <script src="js/ui/uiBuildingUpgrade.js?v=v0.03"></script>
     <script src="js/ui/uiAdventure.js?v=v0.03"></script>
     <script src="js/ui/uiGeneric.js?v=v0.03"></script>
     <script src="js/ui/uiToast.js?v=v0.03"></script>

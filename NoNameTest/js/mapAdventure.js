@@ -51,11 +51,15 @@ function getMapAdventureFromId(id) {
 }
 
 function loadAdventure() {
-    mapAdventures[0] = new mapAdventureInformation();
-    mapAdventures[0].id = 0;
-    mapAdventures[0].name = "Forest";
+    var newItem;
 
-    mapAdventures[1] = new mapAdventureInformation();
-    mapAdventures[1].id = 1;
-    mapAdventures[1].name = "Desert";
+    newItem = new mapAdventureInformation();
+    newItem.id = 0;
+    newItem.name = "Forest";
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 1;
+    newItem.name = "Desert";
+    mapAdventures.push(newItem);
 }

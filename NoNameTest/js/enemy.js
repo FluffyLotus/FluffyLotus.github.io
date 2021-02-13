@@ -84,6 +84,9 @@ enemyInformation.prototype.processDeath = function (level) {
     else
         this.deathCount[level] += 1;
 
+    if (this.deathCount[level] == 100 || this.deathCount[level] == 400 || this.deathCount[level] == 1600 || this.deathCount[level] == 6400)
+        getResourceFromId(RESOURCE_SHARD).addAmount(1);
+
     this.totalDeath += 1;
 }
 /*
@@ -113,83 +116,93 @@ function getEnemyFromId(id) {
 }
 
 function loadEnemies() {
-    enemies[0] = new enemyInformation();
-    enemies[0].id = 0;
-    enemies[0].name = "Evil Bunny";
-    enemies[0].baseVitality = 30;
-    enemies[0].baseStrength = 10;
-    enemies[0].baseDefence = 0;
-    enemies[0].mulVitality = 10;
-    enemies[0].mulStrength = 10;
-    enemies[0].mulDefence = 0;
+    var newItem;
+
+    newItem = new enemyInformation();
+    newItem.id = 0;
+    newItem.name = "Evil Bunny";
+    newItem.baseVitality = 30;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 10;
+    newItem.mulDefence = 0;
+    enemies.push(newItem);
     
-    enemies[1] = new enemyInformation();
-    enemies[1].id = 1;
-    enemies[1].name = "Evil Rat";
-    enemies[1].baseVitality = 50;
-    enemies[1].baseStrength = 10;
-    enemies[1].baseDefence = 0;
-    enemies[1].mulVitality = 10;
-    enemies[1].mulStrength = 10;
-    enemies[1].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 1;
+    newItem.name = "Evil Rat";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 10;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[2] = new enemyInformation();
-    enemies[2].id = 1;
-    enemies[2].name = "Devil";
-    enemies[2].baseVitality = 50;
-    enemies[2].baseStrength = 10;
-    enemies[2].baseDefence = 0;
-    enemies[2].mulVitality = 20;
-    enemies[2].mulStrength = 15;
-    enemies[2].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 1;
+    newItem.name = "Devil";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[3] = new enemyInformation();
-    enemies[3].id = 3;
-    enemies[3].name = "Bear";
-    enemies[3].baseVitality = 50;
-    enemies[3].baseStrength = 10;
-    enemies[3].baseDefence = 0;
-    enemies[3].mulVitality = 20;
-    enemies[3].mulStrength = 15;
-    enemies[3].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 3;
+    newItem.name = "Bear";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[4] = new enemyInformation();
-    enemies[4].id = 4;
-    enemies[4].name = "Bird";
-    enemies[4].baseVitality = 50;
-    enemies[4].baseStrength = 10;
-    enemies[4].baseDefence = 0;
-    enemies[4].mulVitality = 20;
-    enemies[4].mulStrength = 15;
-    enemies[4].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 4;
+    newItem.name = "Bird";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[5] = new enemyInformation();
-    enemies[5].id = 5;
-    enemies[5].name = "Dog";
-    enemies[5].baseVitality = 50;
-    enemies[5].baseStrength = 10;
-    enemies[5].baseDefence = 0;
-    enemies[5].mulVitality = 20;
-    enemies[5].mulStrength = 15;
-    enemies[5].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 5;
+    newItem.name = "Dog";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[6] = new enemyInformation();
-    enemies[6].id = 6;
-    enemies[6].name = "Pig";
-    enemies[6].baseVitality = 50;
-    enemies[6].baseStrength = 10;
-    enemies[6].baseDefence = 0;
-    enemies[6].mulVitality = 20;
-    enemies[6].mulStrength = 15;
-    enemies[6].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 6;
+    newItem.name = "Pig";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[7] = new enemyInformation();
-    enemies[7].id = 7;
-    enemies[7].name = "Wolf";
-    enemies[7].baseVitality = 50;
-    enemies[7].baseStrength = 10;
-    enemies[7].baseDefence = 0;
-    enemies[7].mulVitality = 20;
-    enemies[7].mulStrength = 15;
-    enemies[7].mulDefence = 10;
+    newItem = new enemyInformation();
+    newItem.id = 7;
+    newItem.name = "Wolf";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 }

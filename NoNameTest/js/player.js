@@ -154,3 +154,19 @@ function createPlayer() {
 
     return pi;
 }
+
+function processSkillTick() {
+    for (var t = 0; t < currentMapAdventure.currentPlayer.passiveSkills.length; t++) {
+        var curSkill = currentMapAdventure.currentPlayer.passiveSkills[t];
+
+        if (curSkill.canUpgrade())
+            curSkill.upgrade();
+    }
+
+    for (var t = 0; t < currentMapAdventure.currentPlayer.activeSkills.length; t++) {
+        var curSkill = currentMapAdventure.currentPlayer.activeSkills[t];
+
+        if (curSkill.canUpgrade())
+            curSkill.upgrade();
+    }
+}

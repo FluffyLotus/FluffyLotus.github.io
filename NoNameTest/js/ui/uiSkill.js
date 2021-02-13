@@ -2,6 +2,11 @@
     if (canViewskills) {
         $("#tabItemPlayer").show();
     }
+    if (getResourceFromId(RESOURCE_SHARD).maxAmount > 0) {
+        $("#tabItemBuilding").show();
+    }
+
+    $("#magicSpaceCount").text(getResourceFromId(RESOURCE_MAGICSPACE).amount);
 
     uiDrawPassiveSkills();
     uiDrawActiveSkills();
@@ -29,7 +34,6 @@ function uiDrawPassiveSkills() {
                 $(newElement).find("#passiveSkillLevel").attr("id", "passiveSkillLevel" + curSkill.skillId);
                 $(newElement).find("#passiveSkillTraining").attr("id", "passiveSkillTraining" + curSkill.skillId);
                 $(newElement).find("#passiveSkillProgress").attr("id", "passiveSkillProgress" + curSkill.skillId);
-                $(newElement).find("#passiveSkillUpgradeButton").attr("id", "passiveSkillUpgradeButton" + curSkill.skillId);
 
                 $("#passiveSkillContainer").append(newElement);
 
@@ -40,7 +44,6 @@ function uiDrawPassiveSkills() {
                 $(newElement).mouseout(uiClearTooltip);
 
                 $("#passiveSkillTraining" + curSkill.skillId).change({ id: curSkill.skillId }, uiSetSkillTraining);
-                $("#passiveSkillUpgradeButton" + curSkill.skillId).click({ id: curSkill.skillId }, uiUpgradeSkill);
             }
 
             if (curSkill.trainingLevel < 10)
@@ -49,11 +52,6 @@ function uiDrawPassiveSkills() {
                 $("#passiveSkillLevel" + curSkill.skillId).text(curSkill.level + "." + curSkill.trainingLevel);
 
             $("#passiveSkillProgress" + curSkill.skillId).width(curSkill.trainingLevel + "%");
-
-            if (curSkill.canUpgrade())
-                $("#passiveSkillUpgradeButton" + curSkill.skillId).show();
-            else
-                $("#passiveSkillUpgradeButton" + curSkill.skillId).hide();
         }
     }
 }
@@ -81,7 +79,6 @@ function uiDrawActiveSkills() {
                 $(newElement).find("#activeSkillLevel").attr("id", "activeSkillLevel" + curSkill.skillId);
                 $(newElement).find("#activeSkillTraining").attr("id", "activeSkillTraining" + curSkill.skillId);
                 $(newElement).find("#activeSkillProgress").attr("id", "activeSkillProgress" + curSkill.skillId);
-                $(newElement).find("#activeSkillUpgradeButton").attr("id", "activeSkillUpgradeButton" + curSkill.skillId);
 
                 $("#activeSkillContainer").append(newElement);
 
@@ -93,7 +90,6 @@ function uiDrawActiveSkills() {
 
                 $("#activeSkillEquip" + curSkill.skillId).change({ id: curSkill.skillId }, uiSetSkillEquip);
                 $("#activeSkillTraining" + curSkill.skillId).change({ id: curSkill.skillId }, uiSetSkillTraining);
-                $("#activeSkillUpgradeButton" + curSkill.skillId).click({ id: curSkill.skillId }, uiUpgradeSkill);
             }
 
             if (curSkill.trainingLevel < 10)
@@ -102,11 +98,6 @@ function uiDrawActiveSkills() {
                 $("#activeSkillLevel" + curSkill.skillId).text(curSkill.level + "." + curSkill.trainingLevel);
 
             $("#activeSkillProgress" + curSkill.skillId).width(curSkill.trainingLevel + "%");
-
-            if (curSkill.canUpgrade())
-                $("#activeSkillUpgradeButton" + curSkill.skillId).show();
-            else
-                $("#activeSkillUpgradeButton" + curSkill.skillId).hide();
         }
     }
 }
@@ -139,12 +130,6 @@ function uiShowSkillTooltip(event) {
     right = "Training Requirements<br />" + getResourceLinkString(skillInfo.trainingRequirements, curSkill.level);
 
     uiSetTooltip(left, right);
-}
-
-function uiUpgradeSkill(event) {
-    var curSkill = currentMapAdventure.currentPlayer.getSkillInstance(event.data.id);
-
-    curSkill.upgrade();
 }
 
 function uiSetSkillEquip(event) {

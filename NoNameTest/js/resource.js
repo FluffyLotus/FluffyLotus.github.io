@@ -15,6 +15,10 @@ var RESOURCE_IRON = 13;
 var RESOURCE_ENERGY = 14;
 var RESOURCE_GEAR = 15;
 var RESOURCE_TIMEMANA = 16;
+var RESOURCE_SHARD = 17;
+var RESOURCE_MAGICSPACE = 18;
+var RESOURCE_DARKESSENCE = 19;
+var RESOURCE_LIGHTESSENCE = 20;
 
 function resourceInformation() {
     this.id = 0;
@@ -58,71 +62,110 @@ function getResourceFromId(id) {
 }
 
 function loadResources() {
-    resources[0] = new resourceInformation();
-    resources[0].id = 0;
-    resources[0].name = "Wood";
+    var newItem;
 
-    resources[1] = new resourceInformation();
-    resources[1].id = 1;
-    resources[1].name = "Stone";
+    newItem = new resourceInformation();
+    newItem.id = 0;
+    newItem.name = "Wood";
+    resources.push(newItem);
 
-    resources[2] = new resourceInformation();
-    resources[2].id = 2;
-    resources[2].name = "Green Mana";
+    newItem = new resourceInformation();
+    newItem.id = 1;
+    newItem.name = "Stone";
+    resources.push(newItem);
 
-    resources[3] = new resourceInformation();
-    resources[3].id = 3;
-    resources[3].name = "Plank";
+    newItem = new resourceInformation();
+    newItem.id = 2;
+    newItem.name = "Green Mana";
+    resources.push(newItem);
 
-    resources[4] = new resourceInformation();
-    resources[4].id = 4;
-    resources[4].name = "Blue Mana";
+    newItem = new resourceInformation();
+    newItem.id = 3;
+    newItem.name = "Plank";
+    resources.push(newItem);
 
-    resources[5] = new resourceInformation();
-    resources[5].id = 5;
-    resources[5].name = "Green Essence";
+    newItem = new resourceInformation();
+    newItem.id = 4;
+    newItem.name = "Blue Mana";
+    resources.push(newItem);
 
-    resources[6] = new resourceInformation();
-    resources[6].id = 6;
-    resources[6].name = "Blue Essence";
+    newItem = new resourceInformation();
+    newItem.id = 5;
+    newItem.name = "Green Essence";
+    resources.push(newItem);
 
-    resources[7] = new resourceInformation();
-    resources[7].id = 7;
-    resources[7].name = "Red Essence";
+    newItem = new resourceInformation();
+    newItem.id = 6;
+    newItem.name = "Blue Essence";
+    resources.push(newItem);
 
-    resources[8] = new resourceInformation();
-    resources[8].id = 8;
-    resources[8].name = "Red Mana";
+    newItem = new resourceInformation();
+    newItem.id = 7;
+    newItem.name = "Red Essence";
+    resources.push(newItem);
 
-    resources[9] = new resourceInformation();
-    resources[9].id = 9;
-    resources[9].name = "Time Essence";
+    newItem = new resourceInformation();
+    newItem.id = 8;
+    newItem.name = "Red Mana";
+    resources.push(newItem);
 
-    resources[10] = new resourceInformation();
-    resources[10].id = 10;
-    resources[10].name = "Coal";
+    newItem = new resourceInformation();
+    newItem.id = 9;
+    newItem.name = "Time Essence";
+    resources.push(newItem);
 
-    resources[11] = new resourceInformation();
-    resources[11].id = 11;
-    resources[11].name = "Block";
+    newItem = new resourceInformation();
+    newItem.id = 10;
+    newItem.name = "Coal";
+    resources.push(newItem);
 
-    resources[12] = new resourceInformation();
-    resources[12].id = 12;
-    resources[12].name = "Ore";
+    newItem = new resourceInformation();
+    newItem.id = 11;
+    newItem.name = "Block";
+    resources.push(newItem);
 
-    resources[13] = new resourceInformation();
-    resources[13].id = 13;
-    resources[13].name = "Iron";
+    newItem = new resourceInformation();
+    newItem.id = 12;
+    newItem.name = "Ore";
+    resources.push(newItem);
 
-    resources[14] = new resourceInformation();
-    resources[14].id = 14;
-    resources[14].name = "Energy";
+    newItem = new resourceInformation();
+    newItem.id = 13;
+    newItem.name = "Iron";
+    resources.push(newItem);
 
-    resources[15] = new resourceInformation();
-    resources[15].id = 15;
-    resources[15].name = "Gear";
+    newItem = new resourceInformation();
+    newItem.id = 14;
+    newItem.name = "Energy";
+    resources.push(newItem);
 
-    resources[16] = new resourceInformation();
-    resources[16].id = 16;
-    resources[16].name = "Time Mana";
+    newItem = new resourceInformation();
+    newItem.id = 15;
+    newItem.name = "Gear";
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 16;
+    newItem.name = "Time Mana";
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 17;
+    newItem.name = "Soul Shard";
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 18;
+    newItem.name = "Magic Space";
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 19;
+    newItem.name = "Dark Mana";
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 20;
+    newItem.name = "Light Mana";
+    resources.push(newItem);
 }

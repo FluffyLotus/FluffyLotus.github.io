@@ -64,7 +64,7 @@ mapsData[1] = [
 
 // Swamp
 mapsData[2] = [
-    37, 37, 51, 10, 10, 35, 10, 35, 10, 10, 40, 35,
+    51, 35, 35, 10, 10, 35, 10, 35, 10, 10, 40, 35,
     37, 35, 35, 10, 10, 11, 10, 10, 10, 45, 43, 10,
     10, 45, 41, 41, 46, 38, 45, 41, 46, 40, 10, 10,
     11, 40, 10, 38, 48, 41, 43, 11, 48, 43, 10, 11,
@@ -80,18 +80,18 @@ mapsData[2] = [
 
 // Desert
 mapsData[3] = [
-    13, 14, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
-    13, 13, 13, 13, 13, 13, 14, 13, 13, 62, 13, 13,
-    13, 13, 62, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    13, 14, 13, 13, 13, 13, 13, 13, 13, 62, 62, 62,
+    13, 13, 13, 13, 13, 13, 14, 13, 13, 62, 62, 62,
+    13, 13, 62, 13, 13, 13, 13, 13, 13, 13, 62, 62,
     13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
-    13, 13, 13, 14, 13, 13, 13, 13, 13, 13, 13, 13,
-    63, 63, 63, 63, 15, 13, 13, 13, 13, 13, 14, 13,
+    13, 13, 13, 14, 13, 13, 13, 13, 13, 14, 13, 13,
+    63, 63, 63, 63, 15, 63, 63, 63, 63, 63, 63, 63,
     13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
-    13, 13, 13, 13, 13, 13, 62, 13, 13, 13, 13, 13,
-    13, 14, 13, 13, 13, 13, 13, 13, 13, 61, 13, 13,
-    13, 13, 13, 13, 13, 13, 13, 13, 61, 3, 61, 13,
-    13, 13, 62, 13, 13, 13, 13, 13, 13, 61, 13, 13,
-    13, 13, 13, 13, 13, 13, 14, 13, 13, 13, 13, 13
+    13, 13, 13, 13, 13, 13, 62, 13, 61, 13, 13, 13,
+    13, 14, 13, 13, 13, 13, 13, 13, 3, 3, 13, 13,
+    13, 13, 13, 13, 13, 13, 13, 61, 3, 70, 13, 13,
+    62, 62, 62, 13, 13, 13, 13, 13, 61, 13, 13, 13,
+    62, 62, 62, 62, 13, 13, 14, 13, 13, 13, 13, 13
 ];
 
 // Lava
@@ -115,13 +115,13 @@ mapsData[5] = [
     19, 19, 19, 19, 19, 19, 19, 19, 19, 66, 66, 66,
     19, 19, 19, 19, 19, 19, 19, 19, 19, 66, 67, 66,
     19, 19, 20, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    0, 19, 19, 71, 68, 68, 68, 68, 72, 19, 19, 19,
+    0, 0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    0, 0, 71, 68, 68, 72, 19, 71, 68, 72, 19, 19,
+    6, 6, 64, 64, 64, 64, 65, 64, 64, 64, 64, 64,
+    0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    71, 68, 68, 72, 19, 71, 68, 72, 19, 71, 68, 68,
     19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-    19, 19, 19, 19, 19, 68, 68, 68, 19, 19, 19, 19,
-    19, 19, 68, 68, 68, 68, 19, 68, 68, 68, 19, 19,
-    64, 64, 64, 64, 64, 64, 65, 64, 64, 64, 64, 64,
-    19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-    68, 68, 68, 68, 19, 19, 19, 68, 68, 68, 68, 68,
-    19, 19, 19, 68, 19, 19, 19, 68, 19, 19, 19, 19,
     19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 19,
     19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19
 ];
@@ -134,7 +134,7 @@ mapsData[6] = [
     0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 54, 0, 0, 0, 60, 60, 60,
     0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 60, 60,
-    21, 21, 21, 21, 21, 22, 0, 0, 0, 0, 0, 60,
+    21, 21, 21, 21, 21, 22, 21, 21, 21, 21, 21, 60,
     0, 0, 0, 0, 0, 52, 0, 0, 0, 0, 60, 60,
     0, 0, 0, 0, 0, 52, 0, 0, 0, 60, 60, 60,
     0, 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 60,
@@ -426,38 +426,47 @@ function getMapBuildingFromId(id) {
 }
 
 function loadMapBuilding() {
-    mapBuildings[0] = new mapBuilding();
-    mapBuildings[0].id = 0;
-    mapBuildings[0].name = "Town of Naposhore";
-    mapBuildings[0].generateGrid(mapsData[0]);
+    var newItem;
 
-    mapBuildings[1] = new mapBuilding();
-    mapBuildings[1].id = 1;
-    mapBuildings[1].name = "Town of Barock";
-    mapBuildings[1].generateGrid(mapsData[1]);
+    newItem = new mapBuilding();
+    newItem.id = 0;
+    newItem.name = "Town of Naposhore";
+    newItem.generateGrid(mapsData[0]);
+    mapBuildings.push(newItem);
 
-    mapBuildings[2] = new mapBuilding();
-    mapBuildings[2].id = 2;
-    mapBuildings[2].name = "Swamp";
-    mapBuildings[2].generateGrid(mapsData[2]);
+    newItem = new mapBuilding();
+    newItem.id = 1;
+    newItem.name = "Town of Barock";
+    newItem.generateGrid(mapsData[1]);
+    mapBuildings.push(newItem);
 
-    mapBuildings[3] = new mapBuilding();
-    mapBuildings[3].id = 3;
-    mapBuildings[3].name = "Desert";
-    mapBuildings[3].generateGrid(mapsData[3]);
+    newItem = new mapBuilding();
+    newItem.id = 2;
+    newItem.name = "Swamp";
+    newItem.generateGrid(mapsData[2]);
+    mapBuildings.push(newItem);
 
-    mapBuildings[4] = new mapBuilding();
-    mapBuildings[4].id = 4;
-    mapBuildings[4].name = "Lava";
-    mapBuildings[4].generateGrid(mapsData[4]);
+    newItem = new mapBuilding();
+    newItem.id = 3;
+    newItem.name = "Desert";
+    newItem.generateGrid(mapsData[3]);
+    mapBuildings.push(newItem);
 
-    mapBuildings[5] = new mapBuilding();
-    mapBuildings[5].id = 5;
-    mapBuildings[5].name = "Canyon";
-    mapBuildings[5].generateGrid(mapsData[5]);
+    newItem = new mapBuilding();
+    newItem.id = 4;
+    newItem.name = "Lava";
+    newItem.generateGrid(mapsData[4]);
+    mapBuildings.push(newItem);
 
-    mapBuildings[6] = new mapBuilding();
-    mapBuildings[6].id = 6;
-    mapBuildings[6].name = "Old City";
-    mapBuildings[6].generateGrid(mapsData[6]);
+    newItem = new mapBuilding();
+    newItem.id = 5;
+    newItem.name = "Canyon";
+    newItem.generateGrid(mapsData[5]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 6;
+    newItem.name = "Old City";
+    newItem.generateGrid(mapsData[6]);
+    mapBuildings.push(newItem);
 }

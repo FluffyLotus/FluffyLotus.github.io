@@ -20,28 +20,35 @@ function getParticleFromId(id) {
 }
 
 function loadParticles() {
-    particles[0] = new cellInformation();
-    particles[0].id = 0
-    particles[0].name = "Green Particle";
-    particles[0].imageName = "particle_0";
+    var newItem;
 
-    particles[1] = new cellInformation();
-    particles[1].id = 1;
-    particles[1].name = "Blue Particle";
-    particles[1].imageName = "particle_1";
+    newItem = new cellInformation();
+    newItem.id = 0
+    newItem.name = "Green Particle";
+    newItem.imageName = "particle_0";
+    particles.push(newItem);
 
-    particles[2] = new cellInformation();
-    particles[2].id = 2;
-    particles[2].name = "Red Particle";
-    particles[2].imageName = "particle_2";
+    newItem = new cellInformation();
+    newItem.id = 1;
+    newItem.name = "Blue Particle";
+    newItem.imageName = "particle_1";
+    particles.push(newItem);
 
-    particles[3] = new cellInformation();
-    particles[3].id = 3;
-    particles[3].name = "Steam Particle";
-    particles[3].imageName = "particle_3";
+    newItem = new cellInformation();
+    newItem.id = 2;
+    newItem.name = "Red Particle";
+    newItem.imageName = "particle_2";
+    particles.push(newItem);
 
-    particles[4] = new cellInformation();
-    particles[4].id = 4;
-    particles[4].name = "Time Particle";
-    particles[4].imageName = "particle_4";
+    newItem = new cellInformation();
+    newItem.id = 3;
+    newItem.name = "Steam Particle";
+    newItem.imageName = "particle_3";
+    particles.push(newItem);
+
+    newItem = new cellInformation();
+    newItem.id = 4;
+    newItem.name = "Time Particle";
+    newItem.imageName = "particle_4";
+    particles.push(newItem);
 }
