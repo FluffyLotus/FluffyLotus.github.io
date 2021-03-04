@@ -95,7 +95,7 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
             getEnemyFromId(this.currentEnemy.enemyId).killCount += 1;
             this.currentPlayer.deathCount += 1;
 
-            getMapAdventureFromId(this.currentMapAdventureId).setDistance(0);
+            getMapAdventureFromId(this.currentMapAdventureId).setDistance(getMapAdventureFromId(this.currentMapAdventureId).getCurrentCheckpoint());
             this.currentAction = ADV_ACTION_WALK;
             this.currentEnemy = null;
 
