@@ -20,23 +20,22 @@ function playerInformation() {
     this.vitalityTickDelta = 0;
     this.deathCount = 0;
 
-    this.passiveSkills = [];
-    this.activeSkills = [];
+    this.skills = [];
 
     //this.canUseHealMagic = false; // REMOVE
     //this.canUseFireMagic = false; // REMOVE
 }
 
 playerInformation.prototype.getVitality = function () {
-    return this.baseVitality + this.getSkillInstance(SKILL_VITALITY).getAmount(); //  + this.pointVitality * this.mulVitality
+    return this.baseVitality + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_VITALITY); //  + this.pointVitality * this.mulVitality
 }
 
 playerInformation.prototype.getStrength = function () {
-    return this.baseStrength + this.getSkillInstance(SKILL_STRENGTH).getAmount(); //  + this.pointStrength * this.mulStrength
+    return this.baseStrength + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_STRENGTH); //  + this.pointStrength * this.mulStrength
 }
 
 playerInformation.prototype.getDefence = function () {
-    return this.baseDefence + this.getSkillInstance(SKILL_DEFENCE).getAmount(); //  + this.pointDefence * this.mulDefence
+    return this.baseDefence + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_DEFENCE); //  + this.pointDefence * this.mulDefence
 }
 
 playerInformation.prototype.prepareTick = function () {
@@ -44,15 +43,10 @@ playerInformation.prototype.prepareTick = function () {
 }
 
 playerInformation.prototype.processTick = function () {
-    for (var i = 0; i < this.passiveSkills.length; i++) {
-        //this.passiveSkills[i].train();
-        this.passiveSkills[i].processTick();
-    }
 
-    for (var i = 0; i < this.activeSkills.length; i++) {
-        //this.activeSkills[i].train();
-        this.activeSkills[i].processTick();
-    }
+    // Execute passive skills all the time
+    this.processPassiveSkills();
+    this.processHealthSkills();
 }
 
 playerInformation.prototype.addVitality = function (d) {
@@ -117,15 +111,9 @@ playerInformation.prototype.revive = function () {
 }
 
 playerInformation.prototype.getSkillInstance = function (skillId) {
-    for (var i = 0; i < this.passiveSkills.length; i++) {
-        if (this.passiveSkills[i].skillId == skillId) {
-            return this.passiveSkills[i];
-        }
-    }
-
-    for (var i = 0; i < this.activeSkills.length; i++) {
-        if (this.activeSkills[i].skillId == skillId) {
-            return this.activeSkills[i];
+    for (var i = 0; i < this.skills.length; i++) {
+        if (this.skills[i].skillId == skillId) {
+            return this.skills[i];
         }
     }
 }
@@ -142,29 +130,89 @@ playerInformation.prototype.setSkillEquipStatus = function (skillId, isEquip) {
     si.isEquip = isEquip;
 }
 
+playerInformation.prototype.processPassiveSkills = function () {
+    for (var i = 0; i < this.skills.length; i++) {
+        var curSkillInst = this.skills[i];
+
+        curSkillInst.processTick();
+
+        // Passive skills
+        if (curSkillInst.isEquip && getSkillFromId(curSkillInst.skillId).isPassive()) {
+            curSkillInst.execute();
+        }
+    }
+}
+
+playerInformation.prototype.processHealthSkills = function () {
+    if (this.vitality < this.getVitality()) {
+        var healSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_HEAL);
+
+        for (var t = 0; t < healSkills.length; t++) {
+            var curHealSkill = healSkills[t];
+
+            if (curHealSkill.isEquip) {
+                if (this.vitality < this.getVitality()) {
+                    if (curHealSkill.isExecuting()) {
+                        this.addVitality(curHealSkill.getAmount());
+                    }
+                    else {
+                        if (curHealSkill.canExecute()) {
+                            curHealSkill.execute();
+                            this.addVitality(curHealSkill.getAmount());
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+playerInformation.prototype.processAttackSkills = function () {
+    var add = 0;
+    var attackSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_ATTACK);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (attackSkills[t].isExecuting()) {
+                add += attackSkills[t].getAmount();
+            }
+            else {
+                if (attackSkills[t].canExecute()) {
+                    attackSkills[t].execute();
+                    add += attackSkills[t].getAmount();
+                }
+            }
+        }
+    }
+
+    return add;
+}
+
 function createPlayer() {
     var pi = new playerInformation();
+    var si;
 
-    pi.passiveSkills.push(createSkillInstance(SKILL_VITALITY, false));
-    pi.passiveSkills.push(createSkillInstance(SKILL_STRENGTH, true));
-    pi.passiveSkills.push(createSkillInstance(SKILL_DEFENCE, true));
+    si = createSkillInstance(SKILL_VITALITY, true);
+    si.isEquip = true;
+    pi.skills.push(si);
 
-    pi.activeSkills.push(createSkillInstance(SKILL_HEAL, false));
-    pi.activeSkills.push(createSkillInstance(SKILL_FIRE, false));
+    si = createSkillInstance(SKILL_STRENGTH, true);
+    si.isEquip = true;
+    pi.skills.push(si);
+
+    si = createSkillInstance(SKILL_DEFENCE, true);
+    si.isEquip = true;
+    pi.skills.push(si);
+
+    pi.skills.push(createSkillInstance(SKILL_HEAL, true));
+    pi.skills.push(createSkillInstance(SKILL_FIRE, true));
 
     return pi;
 }
 
 function processSkillTick() {
-    for (var t = 0; t < currentMapAdventure.currentPlayer.passiveSkills.length; t++) {
-        var curSkill = currentMapAdventure.currentPlayer.passiveSkills[t];
-
-        if (curSkill.canUpgrade())
-            curSkill.upgrade();
-    }
-
-    for (var t = 0; t < currentMapAdventure.currentPlayer.activeSkills.length; t++) {
-        var curSkill = currentMapAdventure.currentPlayer.activeSkills[t];
+    for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+        var curSkill = currentMapAdventure.currentPlayer.skills[t];
 
         if (curSkill.canUpgrade())
             curSkill.upgrade();

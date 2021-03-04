@@ -19,7 +19,9 @@ var messages = [];
 
 var SLOW_SPEED = 1000;
 var FAST_SPEED = 100;
+var SAVE_SPEED = 1000 * 30;
 
+var lastSave = Date.now();
 var lastTick = Date.now() - SLOW_SPEED;
 var tickCount = 0;
 
@@ -74,27 +76,36 @@ function loadApp() {
 
     loadIcon();
 
+    //retreiveSaveState();
+
     ////////////////
-    for (var t = 0; t < buildings.length; t++)
-        buildings[t].available = true;
+    if (true) {
+        for (var t = 0; t < buildings.length; t++)
+            buildings[t].available = true;
 
-    for (var t = 0; t < mapBuildings.length; t++)
-        mapBuildings[t].isActive = true;
+        for (var t = 0; t < mapBuildings.length; t++)
+            mapBuildings[t].isActive = true;
 
-    for (var t = 0; t < mapAdventures.length; t++)
-        mapAdventures[t].isActive = true;
+        for (var t = 0; t < mapAdventures.length; t++) {
+            mapAdventures[t].maxDistance = 10 * 1000;
+            mapAdventures[t].isActive = true;
+        }
 
-    canViewskills = true;
-    currentMapAdventure.canRun = true;
+        canViewskills = true;
+        currentMapAdventure.canRun = true;
 
-    for (var t = 0; t < resources.length; t++) {
-        if (resources[t].id != RESOURCE_GREENMANA && resources[t].id != RESOURCE_BLUEMANA && resources[t].id != RESOURCE_REDMANA && resources[t].id != RESOURCE_TIMEMANA)
-            resources[t].addAmount(200000);
+        for (var t = 0; t < resources.length; t++) {
+            resources[t].amountLimit = -1;
+            resources[t].addAmount(200000 - resources[t].amount);
+        }
+
+        //resources[RESOURCE_WOOD].addAmount(2000);
+        //resources[RESOURCE_STONE].addAmount(2000);
+        //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
     }
-
-    //resources[RESOURCE_WOOD].addAmount(2000);
-    //resources[RESOURCE_STONE].addAmount(2000);
-    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+    else {
+        $('#helpModal').modal('show');
+    }
     ////////////////
 
     getBuildingFromId(0).available = true;
@@ -110,8 +121,6 @@ function loadApp() {
     uiDrawBuildingIcon2();
 
     processTick();
-
-    //$('#helpModal').modal('show');
 }
 
 function prepareTick() {
@@ -149,6 +158,11 @@ function processTick() {
         tickCount++;
     }
 
+    if (lastSave + SAVE_SPEED < Date.now()) {
+        storeSaveState();
+        lastSave = Date.now();
+    }
+
     if (hadChange) {
         uiDrawResources();
         uiDrawAdventure();
@@ -160,13 +174,13 @@ function processTick() {
         uiDrawBuildingIcon();
         uiDrawBuildingUpgrade();
 
-        //
-        if (currentMapAdventure.canRun)
+        if (currentMapAdventure.canRun) {
             $("#tabItemAdventure").show();
-
+            $("#tabItemEnemy").show();
+        }
+        
         $("#tickCount").text(tickCount);
         $("#tickTime").text(displayTime(tickCount * SLOW_SPEED / 1000));
-        //
 
         if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0)
             $("#btnFast").show();

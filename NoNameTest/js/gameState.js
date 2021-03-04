@@ -9,7 +9,8 @@
     saveData.ma = [];
     saveData.qu = [];
     saveData.mb = [];
-    
+    saveData.en = [];
+
     for (var t = 0; t < resources.length; t++) {
         saveData.re[t] = new Object();
         saveData.re[t].id = resources[t].id;
@@ -22,7 +23,16 @@
         saveData.bu[t] = new Object();
         saveData.bu[t].id = buildings[t].id;
         saveData.bu[t].av = buildings[t].available;
-        saveData.bu[t].ba = buildings[t].buildAmount;
+        saveData.bu[t].up = [];
+
+        for (var tt = 0; tt < buildings[t].upgrades.length; tt++) {
+            var subItem = new Object();
+
+            subItem.id = buildings[t].upgrades[tt].id;
+            subItem.lv = buildings[t].upgrades[tt].level;
+
+            saveData.bu[t].up.push(subItem);
+        }
     }
 
     for (var t = 0; t < mapAdventures.length; t++) {
@@ -30,6 +40,7 @@
         saveData.ma[t].id = mapAdventures[t].id;
         saveData.ma[t].cd = mapAdventures[t].currentDistance;
         saveData.ma[t].md = mapAdventures[t].maxDistance;
+        saveData.ma[t].ia = mapAdventures[t].isActive;
     }
 
     for (var t = 0; t < quests.length; t++) {
@@ -47,13 +58,14 @@
         saveData.mb[t].g = [];
 
         for (var tt = 0; tt < mapBuildings[t].grid.length; tt++) {
-            if (mapBuildings[t].grid[tt].buildingId != -1) {
+            if (mapBuildings[t].grid[tt].buildingInst != null) {
                 var subItem = new Object();
 
                 subItem.i = tt;
-                subItem.bi = mapBuildings[t].grid[tt].buildingId;
-                subItem.bl = mapBuildings[t].grid[tt].buildingLevel;
-                subItem.br = mapBuildings[t].grid[tt].buildingRotation;
+                subItem.bi = mapBuildings[t].grid[tt].buildingInst.buildingId;
+                subItem.bl = mapBuildings[t].grid[tt].buildingInst.buildingLevel;
+                subItem.br = mapBuildings[t].grid[tt].buildingInst.buildingRotation;
+                subItem.gl = mapBuildings[t].grid[tt].buildingInst.buildingGradeLevel;
 
                 saveData.mb[t].g.push(subItem);
             }
@@ -64,35 +76,31 @@
     saveData.p.dc = currentMapAdventure.currentPlayer.deathCount
     saveData.p.s = [];
 
-    for (var t = 0; t < currentMapAdventure.currentPlayer.passiveSkills.length; t++) {
+    for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
         var subItem = new Object();
 
-        subItem.si = currentMapAdventure.currentPlayer.passiveSkills[t].skillId;
-        subItem.l = currentMapAdventure.currentPlayer.passiveSkills[t].level;
-        subItem.tl = currentMapAdventure.currentPlayer.passiveSkills[t].trainingLevel;
-        subItem.cd = currentMapAdventure.currentPlayer.passiveSkills[t].colldown;
-        subItem.ia = currentMapAdventure.currentPlayer.passiveSkills[t].isActive;
-        subItem.it = currentMapAdventure.currentPlayer.passiveSkills[t].isTraining;
-        subItem.ie = currentMapAdventure.currentPlayer.passiveSkills[t].isEquip;
+        subItem.si = currentMapAdventure.currentPlayer.skills[t].skillId;
+        subItem.l = currentMapAdventure.currentPlayer.skills[t].level;
+        subItem.tl = currentMapAdventure.currentPlayer.skills[t].trainingLevel;
+        subItem.cd = currentMapAdventure.currentPlayer.skills[t].colldown;
+        subItem.du = currentMapAdventure.currentPlayer.skills[t].duration;
+        subItem.ia = currentMapAdventure.currentPlayer.skills[t].isActive;
+        subItem.it = currentMapAdventure.currentPlayer.skills[t].isTraining;
+        subItem.ie = currentMapAdventure.currentPlayer.skills[t].isEquip;
 
         saveData.p.s.push(subItem);
     }
 
-    for (var t = 0; t < currentMapAdventure.currentPlayer.activeSkills.length; t++) {
+    for (var t = 0; t < enemies.length; t++) {
         var subItem = new Object();
 
-        subItem.si = currentMapAdventure.currentPlayer.activeSkills[t].skillId;
-        subItem.l = currentMapAdventure.currentPlayer.activeSkills[t].level;
-        subItem.tl = currentMapAdventure.currentPlayer.activeSkills[t].trainingLevel;
-        subItem.cd = currentMapAdventure.currentPlayer.activeSkills[t].colldown;
-        subItem.ia = currentMapAdventure.currentPlayer.activeSkills[t].isActive;
-        subItem.it = currentMapAdventure.currentPlayer.activeSkills[t].isTraining;
-        subItem.ie = currentMapAdventure.currentPlayer.activeSkills[t].isEquip;
-
-        saveData.p.s.push(subItem);
+        subItem.id = enemies[t].id;
+        subItem.td = enemies[t].totalDeath;
+        subItem.dc = enemies[t].deathCount;
+        subItem.kc = enemies[t].killCount;
+        
+        saveData.en.push(subItem);
     }
-
-    // TODO: Enemies
 
     return saveData;
 }
@@ -114,7 +122,14 @@ function LoadSaveGame(saveData) {
             var item = getBuildingFromId(saveData.bu[t].id);
 
             item.available = saveData.bu[t].av;
-            item.buildAmount = saveData.bu[t].ba;
+
+            for (var tt = 0; tt < saveData.bu[t].up.length; tt++) {
+                for (var i = 0; i < item.upgrades.length; i++) {
+                    if (item.upgrades[i].id == saveData.bu[t].up[tt].id) {
+                        item.upgrades[i].level == saveData.bu[t].up[tt].lv;
+                    }
+                }
+            }
         }
 
         for (var t = 0; t < saveData.ma.length; t++) {
@@ -122,6 +137,7 @@ function LoadSaveGame(saveData) {
 
             item.currentDistance = saveData.ma[t].cd;
             item.maxDistance = saveData.ma[t].md;
+            item.isActive = saveData.ma[t].ia;
         }
 
         for (var t = 0; t < saveData.qu.length; t++) {
@@ -137,17 +153,19 @@ function LoadSaveGame(saveData) {
             item.isActive = saveData.mb[t].ia;
 
             for (var tt = 0; tt < item.grid.length; tt++) {
-                item.grid[tt].buildingId = -1;
-                item.grid[tt].buildingLevel = -1;
-                item.grid[tt].buildingRotation = 0;
+                item.grid[tt].buildingInst = null;
             }
 
             for (var tt = 0; tt < saveData.mb[t].g.length; tt++) {
                 var subItem = saveData.mb[t].g[tt];
 
-                item.grid[subItem.i].buildingId = subItem.bi;
-                item.grid[subItem.i].buildingLevel = subItem.bl;
-                item.grid[subItem.i].buildingRotation = subItem.br;
+                item.grid[subItem.i].buildingInst = new buildingInstance();
+                item.grid[subItem.i].buildingInst.buildingId = subItem.bi;
+                item.grid[subItem.i].buildingInst.buildingLevel = subItem.bl;
+                item.grid[subItem.i].buildingInst.buildingRotation = subItem.br;
+                item.grid[subItem.i].buildingInst.buildingGradeLevel = subItem.gl;
+
+                getBuildingFromId(item.grid[subItem.i].buildingInst.buildingId).addBuildingInstance(item.grid[subItem.i].buildingInst);
             }
 
             item.calculateGridConnection();
@@ -161,12 +179,19 @@ function LoadSaveGame(saveData) {
             s.level = saveData.p.s[t].l;
             s.trainingLevel = saveData.p.s[t].tl;
             s.colldown = saveData.p.s[t].cd;
+            s.duration = saveData.p.s[t].du;
             s.isActive = saveData.p.s[t].ia;
             s.isTraining = saveData.p.s[t].it;
             s.isEquip = saveData.p.s[t].ie;
         }
 
-        // TODO: Enemies
+        for (var t = 0; t < saveData.en.length; t++) {
+            var item = getEnemyFromId(saveData.en[t].id);
+
+            item.totalDeath = saveData.en[t].td;
+            item.deathCount = saveData.en[t].dc;
+            item.killCount = saveData.en[t].kc;
+        }
     }
 }
 
@@ -183,4 +208,47 @@ function LoadSaveGameJson64(json64) {
     var saveData = JSON.parse(json);
 
     LoadSaveGame(saveData);
+}
+
+function storeSaveState() {
+    var data = GetSaveGameJson64();
+
+    setCookie("state", data, 1000);
+}
+
+function retreiveSaveState() {
+    var data = getCookie("state");
+
+    if (data != null && data != "") {
+        try {
+            LoadSaveGameJson64(data);
+        }
+        catch (err) {
+            // Ignore errors
+        }
+    }
+}
+
+function clearSaveState() {
+    setCookie("state", "", 1000);
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }

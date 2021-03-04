@@ -205,7 +205,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#worldMapModal">World Map</a></li>
+                    <!--<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#worldMapModal">World Map</a></li>-->
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
@@ -220,11 +220,11 @@
 
             <div id="resourceInfoContainer">
                 <div id="resourceInfoRow" class="row resourceRow" style="display: none;">
-                    <div class="col-12 col-lg-6"><span id="resourceInfoName">aaaa</span></div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-5"><span id="resourceInfoName">aaaa</span></div>
+                    <div class="col-12 col-lg-7">
                         <div class="row">
-                            <div class="col-6"><span id="resourceInfoAmount">0</span></div>
-                            <div class="col-6"><small><span id="resourceInfoTickDelta">+1</span></small></div>
+                            <div class="col-8"><span id="resourceInfoAmount">0</span></div>
+                            <div class="col-4"><small><span id="resourceInfoTickDelta">+1</span></small></div>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                 <li id="tabItemPlayer" class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="player-tab" data-toggle="tab" href="#player" role="tab" aria-controls="player" aria-selected="false">Skill <span id="playerTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li id="tabItemEnemy" class="nav-item" role="presentation" style="display: none;">
                     <a class="nav-link" id="enemyInfo-tab" data-toggle="tab" href="#enemyInfo" role="tab" aria-controls="enemyInfo" aria-selected="false">Enemy <span id="enemyInfoTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <li id="tabItemBuilding" class="nav-item" role="presentation" style="display: none;">
@@ -326,6 +326,14 @@
                                 <div id="building18" onclick="uiSelectBuilding(18);" onmouseover="uiBuildingHover(18, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                                 <div id="building35" onclick="uiSelectBuilding(35);" onmouseover="uiBuildingHover(35, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                                 <div id="building15" onclick="uiSelectBuilding(15);" onmouseover="uiBuildingHover(15, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building42" onclick="uiSelectBuilding(42);" onmouseover="uiBuildingHover(42, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building43" onclick="uiSelectBuilding(43);" onmouseover="uiBuildingHover(43, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building44" onclick="uiSelectBuilding(44);" onmouseover="uiBuildingHover(44, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building45" onclick="uiSelectBuilding(45);" onmouseover="uiBuildingHover(45, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building46" onclick="uiSelectBuilding(46);" onmouseover="uiBuildingHover(46, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building47" onclick="uiSelectBuilding(47);" onmouseover="uiBuildingHover(47, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building48" onclick="uiSelectBuilding(48);" onmouseover="uiBuildingHover(48, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building54" onclick="uiSelectBuilding(54);" onmouseover="uiBuildingHover(54, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                             </div>
                             <div>
                                 <div id="building4" onclick="uiSelectBuilding(4);" onmouseover="uiBuildingHover(4, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
@@ -333,6 +341,7 @@
                                 <div id="building9" onclick="uiSelectBuilding(9);" onmouseover="uiBuildingHover(9, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                                 <div id="building11" onclick="uiSelectBuilding(11);" onmouseover="uiBuildingHover(11, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                                 <div id="building37" onclick="uiSelectBuilding(37);" onmouseover="uiBuildingHover(37, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
+                                <div id="building49" onclick="uiSelectBuilding(49);" onmouseover="uiBuildingHover(49, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                             </div>
                             <div>
                                 <div class="form-group">
@@ -356,26 +365,21 @@
                     <h2>Adventure</h2>
 
                     <p>
-                        Walk in the world and kill enemies.
+                        Walk in the world and kill enemies. Checkpoint every 1000m.
                     </p>
 
                     <div class="row">
-                        <div class="col-1">
+                        <div class="col-4">
                             <label for="adventureMapSelected">
-                                Map:
+                                Map: <span id="adventureMapSelected"></span>
                             </label>
                         </div>
-                        <div class="col-3">
-                            <select id="adventureMapSelected" onchange="uiTempChangeAdventure();" class="form-control form-control-sm">
-                                <option value="0">Forest</option>
-                                <!--<option value="1">Desert</option>-->
-                            </select>
-                        </div>
                         <div class="col-4">
-                            Current Distance: <span id="playerDistance"></span>m
-                        </div>
-                        <div class="col-4">
+                            Cur. Distance: <span id="playerDistance"></span>m<br />
                             Max Distance: <span id="playerMaxDistance"></span>m
+                        </div>
+                        <div class="col-4">
+                            <button id="changeMapButton" class="btn btn-dark" data-toggle="modal" data-target="#worldMapModal" onclick="uiSetupWorlMapModal();">Change Map</button>
                         </div>
                     </div>
 
@@ -616,12 +620,14 @@
                     <p>It's important to export your save game on your local computer. Some website like itch delete the save states when there's an update.</p>
                     <div>
                         <button class="btn btn-dark" onclick="uiGetSaveGame();">Export Save Game</button>
+                        <button class="btn btn-dark" onclick="storeSaveState();">Save</button>
                     </div>
                     <div style="margin-top: 15px; margin-bottom: 15px;">
                         <textarea id="gameStateData" class="form-control textarea-dark" style="height: 100px;"></textarea>
                     </div>
                     <div>
                         <button class="btn btn-dark" onclick="uiLoadSaveGame();">Import Save Game</button>
+                        <button class="btn btn-danger" onclick="if(confirm('Are you sure?')) { clearSaveState(); location.reload(); } ">Clear Save</button>
                     </div>
                     <hr />
                     <div>
@@ -647,7 +653,12 @@
                 <div class="modal-body">
                     Hope you enjoy this game! You can reach me on <a href="https://fluffy-lotus.itch.io/" target="_new">itch.io</a>.
                     <hr />
-                    <span id="tickCount"></span> tick for a time of <span id="tickTime"></span>.
+                    <p>
+                        <span id="tickCount"></span> tick for a time of <span id="tickTime"></span>.
+                    </p>
+                    <p>
+                        Game save every 30 seconds.
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -666,6 +677,18 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <p>Choose a map and a checkpoint to teleport to that location.</p>
+                    <form class="form-inline">
+                        <div class="form-group mb-2">
+                            <label for="uiPossibleMap">Map: </label>
+                            <select id="uiPossibleMap" onchange="uiChangePossibleCheckpoint();" class="form-control" style="margin-left: 20px;"></select>
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="uiPossibleCheckpoint">Checkpoint: </label>
+                            <select id="uiPossibleCheckpoint" class="form-control" style="margin-left: 20px;"></select>
+                        </div>
+                        <button type="button" class="btn btn-dark mb-2" onclick="uiChangeAdventure();" data-dismiss="modal">Teleport</button>
+                    </form>
                     <img src="images/worldMap.png" class="img-fluid" />
                 </div>
                 <div class="modal-footer">
@@ -728,6 +751,7 @@
     <script src="images/SpriteSheet/particleImageInfo.js?v=0.02"></script>
 
     <script src="js/building.js?v=v0.03"></script>
+    <script src="js/buildingInstance.js?v=v0.03"></script>
     <script src="js/buildingUpgrade.js?v=v0.03"></script>
     <script src="js/cell.js?v=v0.03"></script>
     <script src="js/dataLink.js?v=v0.03"></script>

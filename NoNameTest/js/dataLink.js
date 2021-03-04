@@ -30,7 +30,7 @@ dataLink.prototype.getCurrentValue = function () {
             return getBuildingFromId(this.entityId).available;
         }
         if (this.subCategory == "buildAmount") {
-            return getBuildingFromId(this.entityId).buildAmount;
+            return getBuildingFromId(this.entityId).buildingInstances.length;
         }
     } 
     if (this.category == "quest") {

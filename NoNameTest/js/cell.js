@@ -45,6 +45,9 @@ function cellInformation() {
     this.type = CELL_TYPE_NONE;
     this.clickReward = [];
     this.innerParticleId = -1;
+
+    this.importParticleId = -1;
+    this.importParticleCount = 0;
 }
 
 cellInformation.prototype.getClickRewardString = function () {
@@ -241,6 +244,7 @@ function loadCells() {
     newItem.name = "Boulder";
     newItem.imageName = "f_boulder";
     newItem.type = CELL_TYPE_S_BOULDER;
+    newItem.importParticleId = PARTICLE_BLUE;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -311,6 +315,7 @@ function loadCells() {
     newItem.name = "Dry lake";
     newItem.imageName = "v_dryLake";
     newItem.type = CELL_TYPE_S_POUND;
+    newItem.importParticleId = PARTICLE_STEAM;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -332,6 +337,7 @@ function loadCells() {
     newItem.name = "Swamp Spider Web";
     newItem.imageName = "s_web";
     newItem.type = CELL_TYPE_S_WEB;
+    newItem.importParticleId = PARTICLE_RED;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -339,6 +345,7 @@ function loadCells() {
     newItem.name = "Dark Pound";
     newItem.imageName = "darkPound";
     newItem.type = CELL_TYPE_DARKPOUND;
+    newItem.innerParticleId = PARTICLE_BLACK;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -542,6 +549,7 @@ function loadCells() {
     newItem.name = "Canyon Obelisk";
     newItem.imageName = "c_statue";
     newItem.type = CELL_TYPE_S_STATUE;
+    newItem.importParticleId = PARTICLE_TIME;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -556,6 +564,7 @@ function loadCells() {
     newItem.name = "Cemetary";
     newItem.imageName = "f_cemetary";
     newItem.type = CELL_TYPE_S_CEMETARY;
+    newItem.importParticleId = PARTICLE_BLACK;
     cells.push(newItem);
 
     newItem = new cellInformation();
@@ -563,6 +572,7 @@ function loadCells() {
     newItem.name = "Desert Dead Tree";
     newItem.imageName = "d_deadTree";
     newItem.type = CELL_TYPE_S_DEADTREE;
+    newItem.importParticleId = PARTICLE_GREEN;
     cells.push(newItem);
 
     newItem = new cellInformation();

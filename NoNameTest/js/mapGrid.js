@@ -6,10 +6,7 @@
 function mapGridInformation() {
     this.cellId = 0;
 
-    this.buildingId = -1;
-    this.buildingLevel = -1;
-    this.buildingRotation = 0;
-    this.buildingGradeLevel = 0;
+    this.buildingInst = null;
 
     this.particles = [];
 
@@ -65,43 +62,43 @@ mapGridInformation.prototype.processClick = function () {
 
     addResourceLink(curCell.clickReward, 1);
 
-    if (this.buildingId != -1) {
-        this.buildingRotation += 1;
+    if (this.buildingInst != null) {
+        this.buildingInst.buildingRotation += 1;
 
-        if (this.buildingRotation >= 8)
-            this.buildingRotation = 0;
+        if (this.buildingInst.buildingRotation >= 8)
+            this.buildingInst.buildingRotation = 0;
     }
 }
 
 mapGridInformation.prototype.processUpgrade = function () {
-    if (this.buildingId >= 0) {
-        var building = getBuildingFromId(this.buildingId);
+    if (this.buildingInst != null) {
+        var building = getBuildingFromId(this.buildingInst.buildingId);
 
         if (building.upgradeRequirements.length > 0) {
-            if (building.hasUpgradeRequirements(this.buildingLevel, this.buildingGradeLevel)) {
-                building.processUpgradeRequirements(this.buildingLevel);
+            if (building.hasUpgradeRequirements(this.buildingInst.buildingLevel, this.buildingInst.buildingGradeLevel)) {
+                building.processUpgradeRequirements(this.buildingInst.buildingLevel);
 
-                this.buildingLevel += 1;
+                this.buildingInst.buildingLevel += 1;
             }
         }
     }
 }
 
 mapGridInformation.prototype.processDowngrade = function () {
-    if (this.buildingId >= 0) {
-        var building = getBuildingFromId(this.buildingId);
+    if (this.buildingInst != null) {
+        var building = getBuildingFromId(this.buildingInst.buildingId);
 
         if (building.upgradeRequirements.length > 0) {
-            if (this.buildingLevel > 1) {
-                this.buildingLevel -= 1;
-                building.processDowngradeRequirements(this.buildingLevel, this.buildingGradeLevel);
+            if (this.buildingInst.buildingLevel > 1) {
+                this.buildingInst.buildingLevel -= 1;
+                building.processDowngradeRequirements(this.buildingInst.buildingLevel, this.buildingInst.buildingGradeLevel);
             }
         }
     }
 }
 
 mapGridInformation.prototype.processAddBuilding = function (buildingId, buildingGradeLevel) {
-    if (this.buildingId == -1) {
+    if (this.buildingInst == null) {
         var curBuilding = getBuildingFromId(buildingId);
 
         buildingGradeLevel = curBuilding.getMaxAvailableGrade(buildingGradeLevel);
@@ -110,11 +107,13 @@ mapGridInformation.prototype.processAddBuilding = function (buildingId, building
             if (curBuilding.canBuildHere(this)) {
                 curBuilding.processCost(buildingGradeLevel);
 
-                curBuilding.addBuildingAmount(1);
-                this.buildingId = curBuilding.id;
-                this.buildingGradeLevel = buildingGradeLevel;
-                this.buildingLevel = 1;
-                this.buildingRotation = 0;
+                this.buildingInst = new buildingInstance();
+                this.buildingInst.buildingId = curBuilding.id;
+                this.buildingInst.buildingGradeLevel = buildingGradeLevel;
+                this.buildingInst.buildingLevel = 1;
+                this.buildingInst.buildingRotation = 0;
+
+                curBuilding.addBuildingInstance(this.buildingInst);
 
                 return true;
             }
@@ -125,20 +124,21 @@ mapGridInformation.prototype.processAddBuilding = function (buildingId, building
 }
 
 mapGridInformation.prototype.processSellBuilding = function () {
-    if (this.buildingId >= 0) {
-        var curBuilding = getBuildingFromId(this.buildingId);
+    if (this.buildingInst != null) {
+        var curBuilding = getBuildingFromId(this.buildingInst.buildingId);
 
         if (curBuilding.upgradeRequirements.length > 0) {
-            while (this.buildingLevel > 1) {
+            while (this.buildingInst.buildingLevel > 1) {
                 this.processDowngrade();
             }
         }
 
-        curBuilding.buildAmount -= 1;
-        curBuilding.processSellCost(this.buildingGradeLevel);
+        curBuilding.removeBuildingInstance(this.buildingInst);
+        curBuilding.processSellCost(this.buildingInst.buildingGradeLevel);
 
-        this.buildingId = -1;
-        this.buildingRotation = 0;
+        this.buildingInst.buildingId = -1;
+        this.buildingInst.buildingRotation = 0;
+        this.buildingInst = null;
 
         return true;
     }

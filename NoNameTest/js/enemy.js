@@ -17,6 +17,9 @@ function enemyInformation() {
     this.mulStrength = 0;
     this.mulDefence = 0;
 
+    this.element = 0;
+    this.skills = []; // List of skill ID
+
     this.totalDeath = 0;
     this.deathCount = []; // How many time it died
     this.killCount = 0; // How many time it killed something
@@ -51,15 +54,17 @@ enemyInformation.prototype.getNextShard = function () {
 
             value = parseInt(this.deathCount[k]);
 
-            while (value >= needed) {
-                value -= needed;
-                needed *= 4;
+            if (!isNaN(value)) {
+                while (value >= needed) {
+                    value -= needed;
+                    needed *= 4;
+                }
+
+                if (ret != "")
+                    ret += ", ";
+
+                ret += k + ": " + parseInt(value * 100 / needed) + "%";
             }
-
-            if (ret != "")
-                ret += ", ";
-
-            ret += k + ": " + parseInt(value * 100 / needed) + "%";
         }
     }
 
@@ -122,11 +127,12 @@ function loadEnemies() {
     newItem.id = 0;
     newItem.name = "Evil Bunny";
     newItem.baseVitality = 30;
-    newItem.baseStrength = 10;
+    newItem.baseStrength = 5;
     newItem.baseDefence = 0;
     newItem.mulVitality = 10;
-    newItem.mulStrength = 10;
+    newItem.mulStrength = 5;
     newItem.mulDefence = 0;
+    newItem.skills.push(SKILL_ENEMY_FIRE);
     enemies.push(newItem);
     
     newItem = new enemyInformation();

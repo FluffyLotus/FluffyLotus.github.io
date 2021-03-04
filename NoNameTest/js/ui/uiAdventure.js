@@ -1,4 +1,5 @@
 ﻿function uiDrawAdventure() {
+    document.getElementById("adventureMapSelected").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).name;
     document.getElementById("playerDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
     document.getElementById("playerMaxDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).maxDistance;
 
@@ -50,8 +51,48 @@
             document.getElementById("enemyLifeDelta").style.color = "black";
         }
     }
+
+    if (canChangeMap()) {
+        $("#changeMapButton").show();
+    }
+    else {
+        $("#changeMapButton").hide();
+    }
 }
 
-function uiTempChangeAdventure() {
-    currentMapAdventure.changeMap(parseInt(document.getElementById("adventureMapSelected").value));
+function uiChangeAdventure() {
+    currentMapAdventure.changeMap(parseInt($("#uiPossibleMap").val()), parseInt($("#uiPossibleCheckpoint").val()));
+}
+
+function uiChangePossibleCheckpoint() {
+    uiPopulateCheckpoint(parseInt($("#uiPossibleMap").val()), 0);
+}
+
+function uiSetupWorlMapModal() {
+    $("#uiPossibleMap").empty();
+
+    for (var t = 0; t < mapAdventures.length; t++) {
+        if (mapAdventures[t].isActive) {
+            if (mapAdventures[t].id == currentMapAdventure.currentMapAdventureId) {
+                $("#uiPossibleMap").append("<option value='" + mapAdventures[t].id + "' selected>" + mapAdventures[t].name + "</option>");
+
+                uiPopulateCheckpoint(mapAdventures[t].id, mapAdventures[t].getCurrentCheckpoint());
+            }
+            else
+                $("#uiPossibleMap").append("<option value='" + mapAdventures[t].id + "'>" + mapAdventures[t].name + "</option>");
+        }
+    }
+}
+
+function uiPopulateCheckpoint(mapId, checkpoint) {
+    var map = getMapAdventureFromId(mapId);
+
+    $("#uiPossibleCheckpoint").empty();
+
+    for (var t = 0; t <= map.maxDistance; t+= 1000) {
+        if (t == checkpoint)
+            $("#uiPossibleCheckpoint").append("<option value='" + t + "' selected>" + t + "</option>");
+        else
+            $("#uiPossibleCheckpoint").append("<option value='" + t + "'>" + t + "</option>");
+    }
 }

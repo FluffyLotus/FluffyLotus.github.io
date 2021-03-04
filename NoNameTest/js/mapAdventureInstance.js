@@ -11,12 +11,12 @@ function mapAdventureInstanceInformation() {
     this.currentEnemy = null;
 }
 
-mapAdventureInstanceInformation.prototype.changeMap = function (newMapId) {
+mapAdventureInstanceInformation.prototype.changeMap = function (newMapId, distance) {
     this.currentMapAdventureId = newMapId;
     this.currentAction = ADV_ACTION_WALK;
     this.currentEnemy = null;
 
-    getMapAdventureFromId(this.currentMapAdventureId).setDistance(0);
+    getMapAdventureFromId(this.currentMapAdventureId).setDistance(distance);
 }
 
 mapAdventureInstanceInformation.prototype.prepareTick = function () {
@@ -32,20 +32,21 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
         return;
 
     this.currentPlayer.processTick();
+    if (this.currentEnemy != null) this.currentEnemy.processTick();
 
-    //if (this.currentPlayer.canUseHealMagic) {
-    if (this.currentPlayer.getSkillInstance(SKILL_HEAL).canExecute()) {
-        if (this.currentPlayer.vitality < this.currentPlayer.getVitality()) {
-            this.currentPlayer.getSkillInstance(SKILL_HEAL).execute();
-            this.currentPlayer.addVitality(this.currentPlayer.getSkillInstance(SKILL_HEAL).getAmount());
+    ////if (this.currentPlayer.canUseHealMagic) {
+    //if (this.currentPlayer.getSkillInstance(SKILL_HEAL).canExecute()) {
+    //    if (this.currentPlayer.vitality < this.currentPlayer.getVitality()) {
+    //        this.currentPlayer.getSkillInstance(SKILL_HEAL).execute();
+    //        this.currentPlayer.addVitality(this.currentPlayer.getSkillInstance(SKILL_HEAL).getAmount());
 
-            //if (resources[RESOURCE_GREENMANA].amount >= 10) {
-            //    resources[RESOURCE_GREENMANA].addAmount(-10);
+    //        //if (resources[RESOURCE_GREENMANA].amount >= 10) {
+    //        //    resources[RESOURCE_GREENMANA].addAmount(-10);
 
-            //    this.currentPlayer.addVitality(10);
-            //}
-        }
-    }
+    //        //    this.currentPlayer.addVitality(10);
+    //        //}
+    //    }
+    //}
 
     if (this.currentAction == ADV_ACTION_WALK) {
         getMapAdventureFromId(this.currentMapAdventureId).increaseDistance();
@@ -60,24 +61,27 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
     else if (this.currentAction == ADV_ACTION_ATTACK) {
         var mul = 1;
         var add = 0;
+        var eadd = 0;
 
-        //if (this.currentPlayer.canUseFireMagic) {
-        if (this.currentPlayer.getSkillInstance(SKILL_FIRE).canExecute()) {
-            this.currentPlayer.getSkillInstance(SKILL_FIRE).execute();
+        ////if (this.currentPlayer.canUseFireMagic) {
+        //if (this.currentPlayer.getSkillInstance(SKILL_FIRE).canExecute()) {
+        //    this.currentPlayer.getSkillInstance(SKILL_FIRE).execute();
 
-            mul = 1;
-            add = this.currentPlayer.getSkillInstance(SKILL_FIRE).getAmount();
+        //    mul = 1;
+        //    add = this.currentPlayer.getSkillInstance(SKILL_FIRE).getAmount();
 
-            //if (resources[RESOURCE_REDMANA].amount >= 10) {
-            //    resources[RESOURCE_REDMANA].addAmount(-10);
+        //    //if (resources[RESOURCE_REDMANA].amount >= 10) {
+        //    //    resources[RESOURCE_REDMANA].addAmount(-10);
 
-            //    mul = 2;
-            //}
-        }
+        //    //    mul = 2;
+        //    //}
+        //}
+        add = this.currentPlayer.processAttackSkills();
+        eadd = this.currentEnemy.processAttackSkills();
 
         var hit;
 
-        hit = this.currentEnemy.strength - this.currentPlayer.getDefence();
+        hit = (this.currentEnemy.strength + eadd) - this.currentPlayer.getDefence();
         if (hit < 0) hit = 0;
 
         this.currentPlayer.addVitality(-hit);

@@ -37,5 +37,17 @@ function uiShowEnemyInfoTooltip(event) {
 
     var left = "<b>" + curEnemy.name + "</b><br />";
 
+    if (curEnemy.skills.length > 0) {
+        left += "Skills: ";
+
+        for (var t = 0; t < curEnemy.skills.length; t++) {
+            if (t > 0)
+                left += ", ";
+
+            var skill = getSkillFromId(curEnemy.skills[t]);
+            left += skill.name;
+        }
+    }
+
     uiSetTooltip(left, "");
 }

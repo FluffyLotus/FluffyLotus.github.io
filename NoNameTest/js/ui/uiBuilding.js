@@ -68,10 +68,10 @@ function uiDrawGrid() {
                 $("#particle_" + x + "_" + y).css('background-position-y', '-9999px');
             }
 
-            if (curGrid.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingId == BUILDING_UNDERGROUNDPIPE) {
+            if (curGrid.buildingInst != null && (curGrid.buildingInst.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingInst.buildingId == BUILDING_UNDERGROUNDPIPE)) {
                 //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y);
-                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingId).imageName[curGrid.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
-                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingId).imageName[curGrid.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
+                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
+                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
 
                 $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
@@ -84,11 +84,11 @@ function uiDrawGrid() {
             //    $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
             //    $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             //}
-            else if (curGrid.buildingId >= 0) {
+            else if (curGrid.buildingInst != null) {
                 //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
-                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingId).imageName[curGrid.buildingGradeLevel]);
-                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingId).imageName[curGrid.buildingGradeLevel]);
-                
+                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
+                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
+
                 $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             }
@@ -129,7 +129,7 @@ function uiCellHover(gridX, gridY) {
     var htmlData2 = "";
     var curGrid = getMapBuildingFromId(currentMapBuilding).grid[gridX + (gridY * getMapBuildingFromId(currentMapBuilding).mapWidth)];
 
-    if (curGrid.buildingId == -1) {
+    if (curGrid.buildingInst == null) {
         var curCell = getCellFromId(curGrid.cellId);
 
         htmlData = "<b>" + curCell.name + "</b>";
@@ -146,10 +146,16 @@ function uiCellHover(gridX, gridY) {
             htmlData += "<br />Buried particles: " + getParticleFromId(curCell.innerParticleId).name + ".";
         }
 
+        if (curCell.importParticleCount > 0) {
+            var curPart = getParticleFromId(curCell.importParticleId);
+
+            htmlData += "<br />Imported " + curCell.importParticleCount + " " + curPart.name + ".";
+        }
+
         uiSetTooltip(htmlData, htmlData2);
     }
     else {
-        uiBuildingHover(curGrid.buildingId, curGrid.buildingLevel, curGrid.getOutputParticleId(), curGrid.getOutputParticleLevel(), false);
+        uiBuildingHover(curGrid.buildingInst.buildingId, curGrid.buildingInst.buildingLevel, curGrid.getOutputParticleId(), curGrid.getOutputParticleLevel(), false);
     }
 
 }
@@ -160,11 +166,17 @@ function uiSelectBuilding(buildingId) {
     selectedBuildingId = buildingId;
 
     for (var i = -4; i < buildings.length; i++) {
-        if (document.getElementById("building" + i) != null) {
-            document.getElementById("building" + i).className = "buildingNotSelected";
+        var curBuildingId = i;
 
-            if (i == buildingId)
-                document.getElementById("building" + i).className = "buildingSelected";
+        if (i >= 0) {
+            curBuildingId = buildings[i].id;
+        }
+
+        if (document.getElementById("building" + curBuildingId) != null) {
+            document.getElementById("building" + curBuildingId).className = "buildingNotSelected";
+
+            if (curBuildingId == buildingId)
+                document.getElementById("building" + curBuildingId).className = "buildingSelected";
         }
     }
 }
@@ -211,11 +223,11 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
             htmlData += "<br />" + curBuilding.description;
 
         if (curBuilding.requirements.length > 0) {
-            htmlData += "<br />Requirements: " + curBuilding.getTickRequirementsString(buildingLevel, grade);
+            htmlData += "<br />Req: " + curBuilding.getTickRequirementsString(buildingLevel, grade);
         }
 
         if (curBuilding.rewards.length > 0) {
-            htmlData += "<br />Rewards: " + curBuilding.getTickRewardsString(buildingLevel, grade);
+            htmlData += "<br />Rew: " + curBuilding.getTickRewardsString(buildingLevel, grade);
         }
 
         if (curBuilding.generateParticleId >= 0) {
@@ -229,11 +241,11 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
                 htmlData2 = "<b>Upgrade</b>, Cost: " + curBuilding.getUpgradeRequirementsString(buildingLevel, grade);
 
                 if (curBuilding.requirements.length > 0) {
-                    htmlData2 += "<br />Requirements: " + curBuilding.getTickRequirementsString(buildingLevel + 1, grade);
+                    htmlData2 += "<br />Req: " + curBuilding.getTickRequirementsString(buildingLevel + 1, grade);
                 }
 
                 if (curBuilding.rewards.length > 0) {
-                    htmlData2 += "<br />Rewards: " + curBuilding.getTickRewardsString(buildingLevel + 1, grade);
+                    htmlData2 += "<br />Rew: " + curBuilding.getTickRewardsString(buildingLevel + 1, grade);
                 }
             }
         }

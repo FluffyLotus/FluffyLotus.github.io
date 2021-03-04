@@ -26,7 +26,12 @@
                 $(newElement).mouseout(uiClearTooltip);
             }
 
-            $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount));
+            if (curResource.getAmountLimit() > 0) {
+                $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount) + " / " + nFormatter(curResource.getAmountLimit()));
+            }
+            else {
+                $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount));
+            }
 
             if (curResource.tickDelta > 0) {
                 $("#resourceInfoTickDelta" + curResource.id).text("+" + nFormatter(curResource.tickDelta));
