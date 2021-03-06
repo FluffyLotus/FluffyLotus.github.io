@@ -110,7 +110,7 @@ function loadEnemies() {
     newItem.mulVitality = 10;
     newItem.mulStrength = 5;
     newItem.mulDefence = 0;
-    newItem.skills.push(SKILL_ENEMY_FIRE);
+    //newItem.skills.push(SKILL_ENEMY_FIRE);
     enemies.push(newItem);
     
     newItem = new enemyInformation();

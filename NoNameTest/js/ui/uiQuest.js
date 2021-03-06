@@ -190,6 +190,6 @@ function uiQuestTeleportToCheckpoint() {
     var curQuest = getQuestFromId(currentUISelectedQuest);
 
     if (curQuest != null) {
-        uiPopulateCheckpoint(curQuest.foundMapId, Math.floor(curQuest.foundDistance / 1000) * 1000);
+        currentMapAdventure.changeMap(curQuest.foundMapId, Math.floor(curQuest.foundDistance / 1000) * 1000);
     }
 }

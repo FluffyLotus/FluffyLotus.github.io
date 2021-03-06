@@ -53,7 +53,9 @@ resourceInformation.prototype.getAmountLimit = function () {
         extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 500;
     }
 
-    return this.amountLimit + extra; 
+    if (this.amountLimit > extra)
+        return this.amountLimit;
+    return extra; 
 }
 
 resourceInformation.prototype.prepareTick = function () {
@@ -197,6 +199,7 @@ function loadResources() {
     newItem = new resourceInformation();
     newItem.id = 17;
     newItem.name = "Soul Shard";
+    newItem.isHidden = true;
     resources.push(newItem);
 
     newItem = new resourceInformation();

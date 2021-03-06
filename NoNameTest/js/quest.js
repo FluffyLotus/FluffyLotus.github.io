@@ -103,7 +103,7 @@ questInformation.prototype.interact = function () {
         this.setAsActive();
     }
     else if (!this.wentToLocation && this.needToGoToLocation){
-        this.wentToLocation;
+        this.wentToLocation = true;
     }
 
     return true;
