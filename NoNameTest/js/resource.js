@@ -30,6 +30,7 @@ function resourceInformation() {
     this.amount = 0;
     this.amountLimit = -1;
     this.isSpecial = false; // Resource needed for a short period of time
+    this.isHidden = false; // Don't see this on the left side
     
     this.maxAmount = 0;
     this.totalAmount = 0;
@@ -77,6 +78,8 @@ resourceInformation.prototype.addAmount = function (a) {
 }
 
 resourceInformation.prototype.isVisible = function () {
+    if (this.isHidden)
+        return false;
     if (this.isSpecial)
         return this.amount > 0;
     return this.maxAmount > 0;
@@ -199,6 +202,7 @@ function loadResources() {
     newItem = new resourceInformation();
     newItem.id = 18;
     newItem.name = "Magic Space";
+    newItem.isHidden = true;
     resources.push(newItem);
 
     newItem = new resourceInformation();

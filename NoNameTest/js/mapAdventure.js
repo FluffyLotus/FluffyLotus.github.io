@@ -1,4 +1,18 @@
-﻿function enemyRangeInformation() {
+﻿function mapEventInformation() {
+    this.distance = 0;
+    this.questId = -1;
+}
+
+function createQuestMapEvent(distance, questId) {
+    var ret = new mapEventInformation();
+
+    ret.distance = distance;
+    ret.questId = questId;
+
+    return ret;
+}
+
+function enemyRangeInformation() {
     this.enemyId = 0;
     this.minDistance = 0;
     this.maxDistance = 9999999999;
@@ -22,6 +36,7 @@ function mapAdventureInformation() {
     this.currentDistance = 0;
     this.maxDistance = 0;
     this.enemies = [];
+    this.events = [];
     this.isActive = false;
 }
 
@@ -72,6 +87,19 @@ mapAdventureInformation.prototype.increaseDistance = function () {
 
     if (this.currentDistance > this.maxDistance)
         this.maxDistance = this.currentDistance;
+
+    this.processEvents();
+}
+
+mapAdventureInformation.prototype.processEvents = function () {
+    for (var t = 0; t < this.events.length; t++) {
+        if (this.events[t].distance == this.currentDistance) {
+            var curQuest = getQuestFromId(this.events[t].questId);
+
+            if (curQuest.canInteract())
+                curQuest.interact();
+        }
+    }
 }
 
 function getMapAdventureFromId(id) {
@@ -92,15 +120,16 @@ function loadAdventure() {
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 1000, 10));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 1000, 2000, 10));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 2000, 99999999, 10));
+    newItem.events.push(createQuestMapEvent(65, 4));
     mapAdventures.push(newItem);
-
+    
     newItem = new mapAdventureInformation();
     newItem.id = 1;
     newItem.name = "Desert";
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10));
-    mapAdventures.push(newItem);
+    mapAdventures.push(newItem); 
 }
 
 function canChangeMap() {

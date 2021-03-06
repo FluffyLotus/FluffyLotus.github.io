@@ -5,7 +5,7 @@ function skillInstanceInformation() {
     this.skillId = 0;
     this.level = 1;
     this.trainingLevel = 0;
-    this.colldown = 0;
+    this.cooldown = 0;
     this.duration = 0;
     this.isActive = false;
 
@@ -57,7 +57,7 @@ skillInstanceInformation.prototype.canExecute = function () {
     if (!this.isEquip)
         return false;
 
-    if (this.colldown <= 0 && this.duration <= 0) {
+    if (this.cooldown <= 0 && this.duration <= 0) {
         return getSkillFromId(this.skillId).canExecute(this.level);
     }
 
@@ -66,7 +66,7 @@ skillInstanceInformation.prototype.canExecute = function () {
 
 skillInstanceInformation.prototype.execute = function () {
     if (this.canExecute()) {
-        this.colldown = getSkillFromId(this.skillId).cooldown;
+        this.cooldown = getSkillFromId(this.skillId).cooldown;
         this.duration = getSkillFromId(this.skillId).duration;
         getSkillFromId(this.skillId).execute(this.level);
 
@@ -85,10 +85,12 @@ skillInstanceInformation.prototype.processTick = function () {
         this.duration -= 1;
     }
     else {
-        if (this.colldown > 0)
-            this.colldown -= 1;
+        if (this.cooldown > 0)
+            this.cooldown -= 1;
     }
+}
 
+skillInstanceInformation.prototype.processTraining = function () {
     if (this.canTrain())
         this.train();
 }

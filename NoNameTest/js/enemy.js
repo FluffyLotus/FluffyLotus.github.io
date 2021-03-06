@@ -7,6 +7,21 @@ var ENEMY_DOG = 5;
 var ENEMY_PIG = 6;
 var ENEMY_WOLF = 7;
 
+function enemyDeathInformation() {
+    this.level = -1;
+    this.deathCount = 0;
+}
+
+enemyDeathInformation.prototype.getExperience = function () {
+    var eg = 2;
+
+    for (t = 0; t <= this.deathCount; t += 100) {
+        eg /= 2;
+    }
+
+    return eg;
+}
+
 function enemyInformation() {
     this.id = 0;
     this.name = "";
@@ -21,54 +36,19 @@ function enemyInformation() {
     this.skills = []; // List of skill ID
 
     this.totalDeath = 0;
-    this.deathCount = []; // How many time it died
+    this.deathInfo = [];
     this.killCount = 0; // How many time it killed something
+
+    this.experience = 0;
+    this.nextLevel = 100; // Increase by 100 everytime
 }
 
 enemyInformation.prototype.getShardCount = function () {
-    var ret = 0;
-
-    for (var k in this.deathCount) {
-        if (this.deathCount.hasOwnProperty(k)) {
-            var needed = 100;
-
-            value = parseInt(this.deathCount[k]);
-
-            while (value >= needed) {
-                ret += 1;
-                value -= needed;
-                needed *= 4;
-            }
-        }
-    }
-
-    return ret;
+    return Math.floor(this.experience / 100);
 }
 
 enemyInformation.prototype.getNextShard = function () {
-    var ret = "";
-
-    for (var k in this.deathCount) {
-        if (this.deathCount.hasOwnProperty(k)) {
-            var needed = 100;
-
-            value = parseInt(this.deathCount[k]);
-
-            if (!isNaN(value)) {
-                while (value >= needed) {
-                    value -= needed;
-                    needed *= 4;
-                }
-
-                if (ret != "")
-                    ret += ", ";
-
-                ret += k + ": " + parseInt(value * 100 / needed) + "%";
-            }
-        }
-    }
-
-    return ret;
+    return this.nextLevel - this.experience;
 }
 
 enemyInformation.prototype.getVitality = function (level) {
@@ -84,32 +64,30 @@ enemyInformation.prototype.getDefence = function (level) {
 }
 
 enemyInformation.prototype.processDeath = function (level) {
-    if (this.deathCount[level] == null)
-        this.deathCount[level] = 1;
-    else
-        this.deathCount[level] += 1;
+    var di = null;
 
-    if (this.deathCount[level] == 100 || this.deathCount[level] == 400 || this.deathCount[level] == 1600 || this.deathCount[level] == 6400)
+    for (var t = 0; t < this.deathInfo.length; t++) {
+        if (this.deathInfo[t].level == level) {
+            di = this.deathInfo[t];
+        }
+    }
+
+    if (di == null) {
+        di = new enemyDeathInformation();
+        di.level = level;
+        this.deathInfo.push(di);
+    }
+
+    di.deathCount++;
+    this.experience += di.getExperience();
+
+    if (this.experience >= this.nextLevel) {
         getResourceFromId(RESOURCE_SHARD).addAmount(1);
+        this.nextLevel += 100;
+    }
 
     this.totalDeath += 1;
 }
-/*
-enemyInformation.prototype.experienceGiven = function (level) {
-    var dc = this.deathCount[level];
-    var xp = 10;
-
-    if (dc == null)
-        dc = 0;
-
-    while (dc > 50) {
-        dc -= 50;
-        xp /= 2;
-    }
-
-    return xp;
-}
-*/
 
 function getEnemyFromId(id) {
     for (var t = 0; t < enemies.length; t++) {

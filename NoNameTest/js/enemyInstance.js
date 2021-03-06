@@ -35,31 +35,71 @@ enemyInstanceInformation.prototype.processDeath = function () {
 }
 
 enemyInstanceInformation.prototype.processAttackSkills = function () {
-    var add = 0;
+    var attackSkills = getSkillInstanceFromType(this.skillInstances, SKILL_TYPE_ATTACK);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (!attackSkills[t].isExecuting()) {
+                if (attackSkills[t].canExecute()) {
+                    attackSkills[t].execute();
+                }
+            }
+        }
+    }
+}
+
+enemyInstanceInformation.prototype.processDefenceSkills = function () {
+    var attackSkills = getSkillInstanceFromType(this.skillInstances, SKILL_TYPE_SHIELD);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (!attackSkills[t].isExecuting()) {
+                if (attackSkills[t].canExecute()) {
+                    attackSkills[t].execute();
+                }
+            }
+        }
+    }
+}
+
+enemyInstanceInformation.prototype.getAllAttack = function () {
+    var ret = [];
     var attackSkills = getSkillInstanceFromType(this.skillInstances, SKILL_TYPE_ATTACK);
 
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                add += attackSkills[t].getAmount();
-            }
-            else {
-                if (attackSkills[t].canExecute()) {
-                    attackSkills[t].execute();
-                    add += attackSkills[t].getAmount();
-                }
+                var skill = getSkillFromId(attackSkills[t].skillId);
+
+                appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
         }
     }
 
-    return add;
+    appendElementValue(ret, ELEMENT_NORMAL, this.strength);
+
+    return ret;
 }
 
-/*
-enemyInstanceInformation.prototype.experienceGiven = function () {
-    return enemies[this.enemyId].experienceGiven(this.level);
+enemyInstanceInformation.prototype.getAllDefence = function () {
+    var ret = [];
+    var attackSkills = getSkillInstanceFromType(this.skillInstances, SKILL_TYPE_SHIELD);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (attackSkills[t].isExecuting()) {
+                var skill = getSkillFromId(attackSkills[t].skillId);
+
+                appendElementValue(ret, skill.element, attackSkills[t].getAmount());
+            }
+        }
+    }
+
+    appendElementValue(ret, ELEMENT_NORMAL, this.defence);
+
+    return ret;
 }
-*/
+
 function createEnemyInstance(enemyId, level) {
     var inst = new enemyInstanceInformation();
     var enemy = getEnemyFromId(enemyId);

@@ -7,35 +7,22 @@ function playerInformation() {
     this.baseStrength = 9; //10;
     this.baseDefence = -1; //0;
 
-    //this.mulVitality = 100; // REMOVE
-    //this.mulStrength = 10; // REMOVE
-    //this.mulDefence = 10; // REMOVE
-
-    //this.pointVitality = 0; // REMOVE
-    //this.pointStrength = 0; // REMOVE
-    //this.pointDefence = 0; // REMOVE
-
-    //this.experience = 0; // REMOVE
-
     this.vitalityTickDelta = 0;
     this.deathCount = 0;
 
     this.skills = [];
-
-    //this.canUseHealMagic = false; // REMOVE
-    //this.canUseFireMagic = false; // REMOVE
 }
 
 playerInformation.prototype.getVitality = function () {
-    return this.baseVitality + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_VITALITY); //  + this.pointVitality * this.mulVitality
+    return this.baseVitality + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_VITALITY);
 }
 
 playerInformation.prototype.getStrength = function () {
-    return this.baseStrength + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_STRENGTH); //  + this.pointStrength * this.mulStrength
+    return this.baseStrength + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_STRENGTH);
 }
 
 playerInformation.prototype.getDefence = function () {
-    return this.baseDefence + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_DEFENCE); //  + this.pointDefence * this.mulDefence
+    return this.baseDefence + getSkillValueFromSubType(this.skills, SKILL_SUBTYPE_DEFENCE);
 }
 
 playerInformation.prototype.prepareTick = function () {
@@ -43,69 +30,21 @@ playerInformation.prototype.prepareTick = function () {
 }
 
 playerInformation.prototype.processTick = function () {
-
-    // Execute passive skills all the time
-    this.processPassiveSkills();
-    this.processHealthSkills();
+    for (var i = 0; i < this.skills.length; i++) {
+        this.skills[i].processTraining();
+        this.skills[i].processTick();
+    }
 }
 
 playerInformation.prototype.addVitality = function (d) {
     this.vitality += d;
     this.vitalityTickDelta += d;
-
-    //if (this.vitality > this.getVitality())
-    //    this.vitality = this.getVitality();
 }
 
 playerInformation.prototype.isDead = function () {
     return this.vitality <= 0;
 }
-/*
-playerInformation.prototype.getPointLeft = function () {
-    return this.getTotalPoint() - this.getUsedTotalPoint();
-}
 
-playerInformation.prototype.getTotalPoint = function () {
-    return parseInt(this.experience / XP_PER_POINT);
-}
-
-playerInformation.prototype.getUsedTotalPoint = function () {
-    return this.pointVitality + this.pointStrength + this.pointDefence;
-}
-
-playerInformation.prototype.changeVitalityPoint = function (pointDelta) {
-    if (pointDelta < 0) {
-        if (this.pointVitality > 0)
-            this.pointVitality -= 1;
-    }
-    else if (pointDelta > 0) {
-        if (this.getPointLeft() > 0)
-            this.pointVitality += 1;
-    }
-}
-
-playerInformation.prototype.changeStrengthPoint = function (pointDelta) {
-    if (pointDelta < 0) {
-        if (this.pointStrength > 0)
-            this.pointStrength -= 1;
-    }
-    else if (pointDelta > 0) {
-        if (this.getPointLeft() > 0)
-            this.pointStrength += 1;
-    }
-}
-
-playerInformation.prototype.changeDefencePoint = function (pointDelta) {
-    if (pointDelta < 0) {
-        if (this.pointDefence > 0)
-            this.pointDefence -= 1;
-    }
-    else if (pointDelta > 0) {
-        if (this.getPointLeft() > 0)
-            this.pointDefence += 1;
-    }
-}
-*/
 playerInformation.prototype.revive = function () {
     this.vitality = this.getVitality();
 }
@@ -133,8 +72,6 @@ playerInformation.prototype.setSkillEquipStatus = function (skillId, isEquip) {
 playerInformation.prototype.processPassiveSkills = function () {
     for (var i = 0; i < this.skills.length; i++) {
         var curSkillInst = this.skills[i];
-
-        curSkillInst.processTick();
 
         // Passive skills
         if (curSkillInst.isEquip && getSkillFromId(curSkillInst.skillId).isPassive()) {
@@ -168,44 +105,89 @@ playerInformation.prototype.processHealthSkills = function () {
 }
 
 playerInformation.prototype.processAttackSkills = function () {
-    var add = 0;
+    var attackSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_ATTACK);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (!attackSkills[t].isExecuting()) {
+                if (attackSkills[t].canExecute()) {
+                    attackSkills[t].execute();
+                }
+            }
+        }
+    }
+}
+
+playerInformation.prototype.processDefenceSkills = function () {
+    var attackSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_SHIELD);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (!attackSkills[t].isExecuting()) {
+                if (attackSkills[t].canExecute()) {
+                    attackSkills[t].execute();
+                }
+            }
+        }
+    }
+}
+
+playerInformation.prototype.getAllAttack = function () {
+    var ret = [];
     var attackSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_ATTACK);
 
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                add += attackSkills[t].getAmount();
-            }
-            else {
-                if (attackSkills[t].canExecute()) {
-                    attackSkills[t].execute();
-                    add += attackSkills[t].getAmount();
-                }
+                var skill = getSkillFromId(attackSkills[t].skillId);
+
+                appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
         }
     }
 
-    return add;
+    appendElementValue(ret, ELEMENT_NORMAL, this.getStrength());
+
+    return ret;
+}
+
+playerInformation.prototype.getAllDefence = function () {
+    var ret = [];
+    var attackSkills = getSkillInstanceFromType(this.skills, SKILL_TYPE_SHIELD);
+
+    for (var t = 0; t < attackSkills.length; t++) {
+        if (attackSkills[t].isEquip) {
+            if (attackSkills[t].isExecuting()) {
+                var skill = getSkillFromId(attackSkills[t].skillId);
+
+                appendElementValue(ret, skill.element, attackSkills[t].getAmount());
+            }
+        }
+    }
+
+    appendElementValue(ret, ELEMENT_NORMAL, this.getDefence());
+
+    return ret;
 }
 
 function createPlayer() {
     var pi = new playerInformation();
     var si;
 
-    si = createSkillInstance(SKILL_VITALITY, true);
+    si = createSkillInstance(SKILL_VITALITY, false);
     si.isEquip = true;
     pi.skills.push(si);
 
-    si = createSkillInstance(SKILL_STRENGTH, true);
+    si = createSkillInstance(SKILL_STRENGTH, false);
     si.isEquip = true;
     pi.skills.push(si);
 
-    si = createSkillInstance(SKILL_DEFENCE, true);
+    si = createSkillInstance(SKILL_DEFENCE, false);
     si.isEquip = true;
     pi.skills.push(si);
 
-    pi.skills.push(createSkillInstance(SKILL_HEAL, true));
-    pi.skills.push(createSkillInstance(SKILL_FIRE, true));
+    pi.skills.push(createSkillInstance(SKILL_HEAL, false));
+    pi.skills.push(createSkillInstance(SKILL_FIRE, false));
 
     return pi;
 }

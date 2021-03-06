@@ -1,16 +1,4 @@
-﻿/*
-var CELL_GRASS = 0;
-var CELL_TREE = 1;
-var CELL_MOUNTAIN = 2;
-var CELL_WATER = 3;
-var CELL_LAVA = 4;
-var CELL_HOME = 5;
-var CELL_DIRTROAD = 6;
-var CELL_DEEPWATER = 7;
-var CELL_BRIDGE = 8;
-*/
-
-var CELL_TYPE_NONE = 0;
+﻿var CELL_TYPE_NONE = 0;
 var CELL_TYPE_GRASS = 1;
 var CELL_TYPE_TREE = 2;
 var CELL_TYPE_MOUNTAIN = 3;
@@ -29,14 +17,6 @@ var CELL_TYPE_S_WEB = 100;
 var CELL_TYPE_S_DEADTREE = 102;
 var CELL_TYPE_S_POUND = 101;
 var CELL_TYPE_S_STATUE = 103;
-
-
-/*
- * EmptyPound
- * DeadTree
- * Statue
- * Trash
-*/
 
 function cellInformation() {
     this.id = 0;

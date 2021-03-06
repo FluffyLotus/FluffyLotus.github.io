@@ -2,7 +2,6 @@
     var saveData = new Object();
 
     saveData.version = "1";
-    saveData.cvs = canViewskills;
     saveData.cr = currentMapAdventure.canRun;
     saveData.re = [];
     saveData.bu = [];
@@ -47,6 +46,8 @@
         saveData.qu[t] = new Object();
         saveData.qu[t].id = quests[t].id;
         saveData.qu[t].ia = quests[t].isActivated;
+        saveData.qu[t].rr = quests[t].isResourceReserved;
+        saveData.qu[t].wl = quests[t].wentToLocation;
         saveData.qu[t].ic = quests[t].isCompleted;
     }
 
@@ -73,7 +74,7 @@
     }
 
     saveData.p = new Object();
-    saveData.p.dc = currentMapAdventure.currentPlayer.deathCount
+    saveData.p.dc = currentMapAdventure.currentPlayer.deathCount;
     saveData.p.s = [];
 
     for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
@@ -82,7 +83,7 @@
         subItem.si = currentMapAdventure.currentPlayer.skills[t].skillId;
         subItem.l = currentMapAdventure.currentPlayer.skills[t].level;
         subItem.tl = currentMapAdventure.currentPlayer.skills[t].trainingLevel;
-        subItem.cd = currentMapAdventure.currentPlayer.skills[t].colldown;
+        subItem.cd = currentMapAdventure.currentPlayer.skills[t].cooldown;
         subItem.du = currentMapAdventure.currentPlayer.skills[t].duration;
         subItem.ia = currentMapAdventure.currentPlayer.skills[t].isActive;
         subItem.it = currentMapAdventure.currentPlayer.skills[t].isTraining;
@@ -96,8 +97,9 @@
 
         subItem.id = enemies[t].id;
         subItem.td = enemies[t].totalDeath;
-        subItem.dc = enemies[t].deathCount;
+        subItem.di = enemies[t].deathInfo;
         subItem.kc = enemies[t].killCount;
+        subItem.ex = enemies[t].experience;
         
         saveData.en.push(subItem);
     }
@@ -107,7 +109,6 @@
 
 function LoadSaveGame(saveData) {
     if (saveData.version == "1") {
-        canViewskills = saveData.cvs;
         currentMapAdventure.canRun = saveData.cr;
 
         for (var t = 0; t < saveData.re.length; t++) {
@@ -144,6 +145,8 @@ function LoadSaveGame(saveData) {
             var item = getQuestFromId(saveData.qu[t].id);
 
             item.isActivated = saveData.qu[t].ia;
+            item.isResourceReserved = saveData.qu[t].rr;
+            item.wentToLocation = saveData.qu[t].wl;
             item.isCompleted = saveData.qu[t].ic;
         }
 
@@ -178,7 +181,7 @@ function LoadSaveGame(saveData) {
 
             s.level = saveData.p.s[t].l;
             s.trainingLevel = saveData.p.s[t].tl;
-            s.colldown = saveData.p.s[t].cd;
+            s.cooldown = saveData.p.s[t].cd;
             s.duration = saveData.p.s[t].du;
             s.isActive = saveData.p.s[t].ia;
             s.isTraining = saveData.p.s[t].it;
@@ -189,8 +192,11 @@ function LoadSaveGame(saveData) {
             var item = getEnemyFromId(saveData.en[t].id);
 
             item.totalDeath = saveData.en[t].td;
-            item.deathCount = saveData.en[t].dc;
+            item.deathInfo = saveData.en[t].di;
             item.killCount = saveData.en[t].kc;
+            item.experience = saveData.en[t].ex;
+
+            item.nextLevel = Math.floor(item.experience / 100) * 100 + 100;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿var DL_CAT =
     [
-        { p: "adventure", c: ["maxDistance"]},
+        { p: "adventure", c: ["maxDistance", "currentDistance"]},
         { p: "resource", c: ["amount"]},
         { p: "building", c: ["available", "buildAmount"]},
-        { p: "quest", c: ["isActivated"]},
+        { p: "quest", c: ["isActivated"] },
+        { p: "playerSkills", c: ["level", "isActive"] },
         { p: "other", c: ["startAdventure"]}
     ];
 
@@ -18,6 +19,9 @@ dataLink.prototype.getCurrentValue = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
             return getMapAdventureFromId(this.entityId).maxDistance;
+        }
+        if (this.subCategory == "currentDistance") {
+            return getMapAdventureFromId(this.entityId).currentDistance;
         }
     }
     if (this.category == "resource") {
@@ -38,11 +42,19 @@ dataLink.prototype.getCurrentValue = function () {
             return getQuestFromId(this.entityId).isActivated;
         }
     }
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "level") {
+            return currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).level;
+        }
+    }
 }
 
 dataLink.prototype.getDataName = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
+            return getMapAdventureFromId(this.entityId).name + " Maximum Walking Distance";
+        }
+        if (this.subCategory == "currentDistance") {
             return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
     }
@@ -61,6 +73,11 @@ dataLink.prototype.getDataName = function () {
     //        return getQuestFromId(this.entityId).isActivated;
     //    }
     //}
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "level") {
+            return getSkillFromId(currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).skillId).name + " Level";
+        }
+    }
     
     return "";
 }
@@ -68,6 +85,9 @@ dataLink.prototype.getDataName = function () {
 dataLink.prototype.processDataLink = function (v) {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
+            //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
+        }
+        if (this.subCategory == "currentDistance") {
             //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
     }
@@ -94,6 +114,12 @@ dataLink.prototype.processDataLink = function (v) {
         if (this.subCategory == "startAdventure") {
             if (v == 1)
                 currentMapAdventure.canRun = true;
+        }
+    }
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).isActive = true;
         }
     }
 }

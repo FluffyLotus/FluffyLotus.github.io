@@ -31,6 +31,24 @@ function uiDrawBuildingIcon() {
         }
     }
 
+    var canChangeGrade = false;
+
+    for (var t = 0; t < buildings.length; t++) {
+        if (buildings[t].isVisible()) {
+            if (buildings[t].getMaxAvailableGrade(10) > 1) {
+                canChangeGrade = true;
+                break;
+            }
+        }
+    }
+
+    if (canChangeGrade) {
+        $("#buildingGradeSection").show();
+    }
+    else {
+        $("#buildingGradeSection").hide();
+    }
+
     uiDrawBuildMapSelection();
 }
 
@@ -50,12 +68,10 @@ function uiDrawGrid() {
             imgX = getImagePositionX("cell", getCellFromId(curGrid.cellId).imageName);
             imgY = getImagePositionY("cell", getCellFromId(curGrid.cellId).imageName);
 
-            //document.getElementById("cell_" + x + "_" + y).className = "cell_" + cells[curGrid.cellId].id;
             $("#cell_" + x + "_" + y).css('background-position-x', -imgX + 'px');
             $("#cell_" + x + "_" + y).css('background-position-y', -imgY + 'px');
 
             if (curGrid.particles.length > 0) {
-                //document.getElementById("particle_" + x + "_" + y).className = "particle_" + particles[curGrid.getOutputParticleId()].id;
                 imgX = getImagePositionX("particle", getParticleFromId(curGrid.getOutputParticleId()).imageName);
                 imgY = getImagePositionY("particle", getParticleFromId(curGrid.getOutputParticleId()).imageName);
 
@@ -63,29 +79,18 @@ function uiDrawGrid() {
                 $("#particle_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             }
             else {
-                //document.getElementById("particle_" + x + "_" + y).className = "";
                 $("#particle_" + x + "_" + y).css('background-position-x', '-9999px');
                 $("#particle_" + x + "_" + y).css('background-position-y', '-9999px');
             }
 
             if (curGrid.buildingInst != null && (curGrid.buildingInst.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingInst.buildingId == BUILDING_UNDERGROUNDPIPE)) {
-                //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideStorageConnectionStr(x, y);
                 imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
                 imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
 
                 $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             }
-            //else if (curGrid.buildingId == BUILDING_WATERPIPE) {
-            //    //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id + "_" + mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y);
-            //    imgX = getImagePositionX("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y));
-            //    imgY = getImagePositionY("building", buildings[curGrid.buildingId].id, mapBuildings[currentMapBuilding].getSideWaterConnectionStr(x, y));
-
-            //    $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
-            //    $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
-            //}
             else if (curGrid.buildingInst != null) {
-                //document.getElementById("building_" + x + "_" + y).className = "building_" + buildings[curGrid.buildingId].id;
                 imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
                 imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
 
@@ -93,7 +98,6 @@ function uiDrawGrid() {
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             }
             else {
-                //document.getElementById("building_" + x + "_" + y).className = "";
                 $("#building_" + x + "_" + y).css('background-position-x', '-9999px');
                 $("#building_" + x + "_" + y).css('background-position-y', '-9999px');
             }

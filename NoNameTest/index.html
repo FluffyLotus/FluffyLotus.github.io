@@ -231,7 +231,7 @@
             </div>
 
             <div style="margin-top: 5px;">
-                <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();">Fast &gt;&gt;</button>
+                <!-- Old location of fast -->
             </div>
         </div>
         <div class="col-10 bg-dark">
@@ -260,6 +260,9 @@
                     <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievement" role="tab" aria-controls="achievement" aria-selected="false">Achievements</a>
                 </li>
                     -->
+                <li>
+                    <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();" style="margin-left: 20px;">Fast &gt;&gt;</button>
+                </li>
             </ul>
 
             <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 600px;">
@@ -343,7 +346,7 @@
                                 <div id="building37" onclick="uiSelectBuilding(37);" onmouseover="uiBuildingHover(37, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                                 <div id="building49" onclick="uiSelectBuilding(49);" onmouseover="uiBuildingHover(49, 1, -1, -1, true);" class="buildingNotSelected" style="margin: 2px; width: 26px; height: 26px; display: inline-block;"><div class="spriteSheetBuilding">&nbsp;</div></div>
                             </div>
-                            <div>
+                            <div id="buildingGradeSection">
                                 <div class="form-group">
                                     <label for="formControlRange">Building Grade</label>
 
@@ -388,7 +391,7 @@
 
                         <table>
                             <tr>
-                                <td><img src="images/player.png" /></td>
+                                <td colspan="2"><img src="images/player.png" /></td>
                             </tr>
                             <tr>
                                 <th>Life: </th>
@@ -403,6 +406,25 @@
                                 <td><span id="playerDefence"></span></td>
                             </tr>
                         </table>
+
+                        <hr />
+
+                        <table class="table table-sm" style="color: white;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Duration</th>
+                                    <th>Cooldown</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playerLiveContainer">
+                                <tr id="playerLiveItem" style="display: none;">
+                                    <td><span id="playerLiveSkillName">Fire</span></td>
+                                    <td><span id="playerLiveSkillDuration">1</span></td>
+                                    <td><span id="playerLiveSkillCooldown">10</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div style="display: inline-block; width: 49%; vertical-align: top;">
@@ -415,7 +437,7 @@
 
                             <table>
                                 <tr>
-                                    <td><img id="enemyImage" src="" /></td>
+                                    <td colspan="2"><img id="enemyImage" src="" /></td>
                                 </tr>
                                 <tr>
                                     <th>Life: </th>
@@ -428,6 +450,28 @@
                                 <tr>
                                     <th>Defence: </th>
                                     <td><span id="enemyDefence"></span></td>
+                                </tr>
+                            </table>
+
+                            <hr />
+
+                            <table class="table table-sm" style="color: white;">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Duration</th>
+                                        <th>Cooldown</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="enemyLiveContainer">
+                                </tbody>
+                            </table>
+
+                            <table style="display: none;">
+                                <tr id="enemyLiveItem" style="display: none;">
+                                    <td><span id="enemyLiveSkillName">Fire</span></td>
+                                    <td><span id="enemyLiveSkillDuration">1</span></td>
+                                    <td><span id="enemyLiveSkillCooldown">10</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -460,8 +504,6 @@
                                 <div id="singleQuestInfoCompleted" style="display: none;">
                                     <hr />
                                     <span id="singleQuestInfoCompletedDescription">Title</span>
-                                    <hr />
-                                    Status: <span style="color: green;">Completed!</span>
                                 </div>
                                 <table class="table table-hover table-dark table-sm">
                                     <thead>
@@ -489,6 +531,15 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <p style="color: yellow;" id="singleQuestInfoStatus0">This quest is completed.</p>
+                                <p style="color: yellow;" id="singleQuestInfoStatus1">This quest will automatically be completed.</p>
+                                <p style="color: yellow;" id="singleQuestInfoStatus2">Need to reserve the resources to complete the quest.</p>
+                                <p style="color: yellow;" id="singleQuestInfoStatus3">Need to go back at <span id="singleQuestInfoFoundLocation">100m</span> in <span id="singleQuestInfoFoundArea">Forest</span> to complete the quest.</p>
+
+                                <button class="btn btn-block btn-danger" disabled id="singleQuestInfoButtonNoResource">Can't Reserve Resources</button>
+                                <button class="btn btn-block btn-success" id="singleQuestInfoButtonReserveResource" onclick="uiQuestReserveResource();">Reserve Resources</button>
+                                <button class="btn btn-block btn-success" id="singleQuestInfoButtonTeleport" onclick="uiQuestTeleportToCheckpoint();">Teleport to checkpoint</button>
                             </div>
                         </div>
                     </div>
@@ -554,14 +605,14 @@
                 <div class="tab-pane fade" id="enemyInfo" role="tabpanel" aria-labelledby="enemyInfo-tab">
                     <h2>Enemies</h2>
 
-                    <p>Gain soul gem from killing enemies.</p>
+                    <p>Gain soul shard from killing enemies. After each 100 enemies killed inside a checkpoint, the experience given is divided by 2.</p>
 
                     <table class="table table-hover table-dark table-sm">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Sould Shard</th>
-                                <th>Next Shard</th>
+                                <th>Experience</th>
                             </tr>
                         </thead>
                         <tbody id="enemyInfoContainer">

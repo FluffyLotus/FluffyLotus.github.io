@@ -25,8 +25,6 @@ var lastSave = Date.now();
 var lastTick = Date.now() - SLOW_SPEED;
 var tickCount = 0;
 
-var canViewskills = false;
-
 function loadIcon() {
     var elems = $("[data-spritesheetimage]");
 
@@ -79,7 +77,7 @@ function loadApp() {
     //retreiveSaveState();
 
     ////////////////
-    if (true) {
+    if (false) {
         for (var t = 0; t < buildings.length; t++)
             buildings[t].available = true;
 
@@ -91,7 +89,6 @@ function loadApp() {
             mapAdventures[t].isActive = true;
         }
 
-        canViewskills = true;
         currentMapAdventure.canRun = true;
 
         for (var t = 0; t < resources.length; t++) {

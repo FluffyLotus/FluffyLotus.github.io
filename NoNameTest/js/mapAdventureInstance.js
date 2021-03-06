@@ -32,21 +32,8 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
         return;
 
     this.currentPlayer.processTick();
-    if (this.currentEnemy != null) this.currentEnemy.processTick();
-
-    ////if (this.currentPlayer.canUseHealMagic) {
-    //if (this.currentPlayer.getSkillInstance(SKILL_HEAL).canExecute()) {
-    //    if (this.currentPlayer.vitality < this.currentPlayer.getVitality()) {
-    //        this.currentPlayer.getSkillInstance(SKILL_HEAL).execute();
-    //        this.currentPlayer.addVitality(this.currentPlayer.getSkillInstance(SKILL_HEAL).getAmount());
-
-    //        //if (resources[RESOURCE_GREENMANA].amount >= 10) {
-    //        //    resources[RESOURCE_GREENMANA].addAmount(-10);
-
-    //        //    this.currentPlayer.addVitality(10);
-    //        //}
-    //    }
-    //}
+    this.currentPlayer.processPassiveSkills();
+    this.currentPlayer.processHealthSkills();
 
     if (this.currentAction == ADV_ACTION_WALK) {
         getMapAdventureFromId(this.currentMapAdventureId).increaseDistance();
@@ -59,37 +46,25 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
         }
     }
     else if (this.currentAction == ADV_ACTION_ATTACK) {
-        var mul = 1;
-        var add = 0;
-        var eadd = 0;
+        this.currentEnemy.processTick();
 
-        ////if (this.currentPlayer.canUseFireMagic) {
-        //if (this.currentPlayer.getSkillInstance(SKILL_FIRE).canExecute()) {
-        //    this.currentPlayer.getSkillInstance(SKILL_FIRE).execute();
+        this.currentPlayer.processAttackSkills();
+        this.currentPlayer.processDefenceSkills();
 
-        //    mul = 1;
-        //    add = this.currentPlayer.getSkillInstance(SKILL_FIRE).getAmount();
+        this.currentEnemy.processAttackSkills();
+        this.currentEnemy.processDefenceSkills();
 
-        //    //if (resources[RESOURCE_REDMANA].amount >= 10) {
-        //    //    resources[RESOURCE_REDMANA].addAmount(-10);
+        var playerAttack = this.currentPlayer.getAllAttack();
+        var enemyAttack = this.currentEnemy.getAllAttack();
 
-        //    //    mul = 2;
-        //    //}
-        //}
-        add = this.currentPlayer.processAttackSkills();
-        eadd = this.currentEnemy.processAttackSkills();
+        var playerDefence = this.currentPlayer.getAllDefence();
+        var enemyDefence = this.currentEnemy.getAllDefence();
 
-        var hit;
+        var playerHit = processAttack(playerAttack, enemyDefence);
+        var enemyHit = processAttack(enemyAttack, playerDefence);
 
-        hit = (this.currentEnemy.strength + eadd) - this.currentPlayer.getDefence();
-        if (hit < 0) hit = 0;
-
-        this.currentPlayer.addVitality(-hit);
-
-        hit = this.currentPlayer.getStrength() * mul + add - this.currentEnemy.defence;
-        if (hit < 0) hit = 0;
-
-        this.currentEnemy.addVitality(-hit);
+        this.currentPlayer.addVitality(-enemyHit);
+        this.currentEnemy.addVitality(-playerHit);
 
         if (this.currentPlayer.isDead()) {
             getEnemyFromId(this.currentEnemy.enemyId).killCount += 1;
@@ -104,16 +79,9 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
         else if (this.currentEnemy.isDead()) {
             this.currentAction = ADV_ACTION_WALK;
             this.currentEnemy.processDeath();
-            //this.currentPlayer.experience += this.currentEnemy.experienceGiven();
 
             this.currentEnemy = null;
         }
-    }
-
-    // This should be a quest?
-    if (this.currentMapAdventureId == 0 && getMapAdventureFromId(this.currentMapAdventureId).maxDistance == 65) {
-        canViewskills = true;
-        messages.push("These animals are more aggresive than expected. You should use some of the resource to increase your skills.");
     }
 }
 
@@ -121,4 +89,25 @@ function loadMapAdventureInstance() {
     currentMapAdventure = new mapAdventureInstanceInformation();
     currentMapAdventure.currentPlayer = createPlayer();
     currentMapAdventure.currentPlayer.revive();
+}
+
+function processAttack(listOfAttack, listOfDefence) {
+    var totalHit = 0;
+
+    for (var a = 0; a < listOfAttack.length; a++) {
+        var at = listOfAttack[a].value;
+        var de = 0;
+
+        for (d = 0; d < listOfDefence.length; d++) {
+            if (listOfDefence[d].element == listOfAttack[a].element)
+                de += listOfDefence[d].value;
+        }
+
+        at -= de;
+        if (at < 0) at = 0;
+
+        totalHit += at;
+    }
+
+    return totalHit;
 }

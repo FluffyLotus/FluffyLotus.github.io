@@ -45,6 +45,34 @@ cooldown [tick]
 
 // Walking speed, use time essence
 
+function elementValueInformation() {
+    this.element = 0;
+    this.value = 0;
+}
+
+function createElementValueInformation(el, va) {
+    var ret = new elementValueInformation();
+
+    ret.element = el;
+    ret.value = va;
+
+    return ret;
+}
+
+function appendElementValue(list, el, va) {
+    var found = false;
+
+    for (var t = 0; t < list.length; t++) {
+        if (list[t].element == el) {
+            list[t].value += va;
+            found = true;
+        }
+    }
+
+    if (!found)
+        list.push(createElementValueInformation(el, va));
+}
+
 function skillInformation() {
     this.id = 0;
     this.name = "";
@@ -157,7 +185,7 @@ function loadSkills() {
     newItem.id = 4;
     newItem.name = "Fire";
     newItem.description = "Hit {0} fire damage";
-    newItem.cooldown = 1;
+    newItem.cooldown = 2;
     newItem.duration = 1;
     newItem.baseAmount = 0;
     newItem.mulAmount = 1;

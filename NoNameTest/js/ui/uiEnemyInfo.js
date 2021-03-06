@@ -27,7 +27,7 @@
             }
 
             $("#enemyInfoSouldShard" + curEnemy.id).html(curEnemy.getShardCount());
-            $("#enemyInfoNextShard" + curEnemy.id).html(curEnemy.getNextShard());
+            $("#enemyInfoNextShard" + curEnemy.id).html((100 - Math.round(curEnemy.getNextShard(), 2)) + " / " + 100);
         }
     }
 }

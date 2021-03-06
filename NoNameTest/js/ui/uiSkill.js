@@ -1,5 +1,20 @@
-﻿function uiDrawSkills() {
-    if (canViewskills) {
+﻿var canViewskillsVar = false;
+
+function canViewskills() {
+    if (!canViewskillsVar) {
+        for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+            if (currentMapAdventure.currentPlayer.skills[t].isActive) {
+                canViewskillsVar = true;
+                break;
+            }
+        }
+    }
+
+    return canViewskillsVar;
+}
+
+function uiDrawSkills() {
+    if (canViewskills()) {
         $("#tabItemPlayer").show();
     }
     if (getResourceFromId(RESOURCE_SHARD).maxAmount > 0) {
@@ -13,10 +28,8 @@
 }
 
 function uiDrawPassiveSkills() {
-    var passiveSkills = currentMapAdventure.currentPlayer.skills;
-
-    for (var t = 0; t < passiveSkills.length; t++) {
-        var curSkill = passiveSkills[t];
+    for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+        var curSkill = currentMapAdventure.currentPlayer.skills[t];
         var skillInfo = getSkillFromId(curSkill.skillId);
 
         if (skillInfo.isPassive()) {
@@ -59,10 +72,8 @@ function uiDrawPassiveSkills() {
 }
 
 function uiDrawActiveSkills() {
-    var activeSkills = currentMapAdventure.currentPlayer.skills;
-
-    for (var t = 0; t < activeSkills.length; t++) {
-        var curSkill = activeSkills[t];
+    for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+        var curSkill = currentMapAdventure.currentPlayer.skills[t];
         var skillInfo = getSkillFromId(curSkill.skillId);
 
         if (!skillInfo.isPassive()) {

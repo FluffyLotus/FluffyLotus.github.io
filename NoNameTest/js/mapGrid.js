@@ -13,7 +13,6 @@ function mapGridInformation() {
     this.processBuildingTick = false;
 
     this.isConnectedToStorage = false;
-    //this.isConnectedToWater = false;
 }
 
 mapGridInformation.prototype.prepareTick = function () {

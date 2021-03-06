@@ -42,7 +42,6 @@
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "red");
             }
             else {
-                //$("#resourceInfoTickDelta" + curResource.id).text(nFormatter(curResource.tickDelta));
                 $("#resourceInfoTickDelta" + curResource.id).text("");
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "black");
             }

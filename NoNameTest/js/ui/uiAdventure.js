@@ -58,6 +58,8 @@
     else {
         $("#changeMapButton").hide();
     }
+
+    uiDrawAdventureSkill();
 }
 
 function uiChangeAdventure() {
@@ -94,5 +96,69 @@ function uiPopulateCheckpoint(mapId, checkpoint) {
             $("#uiPossibleCheckpoint").append("<option value='" + t + "' selected>" + t + "</option>");
         else
             $("#uiPossibleCheckpoint").append("<option value='" + t + "'>" + t + "</option>");
+    }
+}
+
+///////////////
+
+function uiDrawAdventureSkill() {
+    if (currentMapAdventure.currentPlayer != null) {
+        for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+            var skillInst = currentMapAdventure.currentPlayer.skills[t];
+            var skill = getSkillFromId(skillInst.skillId);
+
+            if (!skillInst.isActive || !skillInst.isEquip || skill.useRequirements.length == 0) {
+                $("#playerLiveItem" + skillInst.skillId).remove();
+            }
+            else {
+                if ($("#playerLiveItem" + skillInst.skillId).length == 0) {
+                    var newElement = $("#playerLiveItem").clone();
+
+                    $(newElement).show();
+
+                    $(newElement).attr("id", "playerLiveItem" + skillInst.skillId);
+                    $(newElement).find("#playerLiveSkillName").attr("id", "playerLiveSkillName" + skillInst.skillId);
+                    $(newElement).find("#playerLiveSkillDuration").attr("id", "playerLiveSkillDuration" + skillInst.skillId);
+                    $(newElement).find("#playerLiveSkillCooldown").attr("id", "playerLiveSkillCooldown" + skillInst.skillId);
+
+                    $("#playerLiveContainer").append(newElement);
+
+                    $("#playerLiveSkillName" + skillInst.skillId).text(skill.name);
+                }
+
+                $("#playerLiveSkillDuration" + skillInst.skillId).text(skillInst.duration);
+                $("#playerLiveSkillCooldown" + skillInst.skillId).text(skillInst.cooldown);
+            }
+        }
+    }
+    else {
+    }
+
+    if (currentMapAdventure.currentEnemy != null) {
+        for (var t = 0; t < currentMapAdventure.currentEnemy.skillInstances.length; t++) {
+            var skillInst = currentMapAdventure.currentEnemy.skillInstances[t];
+            var skill = getSkillFromId(skillInst.skillId);
+
+            if ($("#enemyLiveItem" + skillInst.skillId).length == 0) {
+                var newElement = $("#enemyLiveItem").clone();
+
+                $(newElement).show();
+
+                $(newElement).attr("id", "enemyLiveItem" + skillInst.skillId);
+                $(newElement).find("#enemyLiveSkillName").attr("id", "enemyLiveSkillName" + skillInst.skillId);
+                $(newElement).find("#enemyLiveSkillDuration").attr("id", "enemyLiveSkillDuration" + skillInst.skillId);
+                $(newElement).find("#enemyLiveSkillCooldown").attr("id", "enemyLiveSkillCooldown" + skillInst.skillId);
+
+                $("#enemyLiveContainer").append(newElement);
+
+                $("#enemyLiveSkillName" + skillInst.skillId).text(skill.name);
+            }
+
+            $("#enemyLiveSkillDuration" + skillInst.skillId).text(skillInst.duration);
+            $("#enemyLiveSkillCooldown" + skillInst.skillId).text(skillInst.cooldown);
+        }
+    }
+    else {
+        $("#enemyLiveContainer").empty();
     }
 }
