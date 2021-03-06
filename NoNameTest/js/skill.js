@@ -139,7 +139,7 @@ function loadSkills() {
     newItem.mulAmount = 10;
     newItem.skillType = SKILL_TYPE_ATTRIBUTE;
     newItem.skillSubType = SKILL_SUBTYPE_VITALITY;
-    newItem.trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(3, 4), 1.0));
     skills.push(newItem);
 
     newItem = new skillInformation();
@@ -152,7 +152,7 @@ function loadSkills() {
     newItem.mulAmount = 1;
     newItem.skillType = SKILL_TYPE_ATTRIBUTE;
     newItem.skillSubType = SKILL_SUBTYPE_STRENGTH;
-    newItem.trainingRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(3, 2), 1.0));
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(3, 4), 1.0));
     skills.push(newItem);
 
     newItem = new skillInformation();
@@ -165,7 +165,7 @@ function loadSkills() {
     newItem.mulAmount = 1;
     newItem.skillType = SKILL_TYPE_ATTRIBUTE;
     newItem.skillSubType = SKILL_SUBTYPE_DEFENCE;
-    newItem.trainingRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(3, 2), 1.0));
+    newItem.trainingRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(3, 4), 1.0));
     skills.push(newItem);
 
     newItem = new skillInformation();

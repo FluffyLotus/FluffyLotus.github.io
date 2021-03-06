@@ -266,13 +266,22 @@ function uiChangeBuildMap() {
 }
 
 function uiDrawBuildMapSelection() {
+    var mapCount = 0;
+
     for (var t = 0; t < mapBuildings.length; t++) {
         if (mapBuildings[t].isActive) {
+            mapCount++;
+
             if ($("#mapSelected option[value='" + mapBuildings[t].id + "']").length == 0) {
                 $("#mapSelected").append("<option value='" + mapBuildings[t].id + "'>" + mapBuildings[t].name + "</option>");
             }
         }
     }
+
+    if (mapCount < 2)
+        $("#mapSelected").hide();
+    else
+        $("#mapSelected").show();
 }
 
 function uiChangeBuildingLevelDisplay() {

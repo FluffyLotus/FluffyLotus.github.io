@@ -74,8 +74,6 @@ function loadApp() {
 
     loadIcon();
 
-    //retreiveSaveState();
-
     ////////////////
     if (false) {
         for (var t = 0; t < buildings.length; t++)
@@ -96,13 +94,18 @@ function loadApp() {
             resources[t].addAmount(200000 - resources[t].amount);
         }
 
-        //resources[RESOURCE_WOOD].addAmount(2000);
-        //resources[RESOURCE_STONE].addAmount(2000);
-        //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+        //getResourceFromId(RESOURCE_WOOD).addAmount(2000);
+        //getResourceFromId(RESOURCE_STONE).addAmount(2000);
+        //getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(2000);
     }
     else {
         $('#helpModal').modal('show');
+
+        retreiveSaveState();
     }
+
+    if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
+        getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(2000);
     ////////////////
 
     getBuildingFromId(0).available = true;
