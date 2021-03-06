@@ -153,8 +153,8 @@ function loadQuests() {
     newItem.name = "Resource Pipe";
     newItem.activatedDescription = "Our resource pipe got broken by the agitated animals. We need some wood and stone to rebuild them.";
     newItem.compleDescription = "With the pipes, we can link buildings with the storage unit.";
-    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 100));
-    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 100));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 500));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 500));
     newItem.rewards.push(createDataLink("building", "available", BUILDING_STORAGEPIPE, 1));
     newItem.rewards.push(createDataLink("quest", "isActivated", 1, 1));
     newItem.rewards.push(createDataLink("other", "startAdventure", 0, 1));
@@ -175,7 +175,7 @@ function loadQuests() {
     newItem.activatedDescription = "The carpenter needs help but he is on the other side of the river. I would need to build a small bridge to get to him.";
     newItem.compleDescription = "Thanks a lot for saving me. I'm really weak.";
     newItem.needToGoToLocation = true;
-    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 10000));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 5000));
     newItem.rewards.push(createDataLink("building", "available", BUILDING_SAWMILL, 1));
     quests.push(newItem);
 
