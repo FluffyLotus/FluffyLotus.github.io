@@ -17,15 +17,17 @@ function enemyRangeInformation() {
     this.minDistance = 0;
     this.maxDistance = 9999999999;
     this.modulo = 10;
+    this.weight = 0;
 }
 
-function createEnemyRangeInformation(enemyId, min, max, modulo) {
+function createEnemyRangeInformation(enemyId, min, max, modulo, weight) {
     var ret = new enemyRangeInformation();
 
     ret.enemyId = enemyId;
     ret.minDistance = min;
     ret.maxDistance = max;
     ret.modulo = modulo;
+    ret.weight = weight;
 
     return ret;
 }
@@ -57,7 +59,7 @@ mapAdventureInformation.prototype.getPossibleEnemy = function () {
     for (var t = 0; t < this.enemies.length; t++) {
         if (this.currentDistance >= this.enemies[t].minDistance && this.currentDistance < this.enemies[t].maxDistance) {
             if ((this.currentDistance % this.enemies[t].modulo) == 0) {
-                possibleEnemies.push(this.enemies[t].enemyId);
+                possibleEnemies.push(this.enemies[t]);
             }
         }
     }
@@ -66,10 +68,30 @@ mapAdventureInformation.prototype.getPossibleEnemy = function () {
         var enemyId = -1;
 
         if (possibleEnemies.length == 1) {
-            enemyId = possibleEnemies[0];
+            enemyId = possibleEnemies[0].enemyId;
         }
         else {
-            enemyId = possibleEnemies[getRandInteger(0, possibleEnemies.length)];
+            var totalWeight = 0;
+
+            for (var t = 0; t < possibleEnemies.length; t++) {
+                totalWeight += possibleEnemies[t].weight;
+            }
+
+            var weightLocation = getRandInteger(0, totalWeight);
+
+            for (var t = 0; t < possibleEnemies.length; t++) {
+                if (weightLocation < possibleEnemies[t].weight) {
+                    enemyId = possibleEnemies[t].enemyId;
+                    break;
+                }
+                else {
+                    weightLocation -= possibleEnemies[t].weight;
+                }
+            }
+
+            if (enemyId == -1) { // Should not happen
+                enemyId = possibleEnemies[possibleEnemies.length - 1].enemyId;
+            }
         }
 
         return createEnemyInstance(enemyId, this.getEnemyLevelFromDistance());
@@ -117,18 +139,19 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 0;
     newItem.name = "Forest";
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 1000, 10));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 1000, 2000, 10));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 2000, 99999999, 10));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 0, 1000, 10, 1));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 2000, 99999999, 10, 100));
     newItem.events.push(createQuestMapEvent(65, 4));
     mapAdventures.push(newItem);
     
     newItem = new mapAdventureInformation();
     newItem.id = 1;
     newItem.name = "Desert";
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
     mapAdventures.push(newItem); 
 }
 
