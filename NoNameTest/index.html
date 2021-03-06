@@ -572,35 +572,37 @@
                         </tbody>
                     </table>
 
-                    <h3>Magic</h3>
+                    <div id="skillMagicSection">
+                        <h3>Magic</h3>
 
-                    <p>Use resource to train special abilities.</p>
-                    <p>Space to equip <span id="magicSpaceCount"></span> magic.</p>
+                        <p>Use resource to train special abilities.</p>
+                        <p>Space to equip <span id="magicSpaceCount"></span> magic.</p>
 
-                    <table class="table table-hover table-dark table-sm">
-                        <thead>
-                            <tr>
-                                <th>Use</th>
-                                <th>Name</th>
-                                <th>Level</th>
-                                <th>Train</th>
-                                <th>Progress until next level</th>
-                            </tr>
-                        </thead>
-                        <tbody id="activeSkillContainer">
-                            <tr id="activeSkillRow" style="display: none;">
-                                <td><input id="activeSkillEquip" type="checkbox" /></td>
-                                <td><span id="activeSkillName">Vitality I</span></td>
-                                <td><span id="activeSkillLevel">1.00</span></td>
-                                <td><input id="activeSkillTraining" type="checkbox" /></td>
-                                <td>
-                                    <div class="progress" style="height: 5px;">
-                                        <div id="activeSkillProgress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-hover table-dark table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Use</th>
+                                    <th>Name</th>
+                                    <th>Level</th>
+                                    <th>Train</th>
+                                    <th>Progress until next level</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activeSkillContainer">
+                                <tr id="activeSkillRow" style="display: none;">
+                                    <td><input id="activeSkillEquip" type="checkbox" /></td>
+                                    <td><span id="activeSkillName">Vitality I</span></td>
+                                    <td><span id="activeSkillLevel">1.00</span></td>
+                                    <td><input id="activeSkillTraining" type="checkbox" /></td>
+                                    <td>
+                                        <div class="progress" style="height: 5px;">
+                                            <div id="activeSkillProgress" class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="enemyInfo" role="tabpanel" aria-labelledby="enemyInfo-tab">
                     <h2>Enemies</h2>

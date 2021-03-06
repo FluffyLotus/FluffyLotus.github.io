@@ -297,8 +297,8 @@ function loadBuildings() {
     newItem.description = "Store an amount of resources and increase the resource limit.";
     newItem.imageName = ["building_3"];
     newItem.costRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaPow(10, 4, 0, true), 1.0));
-    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(50, 50), 1.0));
-    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(50, 50), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_STONE, new formulaPow(1, 7, 50, true), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaPow(1, 7, 50, true), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
     buildings.push(newItem);
 

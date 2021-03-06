@@ -72,6 +72,8 @@ function uiDrawPassiveSkills() {
 }
 
 function uiDrawActiveSkills() {
+    var hasSkills = false;
+
     for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
         var curSkill = currentMapAdventure.currentPlayer.skills[t];
         var skillInfo = getSkillFromId(curSkill.skillId);
@@ -82,6 +84,8 @@ function uiDrawActiveSkills() {
             }
 
             if (curSkill.isVisible()) {
+                hasSkills = true;
+
                 if ($("#activeSkillRow" + curSkill.skillId).length == 0) {
                     var newElement = $("#activeSkillRow").clone();
 
@@ -115,6 +119,11 @@ function uiDrawActiveSkills() {
             }
         }
     }
+
+    if (hasSkills)
+        $("#skillMagicSection").show();
+    else
+        $("#skillMagicSection").hide();
 }
 
 function uiShowSkillTooltip(event) {
