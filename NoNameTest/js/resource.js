@@ -46,11 +46,11 @@ resourceInformation.prototype.getAmountLimit = function () {
     var extra = 0;
 
     for (var t = 0; t < getBuildingFromId(BUILDING_STORAGE).buildingInstances.length; t++) {
-        extra += getBuildingFromId(BUILDING_STORAGE).buildingInstances[t].buildingLevel * 100;
+        extra += getBuildingFromId(BUILDING_STORAGE).buildingInstances[t].buildingLevel * 1000;
     }
 
     for (var t = 0; t < getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances.length; t++) {
-        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 100;
+        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 1000;
     }
 
     return this.amountLimit + extra; 
