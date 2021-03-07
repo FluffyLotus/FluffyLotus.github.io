@@ -53,6 +53,9 @@ function GetSaveGame() {
         saveData.qu[t].rr = quests[t].isResourceReserved;
         saveData.qu[t].wl = quests[t].wentToLocation;
         saveData.qu[t].ic = quests[t].isCompleted;
+
+        saveData.qu[t].fm = quests[t].foundMapId;
+        saveData.qu[t].fd = quests[t].foundDistance;
     }
 
     for (var t = 0; t < mapBuildings.length; t++) {
@@ -164,6 +167,9 @@ function LoadSaveGame(saveData) {
             item.isResourceReserved = saveData.qu[t].rr;
             item.wentToLocation = saveData.qu[t].wl;
             item.isCompleted = saveData.qu[t].ic;
+
+            item.foundMapId = saveData.qu[t].fm;
+            item.foundDistance = saveData.qu[t].fd;
         }
 
         for (var t = 0; t < saveData.mb.length; t++) {

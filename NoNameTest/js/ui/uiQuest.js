@@ -3,8 +3,6 @@
 function uiDrawQuest() {
     var showCompletedQuest = $("#showCompletedQuest").is(":checked");
 
-    uiQuestDrawCurrentQuest()
-
     for (var t = 0; t < quests.length; t++) {
         var curQuest = quests[t];
 
@@ -30,9 +28,10 @@ function uiDrawQuest() {
             if (curQuest.id == currentUISelectedQuest) {
                 var allRequirements = curQuest.getAllRequirements();
 
+                // This is being executed every tick and re-executed in uiQuestDrawCurrentQuest
                 for (var i = 0; i < 4; i++) {
                     if (i < allRequirements.length) {
-                        if (curQuest.isCompleted) {
+                        if (curQuest.isCompleted || curQuest.isResourceReserved) {
                             $("#singleQuestInfoRowValue" + i).text(nFormatter(allRequirements[i].amount));
                         }
                         else {
@@ -52,6 +51,8 @@ function uiDrawQuest() {
             }
         }
     }
+
+    uiQuestDrawCurrentQuest();
 }
 
 function uiShowQuestInformation(event) {
@@ -118,7 +119,10 @@ function uiQuestDrawCurrentQuest() {
         $("#singleQuestInfoFoundLocation").text(curQuest.foundDistance);
 
         if (curQuest.foundMapId != -1) {
-            $("#singleQuestInfoFoundArea").text(getMapAdventureFromId(curQuest.foundMapId).name);
+            var ma = getMapAdventureFromId(curQuest.foundMapId);
+
+            if (ma != null) // Was a bug in the save state, should not be needed in the futur
+                $("#singleQuestInfoFoundArea").text(ma.name);
         }
     }
     else {

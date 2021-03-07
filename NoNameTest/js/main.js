@@ -72,6 +72,16 @@ function loadApp() {
 
     loadMapAdventureInstance();
 
+    // Find a better place to do this. Also, do we need to store this in real-time and put in the save data or is this ok.
+    for (var t = 0; t < mapAdventures.length; t++) {
+        for (var i = 0; i < mapAdventures[t].events.length; i++) {
+            var q = getQuestFromId(mapAdventures[t].events[i].questId);
+
+            q.foundMapId = mapAdventures[t].id;
+            q.foundDistance = mapAdventures[t].events[i].distance;
+        }
+    }
+
     loadIcon();
 
     ////////////////
