@@ -250,12 +250,8 @@ function LoadSaveGameJson64(json64) {
     LoadSaveGame(saveData);
 }
 
-var ssTest = 0;
 function storeSaveState() {
     var data = GetSaveGameJson64();
-
-    ssTest++;
-    uiWriteDebug(ssTest);
 
     clearSaveState();
     setCookie("state", data, 1000);
