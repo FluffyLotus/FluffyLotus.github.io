@@ -114,12 +114,19 @@ mapAdventureInformation.prototype.increaseDistance = function () {
 }
 
 mapAdventureInformation.prototype.processEvents = function () {
-    for (var t = 0; t < this.events.length; t++) {
-        if (this.events[t].distance == this.currentDistance) {
-            var curQuest = getQuestFromId(this.events[t].questId);
+    //for (var t = 0; t < this.events.length; t++) {
+    //    if (this.events[t].distance == this.currentDistance) {
+    //        var curQuest = getQuestFromId(this.events[t].questId);
 
-            if (curQuest.canInteract())
-                curQuest.interact();
+    //        if (curQuest.canInteract())
+    //            curQuest.interact();
+    //    }
+    //}
+
+    for (var t = 0; t < quests.length; t++) {
+        if (quests[t].foundMapId == this.id && quests[t].foundDistance == this.currentDistance) {
+            if (quests[t].canInteract())
+                quests[t].interact();
         }
     }
 }
