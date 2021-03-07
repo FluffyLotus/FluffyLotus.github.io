@@ -43,6 +43,10 @@ function enemyInformation() {
     this.nextLevel = 100; // Increase by 100 everytime
 }
 
+enemyInformation.prototype.calculateNextLevel = function () {
+    this.nextLevel = Math.floor(this.experience / 100) * 100 + 100;
+}
+
 enemyInformation.prototype.getShardCount = function () {
     return Math.floor(this.experience / 100);
 }

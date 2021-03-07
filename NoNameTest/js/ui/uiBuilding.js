@@ -1,11 +1,17 @@
-﻿function uiCreateGrid() {
+﻿var showBuildingLevel = false;
+
+function uiChangeShowBuildingLevel() {
+    showBuildingLevel = $("#showBuildingLevel").is(':checked');
+}
+
+function uiCreateGrid() {
     var str = "";
 
     for (var y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
         str += "<tr>";
 
         for (var x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
-            str += '<td id="cell_' + x + '_' + y + '" class="spriteSheetCell"><div id="particle_' + x + '_' + y + '" class="spriteSheetParticle"><div id="building_' + x + '_' + y + '" class="spriteSheetBuilding"></div></div></td>';
+            str += '<td id="cell_' + x + '_' + y + '" class="spriteSheetCell"><div id="particle_' + x + '_' + y + '" class="spriteSheetParticle"><div id="building_' + x + '_' + y + '" class="spriteSheetBuilding"><span id="buildingLevel_' + x + '_' + y + '" class="buildingLevel"></span></div></div></td>';
         }
 
         str += "</tr>";
@@ -100,6 +106,13 @@ function uiDrawGrid() {
             else {
                 $("#building_" + x + "_" + y).css('background-position-x', '-9999px');
                 $("#building_" + x + "_" + y).css('background-position-y', '-9999px');
+            }
+
+            if (curGrid.buildingInst != null && showBuildingLevel) {
+                $("#buildingLevel_" + x + "_" + y).text(curGrid.buildingInst.buildingLevel);
+            }
+            else {
+                $("#buildingLevel_" + x + "_" + y).text("");
             }
         }
     }

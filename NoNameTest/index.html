@@ -95,6 +95,13 @@
         button.close {
             color: white;
         }
+
+        .buildingLevel {
+            margin-left: 5px;
+            color: white;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
     </style>
 
     <style type="text/css">
@@ -261,7 +268,7 @@
                 </li>
                     -->
                 <li>
-                    <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();" style="margin-left: 20px;">Fast &gt;&gt;</button>
+                    <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();" onmouseover="uiShowToggleFastTooltip();" style="margin-left: 20px;">Fast &gt;&gt;</button>
                 </li>
             </ul>
 
@@ -409,22 +416,24 @@
 
                         <hr />
 
-                        <table class="table table-sm" style="color: white;">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Duration</th>
-                                    <th>Cooldown</th>
-                                </tr>
-                            </thead>
-                            <tbody id="playerLiveContainer">
-                                <tr id="playerLiveItem" style="display: none;">
-                                    <td><span id="playerLiveSkillName">Fire</span></td>
-                                    <td><span id="playerLiveSkillDuration">1</span></td>
-                                    <td><span id="playerLiveSkillCooldown">10</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="playerLiveSkillContainer">
+                            <table class="table table-sm" style="color: white;">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Duration</th>
+                                        <th>Cooldown</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="playerLiveContainer">
+                                    <tr id="playerLiveItem" style="display: none;">
+                                        <td><span id="playerLiveSkillName">Fire</span></td>
+                                        <td><span id="playerLiveSkillDuration">1</span></td>
+                                        <td><span id="playerLiveSkillCooldown">10</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div style="display: inline-block; width: 49%; vertical-align: top;">
@@ -453,19 +462,21 @@
                                 </tr>
                             </table>
 
-                            <hr />
+                            <div id="enemyLiveSkillContainer">
+                                <hr />
 
-                            <table class="table table-sm" style="color: white;">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Duration</th>
-                                        <th>Cooldown</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="enemyLiveContainer">
-                                </tbody>
-                            </table>
+                                <table class="table table-sm" style="color: white;">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Duration</th>
+                                            <th>Cooldown</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="enemyLiveContainer">
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <table style="display: none;">
                                 <tr id="enemyLiveItem" style="display: none;">
@@ -686,6 +697,9 @@
                     <div>
                         <label><input type="checkbox" id="showOverTooltip" /> Show message over tooltip instead of a popup</label>
                     </div>
+                    <div>
+                        <label><input type="checkbox" id="showBuildingLevel" onchange="uiChangeShowBuildingLevel();" /> Show building level on grid</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -710,7 +724,7 @@
                         <span id="tickCount"></span> tick for a time of <span id="tickTime"></span>.
                     </p>
                     <p>
-                        Game save every 30 seconds.
+                        Game save every <span id="saveSecond"></span> seconds. Last save on <span id="lastSaveTime"></span>.
                     </p>
                 </div>
                 <div class="modal-footer">

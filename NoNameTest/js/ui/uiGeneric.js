@@ -1,6 +1,7 @@
 ﻿var selectedBuildingId = -1;
 
 function uiToggleFast() {
+    uiShowToggleFastTooltip();
     toggleFast();
 
     if (fastIsOn) {
@@ -9,6 +10,12 @@ function uiToggleFast() {
     else {
         document.getElementById("btnFast").className = "btn";
     }
+}
+
+function uiShowToggleFastTooltip() {
+    var r = getResourceFromId(RESOURCE_TIMEESSENCE);
+
+    uiSetTooltip("Use " + r.name + " to increase the speed of the game.", "");
 }
 
 function uiGetLinksString(links) {

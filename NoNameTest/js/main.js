@@ -21,7 +21,7 @@ var SLOW_SPEED = 1000;
 var FAST_SPEED = 100;
 var SAVE_SPEED = 1000 * 30;
 
-var lastSave = Date.now();
+var lastSaveTick = Date.now();
 var lastTick = Date.now() - SLOW_SPEED;
 var tickCount = 0;
 
@@ -158,9 +158,9 @@ function processTick() {
         tickCount++;
     }
 
-    if (lastSave + SAVE_SPEED < Date.now()) {
+    if (lastSaveTick + SAVE_SPEED < Date.now()) {
         storeSaveState();
-        lastSave = Date.now();
+        lastSaveTick = Date.now();
     }
 
     if (hadChange) {
@@ -181,6 +181,8 @@ function processTick() {
         
         $("#tickCount").text(tickCount);
         $("#tickTime").text(displayTime(tickCount * SLOW_SPEED / 1000));
+        $("#lastSaveTime").text(lastSave.toDateString() + " " + lastSave.toLocaleTimeString());
+        $("#saveSecond").text(SAVE_SPEED / 1000);        
 
         if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0)
             $("#btnFast").show();

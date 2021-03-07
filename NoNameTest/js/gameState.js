@@ -1,4 +1,8 @@
-﻿function GetSaveGame() {
+﻿var lastSave = new Date();
+
+// TODO: Save UI settings
+
+function GetSaveGame() {
     var saveData = new Object();
 
     saveData.version = "1";
@@ -97,12 +101,24 @@
 
         subItem.id = enemies[t].id;
         subItem.td = enemies[t].totalDeath;
-        subItem.di = enemies[t].deathInfo;
         subItem.kc = enemies[t].killCount;
         subItem.ex = enemies[t].experience;
+
+        subItem.di = [];
+
+        for (var i = 0; i < enemies[t].deathInfo.length; i++) {
+            var so = new Object();
+
+            so.le = enemies[t].deathInfo[i].level;
+            so.dc = enemies[t].deathInfo[i].deathCount;
+
+            subItem.di.push(so);
+        }
         
         saveData.en.push(subItem);
     }
+
+    lastSave = new Date();
 
     return saveData;
 }
@@ -195,10 +211,22 @@ function LoadSaveGame(saveData) {
             item.deathInfo = saveData.en[t].di;
             item.killCount = saveData.en[t].kc;
             item.experience = saveData.en[t].ex;
+            item.deathInfo = [];
 
-            item.nextLevel = Math.floor(item.experience / 100) * 100 + 100;
+            for (var i = 0; i < saveData.en[t].di.length; i++) {
+                var di = new enemyDeathInformation();
+
+                di.level = saveData.en[t].di[i].le;
+                di.deathCount = saveData.en[t].di[i].dc;
+
+                item.deathInfo.push(di);
+            }
+
+            item.calculateNextLevel();
         }
     }
+
+    lastSave = new Date();
 }
 
 function GetSaveGameJson64() {

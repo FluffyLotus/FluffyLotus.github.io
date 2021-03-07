@@ -140,7 +140,7 @@ function loadAdventure() {
     newItem.id = 0;
     newItem.name = "Forest";
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 1000, 10, 100));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 0, 1000, 10, 1));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BEAR, 0, 1000, 10, 1));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 2000, 99999999, 10, 100));
     newItem.events.push(createQuestMapEvent(65, 4));
