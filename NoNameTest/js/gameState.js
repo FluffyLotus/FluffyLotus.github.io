@@ -7,6 +7,7 @@ function GetSaveGame() {
 
     saveData.version = "1";
     saveData.cr = currentMapAdventure.canRun;
+    saveData.tc = tickCount;
     saveData.re = [];
     saveData.bu = [];
     saveData.ma = [];
@@ -129,6 +130,7 @@ function GetSaveGame() {
 function LoadSaveGame(saveData) {
     if (saveData.version == "1") {
         currentMapAdventure.canRun = saveData.cr;
+        tickCount = saveData.tc;
 
         for (var t = 0; t < saveData.re.length; t++) {
             var item = getResourceFromId(saveData.re[t].id);
