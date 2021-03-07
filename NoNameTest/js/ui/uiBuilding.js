@@ -109,7 +109,13 @@ function uiDrawGrid() {
             }
 
             if (curGrid.buildingInst != null && showBuildingLevel) {
-                $("#buildingLevel_" + x + "_" + y).text(curGrid.buildingInst.buildingLevel);
+                var b = getBuildingFromId(curGrid.buildingInst.buildingId);
+
+                // Might need a .canUpgrade()
+                if (b.upgradeRequirements.length > 0)
+                    $("#buildingLevel_" + x + "_" + y).text(curGrid.buildingInst.buildingLevel);
+                else
+                    $("#buildingLevel_" + x + "_" + y).text("");
             }
             else {
                 $("#buildingLevel_" + x + "_" + y).text("");
