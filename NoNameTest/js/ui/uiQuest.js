@@ -191,9 +191,18 @@ function uiQuestReserveResource() {
 }
 
 function uiQuestTeleportToCheckpoint() {
+    var canTeleport = true;
     var curQuest = getQuestFromId(currentUISelectedQuest);
 
     if (curQuest != null) {
-        currentMapAdventure.changeMap(curQuest.foundMapId, Math.floor(curQuest.foundDistance / 1000) * 1000);
+        if (currentMapAdventure.currentMapAdventureId == curQuest.foundMapId) {
+            var map = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId);
+
+            if (map.currentDistance >= Math.floor(curQuest.foundDistance / 1000) * 1000 && map.currentDistance <= curQuest.foundDistance)
+                canTeleport = false;
+        }
+
+        if (canTeleport)
+            currentMapAdventure.changeMap(curQuest.foundMapId, Math.floor(curQuest.foundDistance / 1000) * 1000);
     }
 }

@@ -10,6 +10,8 @@ function playerInformation() {
     this.vitalityTickDelta = 0;
     this.deathCount = 0;
 
+    this.imageName = "character_main_Size2_NE";
+
     this.skills = [];
 }
 

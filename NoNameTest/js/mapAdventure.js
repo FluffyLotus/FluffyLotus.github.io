@@ -37,6 +37,7 @@ function mapAdventureInformation() {
     this.name = "";
     this.currentDistance = 0;
     this.maxDistance = 0;
+    this.endOfMapDistance = 9999999999;
     this.enemies = [];
     this.events = [];
     this.isActive = false;
@@ -113,16 +114,16 @@ mapAdventureInformation.prototype.increaseDistance = function () {
     this.processEvents();
 }
 
+mapAdventureInformation.prototype.processEndOfMap = function () {
+    if (this.currentDistance >= this.endOfMapDistance) {
+        this.currentDistance = 0;
+        return true;
+    }
+
+    return false;
+}
+
 mapAdventureInformation.prototype.processEvents = function () {
-    //for (var t = 0; t < this.events.length; t++) {
-    //    if (this.events[t].distance == this.currentDistance) {
-    //        var curQuest = getQuestFromId(this.events[t].questId);
-
-    //        if (curQuest.canInteract())
-    //            curQuest.interact();
-    //    }
-    //}
-
     for (var t = 0; t < quests.length; t++) {
         if (quests[t].foundMapId == this.id && quests[t].foundDistance == this.currentDistance) {
             if (quests[t].canInteract())
@@ -145,20 +146,63 @@ function loadAdventure() {
 
     newItem = new mapAdventureInformation();
     newItem.id = 0;
-    newItem.name = "Forest";
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 1000, 10, 100));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BEAR, 0, 1000, 10, 1));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 1000, 2000, 10, 100));
-    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DEVIL, 2000, 99999999, 10, 100));
+    newItem.name = "Forest"; // To Swamp
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 3000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BEAR, 0, 3000, 10, 1));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_BIRD, 500, 3000, 10, 100));
+    //newItem.enemies.push(createEnemyRangeInformation(ENEMY_SCORPION, 2000, 99999999, 10, 100));
     newItem.events.push(createQuestMapEvent(65, 4));
+    newItem.events.push(createQuestMapEvent(650, 5));
+    newItem.events.push(createQuestMapEvent(2200, 7));
     mapAdventures.push(newItem);
     
     newItem = new mapAdventureInformation();
     newItem.id = 1;
-    newItem.name = "Desert";
+    newItem.name = "Canyon"; // To Desert
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 2;
+    newItem.name = "Road";
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 3;
+    newItem.name = "Mountain"; // To volcano
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 4;
+    newItem.name = "Train";
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 5;
+    newItem.name = "New City";
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
+    mapAdventures.push(newItem);
+
+    newItem = new mapAdventureInformation();
+    newItem.id = 6;
+    newItem.name = "Cemetary";
+    newItem.endOfMapDistance = 3000;
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 0, 3000, 10, 100));
+    newItem.enemies.push(createEnemyRangeInformation(ENEMY_SKELETON, 1100, 3000, 10, 100));
+    newItem.events.push(createQuestMapEvent(1100, 10));
     mapAdventures.push(newItem); 
 }
 

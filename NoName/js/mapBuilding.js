@@ -30,34 +30,116 @@ var mapData2 = [
 
 var mapsData = [];
 
+// 1
 mapsData[0] = [
-    7, 7, 7, 7, 7, 7, 7, 3, 3, 2, 2, 2,
-    7, 7, 7, 7, 7, 7, 3, 3, 3, 0, 0, 2,
-    7, 7, 7, 7, 3, 3, 3, 1, 3, 3, 0, 0,
-    7, 7, 7, 3, 3, 3, 1, 1, 1, 3, 0, 0,
-    7, 7, 3, 3, 1, 1, 0, 3, 3, 0, 0, 0,
+    7, 3, 3, 3, 7, 7, 7, 3, 3, 2, 2, 2,
+    7, 3, 1, 3, 7, 7, 3, 3, 3, 0, 0, 2,
+    7, 3, 0, 3, 3, 3, 3, 1, 3, 3, 0, 0,
+    7, 3, 0, 3, 3, 3, 1, 1, 1, 3, 0, 0,
+    7, 3, 3, 3, 1, 1, 0, 3, 3, 0, 0, 0,
     7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0,
     7, 7, 7, 3, 3, 0, 0, 0, 5, 6, 6, 6,
-    7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 0,
-    7, 7, 7, 3, 3, 3, 3, 0, 0, 0, 0, 0,
-    7, 7, 7, 7, 3, 3, 3, 3, 1, 1, 1, 1,
-    7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1, 1,
-    7, 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1
+    7, 7, 7, 3, 3, 1, 0, 0, 0, 0, 0, 69,
+    7, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0,
+    3, 3, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1,
+    3, 1, 0, 0, 3, 7, 7, 3, 3, 3, 1, 1,
+    3, 3, 3, 3, 3, 7, 7, 7, 3, 3, 3, 1
 ];
 
+// 2
 mapsData[1] = [
-    2, 2, 2, 2, 3, 7, 7, 3, 3, 2, 2, 2,
-    2, 2, 2, 3, 3, 7, 3, 3, 2, 2, 2, 2,
-    0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0,
-    1, 0, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0,
-    0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 2, 3, 7, 7, 3, 3, 2, 23, 2,
+    2, 0, 2, 3, 3, 3, 3, 3, 2, 2, 24, 2,
+    2, 0, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0,
+    1, 0, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0,
+    0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
     0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0,
     6, 6, 6, 8, 6, 6, 5, 6, 6, 6, 6, 6,
     0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 3, 3, 3, 0, 0, 0, 0, 1, 0, 0,
     1, 0, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0,
-    0, 3, 3, 7, 3, 3, 0, 0, 0, 0, 1, 0,
-    3, 3, 7, 7, 7, 3, 3, 3, 3, 0, 0, 0 
+    0, 3, 0, 3, 3, 3, 3, 0, 0, 0, 1, 0,
+    3, 3, 3, 3, 7, 7, 3, 3, 3, 0, 0, 0
+];
+
+// Swamp
+mapsData[2] = [
+    51, 35, 35, 10, 10, 35, 10, 35, 10, 10, 40, 35,
+    37, 35, 35, 10, 10, 11, 10, 10, 10, 45, 43, 10,
+    10, 45, 41, 41, 46, 38, 45, 41, 46, 40, 10, 10,
+    11, 40, 10, 38, 48, 41, 43, 11, 48, 43, 10, 11,
+    10, 40, 11, 10, 40, 10, 38, 10, 40, 10, 38, 10,
+    39, 42, 39, 39, 42, 39, 12, 39, 42, 39, 39, 39,
+    10, 40, 10, 10, 40, 10, 38, 10, 40, 10, 38, 10,
+    10, 40, 38, 11, 40, 10, 11, 10, 48, 41, 46, 11,
+    11, 40, 38, 45, 47, 46, 11, 45, 43, 10, 44, 41,
+    10, 48, 41, 43, 10, 44, 41, 43, 10, 10, 10, 10,
+    41, 50, 10, 10, 10, 10, 10, 10, 11, 10, 35, 35,
+    10, 40, 10, 11, 10, 38, 38, 38, 10, 35, 35, 35
+];
+
+// Desert
+mapsData[3] = [
+    13, 14, 13, 13, 13, 13, 13, 13, 13, 62, 62, 62,
+    13, 13, 13, 13, 13, 13, 14, 13, 13, 62, 62, 62,
+    13, 13, 62, 13, 13, 13, 13, 13, 13, 13, 62, 62,
+    13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    13, 13, 13, 14, 13, 13, 13, 13, 13, 14, 13, 13,
+    63, 63, 63, 63, 15, 63, 63, 63, 63, 63, 63, 63,
+    13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    13, 13, 13, 13, 13, 13, 62, 13, 61, 13, 13, 13,
+    13, 14, 13, 13, 13, 13, 13, 13, 3, 3, 13, 13,
+    13, 13, 13, 13, 13, 13, 13, 61, 3, 70, 13, 13,
+    62, 62, 62, 13, 13, 13, 13, 13, 61, 13, 13, 13,
+    62, 62, 62, 62, 13, 13, 14, 13, 13, 13, 13, 13
+];
+
+// Lava
+mapsData[4] = [
+    32, 32, 32, 4, 4, 4, 4, 4, 4, 32, 32, 32,
+    16, 16, 28, 26, 4, 4, 4, 4, 30, 16, 4, 16,
+    16, 28, 26, 16, 16, 4, 4, 16, 27, 31, 4, 16,
+    16, 4, 16, 16, 28, 26, 27, 29, 16, 16, 16, 16,
+    16, 27, 31, 16, 27, 29, 16, 27, 29, 16, 16, 16,
+    25, 25, 25, 25, 25, 18, 25, 17, 18, 25, 25, 25,
+    16, 16, 16, 16, 28, 26, 16, 16, 30, 16, 16, 16,
+    16, 16, 33, 16, 30, 16, 16, 16, 4, 4, 4, 16,
+    16, 33, 16, 16, 27, 4, 16, 16, 30, 4, 4, 34,
+    16, 16, 4, 31, 31, 26, 16, 16, 27, 29, 16, 16,
+    16, 16, 30, 16, 16, 16, 32, 32, 16, 4, 16, 16,
+    16, 16, 30, 16, 32, 32, 32, 32, 16, 30, 16, 16
+];
+
+// Canyon
+mapsData[5] = [
+    19, 19, 19, 19, 19, 19, 19, 19, 19, 66, 66, 66,
+    19, 19, 19, 19, 19, 19, 19, 19, 19, 66, 67, 66,
+    19, 19, 20, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    0, 19, 19, 71, 68, 68, 68, 68, 72, 19, 19, 19,
+    0, 0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    0, 0, 71, 68, 68, 72, 19, 71, 68, 72, 19, 19,
+    6, 6, 64, 64, 64, 64, 65, 64, 64, 64, 64, 64,
+    0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    71, 68, 68, 72, 19, 71, 68, 72, 19, 71, 68, 68,
+    19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+    19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 19,
+    19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19
+];
+
+// Old city
+mapsData[6] = [
+    0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 58, 55, 56, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 54, 0, 0, 0, 60, 60, 60,
+    0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 60, 60,
+    21, 21, 21, 21, 21, 22, 21, 21, 21, 21, 21, 60,
+    0, 0, 0, 0, 0, 52, 0, 0, 0, 0, 60, 60,
+    0, 0, 0, 0, 0, 52, 0, 0, 0, 60, 60, 60,
+    0, 0, 0, 0, 0, 53, 0, 0, 0, 0, 0, 60,
+    0, 0, 0, 0, 9, 9, 9, 0, 0, 0, 0, 0,
+    0, 0, 0, 9, 9, 9, 9, 9, 0, 0, 0, 0
 ];
 
 var MAP_BUILDING_START = 0;
@@ -100,12 +182,12 @@ mapBuilding.prototype.processTick = function () {
         for (var x = 0; x < this.mapWidth; x++) {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
-            if (curGrid.buildingId >= 0) {
-                if (curGrid.isConnectedToStorage || !buildings[curGrid.buildingId].needStorage) {
-                    var curBuilding = buildings[curGrid.buildingId];
+            if (curGrid.buildingInst != null) {
+                if (curGrid.isConnectedToStorage || !getBuildingFromId(curGrid.buildingInst.buildingId).needStorage) {
+                    var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
 
-                    if (curBuilding.hasTickRequirements(curGrid.buildingLevel)) {
-                        curBuilding.processTickRequirements(curGrid.buildingLevel);
+                    if (curBuilding.hasTickRequirements(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel)) {
+                        curBuilding.processTickRequirements(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel);
                         curGrid.processBuildingTick = true;
                     }
                 }
@@ -117,36 +199,74 @@ mapBuilding.prototype.processTick = function () {
     for (var y = 0; y < this.mapHeight; y++) {
         for (var x = 0; x < this.mapWidth; x++) {
             var sourceGrid = this.grid[x + (y * this.mapWidth)];
-            var cell = cells[sourceGrid.cellId];
-            var building = buildings[sourceGrid.buildingId];
+            var cell = getCellFromId(sourceGrid.cellId);
 
-            if (sourceGrid.processBuildingTick) {
-                var particleId = -1;
+            if (sourceGrid.buildingInst != null) {
+                var building = getBuildingFromId(sourceGrid.buildingInst.buildingId);
 
-                if (building.generateParticleId >= 0)
-                    particleId = building.generateParticleId;
-                else if (building.extractCellParticle && cell.innerParticleId >= 0)
-                    particleId = cell.innerParticleId;
+                if (sourceGrid.processBuildingTick) {
+                    var particleId = -1;
 
-                if (particleId >= 0) {
-                    var buildingGrade = building.gradeLevel;
+                    if (building.generateParticleId >= 0)
+                        particleId = building.generateParticleId;
+                    else if (building.extractCellParticle && cell.innerParticleId >= 0)
+                        particleId = cell.innerParticleId;
 
-                    for (var i = 0; i < side8rotPossibilities[buildingGrade].length; i++) {
-                        var pos = side8rotPossibilities[buildingGrade][i] + sourceGrid.buildingRotation;
+                    if (particleId >= 0) {
+                        var buildingGrade = sourceGrid.buildingInst.buildingGradeLevel;
 
-                        while (pos >= 8) {
-                            pos -= 8;
-                        }
+                        for (var i = 0; i < side8rotPossibilities[buildingGrade].length; i++) {
+                            var pos = side8rotPossibilities[buildingGrade][i] + sourceGrid.buildingInst.buildingRotation;
 
-                        var tx = x + side8rot[pos].x;
-                        var ty = y + side8rot[pos].y;
+                            while (pos >= 8) {
+                                pos -= 8;
+                            }
 
-                        if (tx >= 0 && tx < this.mapWidth && ty >= 0 && ty < this.mapHeight) {
-                            var targetGrid = this.grid[tx + (ty * this.mapWidth)];
+                            var tx = x + side8rot[pos].x;
+                            var ty = y + side8rot[pos].y;
 
-                            targetGrid.addParticle(particleId, sourceGrid.buildingLevel);
+                            if (tx >= 0 && tx < this.mapWidth && ty >= 0 && ty < this.mapHeight) {
+                                var targetGrid = this.grid[tx + (ty * this.mapWidth)];
+
+                                if (targetGrid.buildingInst != null && targetGrid.buildingInst.buildingId == BUILDING_FAN) {
+                                    if (targetGrid.processBuildingTick && targetGrid.isConnectedToStorage) {
+                                        tx = tx + (sideCrossRot[targetGrid.buildingInst.buildingRotation % 4].x * targetGrid.buildingInst.buildingLevel);
+                                        ty = ty + (sideCrossRot[targetGrid.buildingInst.buildingRotation % 4].y * targetGrid.buildingInst.buildingLevel);
+
+                                        if (tx >= 0 && tx < this.mapWidth && ty >= 0 && ty < this.mapHeight) {
+                                            targetGrid = this.grid[tx + (ty * this.mapWidth)];
+
+                                            var pl = sourceGrid.buildingInst.buildingLevel;
+
+                                            pl = Math.ceil(pl / 2);
+
+                                            targetGrid.addParticle(particleId, pl);
+                                        }
+                                    }
+                                    else {
+                                        targetGrid.addParticle(particleId, sourceGrid.buildingInst.buildingLevel);
+                                    }
+                                }
+                                else {
+                                    targetGrid.addParticle(particleId, sourceGrid.buildingInst.buildingLevel);
+                                }
+                            }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    // Look at cells particle
+    for (var y = 0; y < this.mapHeight; y++) {
+        for (var x = 0; x < this.mapWidth; x++) {
+            var curGrid = this.grid[x + (y * this.mapWidth)];
+            var curCell = getCellFromId(curGrid.cellId);
+
+            if (curGrid.particles.length == 1) {
+                if (curGrid.particles[0].particleId == curCell.importParticleId) {
+                    curCell.importParticleCount += curGrid.particles[0].particleLevel;
                 }
             }
         }
@@ -157,11 +277,11 @@ mapBuilding.prototype.processTick = function () {
         for (var x = 0; x < this.mapWidth; x++) {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
-            if (curGrid.buildingId >= 0 && curGrid.isConnectedToStorage && curGrid.processBuildingTick) {
-                var curBuilding = buildings[curGrid.buildingId];
+            if (curGrid.buildingInst != null && (curGrid.isConnectedToStorage && curGrid.processBuildingTick)) {
+                var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
 
-                curBuilding.processTickRewards(curGrid.buildingLevel);
-                curBuilding.processParticleOutput(curGrid.getOutputParticleId(), Math.min(curGrid.getOutputParticleLevel(), curGrid.buildingLevel));
+                curBuilding.processTickRewards(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel);
+                curBuilding.processParticleOutput(curGrid.getOutputParticleId(), Math.min(curGrid.getOutputParticleLevel(), curGrid.buildingInst.buildingLevel));
             }
         }
     }
@@ -185,13 +305,13 @@ mapBuilding.prototype.downgradeGrid = function (x, y) {
     curGrid.processDowngrade();
 }
 
-mapBuilding.prototype.addBuilding = function (x, y, buildingId) {
+mapBuilding.prototype.addBuilding = function (x, y, buildingId, processAddBuilding) {
     if (buildingId < 0)
         return;
 
     var curGrid = this.grid[x + (y * this.mapWidth)];
 
-    if (curGrid.processAddBuilding(buildingId))
+    if (curGrid.processAddBuilding(buildingId, processAddBuilding))
         this.calculateGridConnection();
 }
 
@@ -209,18 +329,8 @@ mapBuilding.prototype.calculateGridConnection = function () {
         for (var x = 0; x < this.mapWidth; x++) {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
-            if (curGrid.buildingId == BUILDING_STORAGE) {
+            if (curGrid.buildingInst != null && curGrid.buildingInst.buildingId == BUILDING_STORAGE) {
                 curGrid.isConnectedToStorage = true;
-                curGrid.isConnectedToWater = false;
-
-                var newP = new Object();
-                newP.x = x;
-                newP.y = y;
-                points.push(newP);
-            }
-            else if (curGrid.buildingId == BUILDING_WATERPUMP || curGrid.buildingId == BUILDING_WATERGEN) {
-                curGrid.isConnectedToStorage = false;
-                curGrid.isConnectedToWater = true;
 
                 var newP = new Object();
                 newP.x = x;
@@ -229,7 +339,6 @@ mapBuilding.prototype.calculateGridConnection = function () {
             }
             else {
                 curGrid.isConnectedToStorage = false;
-                curGrid.isConnectedToWater = false;
             }
         }
     }
@@ -246,21 +355,10 @@ mapBuilding.prototype.calculateGridConnection = function () {
             if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
                 var curGrid = this.grid[tx + (ty * this.mapWidth)];
 
-                if (!curGrid.isConnectedToStorage && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_WATERPIPE && orgGrid.isConnectedToStorage == true) {
+                if (!curGrid.isConnectedToStorage && curGrid.buildingInst != null && orgGrid.isConnectedToStorage == true) {
                     curGrid.isConnectedToStorage = true;
 
-                    if (curGrid.buildingId == BUILDING_STORAGEPIPE) {
-                        var newP = new Object();
-                        newP.x = tx;
-                        newP.y = ty;
-                        points.push(newP);
-                    }
-                }
-
-                if (!curGrid.isConnectedToWater && curGrid.buildingId >= 0 && curGrid.buildingId != BUILDING_STORAGEPIPE && orgGrid.isConnectedToWater == true) {
-                    curGrid.isConnectedToWater = true;
-
-                    if (curGrid.buildingId == BUILDING_WATERPIPE) {
+                    if (curGrid.buildingInst.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingInst.buildingId == BUILDING_UNDERGROUNDPIPE) {
                         var newP = new Object();
                         newP.x = tx;
                         newP.y = ty;
@@ -314,25 +412,6 @@ mapBuilding.prototype.getSideStorageConnectionStr = function (x, y) {
     return s[0] + s[1] + s[2] + s[3];
 }
 
-mapBuilding.prototype.getSideWaterConnectionStr = function (x, y) {
-    var s = ["0", "0", "0", "0"];
-
-    for (var i = 0; i < sideCross.length; i++) {
-        var tx = x + sideCross[i].x;
-        var ty = y + sideCross[i].y;
-
-        if (tx >= 0 && ty >= 0 && tx < this.mapWidth && ty < this.mapHeight) {
-            var curGrid = this.grid[tx + (ty * this.mapWidth)];
-
-            if (curGrid.isConnectedToWater) {
-                s[i] = "1";
-            }
-        }
-    }
-
-    return s[0] + s[1] + s[2] + s[3];
-}
-
 function prepareMapBuildingTick() {
     for (var i = 0; i < mapBuildings.length; i++) {
         mapBuildings[i].prepareTick();
@@ -345,14 +424,57 @@ function processMapBuildingTick() {
     }
 }
 
-function loadMapBuilding() {
-    mapBuildings[0] = new mapBuilding();
-    mapBuildings[0].id = 0;
-    mapBuildings[0].name = "Town of Naposhore";
-    mapBuildings[0].generateGrid(mapsData[0]);
+function getMapBuildingFromId(id) {
+    for (var t = 0; t < mapBuildings.length; t++) {
+        if (mapBuildings[t].id == id)
+            return mapBuildings[t];
+    }
 
-    mapBuildings[1] = new mapBuilding();
-    mapBuildings[1].id = 1;
-    mapBuildings[1].name = "Town of Barock";
-    mapBuildings[1].generateGrid(mapsData[1]);
+    return null;
+}
+
+function loadMapBuilding() {
+    var newItem;
+
+    newItem = new mapBuilding();
+    newItem.id = 0;
+    newItem.name = "Town of Naposhore";
+    newItem.generateGrid(mapsData[0]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 1;
+    newItem.name = "Town of Barock";
+    newItem.generateGrid(mapsData[1]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 2;
+    newItem.name = "Swamp";
+    newItem.generateGrid(mapsData[2]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 3;
+    newItem.name = "Desert";
+    newItem.generateGrid(mapsData[3]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 4;
+    newItem.name = "Lava";
+    newItem.generateGrid(mapsData[4]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 5;
+    newItem.name = "Canyon";
+    newItem.generateGrid(mapsData[5]);
+    mapBuildings.push(newItem);
+
+    newItem = new mapBuilding();
+    newItem.id = 6;
+    newItem.name = "Old City";
+    newItem.generateGrid(mapsData[6]);
+    mapBuildings.push(newItem);
 }

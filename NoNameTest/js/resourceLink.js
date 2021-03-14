@@ -5,19 +5,19 @@
 }
 
 resourceLink.prototype.getAmount = function (x, extraMul = 1) {
-    return this.formula.getResult(x) * extraMul;
+    return (this.formula.getResult(x) * extraMul);
 }
 
 resourceLink.prototype.hasResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).amount >= (this.getAmount(x) * extraMul);
+    return getResourceFromId(this.resourceId).amount >= this.getAmount(x, extraMul);
 }
 
 resourceLink.prototype.removeResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).addAmount(-(this.getAmount(x) * extraMul));
+    return getResourceFromId(this.resourceId).addAmount(-this.getAmount(x, extraMul));
 }
 
 resourceLink.prototype.addResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).addAmount(this.getAmount(x) * extraMul);
+    return getResourceFromId(this.resourceId).addAmount(this.getAmount(x, extraMul));
 }
 
 resourceLink.prototype.gotChance = function () {

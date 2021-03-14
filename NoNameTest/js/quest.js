@@ -9,7 +9,7 @@
     this.rewards = [];
     this.needToGoToLocation = false;
 
-    this.foundMapId = 0;
+    this.foundMapId = -1;
     this.foundDistance = 0;
 
     this.isActivated = false;
@@ -151,32 +151,33 @@ function loadQuests() {
     newItem = new questInformation();
     newItem.id = 0;
     newItem.name = "Resource Pipe";
-    newItem.activatedDescription = "Our resource pipe got broken by the agitated animals. We need some wood and stone to rebuild them.";
-    newItem.compleDescription = "With the pipes, we can link buildings with the storage unit.";
+    newItem.activatedDescription = "Village Elder: Our resource pipe got broken by the agitated animals. We need some wood and stone to rebuild them.";
+    newItem.compleDescription = "Village Elder: With the pipes, we can link buildings with the storage unit.";
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 500));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 500));
     newItem.rewards.push(createDataLink("building", "available", BUILDING_STORAGEPIPE, 1));
     newItem.rewards.push(createDataLink("quest", "isActivated", 1, 1));
+    newItem.rewards.push(createDataLink("quest", "isActivated", 11, 1));
     newItem.rewards.push(createDataLink("other", "startAdventure", 0, 1));
     quests.push(newItem);
 
     newItem = new questInformation();
     newItem.id = 1;
     newItem.name = "Find Carpenter";
-    newItem.activatedDescription = "I'm a bit worried. Our carpenter went to the town Barock, about 1km away, a few days ago but didn't return. I hope everything is ok.";
-    newItem.compleDescription = "I think I found the carpenter! He seems to injured.";
-    newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 600));
+    newItem.activatedDescription = "Village Elder: I'm a bit worried. Our carpenter went to the town Barock, about 2km away, a few days ago but didn't return. I hope everything is ok.";
+    newItem.compleDescription = "There's someone on the other side of the river. It might be the carpenter! He seems to be injured.";
+    newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 1200));
     newItem.rewards.push(createDataLink("quest", "isActivated", 2, 1));
     quests.push(newItem);
-
+    
     newItem = new questInformation();
     newItem.id = 2;
     newItem.name = "Build Small Bridge";
-    newItem.activatedDescription = "The carpenter needs help but he is on the other side of the river. I would need to build a small bridge to get to him.";
-    newItem.compleDescription = "Thanks a lot for saving me. I'm really weak.";
+    newItem.activatedDescription = "The carpenter needs help but he is on the other side of the river. A small bridge is needed to cross.";
+    newItem.compleDescription = "Carpenter: Thanks a lot for saving me. Things are getting really dangerous.";
     newItem.needToGoToLocation = true;
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 5000));
-    newItem.rewards.push(createDataLink("building", "available", BUILDING_SAWMILL, 1));
+    newItem.rewards.push(createDataLink("quest", "isActivated", 8, 1));
     quests.push(newItem);
 
     newItem = new questInformation();
@@ -193,12 +194,83 @@ function loadQuests() {
     newItem = new questInformation();
     newItem.id = 4;
     newItem.name = "Training";
-    newItem.activatedDescription = "These animals are more aggresive than expected. You should use some of the resource to increase your skills.";
+    newItem.activatedDescription = "Village Trainer: These animals are more aggresive than expected. Can you help me build a training center in the village?";
+    newItem.compleDescription = "Village Trainer: You can now use resources to build up your skills.";
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 1000));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 1000));
+    newItem.rewards.push(createDataLink("playerSkills", "isActive", SKILL_STRENGTH, 1));
+    newItem.rewards.push(createDataLink("playerSkills", "isActive", SKILL_DEFENCE, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 5;
+    newItem.name = "Well";
+    newItem.activatedDescription = "Woman: Getting water from the stream is getting harder with all the aggresive animals. I wish we could build a well in the village.";
+    newItem.compleDescription = "Woman: This will help the village a lot.";
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 2500));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 2500));
+    newItem.rewards.push(createDataLink("quest", "isActivated", 6, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 6;
+    newItem.name = "Mana Building";
+    newItem.activatedDescription = "Carpenter: We used to pull mana from the earth until it was banned. There's a story about a blueprint in the cemetary.";
+    newItem.compleDescription = "Carpenter: I haven't seen this type of building before.";
+    newItem.startRewards.push(createDataLink("adventure", "isActive", 6, 1));
+    newItem.startRewards.push(createDataLink("quest", "isActivated", 9, 1));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_Q_CEMETARYBLUEPRINT, 1));    
+    newItem.rewards.push(createDataLink("building", "available", BUILDING_WOODEXTRACT, 1));
+    newItem.rewards.push(createDataLink("building", "available", BUILDING_STONEEXTRACT, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 7;
+    newItem.name = "Help Village";
+    newItem.activatedDescription = "Villager: Please help us, our village got destroyed and we need resource to fix it.";
+    newItem.compleDescription = "Village: Thanks for helping rebuild to village. If you can help, we would need some storage units.";
+    newItem.needToGoToLocation = true;
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 7500));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 7500));
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_PLANK, 2500));
+    newItem.rewards.push(createDataLink("buildingMap", "isActive", MAP_BUILDING_SECOND, 1));
+    newItem.rewards.push(createDataLink("building", "available", BUILDING_STONEMASSON, 1));
+    newItem.rewards.push(createDataLink("building", "available", BUILDING_WAREHOUSE, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 8;
+    newItem.name = "Build Saw Mill";
+    newItem.activatedDescription = "Carpenter: With enought wood, I should be able to build a saw mill.";
+    newItem.compleDescription = "Carpenter: Here's the blueprint to build sawmills.";
+    newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 7000));
+    newItem.rewards.push(createDataLink("building", "available", BUILDING_SAWMILL, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 9;
+    newItem.name = "Search For Blueprint";
+    newItem.activatedDescription = "Search the cemetary for old blueprint.";
+    newItem.compleDescription = "Carpenter: Here's the blueprint to build sawmills.";
+    newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 6, 900));
+    newItem.rewards.push(createDataLink("resource", "amount", RESOURCE_Q_CEMETARYBLUEPRINT, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 10;
+    newItem.name = "Cemetary Book";
+    newItem.activatedDescription = "I keep seeing strange drawing on the walls. There might be something else in the cemetary.";
     newItem.compleDescription = "";
-    newItem.startRewards.push(createDataLink("playerSkills", "isActive", SKILL_STRENGTH, 1));
-    newItem.startRewards.push(createDataLink("playerSkills", "isActive", SKILL_DEFENCE, 1));
-    newItem.passiveRequirements.push(createDataLink("playerSkills", "level", SKILL_STRENGTH, 2));
-    newItem.passiveRequirements.push(createDataLink("playerSkills", "level", SKILL_DEFENCE, 2));
+    newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 6, 2900));
+    newItem.rewards.push(createDataLink("playerSkills", "isActive", SKILL_HEAL, 1));
+    quests.push(newItem);
+
+    newItem = new questInformation();
+    newItem.id = 11;
+    newItem.name = "Go to the next village";
+    newItem.activatedDescription = "Go to the town of Barock";
+    newItem.compleDescription = "";
+    newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 2200));
     quests.push(newItem);
 }
 

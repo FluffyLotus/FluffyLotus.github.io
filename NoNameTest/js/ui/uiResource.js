@@ -26,7 +26,7 @@
                 $(newElement).mouseout(uiClearTooltip);
             }
 
-            if (curResource.getAmountLimit() > 0) {
+            if (curResource.getAmountLimit() > 0 && !curResource.isSpecial) {
                 $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount) + " / " + nFormatter(curResource.getAmountLimit()));
             }
             else {

@@ -1,4 +1,10 @@
 ﻿function uiDrawAdventure() {
+    var imgX = getImagePositionX("cell", currentMapAdventure.currentPlayer.imageName);
+    var imgY = getImagePositionY("cell", currentMapAdventure.currentPlayer.imageName);
+
+    $("#playerImage").css('background-position-x', -imgX + 'px');
+    $("#playerImage").css('background-position-y', -imgY + 'px');
+
     document.getElementById("adventureMapSelected").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).name;
     document.getElementById("playerDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
     document.getElementById("playerMaxDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).maxDistance;
@@ -29,7 +35,13 @@
         document.getElementById("adventureWalk").style.display = "none";
         document.getElementById("adventureAttack").style.display = "block";
 
-        document.getElementById("enemyImage").src = "images/enemy_" + currentMapAdventure.currentEnemy.enemyId + ".png";
+        //document.getElementById("enemyImage").src = "images/enemy_" + currentMapAdventure.currentEnemy.enemyId + ".png";
+
+        var imgX = getImagePositionX("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
+        var imgY = getImagePositionY("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
+
+        $("#enemyImage").css('background-position-x', -imgX + 'px');
+        $("#enemyImage").css('background-position-y', -imgY + 'px');
 
         document.getElementById("enemyCurrentLife").innerText = currentMapAdventure.currentEnemy.vitality;
 
@@ -127,6 +139,10 @@ function uiDrawAdventureSkill() {
 
                     $("#playerLiveContainer").append(newElement);
 
+                    $(newElement).click({ id: skillInst.skillId }, uiShowSummaryPlayerSkillTooltip);
+                    $(newElement).mouseover({ id: skillInst.skillId }, uiShowSummaryPlayerSkillTooltip);
+                    $(newElement).mouseout(uiClearTooltip);
+
                     $("#playerLiveSkillName" + skillInst.skillId).text(skill.name);
                 }
 
@@ -164,6 +180,10 @@ function uiDrawAdventureSkill() {
 
                 $("#enemyLiveContainer").append(newElement);
 
+                $(newElement).click({ id: skillInst.skillId }, uiShowSummaryEnemySkillTooltip);
+                $(newElement).mouseover({ id: skillInst.skillId }, uiShowSummaryEnemySkillTooltip);
+                $(newElement).mouseout(uiClearTooltip);
+
                 $("#enemyLiveSkillName" + skillInst.skillId).text(skill.name);
             }
 
@@ -179,4 +199,50 @@ function uiDrawAdventureSkill() {
     else {
         $("#enemyLiveContainer").empty();
     }
+}
+
+function uiShowSummaryPlayerSkillTooltip(event) {
+    var curSkill = currentMapAdventure.currentPlayer.getSkillInstance(event.data.id);
+    var skillInfo = getSkillFromId(curSkill.skillId);
+
+    var left = "";
+    var right = "";
+
+    left = "<b>" + skillInfo.name + "</b>, lvl " + curSkill.level + "<br />";
+
+    if (skillInfo.useRequirements.length != 0) {
+        left += "Use " + getResourceLinkString(skillInfo.useRequirements, curSkill.level) + ". ";
+        left += skillInfo.description.replace("{0}", curSkill.getAmount());
+        left += "<br />Duration: " + skillInfo.duration + " tick, Cooldown: " + skillInfo.cooldown + " tick";
+    }
+    else {
+        left += skillInfo.description.replace("{0}", curSkill.getAmount());
+    }
+
+    right = "";
+
+    uiSetTooltip(left, right);
+}
+
+function uiShowSummaryEnemySkillTooltip(event) {
+    var curSkill = currentMapAdventure.enemy.getSkillInstance(event.data.id);
+    var skillInfo = getSkillFromId(curSkill.skillId);
+
+    var left = "";
+    var right = "";
+
+    left = "<b>" + skillInfo.name + "</b>, lvl " + curSkill.level + "<br />";
+
+    if (skillInfo.useRequirements.length != 0) {
+        left += "Use " + getResourceLinkString(skillInfo.useRequirements, curSkill.level) + ". ";
+        left += skillInfo.description.replace("{0}", curSkill.getAmount());
+        left += "<br />Duration: " + skillInfo.duration + " tick, Cooldown: " + skillInfo.cooldown + " tick";
+    }
+    else {
+        left += skillInfo.description.replace("{0}", curSkill.getAmount());
+    }
+
+    right = "";
+
+    uiSetTooltip(left, right);
 }

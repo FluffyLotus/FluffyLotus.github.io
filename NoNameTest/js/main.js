@@ -21,9 +21,11 @@ var SLOW_SPEED = 1000;
 var FAST_SPEED = 100;
 var SAVE_SPEED = 1000 * 30;
 
+var lastProcess = Date.now();
 var lastSaveTick = Date.now();
 var lastTick = Date.now() - SLOW_SPEED;
 var tickCount = 0;
+var totalGameTime = 0;
 
 function loadIcon() {
     var elems = $("[data-spritesheetimage]");
@@ -104,14 +106,23 @@ function loadApp() {
             resources[t].addAmount(200000 - resources[t].amount);
         }
 
+        for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
+            currentMapAdventure.currentPlayer.skills[t].isActive = true;
+        }
+
         //getResourceFromId(RESOURCE_WOOD).addAmount(2000);
         //getResourceFromId(RESOURCE_STONE).addAmount(2000);
         //getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(2000);
     }
     else {
-        $('#helpModal').modal('show');
-
         retreiveSaveState();
+
+        if (getResourceFromId(RESOURCE_WOOD).maxAmount == 0)
+            $('#helpModal').modal('show');
+        else if (timeEssenceAfterLoad > 0) {
+            $("#timeEssenceAfterLoad").text(timeEssenceAfterLoad);
+            $('#cameBackModal').modal('show');
+        }
     }
 
     if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
@@ -193,12 +204,19 @@ function processTick() {
         $("#tickTime").text(displayTime(tickCount * SLOW_SPEED / 1000));
         $("#lastSaveTime").text(lastSave.toDateString() + " " + lastSave.toLocaleTimeString());
         $("#saveSecond").text(SAVE_SPEED / 1000);        
+        $("#realTimeElapse").text(displayTime(Math.floor(totalGameTime / 1000)));
 
         if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0)
             $("#btnFast").show();
         else
             $("#btnFast").hide();
+
+        if (getMapAdventureFromId(0).maxDistance > 2300)
+            $("#endOfGameSection").show();
     }
+
+    totalGameTime += Date.now() - lastProcess;
+    lastProcess = Date.now();
 
     setTimeout(processTick, FAST_SPEED); // requestAnimationFrame
 }

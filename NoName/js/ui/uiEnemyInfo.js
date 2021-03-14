@@ -1,60 +1,53 @@
 ﻿function uiDrawEnemyInfo() {
-    for (var t = 0; t < cards.length; t++) {
-        var curCard = cards[t];
+    for (var t = 0; t < enemies.length; t++) {
+        var curEnemy = enemies[t];
 
-        if (!curCard.isVisible() && $("#enemyInfoRow" + curCard.id).length > 0) {
-            $("#enemyInfoRow" + curCard.id).remove();
+        if (curEnemy.totalDeath == 0 && $("#enemyInfoRow" + curEnemy.id).length > 0) {
+            $("#enemyInfoRow" + curEnemy.id).remove();
         }
 
-        if (curCard.isVisible()) {
-            if ($("#enemyInfoRow" + curCard.id).length == 0) {
+        if (curEnemy.totalDeath > 0) {
+            if ($("#enemyInfoRow" + curEnemy.id).length == 0) {
                 var newElement = $("#enemyInfoRow").clone();
 
                 $(newElement).show();
 
-                $(newElement).attr("id", "enemyInfoRow" + curCard.id);
-                $(newElement).find("#enemyInfoName").attr("id", "enemyInfoName" + curCard.id);
-                $(newElement).find("#enemyInfoLevel").attr("id", "enemyInfoLevel" + curCard.id);
-                $(newElement).find("#enemyInfoDescription").attr("id", "enemyInfoDescription" + curCard.id);
-                $(newElement).find("#enemyInfoUpgradeButton").attr("id", "enemyInfoUpgradeButton" + curCard.id);
+                $(newElement).attr("id", "enemyInfoRow" + curEnemy.id);
+                $(newElement).find("#enemyInfoName").attr("id", "enemyInfoName" + curEnemy.id);
+                $(newElement).find("#enemyInfoSouldShard").attr("id", "enemyInfoSouldShard" + curEnemy.id);
+                $(newElement).find("#enemyInfoNextShard").attr("id", "enemyInfoNextShard" + curEnemy.id);
 
                 $("#enemyInfoContainer").append(newElement);
 
-                $("#enemyInfoName" + curCard.id).text(curCard.name);
-                $("#enemyInfoDescription" + curCard.id).html(curCard.description);
+                $("#enemyInfoName" + curEnemy.id).text(curEnemy.name);
 
-                $(newElement).click({ id: curCard.id }, uiShowEnemyInfoTooltip);
-                $(newElement).mouseover({ id: curCard.id }, uiShowEnemyInfoTooltip);
+                $(newElement).click({ id: curEnemy.id }, uiShowEnemyInfoTooltip);
+                $(newElement).mouseover({ id: curEnemy.id }, uiShowEnemyInfoTooltip);
                 $(newElement).mouseout(uiClearTooltip);
-
-                $("#enemyInfoUpgradeButton" + curCard.id).click({ id: curCard.id }, uiUpgradeCard);
             }
 
-            if (curCard.getCurrentLevelAmount() < 10)
-                $("#enemyInfoLevel" + curCard.id).html(curCard.getCurrentLevel() + ".0" + curCard.getCurrentLevelAmount());
-            else
-                $("#enemyInfoLevel" + curCard.id).html(curCard.getCurrentLevel() + "." + curCard.getCurrentLevelAmount());
-
-            if (curCard.canUpgrade())
-                $("#enemyInfoUpgradeButton" + curCard.id).show();
-            else
-                $("#enemyInfoUpgradeButton" + curCard.id).hide();
-
-
+            $("#enemyInfoSouldShard" + curEnemy.id).html(curEnemy.getShardCount());
+            $("#enemyInfoNextShard" + curEnemy.id).html((100 - Math.round(curEnemy.getNextShard(), 2)) + " / " + 100);
         }
     }
 }
 
 function uiShowEnemyInfoTooltip(event) {
-    var curCard = cards[event.data.id];
+    var curEnemy = getEnemyFromId(event.data.id);
 
-    var left = "<b>" + curCard.name + "</b><br />" + curCard.description;
+    var left = "<b>" + curEnemy.name + "</b><br />";
+
+    if (curEnemy.skills.length > 0) {
+        left += "Skills: ";
+
+        for (var t = 0; t < curEnemy.skills.length; t++) {
+            if (t > 0)
+                left += ", ";
+
+            var skill = getSkillFromId(curEnemy.skills[t]);
+            left += skill.name;
+        }
+    }
 
     uiSetTooltip(left, "");
-}
-
-function uiUpgradeCard(event) {
-    var c = cards[event.data.id];
-
-    c.upgrade();
 }

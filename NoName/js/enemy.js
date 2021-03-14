@@ -1,11 +1,27 @@
 ﻿var ENEMY_BUNNY = 0;
 var ENEMY_RAT = 1;
-var ENEMY_DEVIL = 2;
+var ENEMY_SCORPION = 2;
 var ENEMY_BEAR = 3;
 var ENEMY_BIRD = 4;
 var ENEMY_DOG = 5;
 var ENEMY_PIG = 6;
 var ENEMY_WOLF = 7;
+var ENEMY_SKELETON = 8;
+
+function enemyDeathInformation() {
+    this.level = -1;
+    this.deathCount = 0;
+}
+
+enemyDeathInformation.prototype.getExperience = function () {
+    var eg = 2;
+
+    for (t = 0; t <= this.deathCount; t += 100) {
+        eg /= 2;
+    }
+
+    return eg;
+}
 
 function enemyInformation() {
     this.id = 0;
@@ -17,11 +33,29 @@ function enemyInformation() {
     this.mulStrength = 0;
     this.mulDefence = 0;
 
+    this.imageName = "";
+
+    this.element = 0;
+    this.skills = []; // List of skill ID
+
     this.totalDeath = 0;
-    this.deathCount = []; // How many time it died
+    this.deathInfo = [];
     this.killCount = 0; // How many time it killed something
 
-    this.cardGiven = 0;
+    this.experience = 0;
+    this.nextLevel = 100; // Increase by 100 everytime
+}
+
+enemyInformation.prototype.calculateNextLevel = function () {
+    this.nextLevel = Math.floor(this.experience / 100) * 100 + 100;
+}
+
+enemyInformation.prototype.getShardCount = function () {
+    return Math.floor(this.experience / 100);
+}
+
+enemyInformation.prototype.getNextShard = function () {
+    return this.nextLevel - this.experience;
 }
 
 enemyInformation.prototype.getVitality = function (level) {
@@ -37,115 +71,137 @@ enemyInformation.prototype.getDefence = function (level) {
 }
 
 enemyInformation.prototype.processDeath = function (level) {
-    if (this.deathCount[level] == null)
-        this.deathCount[level] = 1;
-    else
-        this.deathCount[level] += 1;
+    var di = null;
+
+    for (var t = 0; t < this.deathInfo.length; t++) {
+        if (this.deathInfo[t].level == level) {
+            di = this.deathInfo[t];
+        }
+    }
+
+    if (di == null) {
+        di = new enemyDeathInformation();
+        di.level = level;
+        this.deathInfo.push(di);
+    }
+
+    di.deathCount++;
+    this.experience += di.getExperience();
+
+    if (this.experience >= this.nextLevel) {
+        getResourceFromId(RESOURCE_SHARD).addAmount(1);
+        this.nextLevel += 100;
+    }
 
     this.totalDeath += 1;
 }
-/*
-enemyInformation.prototype.experienceGiven = function (level) {
-    var dc = this.deathCount[level];
-    var xp = 10;
 
-    if (dc == null)
-        dc = 0;
-
-    while (dc > 50) {
-        dc -= 50;
-        xp /= 2;
+function getEnemyFromId(id) {
+    for (var t = 0; t < enemies.length; t++) {
+        if (enemies[t].id == id)
+            return enemies[t];
     }
 
-    return xp;
+    return null;
 }
-*/
+
 function loadEnemies() {
-    enemies[0] = new enemyInformation();
-    enemies[0].id = 0;
-    enemies[0].name = "Evil Bunny";
-    enemies[0].baseVitality = 30;
-    enemies[0].baseStrength = 10;
-    enemies[0].baseDefence = 0;
-    enemies[0].mulVitality = 10;
-    enemies[0].mulStrength = 10;
-    enemies[0].mulDefence = 0;
-    enemies[0].cardGiven = CARD_RABBIT;
+    var newItem;
+
+    newItem = new enemyInformation();
+    newItem.id = 0;
+    newItem.name = "Bunny";
+    newItem.imageName = "bunny_down_Size2_SE";
+    newItem.baseVitality = 30;
+    newItem.baseStrength = 5;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 5;
+    newItem.mulDefence = 0;
+    //newItem.skills.push(SKILL_ENEMY_FIRE);
+    enemies.push(newItem);
     
-    enemies[1] = new enemyInformation();
-    enemies[1].id = 1;
-    enemies[1].name = "Evil Rat";
-    enemies[1].baseVitality = 50;
-    enemies[1].baseStrength = 10;
-    enemies[1].baseDefence = 0;
-    enemies[1].mulVitality = 10;
-    enemies[1].mulStrength = 10;
-    enemies[1].mulDefence = 10;
-    enemies[1].cardGiven = CARD_RAT;
+    newItem = new enemyInformation();
+    newItem.id = 1;
+    newItem.name = "Rat";
+    newItem.imageName = "rat_Size2_SE";
+    newItem.baseVitality = 30;
+    newItem.baseStrength = 15;
+    newItem.baseDefence = 5;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 10;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[2] = new enemyInformation();
-    enemies[2].id = 1;
-    enemies[2].name = "Devil";
-    enemies[2].baseVitality = 50;
-    enemies[2].baseStrength = 10;
-    enemies[2].baseDefence = 0;
-    enemies[2].mulVitality = 20;
-    enemies[2].mulStrength = 15;
-    enemies[2].mulDefence = 10;
-    enemies[2].cardGiven = CARD_DEVIL;
+    newItem = new enemyInformation();
+    newItem.id = 2;
+    newItem.name = "Scorpion";
+    newItem.imageName = "scorpion_Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[3] = new enemyInformation();
-    enemies[3].id = 3;
-    enemies[3].name = "Bear";
-    enemies[3].baseVitality = 50;
-    enemies[3].baseStrength = 10;
-    enemies[3].baseDefence = 0;
-    enemies[3].mulVitality = 20;
-    enemies[3].mulStrength = 15;
-    enemies[3].mulDefence = 10;
-    enemies[3].cardGiven = CARD_BEAR;
+    newItem = new enemyInformation();
+    newItem.id = 3;
+    newItem.name = "Bear";
+    newItem.imageName = "bear_Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[4] = new enemyInformation();
-    enemies[4].id = 4;
-    enemies[4].name = "Bird";
-    enemies[4].baseVitality = 50;
-    enemies[4].baseStrength = 10;
-    enemies[4].baseDefence = 0;
-    enemies[4].mulVitality = 20;
-    enemies[4].mulStrength = 15;
-    enemies[4].mulDefence = 10;
-    enemies[4].cardGiven = CARD_BIRD;
+    newItem = new enemyInformation();
+    newItem.id = 4;
+    newItem.name = "Bird";
+    newItem.imageName = "bird_Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 7;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 10;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[5] = new enemyInformation();
-    enemies[5].id = 5;
-    enemies[5].name = "Dog";
-    enemies[5].baseVitality = 50;
-    enemies[5].baseStrength = 10;
-    enemies[5].baseDefence = 0;
-    enemies[5].mulVitality = 20;
-    enemies[5].mulStrength = 15;
-    enemies[5].mulDefence = 10;
-    enemies[5].cardGiven = CARD_DOG;
+    newItem = new enemyInformation();
+    newItem.id = 5;
+    newItem.name = "Dog";
+    newItem.imageName = "wolf2__Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[6] = new enemyInformation();
-    enemies[6].id = 6;
-    enemies[6].name = "Pig";
-    enemies[6].baseVitality = 50;
-    enemies[6].baseStrength = 10;
-    enemies[6].baseDefence = 0;
-    enemies[6].mulVitality = 20;
-    enemies[6].mulStrength = 15;
-    enemies[6].mulDefence = 10;
-    enemies[6].cardGiven = CARD_PIG;
+    newItem = new enemyInformation();
+    newItem.id = 6;
+    newItem.name = "Pig";
+    newItem.imageName = "wolf3__Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 
-    enemies[7] = new enemyInformation();
-    enemies[7].id = 7;
-    enemies[7].name = "Wolf";
-    enemies[7].baseVitality = 50;
-    enemies[7].baseStrength = 10;
-    enemies[7].baseDefence = 0;
-    enemies[7].mulVitality = 20;
-    enemies[7].mulStrength = 15;
-    enemies[7].mulDefence = 10;
-    enemies[7].cardGiven = CARD_WOLF;
+    newItem = new enemyInformation();
+    newItem.id = 8;
+    newItem.name = "Skeleton";
+    newItem.imageName = "skeleton__Size2_SE";
+    newItem.baseVitality = 50;
+    newItem.baseStrength = 10;
+    newItem.baseDefence = 0;
+    newItem.mulVitality = 20;
+    newItem.mulStrength = 15;
+    newItem.mulDefence = 10;
+    enemies.push(newItem);
 }

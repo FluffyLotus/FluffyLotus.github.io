@@ -24,6 +24,8 @@ var RESOURCE_GLASS = 22;
 var RESOURCE_CONCRETE = 23;
 var RESOURCE_SPECIALMETAL = 24;
 
+var RESOURCE_Q_CEMETARYBLUEPRINT = 100;
+
 function resourceInformation() {
     this.id = 0;
     this.name = "";
@@ -50,7 +52,7 @@ resourceInformation.prototype.getAmountLimit = function () {
     }
 
     for (var t = 0; t < getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances.length; t++) {
-        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 500;
+        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 1000;
     }
 
     if (this.amountLimit > extra)
@@ -242,5 +244,12 @@ function loadResources() {
     newItem.id = 24;
     newItem.name = "Adamatum";
     newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 100;
+    newItem.name = "Blueprint";
+    newItem.amountLimit = 1;
+    newItem.isSpecial = true;
     resources.push(newItem);
 }

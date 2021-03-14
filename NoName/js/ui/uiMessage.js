@@ -4,14 +4,22 @@ var textToWriteIndex = 0;
 
 function uiDrawNewMessage() {
     if (messages.length > 0) {
-        if (document.getElementById("messageSection").style.display == "none") {
-            document.getElementById("messageSection").style.display = "block";
-            document.getElementById("tooltipSection").style.display = "none";
+        if ($("#showOverTooltip").is(':checked')) {
+            if (document.getElementById("messageSection").style.display == "none") {
+                document.getElementById("messageSection").style.display = "block";
+                document.getElementById("tooltipSection").style.display = "none";
 
+                var msg = messages[0];
+                messages.shift();
+
+                uiDrawMessage(msg);
+            }
+        }
+        else {
             var msg = messages[0];
             messages.shift();
 
-            uiDrawMessage(msg);
+            uiAddToastMessage("Quest Update", msg);
         }
     }
 }

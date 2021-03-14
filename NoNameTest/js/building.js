@@ -24,6 +24,9 @@ var BUILDING_SPECIALMETAL = 47;
 var BUILDING_FAN = 48;
 var BUILDING_BLACKPUSH = 49;
 var BUILDING_CRANE = 54;
+var BUILDING_WOODEXTRACT = 55;
+var BUILDING_STONEEXTRACT = 56;
+
 // Machinist: gear + iron = piston
 
 function buildingParticleOutputInformation() {
@@ -209,7 +212,6 @@ buildingInformation.prototype.getTickRewardsString = function (buildingLevel, gr
                 if (this.upgrades[t].rewards != null)
                     r = r.concat(this.upgrades[t].rewards);
                 m *= this.upgrades[t].getMulNumber();
-
             }
         }
     }
@@ -252,10 +254,14 @@ function loadBuildings() {
     newItem.rewards.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(0, 1, 0), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_TREE];
     //newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 0.1)]));
-    newItem.upgrades.push(createBuildingUpgrade_ParticleOutput("Burning of trees", "Put red particle to have a 10% of gaining coal.", 10,
+    newItem.upgrades.push(createBuildingUpgrade_ParticleOutput(00001, "Burning of trees", "Put red particle to have a 10% of gaining coal.", 10,
         new formulaLinear(10, 100),
         createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 1)]),
-        new formulaLinear(1, 1)));
+        null));
+    newItem.upgrades.push(createBuildingUpgrade_Reward(00002, "Increase Production", "Increase production by 20%.", 10,
+        new formulaLinear(1, 0),
+        [], //createResourceLink(RESOURCE_WOOD, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
     // !!!
@@ -272,10 +278,10 @@ function loadBuildings() {
     newItem.buildOnCellIsType = [CELL_TYPE_MOUNTAIN];
     newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_BLUE, [createResourceLink(RESOURCE_ORE, new formulaLinear(0, 1), 0.1)]));
     //newItem.upgrades.push(createBuildingUpgrade("Burning of trees", "Use red mana to give some coal.", 10, new formulaLinear(10, 100)));
-    newItem.upgrades.push(createBuildingUpgrade_Reward("Increase Production", "Increase production of stone.", 10,
-        new formulaLinear(1, 10),
-        createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1, 0), 1.0),
-        new formulaLinear(1, 1)));
+    newItem.upgrades.push(createBuildingUpgrade_Reward(10001, "Increase Production", "Increase production of stone by 20%.", 10,
+        new formulaLinear(1, 0), 
+        [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
     // !!!
@@ -314,7 +320,7 @@ function loadBuildings() {
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_WATER, CELL_TYPE_LAVA, CELL_TYPE_DARKPOUND];
     newItem.needStorage = false;
     newItem.maxGradeLevel = 4;
-    newItem.upgrades.push(createBuildingUpgrade_Grade("Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
+    newItem.upgrades.push(createBuildingUpgrade_Grade(40001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     // !!!
@@ -329,6 +335,10 @@ function loadBuildings() {
     newItem.requirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(0, 10), 1.0));
     newItem.rewards.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(0, 1), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
+    newItem.upgrades.push(createBuildingUpgrade_Reward(50001, "Increase Production", "Increase production of stone by 20%.", 10,
+        new formulaLinear(1, 0),
+        [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
     // !!!
@@ -353,6 +363,7 @@ function loadBuildings() {
     newItem.generateParticleId = PARTICLE_GREEN;
     newItem.maxGradeLevel = 4;
     //newItem[7].needStorage = false;
+    newItem.upgrades.push(createBuildingUpgrade_Grade(70001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     // !!!
@@ -367,6 +378,7 @@ function loadBuildings() {
     newItem.generateParticleId = PARTICLE_BLUE;
     newItem.maxGradeLevel = 4;
     //newItem[9].needStorage = false;
+    newItem.upgrades.push(createBuildingUpgrade_Grade(90001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     // !!!
@@ -381,6 +393,7 @@ function loadBuildings() {
     newItem.generateParticleId = PARTICLE_RED;
     newItem.maxGradeLevel = 4;
     //newItem[11].needStorage = false;
+    newItem.upgrades.push(createBuildingUpgrade_Grade(110001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     // !!!
@@ -409,6 +422,10 @@ function loadBuildings() {
     newItem.requirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(0, 10), 1.0));
     newItem.rewards.push(createResourceLink(RESOURCE_BLOCK, new formulaLinear(0, 1), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
+    newItem.upgrades.push(createBuildingUpgrade_Reward(50001, "Increase Production", "Increase production of stone by 20%.", 10,
+        new formulaLinear(1, 0),
+        [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
     // !!!
@@ -464,6 +481,7 @@ function loadBuildings() {
     newItem.generateParticleId = PARTICLE_TIME;
     newItem.maxGradeLevel = 4;
     //newItem[37].needStorage = false;
+    newItem.upgrades.push(createBuildingUpgrade_Grade(370001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     newItem = new buildingInformation();
@@ -513,10 +531,10 @@ function loadBuildings() {
     newItem.id = 45;
     newItem.name = "Warehouse";
     newItem.imageName = ["building_45"];
-    newItem.costRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(10, 100), 1.0));
-    newItem.costRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(10, 100), 1.0));
-    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(10, 10), 1.0));
-    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(10, 10), 1.0));
+    newItem.costRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 100), 1.0));
+    newItem.costRequirements.push(createResourceLink(RESOURCE_BLOCK, new formulaLinear(10, 100), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 10), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_BLOCK, new formulaLinear(10, 10), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
     buildings.push(newItem);
 
@@ -575,6 +593,7 @@ function loadBuildings() {
     newItem.generateParticleId = PARTICLE_BLACK;
     newItem.maxGradeLevel = 4;
     //newItem[11].needStorage = false;
+    newItem.upgrades.push(createBuildingUpgrade_Grade(490001, "Increase Grade", "Increase grade.", 4, new formulaLinear(10, 100)));
     buildings.push(newItem);
 
     newItem = new buildingInformation();
@@ -594,5 +613,41 @@ function loadBuildings() {
     newItem.rewards.push(createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1, 0), 0.01));
     newItem.buildOnCellIsType = [CELL_TYPE_TRASH];
     //newItem.particleOutput.push(createBuildingParticleOutput(PARTICLE_RED, [createResourceLink(RESOURCE_COAL, new formulaLinear(0, 1), 0.1)]));
+    buildings.push(newItem);
+
+    newItem = new buildingInformation();
+    newItem.id = 55;
+    newItem.name = "Wood Extractor";
+    newItem.description = "";
+    newItem.helpDescription = "Extract green mana from wood.";
+    newItem.imageName = ["building_55"];
+    newItem.costRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 100), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 10), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(10, 10), 1.0));
+    newItem.requirements.push(createResourceLink(RESOURCE_WOOD, new formulaLinear(0, 8), 1.0));
+    newItem.rewards.push(createResourceLink(RESOURCE_GREENESSENCE, new formulaLinear(0, 1), 1.0));
+    newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
+    newItem.upgrades.push(createBuildingUpgrade_Reward(550001, "Increase Production", "Increase production of stone by 20%.", 10,
+        new formulaLinear(1, 0),
+        [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
+    buildings.push(newItem);
+
+    newItem = new buildingInformation();
+    newItem.id = 56;
+    newItem.name = "Stone Extractor";
+    newItem.description = "";
+    newItem.helpDescription = "Extract blue mana from stone.";
+    newItem.imageName = ["building_56"];
+    newItem.costRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 100), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_PLANK, new formulaLinear(10, 10), 1.0));
+    newItem.upgradeRequirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(10, 10), 1.0));
+    newItem.requirements.push(createResourceLink(RESOURCE_STONE, new formulaLinear(0, 8), 1.0));
+    newItem.rewards.push(createResourceLink(RESOURCE_BLUEESSENCE, new formulaLinear(0, 1), 1.0));
+    newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND];
+    newItem.upgrades.push(createBuildingUpgrade_Reward(560001, "Increase Production", "Increase production of stone by 20%.", 10,
+        new formulaLinear(1, 0),
+        [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
+        new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 }

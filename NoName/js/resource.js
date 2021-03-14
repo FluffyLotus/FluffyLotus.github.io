@@ -1,12 +1,12 @@
 ﻿var RESOURCE_WOOD = 0
 var RESOURCE_STONE = 1
-var RESOURCE_GREENMANA = 2;
+//var RESOURCE_GREENMANA = 2;
 var RESOURCE_PLANK = 3;
-var RESOURCE_BLUEMANA = 4;
+//var RESOURCE_BLUEMANA = 4;
 var RESOURCE_GREENESSENCE = 5;
 var RESOURCE_BLUEESSENCE = 6;
 var RESOURCE_REDESSENCE = 7;
-var RESOURCE_REDMANA = 8;
+//var RESOURCE_REDMANA = 8;
 var RESOURCE_TIMEESSENCE = 9;
 var RESOURCE_COAL = 10;
 var RESOURCE_BLOCK = 11;
@@ -14,18 +14,50 @@ var RESOURCE_ORE = 12;
 var RESOURCE_IRON = 13;
 var RESOURCE_ENERGY = 14;
 var RESOURCE_GEAR = 15;
-var RESOURCE_TIMEMANA = 16;
+//var RESOURCE_TIMEMANA = 16;
+var RESOURCE_SHARD = 17;
+var RESOURCE_MAGICSPACE = 18;
+var RESOURCE_DARKESSENCE = 19;
+var RESOURCE_LIGHTESSENCE = 20;
+var RESOURCE_SAND = 21;
+var RESOURCE_GLASS = 22;
+var RESOURCE_CONCRETE = 23;
+var RESOURCE_SPECIALMETAL = 24;
+
+var RESOURCE_Q_CEMETARYBLUEPRINT = 100;
 
 function resourceInformation() {
     this.id = 0;
     this.name = "";
     this.amount = 0;
+    this.amountLimit = -1;
     this.isSpecial = false; // Resource needed for a short period of time
-
+    this.isHidden = false; // Don't see this on the left side
+    
     this.maxAmount = 0;
     this.totalAmount = 0;
 
     this.tickDelta = 0;
+}
+
+resourceInformation.prototype.getAmountLimit = function () {
+    if (this.amountLimit == -1)
+        return this.amountLimit;
+
+    // TODO: This is a test
+    var extra = 0;
+
+    for (var t = 0; t < getBuildingFromId(BUILDING_STORAGE).buildingInstances.length; t++) {
+        extra += getBuildingFromId(BUILDING_STORAGE).buildingInstances[t].buildingLevel * 500;
+    }
+
+    for (var t = 0; t < getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances.length; t++) {
+        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 1000;
+    }
+
+    if (this.amountLimit > extra)
+        return this.amountLimit;
+    return extra; 
 }
 
 resourceInformation.prototype.prepareTick = function () {
@@ -33,6 +65,13 @@ resourceInformation.prototype.prepareTick = function () {
 }
 
 resourceInformation.prototype.addAmount = function (a) {
+    var amountLimit = this.getAmountLimit();
+
+    if (amountLimit > 0 && a > 0) {
+        if (this.amount + a > amountLimit)
+            a = amountLimit - this.amount;
+    }
+
     this.amount += a;
     this.tickDelta += a;
 
@@ -43,81 +82,174 @@ resourceInformation.prototype.addAmount = function (a) {
 }
 
 resourceInformation.prototype.isVisible = function () {
+    if (this.isHidden)
+        return false;
     if (this.isSpecial)
         return this.amount > 0;
     return this.maxAmount > 0;
 }
 
+function getResourceFromId(id) {
+    for (var t = 0; t < resources.length; t++) {
+        if (resources[t].id == id)
+            return resources[t];
+    }
+
+    return null;
+}
+
 function loadResources() {
-    resources[0] = new resourceInformation();
-    resources[0].id = 0;
-    resources[0].name = "Wood";
+    var newItem;
 
-    resources[1] = new resourceInformation();
-    resources[1].id = 1;
-    resources[1].name = "Stone";
+    newItem = new resourceInformation();
+    newItem.id = 0;
+    newItem.name = "Wood";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[2] = new resourceInformation();
-    resources[2].id = 2;
-    resources[2].name = "Green Mana";
+    newItem = new resourceInformation();
+    newItem.id = 1;
+    newItem.name = "Stone";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[3] = new resourceInformation();
-    resources[3].id = 3;
-    resources[3].name = "Plank";
+    //newItem = new resourceInformation();
+    //newItem.id = 2;
+    //newItem.name = "Green ManaX";
+    //resources.push(newItem);
 
-    resources[4] = new resourceInformation();
-    resources[4].id = 4;
-    resources[4].name = "Blue Mana";
+    newItem = new resourceInformation();
+    newItem.id = 3;
+    newItem.name = "Plank";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[5] = new resourceInformation();
-    resources[5].id = 5;
-    resources[5].name = "Green Essence";
+    //newItem = new resourceInformation();
+    //newItem.id = 4;
+    //newItem.name = "Blue ManaX";
+    //resources.push(newItem);
 
-    resources[6] = new resourceInformation();
-    resources[6].id = 6;
-    resources[6].name = "Blue Essence";
+    newItem = new resourceInformation();
+    newItem.id = 5;
+    newItem.name = "Green Mana";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[7] = new resourceInformation();
-    resources[7].id = 7;
-    resources[7].name = "Red Essence";
+    newItem = new resourceInformation();
+    newItem.id = 6;
+    newItem.name = "Blue Mana";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[8] = new resourceInformation();
-    resources[8].id = 8;
-    resources[8].name = "Red Mana";
+    newItem = new resourceInformation();
+    newItem.id = 7;
+    newItem.name = "Red Mana";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[9] = new resourceInformation();
-    resources[9].id = 9;
-    resources[9].name = "Time Essence";
+    //newItem = new resourceInformation();
+    //newItem.id = 8;
+    //newItem.name = "Red ManaX";
+    //resources.push(newItem);
 
-    resources[10] = new resourceInformation();
-    resources[10].id = 10;
-    resources[10].name = "Coal";
+    newItem = new resourceInformation();
+    newItem.id = 9;
+    newItem.name = "Time Mana";
+    resources.push(newItem);
 
-    resources[11] = new resourceInformation();
-    resources[11].id = 11;
-    resources[11].name = "Block";
+    newItem = new resourceInformation();
+    newItem.id = 10;
+    newItem.name = "Coal";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[12] = new resourceInformation();
-    resources[12].id = 12;
-    resources[12].name = "Ore";
+    newItem = new resourceInformation();
+    newItem.id = 11;
+    newItem.name = "Block";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[13] = new resourceInformation();
-    resources[13].id = 13;
-    resources[13].name = "Iron";
+    newItem = new resourceInformation();
+    newItem.id = 12;
+    newItem.name = "Ore";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[14] = new resourceInformation();
-    resources[14].id = 14;
-    resources[14].name = "Energy";
+    newItem = new resourceInformation();
+    newItem.id = 13;
+    newItem.name = "Iron";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[15] = new resourceInformation();
-    resources[15].id = 15;
-    resources[15].name = "Gear";
+    newItem = new resourceInformation();
+    newItem.id = 14;
+    newItem.name = "Energy";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    resources[16] = new resourceInformation();
-    resources[16].id = 16;
-    resources[16].name = "Time Mana";
+    newItem = new resourceInformation();
+    newItem.id = 15;
+    newItem.name = "Gear";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
 
-    //resources[RESOURCE_WOOD].addAmount(2000);
-    //resources[RESOURCE_STONE].addAmount(2000);
-    //resources[RESOURCE_TIMEESSENCE].addAmount(2000);
+    //newItem = new resourceInformation();
+    //newItem.id = 16;
+    //newItem.name = "Time ManaX";
+    //resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 17;
+    newItem.name = "Soul Shard";
+    newItem.isHidden = true;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 18;
+    newItem.name = "Magic Space";
+    newItem.isHidden = true;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 19;
+    newItem.name = "Dark Mana";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 20;
+    newItem.name = "Light Mana";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 21;
+    newItem.name = "Sand";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 22;
+    newItem.name = "Glass";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 23;
+    newItem.name = "Concrete";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 24;
+    newItem.name = "Adamatum";
+    newItem.amountLimit = 100;
+    resources.push(newItem);
+
+    newItem = new resourceInformation();
+    newItem.id = 100;
+    newItem.name = "Blueprint";
+    newItem.amountLimit = 1;
+    newItem.isSpecial = true;
+    resources.push(newItem);
 }

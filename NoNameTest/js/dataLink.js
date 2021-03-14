@@ -1,11 +1,13 @@
 ﻿var DL_CAT =
     [
-        { p: "adventure", c: ["maxDistance", "currentDistance"]},
+        {
+            p: "adventure", c: ["maxDistance", "currentDistance", "isActive"]},
         { p: "resource", c: ["amount"]},
         { p: "building", c: ["available", "buildAmount"]},
         { p: "quest", c: ["isActivated"] },
         { p: "playerSkills", c: ["level", "isActive"] },
-        { p: "other", c: ["startAdventure"]}
+        { p: "other", c: ["startAdventure"] },
+        { p: "buildingMap", c: ["isActive"] }
     ];
 
 function dataLink() {
@@ -90,6 +92,10 @@ dataLink.prototype.processDataLink = function (v) {
         if (this.subCategory == "currentDistance") {
             //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                getMapAdventureFromId(this.entityId).isActive = true;
+        }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
@@ -120,6 +126,12 @@ dataLink.prototype.processDataLink = function (v) {
         if (this.subCategory == "isActive") {
             if (v == 1)
                 currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).isActive = true;
+        }
+    }
+    if (this.category == "buildingMap") {
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                getMapBuildingFromId(this.entityId).isActive = true;
         }
     }
 }

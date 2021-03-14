@@ -57,6 +57,10 @@ function uiDrawPassiveSkills() {
                     $(newElement).mouseover({ id: curSkill.skillId }, uiShowSkillTooltip);
                     $(newElement).mouseout(uiClearTooltip);
 
+                    if (curSkill.isTraining) {
+                        $("#passiveSkillTraining" + curSkill.skillId).prop('checked', true);
+                    }
+
                     $("#passiveSkillTraining" + curSkill.skillId).change({ id: curSkill.skillId, elemName: "#passiveSkillTraining" + curSkill.skillId }, uiSetSkillTraining);
                 }
 
@@ -105,6 +109,11 @@ function uiDrawActiveSkills() {
                     $(newElement).click({ id: curSkill.skillId }, uiShowSkillTooltip);
                     $(newElement).mouseover({ id: curSkill.skillId }, uiShowSkillTooltip);
                     $(newElement).mouseout(uiClearTooltip);
+
+                    if (curSkill.isEquip)
+                        $("#activeSkillEquip" + curSkill.skillId).prop('checked', true);
+                    if (curSkill.isTraining)
+                        $("#passiveSkillTraining" + curSkill.skillId).prop('checked', true);
 
                     $("#activeSkillEquip" + curSkill.skillId).change({ id: curSkill.skillId, elemName: "#activeSkillEquip" + curSkill.skillId }, uiSetSkillEquip);
                     $("#activeSkillTraining" + curSkill.skillId).change({ id: curSkill.skillId, elemName: "#activeSkillTraining" + curSkill.skillId }, uiSetSkillTraining);

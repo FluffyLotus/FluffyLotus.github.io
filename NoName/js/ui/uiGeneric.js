@@ -1,6 +1,7 @@
 ﻿var selectedBuildingId = -1;
 
 function uiToggleFast() {
+    uiShowToggleFastTooltip();
     toggleFast();
 
     if (fastIsOn) {
@@ -9,6 +10,12 @@ function uiToggleFast() {
     else {
         document.getElementById("btnFast").className = "btn";
     }
+}
+
+function uiShowToggleFastTooltip() {
+    var r = getResourceFromId(RESOURCE_TIMEESSENCE);
+
+    uiSetTooltip("Use " + r.name + " to increase the speed of the game.", "");
 }
 
 function uiGetLinksString(links) {
@@ -20,7 +27,7 @@ function uiGetLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += curLink.amount + " " + resources[curLink.resourceId].name;
+        str += curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
     }
 
     return str;
@@ -35,7 +42,7 @@ function uiGetNegLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += "-" + curLink.amount + " " + resources[curLink.resourceId].name;
+        str += "-" + curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
     }
 
     return str;
@@ -44,3 +51,13 @@ function uiGetNegLinksString(links) {
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     uiClearTooltip();
 });
+
+function uiGetSaveGame() {
+    $("#gameStateData").val(GetSaveGameJson64());
+}
+
+function uiLoadSaveGame() {
+    LoadSaveGameJson64($("#gameStateData").val());
+
+    uiDrawGrid();
+}

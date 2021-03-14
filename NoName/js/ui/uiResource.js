@@ -26,7 +26,12 @@
                 $(newElement).mouseout(uiClearTooltip);
             }
 
-            $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount));
+            if (curResource.getAmountLimit() > 0 && !curResource.isSpecial) {
+                $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount) + " / " + nFormatter(curResource.getAmountLimit()));
+            }
+            else {
+                $("#resourceInfoAmount" + curResource.id).text(nFormatter(curResource.amount));
+            }
 
             if (curResource.tickDelta > 0) {
                 $("#resourceInfoTickDelta" + curResource.id).text("+" + nFormatter(curResource.tickDelta));
@@ -37,7 +42,6 @@
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "red");
             }
             else {
-                //$("#resourceInfoTickDelta" + curResource.id).text(nFormatter(curResource.tickDelta));
                 $("#resourceInfoTickDelta" + curResource.id).text("");
                 $("#resourceInfoTickDelta" + curResource.id).css("color", "black");
             }
@@ -46,7 +50,7 @@
 }
 
 function uiShowResourceTooltip(event) {
-    var curResource = resources[event.data.id];
+    var curResource = getResourceFromId(event.data.id);
 
     var left = "<b>" + curResource.name + "</b><br />Amount: " + nFormatter(curResource.amount);
 

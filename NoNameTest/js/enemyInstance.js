@@ -11,6 +11,14 @@
     this.vitalityTickDelta = 0;
 }
 
+enemyInstanceInformation.prototype.getSkillInstance = function (skillId) {
+    for (var i = 0; i < this.skillInstances.length; i++) {
+        if (this.skillInstances[i].skillId == skillId) {
+            return this.skillInstances[i];
+        }
+    }
+}
+
 enemyInstanceInformation.prototype.prepareTick = function () {
     this.vitalityTickDelta = 0;
 }

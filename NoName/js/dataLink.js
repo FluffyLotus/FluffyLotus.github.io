@@ -1,10 +1,13 @@
 ﻿var DL_CAT =
     [
-        { p: "adventure", c: ["maxDistance"]},
+        {
+            p: "adventure", c: ["maxDistance", "currentDistance", "isActive"]},
         { p: "resource", c: ["amount"]},
         { p: "building", c: ["available", "buildAmount"]},
-        { p: "quest", c: ["isActivated"]},
-        { p: "other", c: ["startAdventure"]}
+        { p: "quest", c: ["isActivated"] },
+        { p: "playerSkills", c: ["level", "isActive"] },
+        { p: "other", c: ["startAdventure"] },
+        { p: "buildingMap", c: ["isActive"] }
     ];
 
 function dataLink() {
@@ -17,25 +20,33 @@ function dataLink() {
 dataLink.prototype.getCurrentValue = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            return mapAdventures[this.entityId].maxDistance;
+            return getMapAdventureFromId(this.entityId).maxDistance;
+        }
+        if (this.subCategory == "currentDistance") {
+            return getMapAdventureFromId(this.entityId).currentDistance;
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            return resources[this.entityId].amount;
+            return getResourceFromId(this.entityId).amount;
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "available") {
-            return buildings[this.entityId].available;
+            return getBuildingFromId(this.entityId).available;
         }
         if (this.subCategory == "buildAmount") {
-            return buildings[this.entityId].buildAmount;
+            return getBuildingFromId(this.entityId).buildingInstances.length;
         }
     } 
     if (this.category == "quest") {
         if (this.subCategory == "isActivated") {
-            return quests[this.entityId].isActivated;
+            return getQuestFromId(this.entityId).isActivated;
+        }
+    }
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "level") {
+            return currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).level;
         }
     }
 }
@@ -43,24 +54,32 @@ dataLink.prototype.getCurrentValue = function () {
 dataLink.prototype.getDataName = function () {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            return mapAdventures[this.entityId].name + " Walking Distance";
+            return getMapAdventureFromId(this.entityId).name + " Maximum Walking Distance";
+        }
+        if (this.subCategory == "currentDistance") {
+            return getMapAdventureFromId(this.entityId).name + " Walking Distance";
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            return resources[this.entityId].name + " Amount";
+            return getResourceFromId(this.entityId).name + " Amount";
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "buildAmount") {
-            return buildings[this.entityId].name + " Builded";
+            return getBuildingFromId(this.entityId).name + " Builded";
         }
     }
     //if (this.category == "quest") {
     //    if (this.subCategory == "isActivated") {
-    //        return quests[this.entityId].isActivated;
+    //        return getQuestFromId(this.entityId).isActivated;
     //    }
     //}
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "level") {
+            return getSkillFromId(currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).skillId).name + " Level";
+        }
+    }
     
     return "";
 }
@@ -68,32 +87,51 @@ dataLink.prototype.getDataName = function () {
 dataLink.prototype.processDataLink = function (v) {
     if (this.category == "adventure") {
         if (this.subCategory == "maxDistance") {
-            //return mapAdventures[this.entityId].name + " Walking Distance";
+            //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
+        }
+        if (this.subCategory == "currentDistance") {
+            //return getMapAdventureFromId(this.entityId).name + " Walking Distance";
+        }
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                getMapAdventureFromId(this.entityId).isActive = true;
         }
     }
     if (this.category == "resource") {
         if (this.subCategory == "amount") {
-            resources[this.entityId].addAmount(v);
+            getResourceFromId(this.entityId).addAmount(v);
         }
     }
     if (this.category == "building") {
         if (this.subCategory == "available") {
             if(v == 1)
-                buildings[this.entityId].available = true;
+                getBuildingFromId(this.entityId).available = true;
             else
-                buildings[this.entityId].available = false;
+                getBuildingFromId(this.entityId).available = false;
         }
     }
     if (this.category == "quest") {
         if (this.subCategory == "isActivated") {
             if (v == 1)
-                quests[this.entityId].setAsActive();
+                getQuestFromId(this.entityId).setAsActive();
         }
     }
     if (this.category == "other") {
         if (this.subCategory == "startAdventure") {
             if (v == 1)
                 currentMapAdventure.canRun = true;
+        }
+    }
+    if (this.category == "playerSkills") {
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                currentMapAdventure.currentPlayer.getSkillInstance(this.entityId).isActive = true;
+        }
+    }
+    if (this.category == "buildingMap") {
+        if (this.subCategory == "isActive") {
+            if (v == 1)
+                getMapBuildingFromId(this.entityId).isActive = true;
         }
     }
 }

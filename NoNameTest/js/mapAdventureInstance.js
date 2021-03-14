@@ -37,6 +37,7 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
 
     if (this.currentAction == ADV_ACTION_WALK) {
         getMapAdventureFromId(this.currentMapAdventureId).increaseDistance();
+        getMapAdventureFromId(this.currentMapAdventureId).processEndOfMap();
 
         var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy();
 

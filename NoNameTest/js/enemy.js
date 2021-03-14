@@ -1,11 +1,12 @@
 ﻿var ENEMY_BUNNY = 0;
 var ENEMY_RAT = 1;
-var ENEMY_DEVIL = 2;
+var ENEMY_SCORPION = 2;
 var ENEMY_BEAR = 3;
 var ENEMY_BIRD = 4;
 var ENEMY_DOG = 5;
 var ENEMY_PIG = 6;
 var ENEMY_WOLF = 7;
+var ENEMY_SKELETON = 8;
 
 function enemyDeathInformation() {
     this.level = -1;
@@ -31,6 +32,8 @@ function enemyInformation() {
     this.mulVitality = 0;
     this.mulStrength = 0;
     this.mulDefence = 0;
+
+    this.imageName = "";
 
     this.element = 0;
     this.skills = []; // List of skill ID
@@ -107,7 +110,8 @@ function loadEnemies() {
 
     newItem = new enemyInformation();
     newItem.id = 0;
-    newItem.name = "Evil Bunny";
+    newItem.name = "Bunny";
+    newItem.imageName = "bunny_down_Size2_SE";
     newItem.baseVitality = 30;
     newItem.baseStrength = 5;
     newItem.baseDefence = 0;
@@ -119,18 +123,20 @@ function loadEnemies() {
     
     newItem = new enemyInformation();
     newItem.id = 1;
-    newItem.name = "Evil Rat";
-    newItem.baseVitality = 50;
-    newItem.baseStrength = 10;
-    newItem.baseDefence = 0;
+    newItem.name = "Rat";
+    newItem.imageName = "rat_Size2_SE";
+    newItem.baseVitality = 30;
+    newItem.baseStrength = 15;
+    newItem.baseDefence = 5;
     newItem.mulVitality = 10;
     newItem.mulStrength = 10;
     newItem.mulDefence = 10;
     enemies.push(newItem);
 
     newItem = new enemyInformation();
-    newItem.id = 1;
-    newItem.name = "Devil";
+    newItem.id = 2;
+    newItem.name = "Scorpion";
+    newItem.imageName = "scorpion_Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
@@ -142,6 +148,7 @@ function loadEnemies() {
     newItem = new enemyInformation();
     newItem.id = 3;
     newItem.name = "Bear";
+    newItem.imageName = "bear_Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
@@ -153,17 +160,19 @@ function loadEnemies() {
     newItem = new enemyInformation();
     newItem.id = 4;
     newItem.name = "Bird";
+    newItem.imageName = "bird_Size2_SE";
     newItem.baseVitality = 50;
-    newItem.baseStrength = 10;
+    newItem.baseStrength = 7;
     newItem.baseDefence = 0;
-    newItem.mulVitality = 20;
-    newItem.mulStrength = 15;
+    newItem.mulVitality = 10;
+    newItem.mulStrength = 10;
     newItem.mulDefence = 10;
     enemies.push(newItem);
 
     newItem = new enemyInformation();
     newItem.id = 5;
     newItem.name = "Dog";
+    newItem.imageName = "wolf2__Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
@@ -175,6 +184,7 @@ function loadEnemies() {
     newItem = new enemyInformation();
     newItem.id = 6;
     newItem.name = "Pig";
+    newItem.imageName = "wolf3__Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
@@ -184,8 +194,9 @@ function loadEnemies() {
     enemies.push(newItem);
 
     newItem = new enemyInformation();
-    newItem.id = 7;
-    newItem.name = "Wolf";
+    newItem.id = 8;
+    newItem.name = "Skeleton";
+    newItem.imageName = "skeleton__Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
