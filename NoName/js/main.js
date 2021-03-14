@@ -125,8 +125,8 @@ function loadApp() {
         }
     }
 
-    if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
-        getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(20000);
+    //if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
+    //    getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(20000);
     ////////////////
 
     getBuildingFromId(0).available = true;
