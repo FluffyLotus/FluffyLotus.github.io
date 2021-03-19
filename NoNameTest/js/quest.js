@@ -3,6 +3,8 @@
     this.name = "";
     this.activatedDescription = "";
     this.compleDescription = "";
+    this.activatedStory = "";
+    this.compleStory = "";
     this.passiveRequirements = []; // Requirements that gets completed automatic
     this.activeRequirements = []; // Requirements that need user input (ex: remove a resource)
     this.startRewards = [];
@@ -153,6 +155,8 @@ function loadQuests() {
     newItem.name = "Resource Pipe";
     newItem.activatedDescription = "Village Elder: Our resource pipe got broken by the agitated animals. We need some wood and stone to rebuild them.";
     newItem.compleDescription = "Village Elder: With the pipes, we can link buildings with the storage unit.";
+    newItem.activatedStory = "";
+    newItem.compleStory = "";
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 500));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 500));
     newItem.rewards.push(createDataLink("building", "available", BUILDING_STORAGEPIPE, 1));
@@ -166,6 +170,8 @@ function loadQuests() {
     newItem.name = "Find Carpenter";
     newItem.activatedDescription = "Village Elder: I'm a bit worried. Our carpenter went to the town Barock, about 2km away, a few days ago but didn't return. I hope everything is ok.";
     newItem.compleDescription = "There's someone on the other side of the river. It might be the carpenter! He seems to be injured.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 1200));
     newItem.rewards.push(createDataLink("quest", "isActivated", 2, 1));
     quests.push(newItem);
@@ -175,6 +181,8 @@ function loadQuests() {
     newItem.name = "Build Small Bridge";
     newItem.activatedDescription = "The carpenter needs help but he is on the other side of the river. A small bridge is needed to cross.";
     newItem.compleDescription = "Carpenter: Thanks a lot for saving me. Things are getting really dangerous.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.needToGoToLocation = true;
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 5000));
     newItem.rewards.push(createDataLink("quest", "isActivated", 8, 1));
@@ -185,6 +193,8 @@ function loadQuests() {
     newItem.name = "Begining";
     newItem.activatedDescription = "We need to prepare the town. Click on trees and mountain to get resources. Then build an axe and quary. Put a storage unit right beside them.";
     newItem.compleDescription = "";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem.\nVestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in.\nCurabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("building", "buildAmount", BUILDING_AXE, 1));
     newItem.passiveRequirements.push(createDataLink("building", "buildAmount", BUILDING_PICK, 1));
     newItem.passiveRequirements.push(createDataLink("building", "buildAmount", BUILDING_STORAGE, 1));
@@ -196,6 +206,8 @@ function loadQuests() {
     newItem.name = "Training";
     newItem.activatedDescription = "Village Trainer: These animals are more aggresive than expected. Can you help me build a training center in the village?";
     newItem.compleDescription = "Village Trainer: You can now use resources to build up your skills.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 1000));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 1000));
     newItem.rewards.push(createDataLink("playerSkills", "isActive", SKILL_STRENGTH, 1));
@@ -207,6 +219,8 @@ function loadQuests() {
     newItem.name = "Well";
     newItem.activatedDescription = "Woman: Getting water from the stream is getting harder with all the aggresive animals. I wish we could build a well in the village.";
     newItem.compleDescription = "Woman: This will help the village a lot.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 2500));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 2500));
     newItem.rewards.push(createDataLink("quest", "isActivated", 6, 1));
@@ -217,6 +231,8 @@ function loadQuests() {
     newItem.name = "Mana Building";
     newItem.activatedDescription = "Carpenter: We used to pull mana from the earth until it was banned. There's a story about a blueprint in the cemetary.";
     newItem.compleDescription = "Carpenter: I haven't seen this type of building before.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.startRewards.push(createDataLink("adventure", "isActive", 6, 1));
     newItem.startRewards.push(createDataLink("quest", "isActivated", 9, 1));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_Q_CEMETARYBLUEPRINT, 1));    
@@ -229,6 +245,8 @@ function loadQuests() {
     newItem.name = "Help Village";
     newItem.activatedDescription = "Villager: Please help us, our village got destroyed and we need resource to fix it.";
     newItem.compleDescription = "Village: Thanks for helping rebuild to village. If you can help, we would need some storage units.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.needToGoToLocation = true;
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_STONE, 7500));
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 7500));
@@ -243,6 +261,8 @@ function loadQuests() {
     newItem.name = "Build Saw Mill";
     newItem.activatedDescription = "Carpenter: With enought wood, I should be able to build a saw mill.";
     newItem.compleDescription = "Carpenter: Here's the blueprint to build sawmills.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.activeRequirements.push(createDataLink("resource", "amount", RESOURCE_WOOD, 7000));
     newItem.rewards.push(createDataLink("building", "available", BUILDING_SAWMILL, 1));
     quests.push(newItem);
@@ -252,6 +272,8 @@ function loadQuests() {
     newItem.name = "Search For Blueprint";
     newItem.activatedDescription = "Search the cemetary for old blueprint.";
     newItem.compleDescription = "Carpenter: Here's the blueprint to build sawmills.";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 6, 900));
     newItem.rewards.push(createDataLink("resource", "amount", RESOURCE_Q_CEMETARYBLUEPRINT, 1));
     quests.push(newItem);
@@ -261,6 +283,8 @@ function loadQuests() {
     newItem.name = "Cemetary Book";
     newItem.activatedDescription = "I keep seeing strange drawing on the walls. There might be something else in the cemetary.";
     newItem.compleDescription = "";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 6, 2900));
     newItem.rewards.push(createDataLink("playerSkills", "isActive", SKILL_HEAL, 1));
     quests.push(newItem);
@@ -270,6 +294,8 @@ function loadQuests() {
     newItem.name = "Go to the next village";
     newItem.activatedDescription = "Go to the town of Barock";
     newItem.compleDescription = "";
+    newItem.activatedStory = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel mauris lorem. Vestibulum eu dignissim sapien, nec varius risus. Nullam a metus ut nisl porttitor porta at pretium leo. Praesent feugiat vel ex sed imperdiet. Mauris tristique viverra molestie. Nunc consequat pretium velit, eget egestas dolor accumsan non. Pellentesque id euismod sem, id dapibus nibh. Aenean eu lectus vitae dui posuere molestie. Curabitur aliquet quam ut pretium blandit. Donec ac tincidunt nibh. Nunc ultricies rhoncus euismod.";
+    newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 2200));
     quests.push(newItem);
 }

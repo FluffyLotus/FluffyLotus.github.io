@@ -1,4 +1,16 @@
-﻿function uiDrawAdventure() {
+﻿var canvas, context;
+var tilesImage, characterImage, objectsImage, objectsBigImage;
+
+function uiLoadAdventure() {
+    canvas = document.getElementById("canvasDraw");
+    context = canvas.getContext("2d");
+    tilesImage = document.getElementById("tilesImage");
+    characterImage = document.getElementById("characterImage");
+    objectsImage = document.getElementById("objectsImage");
+    objectsBigImage = document.getElementById("objectsBigImage");
+}
+
+function uiDrawAdventure() {
     var imgX = getImagePositionX("cell", currentMapAdventure.currentPlayer.imageName);
     var imgY = getImagePositionY("cell", currentMapAdventure.currentPlayer.imageName);
 
@@ -245,4 +257,97 @@ function uiShowSummaryEnemySkillTooltip(event) {
     right = "";
 
     uiSetTooltip(left, right);
+}
+
+///////////////
+
+function uiDrawAdventureMap() {
+    var imgInfo;
+
+    var tickP = 0;
+
+    if (currentMapAdventure.currentAction == ADV_ACTION_WALK)
+        tickP = getTickPercentage();
+
+    var centerOfCanvasX = canvas.width / 2;
+    var centerOfCanvasY = canvas.height / 2 + 50;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // img size: 128x159
+    // img move: 64x32
+
+    var tileTopMiddleX = 64;
+    var tileTopMiddleY = 32;
+
+    var map = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId);
+
+    for (var d = ADVENTURE_MAP_GRID_LENGTH + ADVENTURE_MAP_GRID_WIDTH; d >= 0; d--) {
+        for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
+            for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
+                if (d == x + y) {
+                    var px, py;
+                    var ty = ADVENTURE_MAP_GRID_LENGTH - 1 - y;
+
+                    var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
+                    imgInfo = getImageFromName(tile.floorTile);
+
+                    px = centerOfCanvasX - tileTopMiddleX + (y * tileTopMiddleX) - (x * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
+                    py = centerOfCanvasY - tileTopMiddleY - (y * tileTopMiddleY) - (x * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY);
+
+                    context.drawImage(tilesImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py, imgInfo.W, imgInfo.H);
+                }
+            }
+        }
+    }
+
+    for (var d = ADVENTURE_MAP_GRID_LENGTH + ADVENTURE_MAP_GRID_WIDTH; d >= 0; d--) {
+        for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
+            for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
+                if (d == x + y) {
+                    var px, py;
+                    var ty = ADVENTURE_MAP_GRID_LENGTH - 1 - y;
+
+                    var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
+
+                    if (tile.object != "") {
+                        imgInfo = getImageFromName(tile.object);
+
+                        px = centerOfCanvasX - tileTopMiddleX + (y * tileTopMiddleX) - (x * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
+                        py = centerOfCanvasY - tileTopMiddleY - (y * tileTopMiddleY) - (x * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY);
+
+                        if (imgInfo.H > 200)
+                            context.drawImage(objectsBigImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py - imgInfo.H + 64, imgInfo.W, imgInfo.H);
+                        else
+                            context.drawImage(objectsImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py - imgInfo.H + 64, imgInfo.W, imgInfo.H);
+                    }
+                }
+            }
+        }
+    }
+
+    {
+        var test = 0;
+        //var test = dist - Math.floor(dist) - 0.5;
+        //test = 0.5 - Math.abs(test);
+        //test *= 50;
+
+        var px, py;
+
+        imgInfo = getImageFromName("character_main_Size2_NW"); //currentMapAdventure.currentPlayer.imageName);
+
+        px = centerOfCanvasX - tileTopMiddleX;
+        py = centerOfCanvasY - tileTopMiddleY - test; // - characterHeight;
+
+        context.drawImage(characterImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py - imgInfo.H + 64, imgInfo.W, imgInfo.H);
+
+        //imgInfo = getImageFromName("bunny_down_Size2" + "_" + angle[2]);
+
+        //px = centerOfCanvasX - tileTopMiddleX + ((10 - mapGridStart) * tileTopMiddleX) - (0 * tileTopMiddleX) - ((dist - mapGridStart) * tileTopMiddleX);
+        //py = centerOfCanvasY - tileTopMiddleY - ((10 - mapGridStart) * tileTopMiddleY) - (0 * tileTopMiddleY) + ((dist - mapGridStart) * tileTopMiddleY); // - characterHeight;
+
+        //context.drawImage(characterImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py - imgInfo.H + 64, imgInfo.W, imgInfo.H);
+    }
+
+    requestAnimationFrame(uiDrawAdventureMap);
 }

@@ -1,6 +1,10 @@
 ﻿var ADV_ACTION_WALK = 1;
 var ADV_ACTION_ATTACK = 2;
 
+var ADVENTURE_MAP_GRID_WIDTH = 3;
+var ADVENTURE_MAP_GRID_LENGTH = 20;
+var ADVENTURE_MAP_BACK_LENGTH = 7;
+
 function mapAdventureInstanceInformation() {
     this.currentMapAdventureId = 0;
     this.currentAction = ADV_ACTION_WALK;
@@ -9,6 +13,9 @@ function mapAdventureInstanceInformation() {
 
     this.currentPlayer = null;
     this.currentEnemy = null;
+
+    this.mapGridStart = 0;
+    this.mapGrid = [];
 }
 
 mapAdventureInstanceInformation.prototype.changeMap = function (newMapId, distance) {
@@ -17,6 +24,56 @@ mapAdventureInstanceInformation.prototype.changeMap = function (newMapId, distan
     this.currentEnemy = null;
 
     getMapAdventureFromId(this.currentMapAdventureId).setDistance(distance);
+
+    this.loadMapGrid();
+}
+
+mapAdventureInstanceInformation.prototype.loadMapGrid = function () {
+    var map = getMapAdventureFromId(this.currentMapAdventureId);
+
+    this.mapGridStart = map.currentDistance - ADVENTURE_MAP_BACK_LENGTH;
+
+    if (this.mapGridStart < 0)
+        this.mapGridStart = 0;
+
+    this.mapGrid = [];
+
+    for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
+        for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
+            if (x == 0)
+                this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.nearTiles[getRandInteger(0, map.nearTiles.length)];
+            else
+                this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.farTiles[getRandInteger(0, map.farTiles.length)];
+        }
+    }
+}
+
+mapAdventureInstanceInformation.prototype.updateMapGrid = function () {
+    var map = getMapAdventureFromId(this.currentMapAdventureId);
+
+    if (this.mapGridStart + ADVENTURE_MAP_GRID_LENGTH > map.currentDistance) {
+        while (this.mapGridStart + ADVENTURE_MAP_BACK_LENGTH < map.currentDistance) {
+            for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH - 1; y++) {
+                for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
+                    this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = this.mapGrid[x + ((y + 1) * ADVENTURE_MAP_GRID_WIDTH)];
+                }
+            }
+
+            var y = ADVENTURE_MAP_GRID_LENGTH - 1;
+
+            for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
+                if (x == 0)
+                    this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.nearTiles[getRandInteger(0, map.nearTiles.length)];
+                else
+                    this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.farTiles[getRandInteger(0, map.farTiles.length)];
+            }
+
+            this.mapGridStart += 1;
+        }
+    }
+    else {
+        this.loadMapGrid();
+    }
 }
 
 mapAdventureInstanceInformation.prototype.prepareTick = function () {
@@ -38,6 +95,8 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
     if (this.currentAction == ADV_ACTION_WALK) {
         getMapAdventureFromId(this.currentMapAdventureId).increaseDistance();
         getMapAdventureFromId(this.currentMapAdventureId).processEndOfMap();
+
+        this.updateMapGrid();
 
         var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy();
 

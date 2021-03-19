@@ -206,3 +206,20 @@ function uiQuestTeleportToCheckpoint() {
             currentMapAdventure.changeMap(curQuest.foundMapId, Math.floor(curQuest.foundDistance / 1000) * 1000);
     }
 }
+
+function uiFillQuestStory() {
+    var curQuest = getQuestFromId(currentUISelectedQuest);
+    var s1, s2;
+
+    s1 = curQuest.activatedStory.replace("\n", "<br />");
+    s2 = curQuest.compleStory.replace("\n", "<br />");
+
+    if (s1 == "")
+        s1 = curQuest.activatedDescription;
+    if (s2 == "")
+        s2 = curQuest.compleDescription;
+
+    $("#questStoryModalTitle").text(curQuest.name);
+    $("#questStoryModalActivated").html(s1);
+    $("#questStoryModalComplete").html(s2);
+}

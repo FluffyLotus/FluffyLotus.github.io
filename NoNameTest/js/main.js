@@ -7,6 +7,7 @@ var quests = [];
 var skills = [];
 var mapBuildings = [];
 var mapAdventures = [];
+var tileTemplates = [];
 
 var currentMapBuilding = 0;
 var currentMapAdventure = null;
@@ -71,8 +72,11 @@ function loadApp() {
     loadMapBuilding();
     loadEnemies();
     loadQuests();
+    loadTileTemplate();
 
     loadMapAdventureInstance();
+
+    uiLoadAdventure();
 
     // Find a better place to do this. Also, do we need to store this in real-time and put in the save data or is this ok.
     for (var t = 0; t < mapAdventures.length; t++) {
@@ -87,7 +91,7 @@ function loadApp() {
     loadIcon();
 
     ////////////////
-    if (false) {
+    if (true) {
         for (var t = 0; t < buildings.length; t++)
             buildings[t].available = true;
 
@@ -125,8 +129,8 @@ function loadApp() {
         }
     }
 
-    //if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
-    //    getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(20000);
+    if (getResourceFromId(RESOURCE_TIMEESSENCE).amount == 0)
+        getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(20000);
     ////////////////
 
     getBuildingFromId(0).available = true;
@@ -137,9 +141,13 @@ function loadApp() {
     getMapBuildingFromId(0).isActive = true;
     getMapAdventureFromId(0).isActive = true;
 
+    currentMapAdventure.loadMapGrid();
+
     uiCreateGrid();
     uiDrawGrid();
     uiDrawBuildingIcon2();
+
+    requestAnimationFrame(uiDrawAdventureMap);
 
     processTick();
 }
@@ -219,6 +227,19 @@ function processTick() {
     lastProcess = Date.now();
 
     setTimeout(processTick, FAST_SPEED); // requestAnimationFrame
+}
+
+function getTickPercentage() {
+    var speed = getTimeoutSpeed();
+    var leftTime = Date.now() - lastTick;
+    
+    var p = leftTime / speed;
+
+    if (p < 0)
+        return 0;
+    if (p > 1)
+        return 1;
+    return p;
 }
 
 function toggleFast() {

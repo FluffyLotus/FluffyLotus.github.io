@@ -193,8 +193,8 @@
         .spriteSheetCharacter {
             background-image: url('images/SpriteSheet/character.png');
             background-repeat: no-repeat;
-            width: 136px;
-            height: 168px;
+            width: 128px;
+            height: 159px;
         }
 
         .buildingSelected {
@@ -234,7 +234,7 @@
             <h2>Resources</h2>
 
             <div id="resourceInfoContainer">
-                <div id="resourceInfoRow" class="row resourceRow" style="display: none;">
+                <div id="resourceInfoRow" class="row resourceRow" style="        display: none;">
                     <div class="col-12 col-lg-5"><span id="resourceInfoName">aaaa</span></div>
                     <div class="col-12 col-lg-7">
                         <div class="row">
@@ -403,11 +403,13 @@
                         </div>
                     </div>
 
+                    <canvas id="canvasDraw" width="600" height="350" style="border: 1px solid gray; background-color: black;"></canvas>
+
                     <div style="display: inline-block; width: 49%; vertical-align: top;">
                         <h3>Player</h3>
 
                         <table>
-                            <tr>
+                            <tr style="display: none;">
                                 <td colspan="2"><div id="playerImage" class="spriteSheetCharacter"></div></td>
                             </tr>
                             <tr>
@@ -453,7 +455,7 @@
                             <h3><span id="enemyName"></span></h3>
 
                             <table>
-                                <tr>
+                                <tr style="display: none;">
                                     <td colspan="2"><div id="enemyImage" class="spriteSheetCharacter"></div></td>
                                 </tr>
                                 <tr>
@@ -519,8 +521,10 @@
                                 <h3><span id="singleQuestInfoTitle">Title</span></h3>
                                 <p><span id="singleQuestInfoDescription">Title</span></p>
                                 <div id="singleQuestInfoCompleted" style="display: none;">
-                                    <hr />
-                                    <span id="singleQuestInfoCompletedDescription">Title</span>
+                                    <p><span id="singleQuestInfoCompletedDescription">Title</span></p>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-dark btn-sm float-right" data-toggle="modal" data-target="#questStoryModal" onclick="uiFillQuestStory();">Story</button>
                                 </div>
                                 <table class="table table-hover table-dark table-sm">
                                     <thead>
@@ -820,6 +824,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="questStoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questStoryModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="questStoryModalActivated">
+                    </p>
+                    <p id="questStoryModalComplete">
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;">
+        <img src="images/SpriteSheet/tiles.png" id="tilesImage" />
+        <img src="images/SpriteSheet/character.png" id="characterImage" />
+        <img src="images/SpriteSheet/objects.png" id="objectsImage" />
+        <img src="images/SpriteSheet/objectsBig.png" id="objectsBigImage" />
+    </div>
+
     <footer style="pointer-events: none;">
         <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0; pointer-events: none;">
             <div id="toastTemplate" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000" style="pointer-events: auto;">
@@ -847,6 +880,9 @@
     <script src="images/SpriteSheet/iconImageInfo.js?v=0.02"></script>
     <script src="images/SpriteSheet/particleImageInfo.js?v=0.02"></script>
     <script src="images/SpriteSheet/characterImageInfo.js?v=0.02"></script>
+    <script src="images/SpriteSheet/tilesImageInfo.js?v=0.02"></script>
+    <script src="images/SpriteSheet/objectsImageInfo.js?v=0.02"></script>
+    <script src="images/SpriteSheet/objectsBigImageInfo.js?v=0.02"></script>
 
     <script src="js/building.js?v=v0.04.2"></script>
     <script src="js/buildingInstance.js?v=v0.04.2"></script>
@@ -871,6 +907,7 @@
     <script src="js/resourceLink.js?v=v0.04.2"></script>
     <script src="js/skill.js?v=v0.04.2"></script>
     <script src="js/skillInstance.js?v=v0.04.2"></script>
+    <script src="js/tileTemplate.js?v=v0.04.2"></script>
 
     <script src="js/ui/uiResource.js?v=v0.04.2"></script>
     <script src="js/ui/uiTooltip.js?v=v0.04.2"></script>

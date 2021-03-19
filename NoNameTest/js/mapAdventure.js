@@ -41,6 +41,9 @@ function mapAdventureInformation() {
     this.enemies = [];
     this.events = [];
     this.isActive = false;
+
+    this.farTiles = [];
+    this.nearTiles = [];
 }
 
 mapAdventureInformation.prototype.getEnemyLevelFromDistance = function () {
@@ -147,6 +150,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 0;
     newItem.name = "Forest"; // To Swamp
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_BUNNY, 0, 3000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_BEAR, 0, 3000, 10, 1));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_BIRD, 500, 3000, 10, 100));
@@ -159,6 +164,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 1;
     newItem.name = "Canyon"; // To Desert
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
@@ -167,6 +174,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 2;
     newItem.name = "Road";
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
@@ -175,6 +184,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 3;
     newItem.name = "Mountain"; // To volcano
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
@@ -183,6 +194,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 4;
     newItem.name = "Train";
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
@@ -191,6 +204,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 5;
     newItem.name = "New City";
+    newItem.farTiles = [0, 1, 2, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_DOG, 0, 1000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_PIG, 1000, 2000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_WOLF, 2000, 99999999, 10, 100));
@@ -199,6 +214,8 @@ function loadAdventure() {
     newItem = new mapAdventureInformation();
     newItem.id = 6;
     newItem.name = "Cemetary";
+    newItem.farTiles = [0, 5, 3, 4];
+    newItem.nearTiles = [0, 3, 4];
     newItem.endOfMapDistance = 3000;
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 0, 3000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_SKELETON, 1100, 3000, 10, 100));

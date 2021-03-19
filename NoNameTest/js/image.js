@@ -39,6 +39,21 @@ function getImageFromName(imageName) {
             return characterImageInfo[t];
         }
     }
+    for (var t = 0; t < tilesImageInfo.length; t++) {
+        if (tilesImageInfo[t].N == imageName) {
+            return tilesImageInfo[t];
+        }
+    }
+    for (var t = 0; t < objectsImageInfo.length; t++) {
+        if (objectsImageInfo[t].N == imageName) {
+            return objectsImageInfo[t];
+        }
+    }
+    for (var t = 0; t < objectsBigImageInfo.length; t++) {
+        if (objectsBigImageInfo[t].N == imageName) {
+            return objectsBigImageInfo[t];
+        }
+    }
 
     return null;
 }
