@@ -267,7 +267,7 @@ function uiDrawAdventureMap() {
     var tickP = 0;
 
     if (currentMapAdventure.currentAction == ADV_ACTION_WALK)
-        tickP = getTickPercentage();
+        tickP = getAdvTickPercentage();
 
     var centerOfCanvasX = canvas.width / 2;
     var centerOfCanvasY = canvas.height / 2 + 50;
@@ -328,11 +328,22 @@ function uiDrawAdventureMap() {
 
     {
         var test = 0;
-        //var test = dist - Math.floor(dist) - 0.5;
-        //test = 0.5 - Math.abs(test);
-        //test *= 50;
+        test = tickP - 0.5;
+        test = 0.5 - Math.abs(test);
+        test *= 50;
 
         var px, py;
+
+        for (var t = 0; t < currentMapAdventure.mapEnemies.length; t++) {
+            var e = getEnemyFromId(currentMapAdventure.mapEnemies[t].enemy.enemyId);
+
+            imgInfo = getImageFromName(e.imageName);
+
+            px = centerOfCanvasX - tileTopMiddleX + ((currentMapAdventure.mapEnemies[t].distance - currentMapAdventure.mapGridStart) * tileTopMiddleX) - (0 * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
+            py = centerOfCanvasY - tileTopMiddleY - ((currentMapAdventure.mapEnemies[t].distance - currentMapAdventure.mapGridStart) * tileTopMiddleY) - (0 * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY); // - characterHeight;
+
+            context.drawImage(characterImage, imgInfo.X, imgInfo.Y, imgInfo.W, imgInfo.H, px, py - imgInfo.H + 64, imgInfo.W, imgInfo.H);
+        }
 
         imgInfo = getImageFromName("character_main_Size2_NW"); //currentMapAdventure.currentPlayer.imageName);
 

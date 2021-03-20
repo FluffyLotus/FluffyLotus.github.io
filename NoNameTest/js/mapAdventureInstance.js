@@ -5,6 +5,11 @@ var ADVENTURE_MAP_GRID_WIDTH = 3;
 var ADVENTURE_MAP_GRID_LENGTH = 20;
 var ADVENTURE_MAP_BACK_LENGTH = 7;
 
+function mapAdventureEnemyInstanceInformation() {
+    this.distance = 0;
+    this.enemy = null;
+}
+
 function mapAdventureInstanceInformation() {
     this.currentMapAdventureId = 0;
     this.currentAction = ADV_ACTION_WALK;
@@ -16,6 +21,7 @@ function mapAdventureInstanceInformation() {
 
     this.mapGridStart = 0;
     this.mapGrid = [];
+    this.mapEnemies = [];
 }
 
 mapAdventureInstanceInformation.prototype.changeMap = function (newMapId, distance) {
@@ -37,6 +43,7 @@ mapAdventureInstanceInformation.prototype.loadMapGrid = function () {
         this.mapGridStart = 0;
 
     this.mapGrid = [];
+    this.mapEnemies = [];
 
     for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
         for (var x = 0; x < ADVENTURE_MAP_GRID_WIDTH; x++) {
@@ -44,6 +51,19 @@ mapAdventureInstanceInformation.prototype.loadMapGrid = function () {
                 this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.nearTiles[getRandInteger(0, map.nearTiles.length)];
             else
                 this.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)] = map.farTiles[getRandInteger(0, map.farTiles.length)];
+        }
+    }
+
+    for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
+        var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy2(this.mapGridStart + y);
+
+        if (newEnemy != null) {
+            var item = new mapAdventureEnemyInstanceInformation();
+
+            item.distance = this.mapGridStart + y;
+            item.enemy = newEnemy;
+
+            this.mapEnemies.push(item);
         }
     }
 }
@@ -69,6 +89,17 @@ mapAdventureInstanceInformation.prototype.updateMapGrid = function () {
             }
 
             this.mapGridStart += 1;
+
+            var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy2(this.mapGridStart + ADVENTURE_MAP_GRID_LENGTH);
+
+            if (newEnemy != null) {
+                var item = new mapAdventureEnemyInstanceInformation();
+
+                item.distance = this.mapGridStart + ADVENTURE_MAP_GRID_LENGTH;
+                item.enemy = newEnemy;
+
+                this.mapEnemies.push(item);
+            }
         }
     }
     else {
@@ -98,12 +129,18 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
 
         this.updateMapGrid();
 
-        var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy();
-
-        if (newEnemy != null) {
-            this.currentAction = ADV_ACTION_ATTACK;
-            this.currentEnemy = newEnemy;
+        for (var t = 0; t < this.mapEnemies.length; t++) {
+            if (getMapAdventureFromId(this.currentMapAdventureId).currentDistance + 1 == this.mapEnemies[t].distance) {
+                this.currentAction = ADV_ACTION_ATTACK;
+                this.currentEnemy = this.mapEnemies[t].enemy;
+            }
         }
+        //var newEnemy = getMapAdventureFromId(this.currentMapAdventureId).getPossibleEnemy();
+
+        //if (newEnemy != null) {
+        //    this.currentAction = ADV_ACTION_ATTACK;
+        //    this.currentEnemy = newEnemy;
+        //}
     }
     else if (this.currentAction == ADV_ACTION_ATTACK) {
         this.currentEnemy.processTick();
@@ -130,15 +167,24 @@ mapAdventureInstanceInformation.prototype.processTick = function () {
             getEnemyFromId(this.currentEnemy.enemyId).killCount += 1;
             this.currentPlayer.deathCount += 1;
 
-            getMapAdventureFromId(this.currentMapAdventureId).setDistance(getMapAdventureFromId(this.currentMapAdventureId).getCurrentCheckpoint());
-            this.currentAction = ADV_ACTION_WALK;
-            this.currentEnemy = null;
-
             this.currentPlayer.revive();
+
+            //getMapAdventureFromId(this.currentMapAdventureId).setDistance(getMapAdventureFromId(this.currentMapAdventureId).getCurrentCheckpoint());
+            this.changeMap(this.currentMapAdventureId, getMapAdventureFromId(this.currentMapAdventureId).getCurrentCheckpoint());
+            //this.currentAction = ADV_ACTION_WALK;
+            //this.currentEnemy = null;
+
         }
         else if (this.currentEnemy.isDead()) {
             this.currentAction = ADV_ACTION_WALK;
             this.currentEnemy.processDeath();
+
+            for (var t = 0; t < this.mapEnemies.length; t++) {
+                if (getMapAdventureFromId(this.currentMapAdventureId).currentDistance + 1 == this.mapEnemies[t].distance) {
+                    this.mapEnemies.splice(t, 1);
+                    break;
+                }
+            }
 
             this.currentEnemy = null;
         }

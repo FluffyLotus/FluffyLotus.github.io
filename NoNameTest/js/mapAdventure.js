@@ -57,12 +57,15 @@ mapAdventureInformation.prototype.getCurrentCheckpoint = function () {
     return Math.floor(this.currentDistance / 1000) * 1000;
 }
 
-mapAdventureInformation.prototype.getPossibleEnemy = function () {
+mapAdventureInformation.prototype.getPossibleEnemy2 = function (d) {
     var possibleEnemies = [];
 
+    if (d <= 0)
+        return null;
+
     for (var t = 0; t < this.enemies.length; t++) {
-        if (this.currentDistance >= this.enemies[t].minDistance && this.currentDistance < this.enemies[t].maxDistance) {
-            if ((this.currentDistance % this.enemies[t].modulo) == 0) {
+        if (d >= this.enemies[t].minDistance && d < this.enemies[t].maxDistance) {
+            if ((d % this.enemies[t].modulo) == 0) {
                 possibleEnemies.push(this.enemies[t]);
             }
         }
@@ -102,6 +105,10 @@ mapAdventureInformation.prototype.getPossibleEnemy = function () {
     }
 
     return null;
+}
+
+mapAdventureInformation.prototype.getPossibleEnemy = function () {
+    return this.getPossibleEnemy2(this.currentDistance);
 }
 
 mapAdventureInformation.prototype.setDistance = function (newDistance) {

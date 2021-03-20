@@ -19,12 +19,14 @@ var mainInterval = null;
 var messages = [];
 
 var SLOW_SPEED = 1000;
+var ADV_SLOW_SPEED = 800;
 var FAST_SPEED = 100;
 var SAVE_SPEED = 1000 * 30;
 
 var lastProcess = Date.now();
 var lastSaveTick = Date.now();
 var lastTick = Date.now() - SLOW_SPEED;
+var adventureLastTick = Date.now() - ADV_SLOW_SPEED;
 var tickCount = 0;
 var totalGameTime = 0;
 
@@ -157,7 +159,6 @@ function prepareTick() {
         resources[t].prepareTick();
     }
 
-    currentMapAdventure.prepareTick();
     prepareMapBuildingTick();
 }
 
@@ -168,7 +169,6 @@ function processTick() {
         prepareTick();
 
         processMapBuildingTick();
-        currentMapAdventure.processTick();
         processQuestTick();
         processSkillTick();
 
@@ -185,6 +185,14 @@ function processTick() {
         hadChange = true;
         lastTick += getTimeoutSpeed();
         tickCount++;
+    }
+
+    while (adventureLastTick + getAdvTimeoutSpeed() < Date.now()) {
+        currentMapAdventure.prepareTick();
+        currentMapAdventure.processTick();
+
+        adventureLastTick += getAdvTimeoutSpeed();
+        hadChange = true;
     }
 
     if (lastSaveTick + SAVE_SPEED < Date.now()) {
@@ -242,6 +250,19 @@ function getTickPercentage() {
     return p;
 }
 
+function getAdvTickPercentage() {
+    var speed = getAdvTimeoutSpeed();
+    var leftTime = Date.now() - adventureLastTick;
+
+    var p = leftTime / speed;
+
+    if (p < 0)
+        return 0;
+    if (p > 1)
+        return 1;
+    return p;
+}
+
 function toggleFast() {
     if (fastIsOn) {
         fastIsOn = false;
@@ -256,6 +277,12 @@ function toggleFast() {
 function getTimeoutSpeed() {
     if (!fastIsOn)
         return SLOW_SPEED;
+    return FAST_SPEED;
+}
+
+function getAdvTimeoutSpeed() {
+    if (!fastIsOn)
+        return ADV_SLOW_SPEED;
     return FAST_SPEED;
 }
 
