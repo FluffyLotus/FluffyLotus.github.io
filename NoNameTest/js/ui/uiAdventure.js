@@ -329,8 +329,13 @@ function uiDrawAdventureMap() {
     {
         var test = 0;
         test = tickP - 0.5;
-        test = 0.5 - Math.abs(test);
-        test *= 50;
+
+        if (test > 0.4 || test < -0.4)
+            test = 0
+        else {
+            test = 0.5 - Math.abs(test);
+            test *= 50;
+        }
 
         var px, py;
 
