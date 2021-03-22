@@ -3,6 +3,8 @@ var UPGRADE_TYPE_NEW_REWARD = 2;
 var UPGRADE_TYPE_NEW_POUTPUT = 3;
 var UPGRADE_TYPE_REDUCE_REQUIREMENTS = 4;
 
+var _resourceShardCache = null;
+
 function buildingUpgrade() {
     this.id = 0;
     this.name = "";
@@ -30,7 +32,7 @@ buildingUpgrade.prototype.isMaxLevel = function () {
 buildingUpgrade.prototype.canUpgrade = function () {
     if (this.isMaxLevel())
         return false;
-    if (getResourceFromId(RESOURCE_SHARD).amount < this.getUpgradeShardAmount())
+    if (_resourceShardCache.amount < this.getUpgradeShardAmount())
         return false;
     return true;
 }
@@ -39,7 +41,7 @@ buildingUpgrade.prototype.upgrade = function () {
     if (!this.canUpgrade())
         return false;
 
-    getResourceFromId(RESOURCE_SHARD).addAmount(-this.getUpgradeShardAmount());
+    _resourceShardCache.addAmount(-this.getUpgradeShardAmount());
     this.level += 1;
 
     return true;
@@ -121,3 +123,17 @@ function createBuildingUpgrade_Reward(itemId, name, description, maxLevel, shard
     return item;
 }
 
+function setRefBuildingUpgrade(upgrades) {
+    for (var t = 0; t < upgrades.length; t++) {
+        setRefResourceLinks(upgrades[t].reward);
+
+        if (upgrades[t].particleOutput != null) {
+            //upgrades[t].particleOutput.particleRef = getParticleFromId(upgrades[t].particleOutput.particleId);
+            upgrades[t].particleOutput.particleRef = upgrades[t].particleOutput.particleRef;
+
+            setRefResourceLinks(upgrades[t].particleOutput.rewards);
+        }
+    }
+
+    _resourceShardCache = getResourceFromId(RESOURCE_SHARD);
+}

@@ -9,6 +9,8 @@
     this.skillInstances = [];
 
     this.vitalityTickDelta = 0;
+
+    this.enemyRef = null;
 }
 
 enemyInstanceInformation.prototype.getSkillInstance = function (skillId) {
@@ -39,7 +41,8 @@ enemyInstanceInformation.prototype.isDead = function () {
 }
 
 enemyInstanceInformation.prototype.processDeath = function () {
-    getEnemyFromId(this.enemyId).processDeath(this.level);
+    //getEnemyFromId(this.enemyId).processDeath(this.level);
+    this.enemyRef.processDeath(this.level);
 }
 
 enemyInstanceInformation.prototype.processAttackSkills = function () {
@@ -77,7 +80,8 @@ enemyInstanceInformation.prototype.getAllAttack = function () {
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                var skill = getSkillFromId(attackSkills[t].skillId);
+                //var skill = getSkillFromId(attackSkills[t].skillId);
+                var skill = attackSkills[t].skillRef;
 
                 appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
@@ -96,7 +100,8 @@ enemyInstanceInformation.prototype.getAllDefence = function () {
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                var skill = getSkillFromId(attackSkills[t].skillId);
+                //var skill = getSkillFromId(attackSkills[t].skillId);
+                var skill = attackSkills[t].skillRef;
 
                 appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
@@ -113,6 +118,7 @@ function createEnemyInstance(enemyId, level) {
     var enemy = getEnemyFromId(enemyId);
 
     inst.enemyId = enemyId;
+    inst.enemyRef = getEnemyFromId(inst.enemyId);
     inst.level = level;
     inst.maxVitality = enemy.getVitality(level);
     inst.vitality = inst.maxVitality;

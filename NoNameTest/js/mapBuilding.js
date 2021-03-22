@@ -160,6 +160,7 @@ mapBuilding.prototype.generateGrid = function (mapData) {
             var c = new mapGridInformation();
 
             c.cellId = mapData[x + (y * this.mapWidth)];
+            c.cellRef = getCellFromId(c.cellId);
 
             this.grid[x + (y * this.mapWidth)] = c;
         }
@@ -183,8 +184,10 @@ mapBuilding.prototype.processTick = function () {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
             if (curGrid.buildingInst != null) {
-                if (curGrid.isConnectedToStorage || !getBuildingFromId(curGrid.buildingInst.buildingId).needStorage) {
-                    var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
+                //if (curGrid.isConnectedToStorage || !getBuildingFromId(curGrid.buildingInst.buildingId).needStorage) {
+                if (curGrid.isConnectedToStorage || !curGrid.buildingInst.buildingRef.needStorage) {
+                    //var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
+                    var curBuilding = curGrid.buildingInst.buildingRef;
 
                     if (curBuilding.hasTickRequirements(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel)) {
                         curBuilding.processTickRequirements(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel);
@@ -199,10 +202,12 @@ mapBuilding.prototype.processTick = function () {
     for (var y = 0; y < this.mapHeight; y++) {
         for (var x = 0; x < this.mapWidth; x++) {
             var sourceGrid = this.grid[x + (y * this.mapWidth)];
-            var cell = getCellFromId(sourceGrid.cellId);
+            //var cell = getCellFromId(sourceGrid.cellId);
+            var cell = sourceGrid.cellRef;
 
             if (sourceGrid.buildingInst != null) {
-                var building = getBuildingFromId(sourceGrid.buildingInst.buildingId);
+                //var building = getBuildingFromId(sourceGrid.buildingInst.buildingId);
+                var building = sourceGrid.buildingInst.buildingRef;
 
                 if (sourceGrid.processBuildingTick) {
                     var particleId = -1;
@@ -262,7 +267,8 @@ mapBuilding.prototype.processTick = function () {
     for (var y = 0; y < this.mapHeight; y++) {
         for (var x = 0; x < this.mapWidth; x++) {
             var curGrid = this.grid[x + (y * this.mapWidth)];
-            var curCell = getCellFromId(curGrid.cellId);
+            //var curCell = getCellFromId(curGrid.cellId);
+            var curCell = curGrid.cellRef;
 
             if (curGrid.particles.length == 1) {
                 if (curGrid.particles[0].particleId == curCell.importParticleId) {
@@ -278,10 +284,15 @@ mapBuilding.prototype.processTick = function () {
             var curGrid = this.grid[x + (y * this.mapWidth)];
 
             if (curGrid.buildingInst != null && (curGrid.isConnectedToStorage && curGrid.processBuildingTick)) {
-                var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
+                //var curBuilding = getBuildingFromId(curGrid.buildingInst.buildingId);
+                var curBuilding = curGrid.buildingInst.buildingRef;
 
                 curBuilding.processTickRewards(curGrid.buildingInst.buildingLevel, curGrid.buildingInst.buildingGradeLevel);
-                curBuilding.processParticleOutput(curGrid.getOutputParticleId(), Math.min(curGrid.getOutputParticleLevel(), curGrid.buildingInst.buildingLevel));
+
+                var op = curGrid.getOutputParticle();
+
+                if (op != null)
+                    curBuilding.processParticleOutput(op.particleId, Math.min(op.particleLevel, curGrid.buildingInst.buildingLevel));
             }
         }
     }
@@ -477,4 +488,7 @@ function loadMapBuilding() {
     newItem.name = "Old City";
     newItem.generateGrid(mapsData[6]);
     mapBuildings.push(newItem);
+}
+
+function setRefMapBuilding() {
 }

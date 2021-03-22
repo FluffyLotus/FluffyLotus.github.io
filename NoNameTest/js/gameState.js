@@ -196,6 +196,7 @@ function LoadSaveGame(saveData) {
                 item.grid[subItem.i].buildingInst.buildingLevel = subItem.bl;
                 item.grid[subItem.i].buildingInst.buildingRotation = subItem.br;
                 item.grid[subItem.i].buildingInst.buildingGradeLevel = subItem.gl;
+                item.grid[subItem.i].buildingInst.buildingRef = getBuildingFromId(subItem.bi);
 
                 getBuildingFromId(item.grid[subItem.i].buildingInst.buildingId).addBuildingInstance(item.grid[subItem.i].buildingInst);
             }

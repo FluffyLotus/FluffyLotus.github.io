@@ -18,6 +18,8 @@
     this.isResourceReserved = false;
     this.wentToLocation = false;
     this.isCompleted = false;
+
+    this.foundMapRef = null; // TODO
 }
 
 questInformation.prototype.needToReserve = function () {
@@ -62,7 +64,8 @@ questInformation.prototype.setAsActive = function () {
 
     // Is this the best place to do it?
     this.foundMapId = currentMapAdventure.currentMapAdventureId;
-    this.foundDistance = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
+    this.foundMapRef = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId);
+    this.foundDistance = this.foundMapRef.currentDistance;
 
     addDataLink(this.startRewards);
 
@@ -298,6 +301,15 @@ function loadQuests() {
     newItem.compleStory = "Mauris non ultricies justo. Etiam aliquet velit ex, eget viverra lorem commodo in. Curabitur laoreet nec eros id lacinia. Aenean in tristique ipsum. Aliquam elementum sed tellus vel dapibus. In ac eros ac felis pulvinar elementum. Vivamus molestie maximus dolor, eu ultricies lacus luctus eu. Donec tristique, arcu nec pretium porttitor, ipsum turpis vehicula nisi, id elementum leo diam sit amet metus. Maecenas iaculis mauris eu justo feugiat molestie.";
     newItem.passiveRequirements.push(createDataLink("adventure", "currentDistance", 0, 2200));
     quests.push(newItem);
+}
+
+function setRefQuests() {
+    for (var t = 0; t < quests.length; t++) {
+        setRefDataLink(quests[t].passiveRequirements);
+        setRefDataLink(quests[t].activeRequirements);
+        setRefDataLink(quests[t].startRewards);
+        setRefDataLink(quests[t].rewards);
+    }
 }
 
 function processQuestTick() {

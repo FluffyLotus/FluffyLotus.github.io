@@ -27,7 +27,8 @@ function uiGetLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
+        //str += curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
+        str += curLink.amount + " " + curLink.resourceRef.name;
     }
 
     return str;
@@ -42,7 +43,8 @@ function uiGetNegLinksString(links) {
         if (str != "")
             str += ", ";
 
-        str += "-" + curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
+        //str += "-" + curLink.amount + " " + getResourceFromId(curLink.resourceId).name;
+        str += "-" + curLink.amount + " " + curLink.resourceRef.name;
     }
 
     return str;

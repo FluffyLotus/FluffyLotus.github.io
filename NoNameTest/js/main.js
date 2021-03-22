@@ -9,7 +9,9 @@ var mapBuildings = [];
 var mapAdventures = [];
 var tileTemplates = [];
 
-var currentMapBuilding = 0;
+var currentMapBuildingId = 0;
+var currentMapBuildingRef = null;
+
 var currentMapAdventure = null;
 
 var fastIsOn = false;
@@ -29,6 +31,8 @@ var lastTick = Date.now() - SLOW_SPEED;
 var adventureLastTick = Date.now() - ADV_SLOW_SPEED;
 var tickCount = 0;
 var totalGameTime = 0;
+
+var _cacheTimeEssence = null;
 
 function loadIcon() {
     var elems = $("[data-spritesheetimage]");
@@ -75,8 +79,18 @@ function loadApp() {
     loadEnemies();
     loadQuests();
     loadTileTemplate();
-
     loadMapAdventureInstance();
+
+    setRefSkills();
+    setRefResources();
+    setRefCells();
+    setRefParticles();
+    setRefBuildings();
+    setRefAdventure();
+    setRefMapBuilding();
+    setRefEnemies();
+    setRefQuests();
+    setRefTileTemplate();
 
     uiLoadAdventure();
 
@@ -93,7 +107,7 @@ function loadApp() {
     loadIcon();
 
     ////////////////
-    if (true) {
+    if (false) {
         for (var t = 0; t < buildings.length; t++)
             buildings[t].available = true;
 
@@ -143,7 +157,11 @@ function loadApp() {
     getMapBuildingFromId(0).isActive = true;
     getMapAdventureFromId(0).isActive = true;
 
+    _cacheTimeEssence = getResourceFromId(RESOURCE_TIMEESSENCE)
+
     currentMapAdventure.loadMapGrid();
+
+    currentMapBuildingRef = getMapBuildingFromId(currentMapBuildingId);
 
     uiCreateGrid();
     uiDrawGrid();
@@ -173,11 +191,11 @@ function processTick() {
         processSkillTick();
 
         if (fastIsOn) {
-            if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0) {
-                getResourceFromId(RESOURCE_TIMEESSENCE).addAmount(-1);
+            if (_cacheTimeEssence.amount > 0) {
+                _cacheTimeEssence.addAmount(-1);
             }
 
-            if (getResourceFromId(RESOURCE_TIMEESSENCE).amount <= 0) {
+            if (_cacheTimeEssence.amount <= 0) {
                 fastIsOn = false;
             }
         }
@@ -222,7 +240,7 @@ function processTick() {
         $("#saveSecond").text(SAVE_SPEED / 1000);        
         $("#realTimeElapse").text(displayTime(Math.floor(totalGameTime / 1000)));
 
-        if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0)
+        if (_cacheTimeEssence.amount > 0)
             $("#btnFast").show();
         else
             $("#btnFast").hide();
@@ -268,7 +286,7 @@ function toggleFast() {
         fastIsOn = false;
     }
     else {
-        if (getResourceFromId(RESOURCE_TIMEESSENCE).amount > 0) {
+        if (_cacheTimeEssence.amount > 0) {
             fastIsOn = true;
         }
     }

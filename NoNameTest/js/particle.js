@@ -10,6 +10,8 @@ function particleInformation() {
     this.id = 0;
     this.name = "";
     this.imageName = "";
+
+    this.imageRef = null;
 }
 
 function getParticleFromId(id) {
@@ -65,4 +67,10 @@ function loadParticles() {
     newItem.name = "Black Particle";
     newItem.imageName = "particle_6";
     particles.push(newItem);
+}
+
+function setRefParticles() {
+    for (var t = 0; t < particles.length; t++) {
+        particles[t].imageRef = getImageFromName(particles[t].imageName);
+    }
 }

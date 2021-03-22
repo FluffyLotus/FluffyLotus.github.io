@@ -3,6 +3,9 @@
     this.name = "";
     this.floorTile = "";
     this.object = "";
+
+    this.floorTileRef = null;
+    this.objectRef = null;
 }
 
 function loadTileTemplate() {
@@ -58,4 +61,11 @@ function getTileTemplateFromId(id) {
     }
 
     return null;
+}
+
+function setRefTileTemplate() {
+    for (var t = 0; t < tileTemplates.length; t++) {
+        tileTemplates[t].floorTileRef = getImageFromName(tileTemplates[t].floorTile);
+        tileTemplates[t].objectRef = getImageFromName(tileTemplates[t].object);
+    }
 }

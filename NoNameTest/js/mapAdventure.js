@@ -1,6 +1,8 @@
 ﻿function mapEventInformation() {
     this.distance = 0;
     this.questId = -1;
+
+    this.questRef = null;
 }
 
 function createQuestMapEvent(distance, questId) {
@@ -18,6 +20,8 @@ function enemyRangeInformation() {
     this.maxDistance = 9999999999;
     this.modulo = 10;
     this.weight = 0;
+
+    this.enemyRef = null;
 }
 
 function createEnemyRangeInformation(enemyId, min, max, modulo, weight) {
@@ -41,9 +45,11 @@ function mapAdventureInformation() {
     this.enemies = [];
     this.events = [];
     this.isActive = false;
-
     this.farTiles = [];
     this.nearTiles = [];
+
+    this.farTilesRef = [];
+    this.nearTilesRef = [];
 }
 
 mapAdventureInformation.prototype.getEnemyLevelFromDistance = function () {
@@ -167,7 +173,7 @@ function loadAdventure() {
     newItem.events.push(createQuestMapEvent(650, 5));
     newItem.events.push(createQuestMapEvent(2200, 7));
     mapAdventures.push(newItem);
-    
+
     newItem = new mapAdventureInformation();
     newItem.id = 1;
     newItem.name = "Canyon"; // To Desert
@@ -227,18 +233,45 @@ function loadAdventure() {
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_RAT, 0, 3000, 10, 100));
     newItem.enemies.push(createEnemyRangeInformation(ENEMY_SKELETON, 1100, 3000, 10, 100));
     newItem.events.push(createQuestMapEvent(1100, 10));
-    mapAdventures.push(newItem); 
+    mapAdventures.push(newItem);
 }
+
+function setRefAdventure() {
+    for (var t = 0; t < mapAdventures.length; t++) {
+        for (var i = 0; i < mapAdventures[t].farTiles.length; i++) {
+            mapAdventures[t].farTilesRef[i] = getTileTemplateFromId(mapAdventures[t].farTiles[i]);
+        }
+        for (var i = 0; i < mapAdventures[t].nearTiles.length; i++) {
+            mapAdventures[t].nearTilesRef[i] = getTileTemplateFromId(mapAdventures[t].nearTiles[i]);
+        }
+
+        for (var i = 0; i < mapAdventures[t].events.length; i++) {
+            mapAdventures[t].events[i].questRef = getQuestFromId(mapAdventures[t].events[i].questId);
+        }
+        for (var i = 0; i < mapAdventures[t].enemies.length; i++) {
+            mapAdventures[t].enemies[i].enemyRef = getEnemyFromId(mapAdventures[t].enemies[i].enemyId);
+        }
+    }
+}
+
+var _canChangeMapVal = false;
 
 function canChangeMap() {
     var count = 0;
 
+    if (_canChangeMapVal)
+        return true;
+
     for (var t = 0; t < mapAdventures.length; t++) {
         if (mapAdventures[t].isActive) {
-            if (count == 1)
+            if (count == 1) {
+                _canChangeMapVal = true;
                 return true;
-            if (mapAdventures[t].maxDistance >= 1000)
+            }
+            if (mapAdventures[t].maxDistance >= 1000) {
+                _canChangeMapVal = true;
                 return true;
+            }
             count++;
         }
     }

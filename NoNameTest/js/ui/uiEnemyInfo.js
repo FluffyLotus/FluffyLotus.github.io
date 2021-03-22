@@ -49,5 +49,7 @@ function uiShowEnemyInfoTooltip(event) {
         }
     }
 
-    uiSetTooltip(left, "");
+    var right = "<b>Total Kill: </b>" + curEnemy.totalDeath;
+
+    uiSetTooltip(left, right);
 }

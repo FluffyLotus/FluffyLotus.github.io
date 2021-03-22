@@ -44,6 +44,9 @@ function enemyInformation() {
 
     this.experience = 0;
     this.nextLevel = 100; // Increase by 100 everytime
+
+    this.imageNameRef = null;
+    this.skillsRef = [];
 }
 
 enemyInformation.prototype.calculateNextLevel = function () {
@@ -196,7 +199,7 @@ function loadEnemies() {
     newItem = new enemyInformation();
     newItem.id = 8;
     newItem.name = "Skeleton";
-    newItem.imageName = "skeleton__Size2_SE";
+    newItem.imageName = "skeleton_Size2_SE";
     newItem.baseVitality = 50;
     newItem.baseStrength = 10;
     newItem.baseDefence = 0;
@@ -204,4 +207,14 @@ function loadEnemies() {
     newItem.mulStrength = 15;
     newItem.mulDefence = 10;
     enemies.push(newItem);
+}
+
+function setRefEnemies() {
+    for (var t = 0; t < enemies.length; t++) {
+        enemies[t].imageNameRef = getImageFromName(enemies[t].imageName);
+
+        for (var i = 0; i < enemies[t].skills.length; i++) {
+            enemies[t].skillsRef[i] = getSkillFromId(enemies[t].skills[i]);
+        }
+    }
 }

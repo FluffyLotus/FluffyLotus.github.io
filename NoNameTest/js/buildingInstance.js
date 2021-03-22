@@ -6,4 +6,6 @@ function buildingInstance() {
     this.buildingLevel = -1;
     this.buildingRotation = 0;
     this.buildingGradeLevel = 0;
+
+    this.buildingRef = null;
 }

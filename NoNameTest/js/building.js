@@ -32,6 +32,8 @@ var BUILDING_STONEEXTRACT = 56;
 function buildingParticleOutputInformation() {
     this.particleId = -1;
     this.rewards = [];
+
+    this.particleRef = null;
 }
 
 function createBuildingParticleOutput(particleId, rewards) {
@@ -63,6 +65,9 @@ function buildingInformation() {
     this.upgrades = [];
 
     this.buildingInstances = [];
+
+    this.imageNameRef = [];
+    this.generateParticleRef = null;
 }
 
 buildingInformation.prototype.getMaxAvailableGrade = function (grade) {
@@ -221,7 +226,8 @@ buildingInformation.prototype.getTickRewardsString = function (buildingLevel, gr
 
 buildingInformation.prototype.canBuildHere = function (mapGrid) {
     for (var i = 0; i < this.buildOnCellIsType.length; i++) {
-        if (this.buildOnCellIsType[i] == cells[mapGrid.cellId].type)
+        //if (this.buildOnCellIsType[i] == cells[mapGrid.cellId].type)
+        if (this.buildOnCellIsType[i] == mapGrid.cellRef.type)
             return true;
     }
 
@@ -239,9 +245,7 @@ function getBuildingFromId(id) {
 
 function loadBuildings() {
     var newItem;
-
-    // !!!
-
+    
     newItem = new buildingInformation();
     newItem.id = 0;
     newItem.name = "Axe";
@@ -264,7 +268,6 @@ function loadBuildings() {
         new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
-    // !!!
     newItem = new buildingInformation();
     newItem.id = 1;
     newItem.name = "Pick";
@@ -284,7 +287,6 @@ function loadBuildings() {
         new formulaLinear(1, 0.2)));
     buildings.push(newItem);
 
-    // !!!
     newItem = new buildingInformation();
     newItem.id = 2;
     newItem.name = "Resource Pipe";
@@ -292,8 +294,8 @@ function loadBuildings() {
     newItem.imageName = ["building_2"];
     //newItem.costRequirements.push(createResourceLink(RESOURCE_STONE, new formulaQuadratic(2, 10, true), 1.0));
     //newItem.costRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaQuadratic(2, 10, true), 1.0));
-    newItem.costRequirements.push(createResourceLink(RESOURCE_STONE, new formulaPow(1, 3, 20, true), 1.0));
-    newItem.costRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaPow(1, 3, 20, true), 1.0));
+    newItem.costRequirements.push(createResourceLink(RESOURCE_STONE, new formulaPow(1, 2, 20, true), 1.0));
+    newItem.costRequirements.push(createResourceLink(RESOURCE_WOOD, new formulaPow(1, 2, 20, true), 1.0));
     newItem.buildOnCellIsType = [CELL_TYPE_GRASS, CELL_TYPE_GROUND, CELL_TYPE_SAND, CELL_TYPE_SMALLOBSTACLE];
     buildings.push(newItem);
 
@@ -650,4 +652,21 @@ function loadBuildings() {
         [], //createResourceLink(RESOURCE_STONE, new formulaLinear(0, 1), 1.0),
         new formulaLinear(1, 0.2)));
     buildings.push(newItem);
+}
+
+function setRefBuildings() {
+    for (var t = 0; t < buildings.length; t++) {
+        for (var i = 0; i < buildings[t].imageName.length; i++) {
+            buildings[t].imageNameRef[i] = getImageFromName(buildings[t].imageName[i]);
+        }
+
+        buildings[t].generateParticleRef = getParticleFromId(buildings[t].generateParticleId);
+
+        setRefResourceLinks(buildings[t].costRequirements);
+        setRefResourceLinks(buildings[t].upgradeRequirements);
+        setRefResourceLinks(buildings[t].requirements);
+        setRefResourceLinks(buildings[t].rewards);
+
+        setRefBuildingUpgrade(buildings[t].upgrades);
+    } 
 }

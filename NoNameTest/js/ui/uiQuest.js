@@ -1,4 +1,5 @@
-﻿var currentUISelectedQuest = -1;
+﻿var currentUISelectedQuestId = -1;
+var currentUISelectedQuestRef = null;
 
 function uiDrawQuest() {
     var showCompletedQuest = $("#showCompletedQuest").is(":checked");
@@ -25,7 +26,7 @@ function uiDrawQuest() {
                 $(newElement).click({ id: curQuest.id }, uiShowQuestInformation);
             }
 
-            if (curQuest.id == currentUISelectedQuest) {
+            if (curQuest.id == currentUISelectedQuestId) {
                 var allRequirements = curQuest.getAllRequirements();
 
                 // This is being executed every tick and re-executed in uiQuestDrawCurrentQuest
@@ -40,7 +41,7 @@ function uiDrawQuest() {
                     }
                 }
 
-                if (currentUISelectedQuest >= 0) {
+                if (currentUISelectedQuestId >= 0) {
                     if (curQuest.isCompleted) {
                         $("#singleQuestInfoCompleted").show();
                     }
@@ -58,11 +59,12 @@ function uiDrawQuest() {
 function uiShowQuestInformation(event) {
     var curQuest = getQuestFromId(event.data.id);
 
-    if (currentUISelectedQuest != -1) {
-        $("#questInfoRow" + currentUISelectedQuest).removeClass("active");
+    if (currentUISelectedQuestId != -1) {
+        $("#questInfoRow" + currentUISelectedQuestId).removeClass("active");
     }
 
-    currentUISelectedQuest = curQuest.id;
+    currentUISelectedQuestId = curQuest.id;
+    currentUISelectedQuestRef = getQuestFromId(curQuest.id);
 
     $("#questInfoRow" + curQuest.id).addClass("active");
 
@@ -89,10 +91,10 @@ function uiShowQuestInformation(event) {
 }
 
 function uiQuestDrawCurrentQuest() {
-    if (currentUISelectedQuest == -1)
+    if (currentUISelectedQuestId == -1)
         return;
 
-    var curQuest = getQuestFromId(currentUISelectedQuest);
+    var curQuest = currentUISelectedQuestRef;
     var allRequirements = curQuest.getAllRequirements();
 
     for (var i = 0; i < 4; i++) {
@@ -183,7 +185,8 @@ function uiQuestDrawCurrentQuest() {
 }
 
 function uiQuestReserveResource() {
-    var curQuest = getQuestFromId(currentUISelectedQuest);
+    //var curQuest = getQuestFromId(currentUISelectedQuestId);
+    var curQuest = currentUISelectedQuestRef;
 
     if (curQuest != null) {
         curQuest.reserveResource();
@@ -192,7 +195,8 @@ function uiQuestReserveResource() {
 
 function uiQuestTeleportToCheckpoint() {
     var canTeleport = true;
-    var curQuest = getQuestFromId(currentUISelectedQuest);
+    //var curQuest = getQuestFromId(currentUISelectedQuestId);
+    var curQuest = currentUISelectedQuestRef;
 
     if (curQuest != null) {
         if (currentMapAdventure.currentMapAdventureId == curQuest.foundMapId) {
@@ -208,7 +212,8 @@ function uiQuestTeleportToCheckpoint() {
 }
 
 function uiFillQuestStory() {
-    var curQuest = getQuestFromId(currentUISelectedQuest);
+    //var curQuest = getQuestFromId(currentUISelectedQuestId);
+    var curQuest = currentUISelectedQuestRef;
     var s1, s2;
 
     s1 = curQuest.activatedStory.replace("\n", "<br />");

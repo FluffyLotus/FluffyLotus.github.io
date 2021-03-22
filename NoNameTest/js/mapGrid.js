@@ -1,6 +1,8 @@
 ﻿function mapGridParticleInformation() {
     this.particleId = -1;
     this.particleLevel = -1;
+
+    this.particleRef = null;
 }
 
 function mapGridInformation() {
@@ -13,6 +15,8 @@ function mapGridInformation() {
     this.processBuildingTick = false;
 
     this.isConnectedToStorage = false;
+
+    this.cellRef = null;
 }
 
 mapGridInformation.prototype.prepareTick = function () {
@@ -34,30 +38,54 @@ mapGridInformation.prototype.addParticle = function (particleId, particleLevel) 
         var newP = new mapGridParticleInformation();
 
         newP.particleId = particleId;
+        newP.particleRef = getParticleFromId(particleId);
         newP.particleLevel = particleLevel;
 
         this.particles.push(newP);
     }
 }
 
-mapGridInformation.prototype.getOutputParticleId = function () {
-    if (this.particles.length == 0)
-        return -1;
-    if (this.particles.length == 1)
-        return this.particles[0].particleId;
-    return PARTICLE_STEAM;
-}
+//mapGridInformation.prototype.getOutputParticleId = function () {
+//    if (this.particles.length == 0)
+//        return -1;
+//    if (this.particles.length == 1)
+//        return this.particles[0].particleId;
+//    return PARTICLE_STEAM;
+//}
 
-mapGridInformation.prototype.getOutputParticleLevel = function () {
+//mapGridInformation.prototype.getOutputParticleLevel = function () {
+//    if (this.particles.length == 0)
+//        return -1;
+//    if (this.particles.length == 1)
+//        return this.particles[0].particleLevel;
+//    return 1;
+//}
+
+mapGridInformation.prototype.getOutputParticle = function () {
     if (this.particles.length == 0)
-        return -1;
-    if (this.particles.length == 1)
-        return this.particles[0].particleLevel;
-    return 1;
+        return null;
+    if (this.particles.length == 1) {
+        var ret = new mapGridParticleInformation();
+
+        ret.particleId = this.particles[0].particleId;
+        ret.particleLevel = this.particles[0].particleLevel;
+        ret.particleRef = this.particles[0].particleRef;
+
+        return ret;
+    }
+
+    var ret = new mapGridParticleInformation();
+
+    ret.particleId = PARTICLE_STEAM;
+    ret.particleLevel = 1; // Might need to be the sum of all level?
+    ret.particleRef = getParticleFromId(PARTICLE_STEAM);
+
+    return ret;
 }
 
 mapGridInformation.prototype.processClick = function () {
-    var curCell = getCellFromId(this.cellId);
+    //var curCell = getCellFromId(this.cellId);
+    var curCell = this.cellRef;
 
     addResourceLink(curCell.clickReward, 1);
 
@@ -111,6 +139,7 @@ mapGridInformation.prototype.processAddBuilding = function (buildingId, building
                 this.buildingInst.buildingGradeLevel = buildingGradeLevel;
                 this.buildingInst.buildingLevel = 1;
                 this.buildingInst.buildingRotation = 0;
+                this.buildingInst.buildingRef = curBuilding;
 
                 curBuilding.addBuildingInstance(this.buildingInst);
 

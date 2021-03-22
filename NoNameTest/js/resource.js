@@ -40,6 +40,9 @@ function resourceInformation() {
     this.tickDelta = 0;
 }
 
+var _building1ForResource = null;
+var _building2ForResource = null;
+
 resourceInformation.prototype.getAmountLimit = function () {
     if (this.amountLimit == -1)
         return this.amountLimit;
@@ -47,12 +50,17 @@ resourceInformation.prototype.getAmountLimit = function () {
     // TODO: This is a test
     var extra = 0;
 
-    for (var t = 0; t < getBuildingFromId(BUILDING_STORAGE).buildingInstances.length; t++) {
-        extra += getBuildingFromId(BUILDING_STORAGE).buildingInstances[t].buildingLevel * 500;
+    if (_building1ForResource == null)
+        _building1ForResource = getBuildingFromId(BUILDING_STORAGE);
+    if (_building2ForResource == null)
+        _building2ForResource = getBuildingFromId(BUILDING_WAREHOUSE);
+
+    for (var t = 0; t < _building1ForResource.buildingInstances.length; t++) {
+        extra += _building1ForResource.buildingInstances[t].buildingLevel * 500;
     }
 
-    for (var t = 0; t < getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances.length; t++) {
-        extra += getBuildingFromId(BUILDING_WAREHOUSE).buildingInstances[t].buildingLevel * 1000;
+    for (var t = 0; t < _building2ForResource.buildingInstances.length; t++) {
+        extra += _building2ForResource.buildingInstances[t].buildingLevel * 1000;
     }
 
     if (this.amountLimit > extra)
@@ -252,4 +260,7 @@ function loadResources() {
     newItem.amountLimit = 1;
     newItem.isSpecial = true;
     resources.push(newItem);
+}
+
+function setRefResources() {
 }

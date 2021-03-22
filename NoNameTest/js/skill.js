@@ -208,3 +208,10 @@ function loadSkills() {
     newItem.element = ELEMENT_RED;
     skills.push(newItem);
 }
+
+function setRefSkills() {
+    for (var t = 0; t < skills.length; t++) {
+        setRefResourceLinks(skills[t].trainingRequirements);
+        setRefResourceLinks(skills[t].useRequirements);
+    }
+}

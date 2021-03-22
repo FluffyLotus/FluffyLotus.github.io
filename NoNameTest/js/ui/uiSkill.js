@@ -30,7 +30,8 @@ function uiDrawSkills() {
 function uiDrawPassiveSkills() {
     for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
         var curSkill = currentMapAdventure.currentPlayer.skills[t];
-        var skillInfo = getSkillFromId(curSkill.skillId);
+        //var skillInfo = getSkillFromId(curSkill.skillId);
+        var skillInfo = curSkill.skillRef;
 
         if (skillInfo.isPassive()) {
             if (!curSkill.isVisible() && $("#passiveSkillRow" + curSkill.skillId).length > 0) {
@@ -80,7 +81,8 @@ function uiDrawActiveSkills() {
 
     for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
         var curSkill = currentMapAdventure.currentPlayer.skills[t];
-        var skillInfo = getSkillFromId(curSkill.skillId);
+        //var skillInfo = getSkillFromId(curSkill.skillId);
+        var skillInfo = curSkill.skillRef;
 
         if (!skillInfo.isPassive()) {
             if (!curSkill.isVisible() && $("#activeSkillRow" + curSkill.skillId).length > 0) {
@@ -137,7 +139,8 @@ function uiDrawActiveSkills() {
 
 function uiShowSkillTooltip(event) {
     var curSkill = currentMapAdventure.currentPlayer.getSkillInstance(event.data.id);
-    var skillInfo = getSkillFromId(curSkill.skillId);
+    //var skillInfo = getSkillFromId(curSkill.skillId);
+    var skillInfo = curSkill.skillRef;
 
     var left = "";
     var right = "";

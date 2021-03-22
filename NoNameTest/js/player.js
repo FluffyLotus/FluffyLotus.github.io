@@ -13,6 +13,8 @@ function playerInformation() {
     this.imageName = "character_main_Size2_NE";
 
     this.skills = [];
+
+    this.imageNameRef = null;
 }
 
 playerInformation.prototype.getVitality = function () {
@@ -76,7 +78,8 @@ playerInformation.prototype.processPassiveSkills = function () {
         var curSkillInst = this.skills[i];
 
         // Passive skills
-        if (curSkillInst.isEquip && getSkillFromId(curSkillInst.skillId).isPassive()) {
+        //if (curSkillInst.isEquip && getSkillFromId(curSkillInst.skillId).isPassive()) {
+        if (curSkillInst.isEquip && curSkillInst.skillRef.isPassive()) {
             curSkillInst.execute();
         }
     }
@@ -141,7 +144,8 @@ playerInformation.prototype.getAllAttack = function () {
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                var skill = getSkillFromId(attackSkills[t].skillId);
+                //var skill = getSkillFromId(attackSkills[t].skillId);
+                var skill = attackSkills[t].skillRef;
 
                 appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
@@ -160,7 +164,8 @@ playerInformation.prototype.getAllDefence = function () {
     for (var t = 0; t < attackSkills.length; t++) {
         if (attackSkills[t].isEquip) {
             if (attackSkills[t].isExecuting()) {
-                var skill = getSkillFromId(attackSkills[t].skillId);
+                //var skill = getSkillFromId(attackSkills[t].skillId);
+                var skill = attackSkills[t].skillRef;
 
                 appendElementValue(ret, skill.element, attackSkills[t].getAmount());
             }
@@ -190,6 +195,8 @@ function createPlayer() {
 
     pi.skills.push(createSkillInstance(SKILL_HEAL, false));
     pi.skills.push(createSkillInstance(SKILL_FIRE, false));
+
+    pi.imageNameRef = getImageFromName(pi.imageName);
 
     return pi;
 }

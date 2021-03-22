@@ -2,6 +2,8 @@
     this.resourceId = 0;
     this.formula = null;
     this.chance = 1;
+
+    this.resourceRef = null;
 }
 
 resourceLink.prototype.getAmount = function (x, extraMul = 1) {
@@ -9,15 +11,18 @@ resourceLink.prototype.getAmount = function (x, extraMul = 1) {
 }
 
 resourceLink.prototype.hasResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).amount >= this.getAmount(x, extraMul);
+    //return getResourceFromId(this.resourceId).amount >= this.getAmount(x, extraMul);
+    return this.resourceRef.amount >= this.getAmount(x, extraMul);
 }
 
 resourceLink.prototype.removeResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).addAmount(-this.getAmount(x, extraMul));
+    //return getResourceFromId(this.resourceId).addAmount(-this.getAmount(x, extraMul));
+    return this.resourceRef.addAmount(-this.getAmount(x, extraMul));
 }
 
 resourceLink.prototype.addResource = function (x, extraMul = 1) {
-    return getResourceFromId(this.resourceId).addAmount(this.getAmount(x, extraMul));
+    //return getResourceFromId(this.resourceId).addAmount(this.getAmount(x, extraMul));
+    return this.resourceRef.addAmount(this.getAmount(x, extraMul));
 }
 
 resourceLink.prototype.gotChance = function () {
@@ -66,8 +71,18 @@ function getResourceLinkString(links, x, extraMul = 1) {
         if (str != "")
             str += ", ";
 
-        str += nFormatter(links[t].getAmount(x, extraMul)) + " " + getResourceFromId(links[t].resourceId).name;
+        //str += nFormatter(links[t].getAmount(x, extraMul)) + " " + getResourceFromId(links[t].resourceId).name;
+        str += nFormatter(links[t].getAmount(x, extraMul)) + " " + links[t].resourceRef.name;
     }
 
     return str;
 }
+
+function setRefResourceLinks(links) {
+    if (links == null)
+        return;
+
+    for (var t = 0; t < links.length; t++) {
+        links[t].resourceRef = getResourceFromId(links[t].resourceId);
+    }
+} 

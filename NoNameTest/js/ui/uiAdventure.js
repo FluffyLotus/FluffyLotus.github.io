@@ -11,15 +11,20 @@ function uiLoadAdventure() {
 }
 
 function uiDrawAdventure() {
-    var imgX = getImagePositionX("cell", currentMapAdventure.currentPlayer.imageName);
-    var imgY = getImagePositionY("cell", currentMapAdventure.currentPlayer.imageName);
+    //var imgX = getImagePositionX("cell", currentMapAdventure.currentPlayer.imageName);
+    //var imgY = getImagePositionY("cell", currentMapAdventure.currentPlayer.imageName);
+    var imgX = currentMapAdventure.currentPlayer.imageNameRef.X;
+    var imgY = currentMapAdventure.currentPlayer.imageNameRef.Y;
 
     $("#playerImage").css('background-position-x', -imgX + 'px');
     $("#playerImage").css('background-position-y', -imgY + 'px');
 
-    document.getElementById("adventureMapSelected").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).name;
-    document.getElementById("playerDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
-    document.getElementById("playerMaxDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).maxDistance;
+    //document.getElementById("adventureMapSelected").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).name;
+    document.getElementById("adventureMapSelected").innerText = currentMapAdventure.currentMapAdventureRef.name;
+    //document.getElementById("playerDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).currentDistance;
+    document.getElementById("playerDistance").innerText = currentMapAdventure.currentMapAdventureRef.currentDistance;
+    //document.getElementById("playerMaxDistance").innerText = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId).maxDistance;
+    document.getElementById("playerMaxDistance").innerText = currentMapAdventure.currentMapAdventureRef.maxDistance;
 
     document.getElementById("playerCurrentLife").innerText = currentMapAdventure.currentPlayer.vitality;
     document.getElementById("playerMaxLife").innerText = currentMapAdventure.currentPlayer.getVitality();
@@ -49,15 +54,18 @@ function uiDrawAdventure() {
 
         //document.getElementById("enemyImage").src = "images/enemy_" + currentMapAdventure.currentEnemy.enemyId + ".png";
 
-        var imgX = getImagePositionX("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
-        var imgY = getImagePositionY("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
+        //var imgX = getImagePositionX("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
+        //var imgY = getImagePositionY("cell", getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).imageName);
+        var imgX = currentMapAdventure.currentEnemy.enemyRef.imageNameRef.X;
+        var imgY = currentMapAdventure.currentEnemy.enemyRef.imageNameRef.Y;
 
         $("#enemyImage").css('background-position-x', -imgX + 'px');
         $("#enemyImage").css('background-position-y', -imgY + 'px');
 
         document.getElementById("enemyCurrentLife").innerText = currentMapAdventure.currentEnemy.vitality;
 
-        document.getElementById("enemyName").innerText = getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).name + " lvl " + currentMapAdventure.currentEnemy.level;
+        //document.getElementById("enemyName").innerText = getEnemyFromId(currentMapAdventure.currentEnemy.enemyId).name + " lvl " + currentMapAdventure.currentEnemy.level;
+        document.getElementById("enemyName").innerText = currentMapAdventure.currentEnemy.enemyRef.name + " lvl " + currentMapAdventure.currentEnemy.level;
         document.getElementById("enemyMaxLife").innerText = currentMapAdventure.currentEnemy.maxVitality;
         document.getElementById("enemyAttack").innerText = currentMapAdventure.currentEnemy.strength;
         document.getElementById("enemyDefence").innerText = currentMapAdventure.currentEnemy.defence;
@@ -131,7 +139,8 @@ function uiDrawAdventureSkill() {
     if (currentMapAdventure.currentPlayer != null) {
         for (var t = 0; t < currentMapAdventure.currentPlayer.skills.length; t++) {
             var skillInst = currentMapAdventure.currentPlayer.skills[t];
-            var skill = getSkillFromId(skillInst.skillId);
+            //var skill = getSkillFromId(skillInst.skillId);
+            var skill = skillInst.skillRef;
 
             if (!skillInst.isActive || !skillInst.isEquip || skill.useRequirements.length == 0) {
                 $("#playerLiveItem" + skillInst.skillId).remove();
@@ -178,7 +187,8 @@ function uiDrawAdventureSkill() {
             skillCount++;
 
             var skillInst = currentMapAdventure.currentEnemy.skillInstances[t];
-            var skill = getSkillFromId(skillInst.skillId);
+            //var skill = getSkillFromId(skillInst.skillId);
+            var skill = skillInst.skillRef;
 
             if ($("#enemyLiveItem" + skillInst.skillId).length == 0) {
                 var newElement = $("#enemyLiveItem").clone();
@@ -215,7 +225,8 @@ function uiDrawAdventureSkill() {
 
 function uiShowSummaryPlayerSkillTooltip(event) {
     var curSkill = currentMapAdventure.currentPlayer.getSkillInstance(event.data.id);
-    var skillInfo = getSkillFromId(curSkill.skillId);
+    //var skillInfo = getSkillFromId(curSkill.skillId);
+    var skillInfo = curSkill.skillRef;
 
     var left = "";
     var right = "";
@@ -238,7 +249,8 @@ function uiShowSummaryPlayerSkillTooltip(event) {
 
 function uiShowSummaryEnemySkillTooltip(event) {
     var curSkill = currentMapAdventure.enemy.getSkillInstance(event.data.id);
-    var skillInfo = getSkillFromId(curSkill.skillId);
+    //var skillInfo = getSkillFromId(curSkill.skillId);
+    var skillInfo = curSkill.skillRef;
 
     var left = "";
     var right = "";
@@ -280,7 +292,8 @@ function uiDrawAdventureMap() {
     var tileTopMiddleX = 64;
     var tileTopMiddleY = 32;
 
-    var map = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId);
+    //var map = getMapAdventureFromId(currentMapAdventure.currentMapAdventureId);
+    var map = currentMapAdventure.currentMapAdventureRef;
 
     for (var d = ADVENTURE_MAP_GRID_LENGTH + ADVENTURE_MAP_GRID_WIDTH; d >= 0; d--) {
         for (var y = 0; y < ADVENTURE_MAP_GRID_LENGTH; y++) {
@@ -289,8 +302,9 @@ function uiDrawAdventureMap() {
                     var px, py;
                     var ty = ADVENTURE_MAP_GRID_LENGTH - 1 - y;
 
-                    var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
-                    imgInfo = getImageFromName(tile.floorTile);
+                    //var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
+                    var tile = currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)];
+                    imgInfo = tile.floorTileRef;
 
                     px = centerOfCanvasX - tileTopMiddleX + (y * tileTopMiddleX) - (x * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
                     py = centerOfCanvasY - tileTopMiddleY - (y * tileTopMiddleY) - (x * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY);
@@ -308,10 +322,11 @@ function uiDrawAdventureMap() {
                     var px, py;
                     var ty = ADVENTURE_MAP_GRID_LENGTH - 1 - y;
 
-                    var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
+                    //var tile = getTileTemplateFromId(currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)]);
+                    var tile = currentMapAdventure.mapGrid[x + (y * ADVENTURE_MAP_GRID_WIDTH)];
 
                     if (tile.object != "") {
-                        imgInfo = getImageFromName(tile.object);
+                        imgInfo = tile.objectRef;
 
                         px = centerOfCanvasX - tileTopMiddleX + (y * tileTopMiddleX) - (x * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
                         py = centerOfCanvasY - tileTopMiddleY - (y * tileTopMiddleY) - (x * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY);
@@ -330,19 +345,21 @@ function uiDrawAdventureMap() {
         var test = 0;
         test = tickP - 0.5;
 
-        if (test > 0.4 || test < -0.4)
-            test = 0
-        else {
+        //if (test > 0.4 || test < -0.4)
+        //    test = 0
+        //else {
             test = 0.5 - Math.abs(test);
             test *= 50;
-        }
+        //}
 
         var px, py;
 
         for (var t = 0; t < currentMapAdventure.mapEnemies.length; t++) {
-            var e = getEnemyFromId(currentMapAdventure.mapEnemies[t].enemy.enemyId);
+            //var e = getEnemyFromId(currentMapAdventure.mapEnemies[t].enemy.enemyId);
+            var e = currentMapAdventure.mapEnemies[t].enemy.enemyRef;
 
-            imgInfo = getImageFromName(e.imageName);
+            //imgInfo = getImageFromName(e.imageName);
+            imgInfo = e.imageNameRef;
 
             px = centerOfCanvasX - tileTopMiddleX + ((currentMapAdventure.mapEnemies[t].distance - currentMapAdventure.mapGridStart) * tileTopMiddleX) - (0 * tileTopMiddleX) - ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleX);
             py = centerOfCanvasY - tileTopMiddleY - ((currentMapAdventure.mapEnemies[t].distance - currentMapAdventure.mapGridStart) * tileTopMiddleY) - (0 * tileTopMiddleY) + ((map.currentDistance + tickP - currentMapAdventure.mapGridStart) * tileTopMiddleY); // - characterHeight;

@@ -7,10 +7,12 @@ function uiChangeShowBuildingLevel() {
 function uiCreateGrid() {
     var str = "";
 
-    for (var y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
+    //for (var y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
+    for (var y = 0; y < currentMapBuildingRef.mapHeight; y++) {
         str += "<tr>";
 
-        for (var x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
+        //for (var x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
+        for (var x = 0; x < currentMapBuildingRef.mapWidth; x++) {
             str += '<td id="cell_' + x + '_' + y + '" class="spriteSheetCell"><div id="particle_' + x + '_' + y + '" class="spriteSheetParticle"><div id="building_' + x + '_' + y + '" class="spriteSheetBuilding"><span id="buildingLevel_' + x + '_' + y + '" class="buildingLevel"></span></div></div></td>';
         }
 
@@ -19,8 +21,10 @@ function uiCreateGrid() {
 
     document.getElementById("mainGrid").innerHTML = str;
 
-    for (let y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
-        for (let x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
+    //for (let y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
+    for (let y = 0; y < currentMapBuildingRef.mapHeight; y++) {
+        //for (let x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
+        for (let x = 0; x < currentMapBuildingRef.mapWidth; x++) {
             document.getElementById('cell_' + x + '_' + y).onclick = function () { uiCellClick(x, y); };
             document.getElementById('cell_' + x + '_' + y).onmouseover = function () { uiCellHover(x, y); };
         }
@@ -66,20 +70,29 @@ function uiDrawGrid() {
         document.getElementById("btnFast").className = "btn btn-dark";
     }
 
-    for (var y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
-        for (var x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
-            var curGrid = getMapBuildingFromId(currentMapBuilding).grid[x + (y * getMapBuildingFromId(currentMapBuilding).mapWidth)];
+    //for (var y = 0; y < getMapBuildingFromId(currentMapBuilding).mapHeight; y++) {
+    for (var y = 0; y < currentMapBuildingRef.mapHeight; y++) {
+        //for (var x = 0; x < getMapBuildingFromId(currentMapBuilding).mapWidth; x++) {
+        for (var x = 0; x < currentMapBuildingRef.mapWidth; x++) {
+            //var curGrid = getMapBuildingFromId(currentMapBuilding).grid[x + (y * getMapBuildingFromId(currentMapBuilding).mapWidth)];
+            var curGrid = currentMapBuildingRef.grid[x + (y * currentMapBuildingRef.mapWidth)];
             var imgX, imgY;
 
-            imgX = getImagePositionX("cell", getCellFromId(curGrid.cellId).imageName);
-            imgY = getImagePositionY("cell", getCellFromId(curGrid.cellId).imageName);
+            //imgX = getImagePositionX("cell", getCellFromId(curGrid.cellId).imageName);
+            //imgY = getImagePositionY("cell", getCellFromId(curGrid.cellId).imageName);
+            imgX = curGrid.cellRef.imageNameRef.X;
+            imgY = curGrid.cellRef.imageNameRef.Y;
 
             $("#cell_" + x + "_" + y).css('background-position-x', -imgX + 'px');
             $("#cell_" + x + "_" + y).css('background-position-y', -imgY + 'px');
 
             if (curGrid.particles.length > 0) {
-                imgX = getImagePositionX("particle", getParticleFromId(curGrid.getOutputParticleId()).imageName);
-                imgY = getImagePositionY("particle", getParticleFromId(curGrid.getOutputParticleId()).imageName);
+                var op = curGrid.getOutputParticle();
+
+                //imgX = getImagePositionX("particle", op.particleRef.imageName);
+                //imgY = getImagePositionY("particle", op.particleRef.imageName);
+                imgX = op.particleRef.imageNameRef.X;
+                imgY = op.particleRef.imageNameRef.Y;
 
                 $("#particle_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#particle_" + x + "_" + y).css('background-position-y', -imgY + 'px');
@@ -90,15 +103,19 @@ function uiDrawGrid() {
             }
 
             if (curGrid.buildingInst != null && (curGrid.buildingInst.buildingId == BUILDING_STORAGEPIPE || curGrid.buildingInst.buildingId == BUILDING_UNDERGROUNDPIPE)) {
-                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
-                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
+                //imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
+                //imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + getMapBuildingFromId(currentMapBuilding).getSideStorageConnectionStr(x, y));
+                imgX = getImagePositionX("building", curGrid.buildingInst.buildingRef.imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + currentMapBuildingRef.getSideStorageConnectionStr(x, y));
+                imgY = getImagePositionY("building", curGrid.buildingInst.buildingRef.imageName[curGrid.buildingInst.buildingGradeLevel] + "_" + currentMapBuildingRef.getSideStorageConnectionStr(x, y));
 
                 $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
             }
             else if (curGrid.buildingInst != null) {
-                imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
-                imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
+                //imgX = getImagePositionX("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
+                //imgY = getImagePositionY("building", getBuildingFromId(curGrid.buildingInst.buildingId).imageName[curGrid.buildingInst.buildingGradeLevel]);
+                imgX = getImagePositionX("building", curGrid.buildingInst.buildingRef.imageName[curGrid.buildingInst.buildingGradeLevel]);
+                imgY = getImagePositionY("building", curGrid.buildingInst.buildingRef.imageName[curGrid.buildingInst.buildingGradeLevel]);
 
                 $("#building_" + x + "_" + y).css('background-position-x', -imgX + 'px');
                 $("#building_" + x + "_" + y).css('background-position-y', -imgY + 'px');
@@ -109,7 +126,8 @@ function uiDrawGrid() {
             }
 
             if (curGrid.buildingInst != null && showBuildingLevel) {
-                var b = getBuildingFromId(curGrid.buildingInst.buildingId);
+                //var b = getBuildingFromId(curGrid.buildingInst.buildingId);
+                var b = curGrid.buildingInst.buildingRef;
 
                 // Might need a .canUpgrade()
                 if (b.upgradeRequirements.length > 0)
@@ -128,17 +146,22 @@ function uiCellClick(gridX, gridY) {
     if (selectedBuildingId >= 0) {
         processAddBuilding = parseInt($("#buildingLevelBar").val()) - 1;
 
-        getMapBuildingFromId(currentMapBuilding).addBuilding(gridX, gridY, selectedBuildingId, processAddBuilding);
+        //getMapBuildingFromId(currentMapBuilding).addBuilding(gridX, gridY, selectedBuildingId, processAddBuilding);
+        currentMapBuildingRef.addBuilding(gridX, gridY, selectedBuildingId, processAddBuilding);
     }
     else if (selectedBuildingId == -1)
-        getMapBuildingFromId(currentMapBuilding).processGridClick(gridX, gridY);
+        //getMapBuildingFromId(currentMapBuilding).processGridClick(gridX, gridY);
+        currentMapBuildingRef.processGridClick(gridX, gridY);
     else if (selectedBuildingId == -2)
-        getMapBuildingFromId(currentMapBuilding).sellBuilding(gridX, gridY);
+        //getMapBuildingFromId(currentMapBuilding).sellBuilding(gridX, gridY);
+        currentMapBuildingRef.sellBuilding(gridX, gridY);
     else if (selectedBuildingId == -3) {
-        getMapBuildingFromId(currentMapBuilding).upgradeGrid(gridX, gridY);
+        //getMapBuildingFromId(currentMapBuilding).upgradeGrid(gridX, gridY);
+        currentMapBuildingRef.upgradeGrid(gridX, gridY);
     }
     else if (selectedBuildingId == -4) {
-        getMapBuildingFromId(currentMapBuilding).downgradeGrid(gridX, gridY);
+        //getMapBuildingFromId(currentMapBuilding).downgradeGrid(gridX, gridY);
+        currentMapBuildingRef.downgradeGrid(gridX, gridY);
     }
 
     uiCellHover(gridX, gridY);
@@ -150,15 +173,19 @@ function uiCellClick(gridX, gridY) {
 function uiCellHover(gridX, gridY) {
     var htmlData = "";
     var htmlData2 = "";
-    var curGrid = getMapBuildingFromId(currentMapBuilding).grid[gridX + (gridY * getMapBuildingFromId(currentMapBuilding).mapWidth)];
+    //var curGrid = getMapBuildingFromId(currentMapBuilding).grid[gridX + (gridY * getMapBuildingFromId(currentMapBuilding).mapWidth)];
+    var curGrid = currentMapBuildingRef.grid[gridX + (gridY * currentMapBuildingRef.mapWidth)];
 
     if (curGrid.buildingInst == null) {
-        var curCell = getCellFromId(curGrid.cellId);
+        //var curCell = getCellFromId(curGrid.cellId);
+        var curCell = curGrid.cellRef;
 
         htmlData = "<b>" + curCell.name + "</b>";
 
-        if (curGrid.getOutputParticleId() >= 0) {
-            htmlData += " with " + curGrid.getOutputParticleLevel() + " " + getParticleFromId(curGrid.getOutputParticleId()).name;
+        var op = curGrid.getOutputParticle();
+
+        if (op != null && op.particleId >= 0) {
+            htmlData += " with " + op.particleLevel + " " + op.particleRef.name;
         }
 
         if (curCell.clickReward.length > 0) {
@@ -166,11 +193,13 @@ function uiCellHover(gridX, gridY) {
         }
 
         if (curCell.innerParticleId >= 0) {
-            htmlData += "<br />Buried particles: " + getParticleFromId(curCell.innerParticleId).name + ".";
+            //htmlData += "<br />Buried particles: " + getParticleFromId(curCell.innerParticleId).name + ".";
+            htmlData += "<br />Buried particles: " + curCell.innerParticleRef.name + ".";
         }
 
         if (curCell.importParticleCount > 0) {
-            var curPart = getParticleFromId(curCell.importParticleId);
+            //var curPart = getParticleFromId(curCell.importParticleId);
+            var curPart = curCell.importParticleRef;
 
             htmlData += "<br />Imported " + curCell.importParticleCount + " " + curPart.name + ".";
         }
@@ -178,7 +207,12 @@ function uiCellHover(gridX, gridY) {
         uiSetTooltip(htmlData, htmlData2);
     }
     else {
-        uiBuildingHover(curGrid.buildingInst.buildingId, curGrid.buildingInst.buildingLevel, curGrid.getOutputParticleId(), curGrid.getOutputParticleLevel(), false);
+        var op = curGrid.getOutputParticle();
+
+        if(op == null)
+            uiBuildingHover(curGrid.buildingInst.buildingId, curGrid.buildingInst.buildingLevel, -1, 0, false);
+        else
+            uiBuildingHover(curGrid.buildingInst.buildingId, curGrid.buildingInst.buildingLevel, op.particleId, op.particleLevel, false);
     }
 
 }
@@ -254,7 +288,8 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
         }
 
         if (curBuilding.generateParticleId >= 0) {
-            htmlData += "<br />Particle Generated: " + getParticleFromId(curBuilding.generateParticleId).name;
+            //htmlData += "<br />Particle Generated: " + getParticleFromId(curBuilding.generateParticleId).name;
+            htmlData += "<br />Particle Generated: " + curBuilding.generateParticleRef.name;
         }
 
         //////////////
@@ -281,7 +316,8 @@ function uiBuildingHover(buildingId, buildingLevel, particleId, particleLevel, f
 }
 
 function uiChangeBuildMap() {
-    currentMapBuilding = parseInt(document.getElementById("mapSelected").value);
+    currentMapBuildingId = parseInt(document.getElementById("mapSelected").value);
+    currentMapBuildingRef = getMapBuildingFromId(currentMapBuildingId);
 }
 
 function uiDrawBuildMapSelection() {

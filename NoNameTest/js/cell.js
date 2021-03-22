@@ -28,6 +28,10 @@ function cellInformation() {
 
     this.importParticleId = -1;
     this.importParticleCount = 0;
+
+    this.imageNameRef = null;
+    this.innerParticleRef = -1;
+    this.importParticleRef = -1;
 }
 
 cellInformation.prototype.getClickRewardString = function () {
@@ -568,4 +572,14 @@ function loadCells() {
     newItem.imageName = "c_side_r";
     newItem.type = CELL_TYPE_OBSTACLE;
     cells.push(newItem);
+}
+
+function setRefCells() {
+    for (var t = 0; t < cells.length; t++) {
+        setRefResourceLinks(cells[t].clickReward);
+
+        cells[t].imageNameRef = getImageFromName(cells[t].imageName);
+        cells[t].innerParticleRef = getParticleFromId(cells[t].innerParticleId);
+        cells[t].importParticleRef = getParticleFromId(cells[t].importParticleId);
+    }
 }

@@ -11,6 +11,8 @@ function skillInstanceInformation() {
 
     this.isTraining = false;
     this.isEquip = false;
+
+    this.skillRef = null;
 }
 
 skillInstanceInformation.prototype.isVisible = function () {
@@ -24,12 +26,14 @@ skillInstanceInformation.prototype.canTrain = function () {
     if (this.trainingLevel >= 100)
         return false;
 
-    return getSkillFromId(this.skillId).canTrain(this.level);
+    //return getSkillFromId(this.skillId).canTrain(this.level);
+    return this.skillRef.canTrain(this.level);
 }
 
 skillInstanceInformation.prototype.train = function () {
     if (this.canTrain()) {
-        getSkillFromId(this.skillId).train(this.level);
+        //getSkillFromId(this.skillId).train(this.level);
+        this.skillRef.train(this.level);
 
         this.trainingLevel += 1;
 
@@ -58,7 +62,8 @@ skillInstanceInformation.prototype.canExecute = function () {
         return false;
 
     if (this.cooldown <= 0 && this.duration <= 0) {
-        return getSkillFromId(this.skillId).canExecute(this.level);
+        //return getSkillFromId(this.skillId).canExecute(this.level);
+        return this.skillRef.canExecute(this.level);
     }
 
     return false;
@@ -66,9 +71,12 @@ skillInstanceInformation.prototype.canExecute = function () {
 
 skillInstanceInformation.prototype.execute = function () {
     if (this.canExecute()) {
-        this.cooldown = getSkillFromId(this.skillId).cooldown;
-        this.duration = getSkillFromId(this.skillId).duration;
-        getSkillFromId(this.skillId).execute(this.level);
+        //this.cooldown = getSkillFromId(this.skillId).cooldown;
+        //this.duration = getSkillFromId(this.skillId).duration;
+        //getSkillFromId(this.skillId).execute(this.level);
+        this.cooldown = this.skillRef.cooldown;
+        this.duration = this.skillRef.duration;
+        this.skillRef.execute(this.level);
 
         return true;
     }
@@ -96,13 +104,15 @@ skillInstanceInformation.prototype.processTraining = function () {
 }
 
 skillInstanceInformation.prototype.getAmount = function () {
-    return getSkillFromId(this.skillId).getAmount(this.level);
+    //return getSkillFromId(this.skillId).getAmount(this.level);
+    return this.skillRef.getAmount(this.level);
 }
 
-function createSkillInstance(skillId, isActive) {
+function createSkillInstance(skillId, isActive) { // TODO: Pass reference
     var ret = new skillInstanceInformation();
 
     ret.skillId = skillId;
+    ret.skillRef = getSkillFromId(skillId);
     ret.level = 1;
     ret.trainingLevel = 0;
     ret.isTraining = false;
@@ -116,7 +126,8 @@ function getSkillInstanceFromType(skillInstances, skillType) {
     var ret = [];
 
     for (var t = 0; t < skillInstances.length; t++) {
-        if (getSkillFromId(skillInstances[t].skillId).skillType == skillType)
+        //if (getSkillFromId(skillInstances[t].skillId).skillType == skillType)
+        if (skillInstances[t].skillRef.skillType == skillType)
             ret.push(skillInstances[t]);
     }
 
@@ -127,7 +138,8 @@ function getSkillInstanceFromSubType(skillInstances, skillSubType) {
     var ret = [];
 
     for (var t = 0; t < skillInstances.length; t++) {
-        if (getSkillFromId(skillInstances[t].skillId).skillSubType == skillSubType)
+        //if(getSkillFromId(skillInstances[t].skillId).skillSubType == skillSubType)
+        if (skillInstances[t].skillRef.skillSubType == skillSubType)
             ret.push(skillInstances[t]);
     }
 
@@ -138,7 +150,8 @@ function getSkillInstanceFromElement(skillInstances, element) {
     var ret = [];
 
     for (var t = 0; t < skillInstances.length; t++) {
-        if (getSkillFromId(skillInstances[t].skillId).element == element)
+        //if (getSkillFromId(skillInstances[t].skillId).element == element)
+        if (skillInstances[t].skillRef.element == element)
             ret.push(skillInstances[t]);
     }
 
