@@ -11,6 +11,31 @@
     <title>Secret Of The Basilisk v0.04.3</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
+    <script>
+
+        function loadApp() {
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+        function drawCanvas(timestamp) {
+            var c = document.getElementById("mainCanvas");
+            var ctx = c.getContext("2d");
+
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            for (var y = 0; y < 12; y++) {
+                for (var x = 0; x < 12; x++) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = "red";
+                    ctx.rect(x * 32, y * 32, 32, 32);
+                    ctx.stroke();
+                }
+            }
+
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+    </script>
     <style type="text/css">
 
         body {
@@ -297,7 +322,7 @@
                     <div>
                         <div style="width: 384px; display: inline-block; vertical-align: top; padding-top: 10px;">
 
-                            <canvas style="border: 1px solid red; width: 384px; height: 384px;"></canvas>
+                            <canvas id="mainCanvas" style="border: 1px solid red; width: 384px; height: 384px;" width="384" height="384"></canvas>
 
                         </div>
                         <div style="width: 220px; display: inline-block; vertical-align: top;">
