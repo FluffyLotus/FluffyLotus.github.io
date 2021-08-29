@@ -56,7 +56,7 @@
             if (cellY < cellX) cellX = cellY;
 
             viewWidth = parseInt(c.width / cellX) + 2;
-            viewHeight = parseInt(c.height / cellY) + 2;
+            viewHeight = parseInt((c.height - 100) / cellY) + 5;
 
             if ((viewWidth % 2) == 1) viewWidth += 1;
             if ((viewHeight % 2) == 1) viewHeight += 1;
