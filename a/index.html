@@ -53,13 +53,13 @@
             if (cellX * mapWidth > c.width)
                 cellX = parseInt(c.width / mapWidth);
             if (cellY * mapHeight > c.height)
-                cellY = parseInt((c.height - 100) / mapHeight);
+                cellY = parseInt((c.height ) / mapHeight);
 
             if (cellX < cellY) cellY = cellX;
             if (cellY < cellX) cellX = cellY;
 
             viewWidth = parseInt(c.width / cellX) + 2;
-            viewHeight = parseInt((c.height - 100) / cellY) + 5;
+            viewHeight = parseInt((c.height) / cellY) + 5;
 
             if ((viewWidth % 2) == 1) viewWidth += 1;
             if ((viewHeight % 2) == 1) viewHeight += 1;
@@ -135,206 +135,39 @@
 
     <canvas id="mainCanvas" style="width: 100%; height: 100%; border: 1px solid black; position: fixed; z-index: 0;"></canvas>
 
-    <div style="z-index: 100; position: fixed; width: 150px; background-color: black; overflow-y: scroll; overflow-x: hidden;">
-        <div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
+    <div style="position: fixed; top: 0px; height: 40px; width: 100%; background-color: black;">
+        <div style="text-align: center;">
+            <div style="width: 32px; height: 32px; border: 1px solid red; display: inline-block;"></div>
+            <div style="display: inline-block;">
+                <span><strong>99,9999</strong></span>
+                <span style="color: darkgreen;"><small>+99,9999</small></span>
             </div>
-            <div>
-                <div style="        width: 32px;
-        height: 32px;
-        border: 1px solid red;
-        float: left;
-        margin: 5px;
-"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
+            <div style="width: 32px; height: 32px; border: 1px solid red; display: inline-block;"></div>
+            <div style="display: inline-block;">
+                <span><strong>99,9999</strong></span>
+                <span style="color: darkgreen;"><small>+99,9999</small></span>
             </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="        width: 32px;
-        height: 32px;
-        border: 1px solid red;
-        float: left;
-        margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
-            </div>
-            <div>
-                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
-                <div><strong>99,9999</strong></div>
-                <div><small style="color: darkred;">-99,9999</small></div>
+            <div style="width: 32px; height: 32px; border: 1px solid red; display: inline-block;"></div>
+            <div style="display: inline-block;">
+                <span><strong>99,9999</strong></span>
+                <span style="color: darkgreen;"><small>+99,9999</small></span>
             </div>
         </div>
     </div>
 
-    <div style="position: absolute; top: 0px; right: 0px; background-color: black;">
-        qweqewqew
-    </div>
-
-    <!--display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;-->
-    <div style="    position: absolute;
-    right: calc(9px*var(--ui-scale));
-    top: calc(150px*var(--ui-scale));
-    font-size: calc(13px*var(--ui-scale));
-    line-height: calc(17px*var(--ui-scale));
-    font-weight: 400;
-    font-family: GameFont,sans-serif;
-    letter-spacing: .04em;
-    ">
-        right menu right menuright menuright menu
-    </div>
-
-    <div style="
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: grid;
-    grid-template-rows: auto auto;
-    justify-items: center;
-    background: transparent;
-    transition: transform .12s ease-in-out;
-    will-change: transform;">
-        <div style="    display: grid;
-    grid-auto-flow: column;
-    justify-items: center;
-    align-self: center;
-    grid-row: 2/3;
-    background-color: rgba(240,241,243,.5);">
-            <div style="    display: flex;
-    width: calc(64px*var(--ui-scale));
-    position: relative;
-    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
-            <div style="    display: flex;
-    width: calc(64px*var(--ui-scale));
-    position: relative;
-    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
-            <div style="    display: flex;
-    width: calc(64px*var(--ui-scale));
-    position: relative;
-    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
-            <div style="    display: flex;
-    width: calc(64px*var(--ui-scale));
-    position: relative;
-    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
+    <div style="position: fixed; bottom: 0px; height: 70px; width: 100%; background-color: black;">
+        <div style="text-align: center;">
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
+            <div style="width: 64px; height: 64px; border: 1px solid red; display: inline-block;"></div>
         </div>
     </div>
 
+
+    <!--calc(64px*var(--ui-scale));-->
     <!--<div style="z-index: 100; position: absolute; width: 100%; background-color: black; overflow-y: hidden; overflow-x: hidden; bottom: 0px; height: 64px;">
         <div>
             aaaaaaaaaaaaaa
