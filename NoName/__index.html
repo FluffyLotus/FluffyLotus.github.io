@@ -1,0 +1,528 @@
+﻿<!DOCTYPE><!-- saved from url=(0016)localhost -->
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <style type="text/css">
+
+        body {
+            color: white;
+            background-color: #343a40;
+        }
+
+        * {
+            touch-action: manipulation;
+
+            --ui-scale: 1;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        function initApp() {
+            window.onresize = reportWindowSize;
+
+            reportWindowSize();
+
+            drawCanvas();
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+        var cellX = 64;
+        var cellY = 64;
+
+        var mapWidth = 12;
+        var mapHeight = 12;
+
+        var viewWidth = 12;
+        var viewHeight = 12;
+
+        function reportWindowSize() {
+            var c = document.getElementById("mainCanvas");
+
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
+
+            if (cellX * mapWidth > c.width)
+                cellX = parseInt(c.width / mapWidth);
+            if (cellY * mapHeight > c.height)
+                cellY = parseInt((c.height - 100) / mapHeight);
+
+            if (cellX < cellY) cellY = cellX;
+            if (cellY < cellX) cellX = cellY;
+
+            viewWidth = parseInt(c.width / cellX) + 2;
+            viewHeight = parseInt((c.height - 100) / cellY) + 5;
+
+            if ((viewWidth % 2) == 1) viewWidth += 1;
+            if ((viewHeight % 2) == 1) viewHeight += 1;
+        }
+
+        function drawCanvas(timestamp) {
+            var c = document.getElementById("mainCanvas");
+            var ctx = c.getContext("2d");
+
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            for (var y = 0; y < viewHeight; y++) {
+                for (var x = 0; x < viewWidth; x++) {
+                    var inside;
+
+                    var cx = x - (viewWidth / 2);
+                    var cy = y - (viewHeight / 2);
+
+                    if (cx >= -6 && cx < 6 && cy >= -6 && cy < 6)
+                        inside = true;
+                    else
+                        inside = false;
+
+                    cx *= cellX;
+                    cy *= cellY;
+
+                    var drawX1 = (c.width / 2) + cx; //(c.width - x * cellX) / 2;
+                    var drawY1 = (c.height / 2) + cy; //(c.height - y * cellY) / 2;
+                    var drawX2 = cellX;
+                    var drawY2 = cellY;
+
+                    ctx.beginPath();
+
+                    if (inside)
+                        ctx.strokeStyle = "red";
+                    else
+                        ctx.strokeStyle = "green";
+
+                    ctx.rect(drawX1, drawY1, drawX2, drawY2);
+                    ctx.stroke();
+                }
+            }
+            //if (cellX * )
+
+            //    var drawX1 = (c.width - 20 * 32) / 2;
+            //var drawY1 = (c.height - 20 * 32) / 2;
+            //var drawX2 = 20 * 32;
+            //var drawY2 = 20 * 32;
+
+            //ctx.beginPath();
+            //ctx.strokeStyle = "green";
+            //ctx.rect(drawX1, drawY1, drawX2, drawY2);
+            //ctx.stroke();
+
+            //var drawX1 = (c.width - 12 * 32) / 2;
+            //var drawY1 = (c.height - 12 * 32) / 2;
+            //var drawX2 = 12 * 32;
+            //var drawY2 = 12 * 32;
+
+            //ctx.beginPath();
+            //ctx.strokeStyle = "red";
+            //ctx.rect(drawX1, drawY1, drawX2, drawY2);
+            //ctx.stroke();
+
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+    </script>
+
+    <title></title>
+</head>
+<body onload="initApp();">
+
+    <canvas id="mainCanvas" style="width: 100%; height: 100%; border: 1px solid black; position: fixed; z-index: 0;"></canvas>
+
+    <div style="z-index: 100; position: fixed; width: 150px; background-color: black; overflow-y: scroll; overflow-x: hidden; height: 80%;">
+        <div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="        width: 32px;
+        height: 32px;
+        border: 1px solid red;
+        float: left;
+        margin: 5px;
+"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="        width: 32px;
+        height: 32px;
+        border: 1px solid red;
+        float: left;
+        margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+            <div>
+                <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                <div><strong>99,9999</strong></div>
+                <div><small style="color: darkred;">-99,9999</small></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="position: absolute; top: 0px; right: 0px; background-color: black;">
+        qweqewqew
+    </div>
+
+    <!--display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;-->
+    <div style="    position: absolute;
+    right: calc(9px*var(--ui-scale));
+    top: calc(150px*var(--ui-scale));
+    font-size: calc(13px*var(--ui-scale));
+    line-height: calc(17px*var(--ui-scale));
+    font-weight: 400;
+    font-family: GameFont,sans-serif;
+    letter-spacing: .04em;
+    ">
+        right menu right menuright menuright menu
+    </div>
+
+    <div style="
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    background: transparent;
+    transition: transform .12s ease-in-out;
+    will-change: transform;">
+        <div style="    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    align-self: center;
+    grid-row: 2/3;
+    background-color: rgba(240,241,243,.5);">
+            <div style="    display: flex;
+    width: calc(64px*var(--ui-scale));
+    position: relative;
+    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
+            <div style="    display: flex;
+    width: calc(64px*var(--ui-scale));
+    position: relative;
+    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
+            <div style="    display: flex;
+    width: calc(64px*var(--ui-scale));
+    position: relative;
+    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
+            <div style="    display: flex;
+    width: calc(64px*var(--ui-scale));
+    position: relative;
+    height: calc(64px*var(--ui-scale)); border: 1px solid red;"></div>
+        </div>
+    </div>
+
+    <!--<div style="z-index: 100; position: absolute; width: 100%; background-color: black; overflow-y: hidden; overflow-x: hidden; bottom: 0px; height: 64px;">
+        <div>
+            aaaaaaaaaaaaaa
+        </div>
+    </div>-->
+    <!--
+    <div>
+
+        <div style="height: 100px;" class="row bg-dark">
+            <div class="col-12">
+                bla bla bla<br />
+                bla bla bla<br />
+                bla bla bla<br />
+                bla bla bla<br />
+            </div>
+        </div>
+
+        <div class="row h-100">
+            <div class="col-2 bg-dark">
+                <div id="resourceInfoContainer" style="max-height: 384px; overflow-y: scroll; overflow-x: hidden;">
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-10 bg-dark">
+                <div style="width: 384px; height: 384px; border: 1px solid red; display: inline-block;">
+
+                </div>
+
+                <div style="display: inline-block; vertical-align: top; margin-left: 10px; max-height: 384px; overflow-y:  scroll; overflow-x: hidden;">
+                    <h3>Action</h3>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+
+                    <h3>Building</h3>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                    <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        -->
+</body>
+</html>
