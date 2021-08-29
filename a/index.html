@@ -17,14 +17,66 @@
         }
 
         * {
-      touch-action: manipulation;
-  }
+            touch-action: manipulation;
+        }
     </style>
+
+    <script type="text/javascript">
+
+        function initApp() {
+            window.onresize = reportWindowSize;
+
+            reportWindowSize();
+
+            drawCanvas();
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+        function reportWindowSize() {
+            var c = document.getElementById("mainCanvas");
+
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
+        }
+
+        function drawCanvas(timestamp) {
+            var c = document.getElementById("mainCanvas");
+            var ctx = c.getContext("2d");
+
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            var drawX1 = (c.width - 20 * 32) / 2;
+            var drawY1 = (c.height - 20 * 32) / 2;
+            var drawX2 = 20 * 32;
+            var drawY2 = 20 * 32;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = "green";
+            ctx.rect(drawX1, drawY1, drawX2, drawY2);
+            ctx.stroke();
+
+            var drawX1 = (c.width - 12 * 32) / 2;
+            var drawY1 = (c.height - 12 * 32) / 2;
+            var drawX2 = 12 * 32;
+            var drawY2 = 12 * 32;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = "red";
+            ctx.rect(drawX1, drawY1, drawX2, drawY2);
+            ctx.stroke();
+
+            window.requestAnimationFrame(drawCanvas);
+        }
+
+    </script>
 
     <title></title>
 </head>
-<body>
+<body onload="initApp();">
 
+    <canvas id="mainCanvas" style="width: 100%; height: 100%; border: 1px solid red;"></canvas>
+
+    <!--
     <div>
 
         <div style="height: 100px;" class="row bg-dark">
@@ -38,25 +90,134 @@
 
         <div class="row h-100">
             <div class="col-2 bg-dark">
-                <div id="resourceInfoContainer">
-                    <div id="resourceInfoRow" class="row resourceRow" style="clear: both;">
+                <div id="resourceInfoContainer" style="max-height: 384px; overflow-y: scroll; overflow-x: hidden;">
+                    <div class="row resourceRow" style="clear: both;">
                         <div>
                             <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
                             <div><strong>99,9999</strong></div>
-                            <div><small style="color: darkgreen;">+99,9999</small></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
                         </div>
                     </div>
-                    <div id="resourceInfoRow" class="row resourceRow" style="clear: both;">
+                    <div class="row resourceRow" style="clear: both;">
                         <div>
                             <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
                             <div><strong>99,9999</strong></div>
-                            <div>
-                                <small style="        color: gray;
-">0</small>
-                            </div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
                         </div>
                     </div>
-                    <div id="resourceInfoRow" class="row resourceRow" style="clear: both;">
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
+                        <div>
+                            <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
+                            <div><strong>99,9999</strong></div>
+                            <div><small style="color: darkred;">-99,9999</small></div>
+                        </div>
+                    </div>
+                    <div class="row resourceRow" style="clear: both;">
                         <div>
                             <div style="width: 32px; height: 32px; border: 1px solid red; float:left; margin: 5px;"></div>
                             <div><strong>99,9999</strong></div>
@@ -72,7 +233,7 @@
 
                 </div>
 
-                <div style="display: inline-block; vertical-align: top; margin-left: 10px;">
+                <div style="display: inline-block; vertical-align: top; margin-left: 10px; max-height: 384px; overflow-y:  scroll; overflow-x: hidden;">
                     <h3>Action</h3>
                     <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
                     <div style="width: 32px; height: 32px; border: 1px solid green; padding: 10px; display: inline-block;"></div>
@@ -98,6 +259,6 @@
             </div>
         </div>
     </div>
-
+        -->
 </body>
 </html>
