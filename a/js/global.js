@@ -43,6 +43,21 @@ var download_csv_using_blob = function (file_name, content) {
     }
 };
 
+var download_img_using_blob = function (file_name, content) {
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE
+        window.navigator.msSaveOrOpenBlob(csvData, file_name);
+    } else { // for Non-IE (chrome, firefox etc.)
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = content;
+        a.download = file_name;
+        a.click();
+        URL.revokeObjectURL(a.href)
+        a.remove();
+    }
+};
+
 function writeDebug(str) {
     document.getElementById("debug").value = str;
     document.getElementById("debug").style.display = "";

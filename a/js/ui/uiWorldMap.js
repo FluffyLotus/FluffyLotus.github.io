@@ -1,9 +1,9 @@
-﻿function uiDrawWorldMap() {
+﻿function uiInitWorldMap() {
     var minLoc = mainWorld.getMinLoc();
     var maxLoc = mainWorld.getMaxLoc();
     var data = "";
 
-    data += "<table border=\"1\">";
+    data += "<table border=\"0\" style=\"border-collapse: collapse;\">";
 
     for (var y = minLoc.y; y <= maxLoc.y; y++) {
         data += "<tr>";
@@ -12,8 +12,10 @@
             data += "<td>";
 
             for (var t = 0; t < mainWorld.mapInfo.length; t++) {
-                if (mainWorld.mapInfo[t].x == x && mainWorld.mapInfo[t].y == y)
-                    data += "<a href=\"javascript: uiSetSelectedMap(" + mainWorld.mapInfo[t].mapId + ");\" id=\"map" + mainWorld.mapInfo[t].mapId + "\">Map " + mainWorld.mapInfo[t].mapId + "</a>";
+                if (mainWorld.mapInfo[t].x == x && mainWorld.mapInfo[t].y == y) {
+                    //data += "<a href=\"javascript: uiSetSelectedMap(" + mainWorld.mapInfo[t].mapId + ");\" id=\"map" + mainWorld.mapInfo[t].mapId + "\">Map " + mainWorld.mapInfo[t].mapId + "</a>";
+                    data += "<a href=\"javascript: uiSetSelectedMap(" + mainWorld.mapInfo[t].mapId + ");\" id=\"map" + mainWorld.mapInfo[t].mapId + "\"><img src=\"images/map/map" + mainWorld.mapInfo[t].mapId + ".png\" border=\"0\" class=\"testHover\" /></a>";
+                }
             }
 
             data += "</td>";
@@ -25,6 +27,17 @@
     data += "</table>";
 
     $("#fullMap").html(data);
+}
+
+function uiDrawWorldMap() {
+    for (var t = 0; t < mainWorld.mapInfo.length; t++) {
+        var m = getMapFromId(mainWorld.mapInfo[t].mapId);
+
+        if (m.active)
+            $("#map" + m.id).show();
+        else
+            $("#map" + m.id).hide();
+    }
 }
 
 function uiSetSelectedMap(newMapId) {

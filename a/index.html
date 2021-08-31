@@ -204,6 +204,14 @@
         .buildingNotSelected {
             border: 1px solid gray;
         }
+
+        .testHover {
+            border: 1px solid black;
+        }
+
+        .testHover:hover {
+            border: 1px solid yellow;
+        }
     </style>
 
 </head>
@@ -234,7 +242,7 @@
             <h2>Resources</h2>
 
             <div id="resourceInfoContainer">
-                <div id="resourceInfoRow" class="row resourceRow" style="display: none;">
+                <div id="resourceInfoRow" class="row resourceRow" style="        display: none;">
                     <div class="col-12 col-lg-5"><span id="resourceInfoName">Wood</span></div>
                     <div class="col-12 col-lg-7">
                         <div class="row">
@@ -259,10 +267,10 @@
                     <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">World <span id="questTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <!--<li>
-            <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();" onmouseover="uiShowToggleFastTooltip();" style="margin-left: 20px;">Fast &gt;&gt;</button>
-        </li>-->
+                    <button id="btnFast" class="btn btn-dark" onclick="uiToggleFast();" onmouseover="uiShowToggleFastTooltip();" style="margin-left: 20px;">Fast &gt;&gt;</button>
+                </li>-->
             </ul>
-            
+
             <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 610px;">
                 <div id="toolTipCell" style="width: 100%; height: 100%; display: none;">
                     <div class="row">
@@ -283,13 +291,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div><span id="toolTipQuest_name" style="font-weight: bold;"></span></div>
-                            <div><span id="toolTipQuest_description"></span></div>
-                        </div>
-                        <div class="col-6">
                             <div id="toolTipQuest_requirementRow"><span>Requirement: </span><span id="toolTipQuest_requirement"></span></div>
                             <div>
                                 <button class="btn btn-sm btn-primary" type="button" onclick="uiCompleteQuest();">Complete Quest</button>
                             </div>
+                        </div>
+                        <div class="col-6">
+                            <div><span id="toolTipQuest_description"></span></div>
                         </div>
                     </div>
                 </div>
@@ -318,26 +326,26 @@
                     <div><span id="toolTipResource_description"></span></div>
                 </div>
                 <!--
-                <div id="tooltipSection" style="        width: 100%;
-        height: 100%;
-        display: none;">
-                    <div class="row">
-                        <div id="tooltipSectionLeft" class="col-6"></div>
-                        <div id="tooltipSectionRight" class="col-6"></div>
-                    </div>
-                </div>
-                <div id="messageSection" style="width: 100%; height: 100%; display: block;">
-                    <div class="row">
-                        <div class="col-12" style="color: yellow;">
-                            <span id="messageInnerText">
-                                qwqwe
-                            </span>
+                        <div id="tooltipSection" style="        width: 100%;
+                height: 100%;
+                display: none;">
+                            <div class="row">
+                                <div id="tooltipSectionLeft" class="col-6"></div>
+                                <div id="tooltipSectionRight" class="col-6"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-            <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close this message to see tooltips</button></div>
-        </div>
-                </div>-->
+                        <div id="messageSection" style="width: 100%; height: 100%; display: block;">
+                            <div class="row">
+                                <div class="col-12" style="color: yellow;">
+                                    <span id="messageInnerText">
+                                        qwqwe
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                    <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close this message to see tooltips</button></div>
+                </div>
+                        </div>-->
             </div>
 
             <div class="tab-content" id="myTabContent" style="width: 610px;">
@@ -363,6 +371,15 @@
 
                             </div>
 
+                            <div id="spawnSection">
+                                <h2>Spawn</h2>
+
+                                <button class="btn btn-success btn-sm" onclick="glStartSpawn();">Start Spawn</button><br />
+                                Map life: <span id="mapLife"></span><br />
+                                Spawn Level: <span id="mapSpawnLevel"></span><br />
+                                Max Spawn Count: <span id="mapMaxSpawnCount"></span><br />
+                            </div>
+
                             <div id="buildingGradeSection" style="display: none;">
                                 <div class="form-group">
                                     <label for="formControlRange">Building Grade</label>
@@ -377,6 +394,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -556,6 +574,8 @@
         </div>
     </div>
 
+    <textarea id="debug" style="width: 400px; height: 400px; display: none;"></textarea>
+
     <div style="display: none;">
         <!--<img src="images/SpriteSheet/tiles.png" id="tilesImage" />
         <img src="images/SpriteSheet/character.png" id="characterImage" />
@@ -664,7 +684,7 @@
     <script src="js/ui/uiAction.js"></script>
     <script src="js/ui/uiWorldMap.js"></script>
     <script src="js/ui/uiApp.js"></script>
-    
+
     <script src="data/dataMap.js"></script>
 
 </body>
