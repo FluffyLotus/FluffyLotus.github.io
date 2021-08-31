@@ -1,0 +1,1 @@
+var resourceData = [{"id":0,"na":"Wood"},{"id":1,"na":"Stone"},{"id":2,"na":"Kill"},{"id":3,"na":"Death"},{"id":4,"na":"Flower"},{"id":5,"na":"Fish"},{"id":6,"na":"Plank"}];
