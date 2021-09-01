@@ -45,3 +45,27 @@ function uiSetSelectedMap(newMapId) {
 
     $('#myTab a[href="#map"]').tab('show');
 }
+
+function uiMoveMap(x, y) {
+    var nx, ny;
+    var found = false;
+
+    for (var t = 0; t < mainWorld.mapInfo.length; t++) {
+        if (mainWorld.mapInfo[t].mapId == selectedMapId) {
+            found = true;
+            nx = mainWorld.mapInfo[t].x + x;
+            ny = mainWorld.mapInfo[t].y + y;
+        }
+    }
+
+    if (found) {
+        for (var t = 0; t < mainWorld.mapInfo.length; t++) {
+            if (mainWorld.mapInfo[t].x == nx && mainWorld.mapInfo[t].y == ny) {
+                var newMap = getMapFromId(mainWorld.mapInfo[t].mapId);
+
+                if (newMap.active)
+                    uiSetSelectedMap(newMap.id);
+            }
+        }
+    }
+}

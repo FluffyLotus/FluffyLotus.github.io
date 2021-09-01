@@ -366,25 +366,87 @@
                         </div>
                         <div style="width: 220px; display: inline-block; vertical-align: top;">
 
-                            <h2>Actions</h2>
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne" style="padding: 0px;">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Action
+                                            </button>
+                                        </h2>
+                                    </div>
 
-                            <div id="actionList">
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                        <div class="card-body" style="padding: 5px;">
+                                            <div id="actionList">
 
-                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo" style="padding: 0px;">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Building
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo">
+                                        <div class="card-body" style="padding: 5px;">
+                                            <div id="actionBuildingList">
 
-                            <h2>Constructions</h2>
-
-                            <div id="actionBuildingList">
-
-                            </div>
-
-                            <div id="spawnSection">
-                                <h2>Spawn</h2>
-
-                                <button class="btn btn-success btn-sm" onclick="glStartSpawn();">Start Spawn</button><br />
-                                Map life: <span id="mapLife"></span><br />
-                                Spawn Level: <span id="mapSpawnLevel"></span><br />
-                                Max Spawn Count: <span id="mapMaxSpawnCount"></span><br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingFour" style="padding: 0px;">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                Map Movement
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour">
+                                        <div class="card-body" style="padding: 5px;">
+                                            <table>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><a href="javascript: uiMoveMap(0, -1);">/\</a></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="javascript: uiMoveMap(-1, 0);">&lt;</a></td>
+                                                    <td></td>
+                                                    <td><a href="javascript: uiMoveMap(1, 0);">&gt;</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><a href="javascript: uiMoveMap(0, 1);">\/</a></td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" id="spawnSection">
+                                    <div class="card-header" id="headingThree" style="padding: 0px;">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Spawn
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree">
+                                        <div class="card-body" style="padding: 5px;">
+                                            <button class="btn btn-success btn-sm" onclick="glStartSpawn();">Start Spawn</button><br />
+                                            Map life: <span id="mapLife"></span><br />
+                                            Spawn Level: <span id="mapSpawnLevel"></span><br />
+                                            Max Spawn Count: <span id="mapMaxSpawnCount"></span><br />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div id="buildingGradeSection" style="display: none;">
