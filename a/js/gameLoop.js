@@ -84,10 +84,23 @@ function glLevelUpBuilding(x, y) {
     glLevelUpSelectedBuilding();
 }
 
+function glLevelDownBuilding(x, y) {
+    selectedCellX = x;
+    selectedCellY = y;
+
+    glLevelDownSelectedBuilding();
+}
+
 function glLevelUpSelectedBuilding() {
     var curMap = getMapFromId(selectedMapId);
 
     curMap.levelBuilding(selectedCellX, selectedCellY);
+}
+
+function glLevelDownSelectedBuilding() {
+    var curMap = getMapFromId(selectedMapId);
+
+    curMap.levelDownBuilding(selectedCellX, selectedCellY);
 }
 
 function glStartSpawn() {

@@ -43,6 +43,7 @@ var IMAGE_TRASHCAN = 36;
 var IMAGE_UPGRADE = 37;
 var IMAGE_DOWNGRADE = 38;
 var IMAGE_CURSOR = 39;
+var IMAGE_CLOUD = 40;
 
 //
 //         0001:1
@@ -283,5 +284,10 @@ function initImages() {
     item = new ImageInfo();
     item.id = 39;
     item.img = document.getElementById("imgCursor");
+    images.push(item);
+
+    item = new ImageInfo();
+    item.id = 40;
+    item.img = document.getElementById("imgCloud");
     images.push(item);
 }

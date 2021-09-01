@@ -71,7 +71,7 @@ function initQuest() {
     item.title = "Standing Man";
     item.description = "It's dangerous, show me you can handle it.";
     item.completeDescription = "Ended";
-    item.requirements.push(createDataLink(DLTYPE_ENEMY, DLSUBTYPE_KILL, ENEMY_FIRST, 30));
+    item.requirements.push(createDataLink(DLTYPE_ENEMY, DLSUBTYPE_KILL, ENEMY_FIRST, 100));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 3, 1));
     quests.push(item);
 
@@ -100,7 +100,7 @@ function initQuest() {
     item.title = "Port city";
     item.description = "Our carpenter went to the west to investigage. Can you help us first?";
     item.completeDescription = "Ended";
-    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FLOWER, 10));
+    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FLOWER, 20));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 4, 1));
     quests.push(item);
 

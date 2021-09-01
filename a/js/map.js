@@ -183,9 +183,22 @@ MapInfo.prototype.processClick = function (x, y) {
 MapInfo.prototype.destroyBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
-	curCell.destroyBuilding();
+	if (curCell.buildingInstance != null) {
+		var curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
 
-	this.calculateConnections();
+		if (curBuilding.isUserOwned) {
+			while (curCell.buildingInstance.level > 1)
+				this.levelDownBuilding(x, y);
+
+			var cost = curBuilding.getBuildCost();
+
+			addDataLinks(cost);
+
+			curCell.destroyBuilding();
+
+			this.calculateConnections();
+		}
+	}
 }
 
 MapInfo.prototype.buyBuilding = function (x, y, buildingId) {
@@ -212,6 +225,23 @@ MapInfo.prototype.levelBuilding = function (x, y) {
 			if (hasDataLinks(cost)) {
 				removeDataLinks(cost);
 				curCell.buildingInstance.level++;
+			}
+		}
+	}
+}
+
+MapInfo.prototype.levelDownBuilding = function (x, y) {
+	var curCell = this.cells[x + (y * MAP_WIDTH)];
+
+	if (curCell.buildingInstance != null) {
+		var curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
+
+		if (curBuilding.canUpgrade) {
+			if (curCell.buildingInstance.level > 1) {
+				var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level - 1);
+
+				addDataLinks(cost);
+				curCell.buildingInstance.level--;
 			}
 		}
 	}
@@ -373,6 +403,17 @@ MapInfo.prototype.getConnectionNumber = function (x, y) {
 	}
 
 	return ret;
+}
+
+function getActiveMapCount() {
+	var cnt = 0;
+
+	for (var i = 0; i < maps.length; i++) {
+		if (maps[i].active)
+			cnt++;
+	}
+
+	return cnt;
 }
 
 function getMapFromId(id) {

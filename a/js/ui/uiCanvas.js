@@ -66,7 +66,23 @@ function uiDrawMap() {
 
         drawText(ctx, ei.life, ei.x, ei.y);
     }
+
+    // Try some clouds
+    img = getImageFromId(IMAGE_CLOUD);
+    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
+    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
+    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
+    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY + 463, 800, 463);
+
+    cloudX -= 0.08;
+    cloudY -= 0.08;
+
+    if (cloudX <= -800) cloudX += 800;
+    if (cloudY <= -463) cloudY += 463;
 }
+
+var cloudX = 0;
+var cloudY = 0;
 
 function drawImage(ctx, img, x, y) {
     ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, x, y, GRID_WIDTH, GRID_HEIGHT);
@@ -95,6 +111,7 @@ function uiCanvasClick(e, evt) {
         glLevelUpBuilding(cellX, cellY);
     }
     else if (selectedAction == ACTION_DOWNGRADE) {
+        glLevelDownBuilding(cellX, cellY);
     }
     else if (selectedAction == ACTION_DESTROY) {
         glProcessDestroy(cellX, cellY);

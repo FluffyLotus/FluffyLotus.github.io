@@ -30,6 +30,39 @@ WorldInfo.prototype.getMaxLoc = function () {
     return ret;
 }
 
+WorldInfo.prototype.getPosibleMovement = function (middleMapId) {
+    var pm = 0;
+    var mx, my;
+    var found = false;
+
+    for (var t = 0; t < this.mapInfo.length; t++) {
+        if (this.mapInfo[t].mapId == middleMapId) {
+            mx = this.mapInfo[t].x;
+            my = this.mapInfo[t].y;
+            found = true;
+        }
+    }
+
+    if (found) {
+        for (var t = 0; t < this.mapInfo.length; t++) {
+            var m = getMapFromId(this.mapInfo[t].mapId);
+
+            if (m.active) {
+                if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my - 1)
+                    pm += 1;
+                if (this.mapInfo[t].x == mx - 1 && this.mapInfo[t].y == my)
+                    pm += 2;
+                if (this.mapInfo[t].x == mx + 1 && this.mapInfo[t].y == my)
+                    pm += 4;
+                if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my + 1)
+                    pm += 8;
+            }
+        }
+    }
+
+    return pm;
+}
+
 function WorldMapInfo() {
     this.x = 0;
     this.y = 0;

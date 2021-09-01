@@ -24,6 +24,7 @@ function BuildingInfo() {
 	this.imageId = -1;
 	this.isVisible = false;
 
+	this.isUserOwned = false;
 	this.canUpgrade = false;
 	this.needConnection = false;
 	this.storage = false;
@@ -167,6 +168,7 @@ function initBuilding() {
 	item.imageId = IMAGE_AXE;
 	item.needConnection = true;
 	item.canUpgrade = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_TREE];
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 20));
 	item.reward.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 1));
@@ -181,6 +183,7 @@ function initBuilding() {
 	item.imageId = IMAGE_PICKAXE;
 	item.needConnection = true;
 	item.canUpgrade = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_ROCK];
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 20));
 	item.reward.push(createDataLink_ResourceAmount(RESOURCE_STONE, 1));
@@ -194,6 +197,7 @@ function initBuilding() {
 	item.imageId = IMAGE_STORAGE;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.storage = true;
+	item.isUserOwned = true;
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 10));
 	item.isVisible = true;
 	buildings.push(item);
@@ -205,6 +209,7 @@ function initBuilding() {
 	item.imageId = IMAGE_ROAD;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.connection = true;
+	item.isUserOwned = true;
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 10));
 	buildings.push(item);
 
@@ -218,6 +223,7 @@ function initBuilding() {
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.keepActionReady = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 1));
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 4));
@@ -233,6 +239,7 @@ function initBuilding() {
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.keepActionReady = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 8));
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 4));
@@ -262,6 +269,7 @@ function initBuilding() {
 	item.imageId = IMAGE_PLANK;
 	item.needConnection = true;
 	item.canUpgrade = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 400));
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 400));
@@ -277,6 +285,7 @@ function initBuilding() {
 	item.imageId = IMAGE_COAL;
 	item.needConnection = true;
 	item.canUpgrade = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 5000));
 	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 8));
@@ -291,6 +300,7 @@ function initBuilding() {
 	item.imageId = IMAGE_BLOCK;
 	item.needConnection = true;
 	item.canUpgrade = true;
+	item.isUserOwned = true;
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 400));
 	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 400));

@@ -233,8 +233,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <!--<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#worldMapModal">World Map</a></li>-->
-                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>
+                    <!--<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>-->
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
                     <li class="nav-item"><div id="endOfGameSection" style="color: yellow; border: 1px solid red; padding: 2px; display: none;">There is no content behond Forest 2300</div></li>
@@ -269,7 +268,7 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map <span id="mapTabBadge" class="badge badge-danger"></span></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li id="mapTab" class="nav-item" role="presentation">
                     <a class="nav-link" id="quest-tab" data-toggle="tab" href="#quest" role="tab" aria-controls="quest" aria-selected="false">World <span id="questTabBadge" class="badge badge-danger"></span></a>
                 </li>
                 <!--<li>
@@ -288,7 +287,7 @@
                             <div><span id="toolTipCell_description"></span></div>
                             <div id="toolTipCell_buildingUpgrade">
                                 <div><span>Upgrade Cost: </span><span id="toolTipCell_cost"></span></div>
-                                <button class="btn btn-sm btn-primary" type="button" onclick="uiUpgradeBuilding();">Upgrade</button>
+                                <!--<button class="btn btn-sm btn-primary" type="button" onclick="uiUpgradeBuilding();">Upgrade</button>-->
                             </div>
                         </div>
                     </div>
@@ -367,7 +366,7 @@
                         <div style="width: 220px; display: inline-block; vertical-align: top;">
 
                             <div class="accordion" id="accordionExample">
-                                <div class="card">
+                                <div class="card" style="background-color: transparent; border-color: transparent;">
                                     <div class="card-header" id="headingOne" style="padding: 0px;">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -384,7 +383,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div class="card" style="background-color: transparent; border-color: transparent;">
                                     <div class="card-header" id="headingTwo" style="padding: 0px;">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -400,7 +399,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div id="mapMovement" class="card" style="background-color: transparent; border-color: transparent;">
                                     <div class="card-header" id="headingFour" style="padding: 0px;">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -413,24 +412,19 @@
                                             <table>
                                                 <tr>
                                                     <td></td>
-                                                    <td><a href="javascript: uiMoveMap(0, -1);">/\</a></td>
+                                                    <td><a id="movementUp" href="javascript: uiMoveMap(0, -1);"><img src="images/arrow_up.png" border="0" style="margin: 5px;" /></a></td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href="javascript: uiMoveMap(-1, 0);">&lt;</a></td>
-                                                    <td></td>
-                                                    <td><a href="javascript: uiMoveMap(1, 0);">&gt;</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td><a href="javascript: uiMoveMap(0, 1);">\/</a></td>
-                                                    <td></td>
+                                                    <td><a id="movementLeft" href="javascript: uiMoveMap(-1, 0);"><img src="images/arrow_left.png" border="0" style="margin: 5px;" /></a></td>
+                                                    <td><a id="movementDown" href="javascript: uiMoveMap(0, 1);"><img src="images/arrow_down.png" border="0" style="margin: 5px;" /></a></td>
+                                                    <td><a id="movementRight" href="javascript: uiMoveMap(1, 0);"><img src="images/arrow_right.png" border="0" style="margin: 5px;" /></a></td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card" id="spawnSection">
+                                <div class="card" style="background-color: transparent; border-color: transparent;" id="spawnSection">
                                     <div class="card-header" id="headingThree" style="padding: 0px;">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left btn-dark" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -526,7 +520,7 @@
                 </div>
                 <div class="modal-body">
                     Hope you enjoy this game! You can reach me on <a href="https://fluffy-lotus.itch.io/" target="_new">itch.io</a>.
-                    <hr />
+                    <!--<hr />
                     <p>
                         <span id="tickCount"></span> tick for a simulated time of <span id="tickTime"></span>.
                     </p>
@@ -535,38 +529,7 @@
                     </p>
                     <p>
                         Game save every <span id="saveSecond"></span> seconds. Last save on <span id="lastSaveTime"></span>.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="worldMapModal" tabindex="-1" aria-labelledby="worldMapModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="worldMapModalLabel">World Map</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Choose a map and a checkpoint to teleport to that location.</p>
-                    <form class="form-inline">
-                        <div class="form-group mb-2">
-                            <label for="uiPossibleMap">Map: </label>
-                            <select id="uiPossibleMap" onchange="uiChangePossibleCheckpoint();" class="form-control" style="margin-left: 20px;"></select>
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <label for="uiPossibleCheckpoint">Checkpoint: </label>
-                            <select id="uiPossibleCheckpoint" class="form-control" style="margin-left: 20px;"></select>
-                        </div>
-                        <button type="button" class="btn btn-dark mb-2" onclick="uiChangeAdventure();" data-dismiss="modal">Teleport</button>
-                    </form>
-                    <img src="images/worldMap.png" class="img-fluid" />
+                    </p>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -585,12 +548,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Something strange is hapenning lately. The animals are more aggressive than usual. We need to make sure we are prepared.</p>
+                    <!--<p>Something strange is hapenning lately. The animals are more aggressive than usual. We need to make sure we are prepared.</p>-->
                     <p>Click on mountain and forest to get resources.</p>
                     <p><img src="images/tutorial/0.png" /></p>
                     <p>To automatically gain resources, build axe on forest and make sure to attach a storage to it. A storage unit need to be right beside a building. It cannot be diagonal.</p>
                     <p><img src="images/tutorial/1.png" /> <img src="images/tutorial/3.png" style="padding-left: 50px;" /></p>
-                    <p>After gaining the resource pipe, it can be used to link buildings with storage unit.</p>
+                    <p>After gaining the road, it can be used to link buildings with storage unit.</p>
                     <p><img src="images/tutorial/2.png" /></p>
                 </div>
                 <div class="modal-footer">
@@ -621,35 +584,13 @@
         </div>
     </div>
 
-    <div class="modal fade" id="questStoryModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="questStoryModalTitle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="questStoryModalActivated">
-                    </p>
-                    <p id="questStoryModalComplete">
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <textarea id="debug" style="width: 400px; height: 400px; display: none;"></textarea>
 
     <div style="display: none;">
         <!--<img src="images/SpriteSheet/tiles.png" id="tilesImage" />
-        <img src="images/SpriteSheet/character.png" id="characterImage" />
-        <img src="images/SpriteSheet/objects.png" id="objectsImage" />
-        <img src="images/SpriteSheet/objectsBig.png" id="objectsBigImage" />-->
+    <img src="images/SpriteSheet/character.png" id="characterImage" />
+    <img src="images/SpriteSheet/objects.png" id="objectsImage" />
+    <img src="images/SpriteSheet/objectsBig.png" id="objectsBigImage" />-->
         <img id="imgAxe" src="images/axe.png" />
         <img id="imgEnemy" src="images/enemy.png" />
         <img id="imgGrass" src="images/grass.png" />
@@ -705,6 +646,7 @@
         <img id="imgUpgrade" src="images/upgrade.png" />
         <img id="imgDowngrade" src="images/downgrade.png" />
         <img id="imgCursor" src="images/cursor.png" />
+        <img id="imgCloud" src="images/cloud.png" />
     </div>
 
     <footer style="pointer-events: none;">

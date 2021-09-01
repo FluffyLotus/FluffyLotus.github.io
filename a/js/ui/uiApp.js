@@ -1,4 +1,6 @@
 ﻿function loadApp() {
+    $('#helpModal').modal('show');
+
     glInitAll();
 
     //resources[RESOURCE_STONE].amount = 40;

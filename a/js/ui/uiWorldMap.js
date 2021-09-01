@@ -38,6 +38,41 @@ function uiDrawWorldMap() {
         else
             $("#map" + m.id).hide();
     }
+
+    var possibleMovement = mainWorld.getPosibleMovement(selectedMapId);
+
+    if (possibleMovement == 0) {
+        $("#mapMovement").hide();
+    }
+    else {
+        $("#mapMovement").show();
+
+        if ((possibleMovement & 1) > 0)
+            $("#movementUp").show();
+        else
+            $("#movementUp").hide();
+
+        if ((possibleMovement & 2) > 0)
+            $("#movementLeft").show();
+        else
+            $("#movementLeft").hide();
+
+        if ((possibleMovement & 4) > 0)
+            $("#movementRight").show();
+        else
+            $("#movementRight").hide();
+
+        if ((possibleMovement & 8) > 0)
+            $("#movementDown").show();
+        else
+            $("#movementDown").hide(); 
+    }
+
+    if (getActiveMapCount() <= 1)
+        $("#mapTab").hide(); 
+    else
+        $("#mapTab").show();
+
 }
 
 function uiSetSelectedMap(newMapId) {
