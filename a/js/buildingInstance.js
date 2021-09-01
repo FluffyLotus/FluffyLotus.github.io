@@ -1,5 +1,7 @@
 ﻿function BuildingInstanceInfo() {
     this.buildingId = -1;
+    this.buildingRef = null;
+
     this.level = 1;
 
     this.timeTracker = null;
@@ -10,7 +12,7 @@
 }
 
 BuildingInstanceInfo.prototype.canProcessOnCellState = function (state) {
-    var building = getBuildingFromId(this.buildingId);
+    var building = this.buildingRef; //getBuildingFromId(this.buildingId);
 
     if (building.processOnCellType.length == 0)
         return true;
@@ -23,7 +25,7 @@ BuildingInstanceInfo.prototype.canProcessOnCellState = function (state) {
 }
 
 BuildingInstanceInfo.prototype.process = function () {
-    var building = getBuildingFromId(this.buildingId);
+    var building = this.buildingRef; //getBuildingFromId(this.buildingId);
 
     if (!building.keepActionReady)
         this.actionReady = false;
@@ -56,6 +58,7 @@ function createBuildingInstance(buildingId) {
     var building = getBuildingFromId(buildingId);
 
     item.buildingId = buildingId;
+    item.buildingRef = building;
 
     if (building.actionTime > 0) 
         item.timeTracker = createTimerTracker(building.timerType, building.actionTime);

@@ -98,3 +98,6 @@ function initResource() {
     item.name = "Block";
     resources.push(item);
 }
+
+function finishInitResource() {
+}

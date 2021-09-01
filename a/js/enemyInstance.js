@@ -6,10 +6,12 @@
     this.my = 0;
     this.life = 5;
     this.distance = 0;
+
+    this.enemyRef = null;
 }
 
 EnemyInstance.prototype.process = function (map) {
-    var enemy = getEnemyFromId(this.enemyId);
+    var enemy = this.enemyRef; //getEnemyFromId(this.enemyId);
 
     if (mainTimer.canExecute(enemy.movementSpeed)) {
         if (this.mx == 0 && this.my == 0) {
@@ -38,6 +40,8 @@ function createEnemyInstance(x, y, enemyId, level) {
     item.x = x;
     item.y = y;
     item.life = baseEnemy.baseLife * level;
+
+    item.enemyRef = getEnemyFromId(item.enemyId);
 
     return item;
 }

@@ -113,3 +113,10 @@ function initQuest() {
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_ROAD, 1));
     quests.push(item);
 }
+
+function finishInitQuest() {
+    for (var t = 0; t < quests.length; t++) {
+        finishDataLinksInit(quests[t].requirements);
+        finishDataLinksInit(quests[t].rewards);
+    }
+}

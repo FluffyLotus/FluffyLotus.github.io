@@ -56,7 +56,7 @@ MapInfo.prototype.process = function () {
 			curCell.process();
 
 			if (curCell.buildingInstance != null && curCell.buildingInstance.actionReady) {
-				var building = getBuildingFromId(curCell.buildingInstance.buildingId);
+				var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 				if (building.canSpawn) {
 					this.spawnNewEnemy(x, y);
@@ -90,14 +90,16 @@ MapInfo.prototype.process = function () {
 						}
 
 						if (index != -1) {
-							getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
+							//getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
+							curCell.buildingInstance.buildingRef.process(curCell.buildingInstance.level);
 							curCell.resetBuildingTimer();
 
 							enemyRange[index].life -= curCell.buildingInstance.level; // * this.level;
 
 							if (enemyRange[index].life <= 0) {
 								resources[RESOURCE_KILL].addAmount(1);
-								getEnemyFromId(enemyRange[index].enemyId).totalKill++;
+								//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
+								enemyRange[index].enemyRef.totalKill++;
 							}
 						}
 					}
@@ -120,15 +122,19 @@ MapInfo.prototype.process = function () {
 
 					if (index != -1) {
 						if (enemyRange.length > 0) {
-							getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
+							//getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
+							curCell.buildingInstance.buildingRef.process(curCell.buildingInstance.level);
 							curCell.resetBuildingTimer();
 
 							for (var i = 0; i < enemyRange.length; i++) {
 								enemyRange[i].life -= curCell.buildingInstance.level; // * this.level;
 
 								if (enemyRange[i].life <= 0) {
-									resources[RESOURCE_KILL].addAmount(1);
-									getEnemyFromId(enemyRange[index].enemyId).totalKill++;
+									//resources[RESOURCE_KILL].addAmount(1);
+									getResourceFromId(RESOURCE_KILL).addAmount(1);
+
+									//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
+									enemyRange[index].enemyRef.totalKill++;
 								}
 							}
 						}
@@ -184,7 +190,7 @@ MapInfo.prototype.destroyBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 		if (curBuilding.isUserOwned) {
 			while (curCell.buildingInstance.level > 1)
@@ -217,7 +223,7 @@ MapInfo.prototype.levelBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 		if (curBuilding.canUpgrade) {
 			var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level);
@@ -234,7 +240,7 @@ MapInfo.prototype.levelDownBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 		if (curBuilding.canUpgrade) {
 			if (curCell.buildingInstance.level > 1) {
@@ -272,7 +278,7 @@ MapInfo.prototype.findEnemyPathAround = function (x, y) {
 
 	for (var i = 0; i < coordPlus.length; i++) {
 		var curCell = this.cells[x + coordPlus[i].x + ((y + coordPlus[i].y) * MAP_WIDTH)];
-		var curState = getCellStateFromId(curCell.getStateId());
+		var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
 
 		if (curState.enemyPath) {
 			d.x = coordPlus[i].x;
@@ -289,14 +295,14 @@ MapInfo.prototype.getEnemyMovement = function (x, y, dx, dy) {
 	var ny = y + dy;
 
 	var curCell = this.cells[nx + (ny * MAP_WIDTH)];
-	var curState = getCellStateFromId(curCell.getStateId());
+	var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
 
 	if (!curState.enemyPath) {
 		nx = x + dy;
 		ny = y + dx;
 
 		curCell = this.cells[nx + (ny * MAP_WIDTH)];
-		curState = getCellStateFromId(curCell.getStateId());
+		curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
 
 		if (curState.enemyPath) {
 			var tmp = dx;
@@ -326,7 +332,7 @@ MapInfo.prototype.calculateConnections = function () {
 			curCell.isConnection = false;
 
 			if (curCell.buildingInstance != null) {
-				var building = getBuildingFromId(curCell.buildingInstance.buildingId);
+				var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 				if (building.storage) {
 					toProcess.push({ x: x, y: y });
@@ -350,7 +356,7 @@ MapInfo.prototype.calculateConnections = function () {
 				var curCell = this.cells[newX + (newY * MAP_WIDTH)];
 
 				if (curCell.buildingInstance != null) {
-					var building = getBuildingFromId(curCell.buildingInstance.buildingId);
+					var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 					if (building.connection) {
 						var found = false;

@@ -51,3 +51,9 @@ function initActions() {
     item.reward.push(createDataLink_ResourceAmount(RESOURCE_FISH, 1));
     actions.push(item);
 }
+
+function finishInitActions() {
+    for (var t = 0; t < actions.length; t++) {
+        finishDataLinksInit(actions[t].reward);
+    }
+}

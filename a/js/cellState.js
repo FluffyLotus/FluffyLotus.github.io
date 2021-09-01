@@ -23,12 +23,18 @@ function CellStateInfo() {
 
 	this.changeStateOnClickAction = -1;
 	this.changeStateOnTimerAction = -1;
-	this.changeStateOnQuestAction = -1
+	this.changeStateOnQuestAction = -1;
+
+	this.floorImageRef = null;
+	this.objectImageRef = null;
+	this.editorImageRef = null;
+	this.clickActionRef = null;
+	this.questRef = null;
 }
 
 CellStateInfo.prototype.processClick = function () {
 	if (this.clickActionId >= 0) {
-		var action = getActionFromId(this.clickActionId);
+		var action = this.clickActionRef; //getActionFromId(this.clickActionId);
 
 		action.process();
 		return true;
@@ -252,3 +258,14 @@ function initCellStates() {
 	item.objectImageId = IMAGE_VOLCANO;
 	cellStates.push(item);
 } 
+
+function finishInitCellStates() {
+	for (var t = 0; t < cellStates.length; t++) {
+		cellStates[t].floorImageRef = getImageFromId(cellStates[t].floorImageId);
+		cellStates[t].objectImageRef = getImageFromId(cellStates[t].objectImageId);
+		cellStates[t].editorImageRef = getImageFromId(cellStates[t].editorImageId);
+
+		cellStates[t].clickActionRef = getActionFromId(cellStates[t].clickActionId);
+		cellStates[t].questRef = getQuestFromId(cellStates[t].questId);
+	}
+}

@@ -22,6 +22,7 @@ function BuildingInfo() {
 
 	this.processOnCellType = [];
 	this.imageId = -1;
+	this.imageRef = null;
 	this.isVisible = false;
 
 	this.isUserOwned = false;
@@ -307,4 +308,14 @@ function initBuilding() {
 	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_STONE, 8));
 	item.reward.push(createDataLink_ResourceAmount(RESOURCE_BLOCK, 1));
 	buildings.push(item);
+}
+
+function finishInitBuilding() {
+	for (var t = 0; t < buildings.length; t++) {
+		buildings[t].imageRef = getImageFromId(buildings[t].imageId);
+
+		finishDataLinksInit(buildings[t].cost);
+		finishDataLinksInit(buildings[t].requirement);
+		finishDataLinksInit(buildings[t].reward);
+	}
 }

@@ -1,7 +1,14 @@
 ﻿var mainWorld = null;
 
 function WorldInfo() {
+    // TODO: dynamically build an array with an offset x, y
     this.mapInfo = [];
+
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.width = 0;
+    this.height = 0;
+    this.mapRefs = [];
 }
 
 WorldInfo.prototype.getMinLoc = function () {
@@ -44,20 +51,35 @@ WorldInfo.prototype.getPosibleMovement = function (middleMapId) {
     }
 
     if (found) {
-        for (var t = 0; t < this.mapInfo.length; t++) {
-            var m = getMapFromId(this.mapInfo[t].mapId);
+        var bit = [1, 2, 4, 8];
 
-            if (m.active) {
-                if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my - 1)
-                    pm += 1;
-                if (this.mapInfo[t].x == mx - 1 && this.mapInfo[t].y == my)
-                    pm += 2;
-                if (this.mapInfo[t].x == mx + 1 && this.mapInfo[t].y == my)
-                    pm += 4;
-                if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my + 1)
-                    pm += 8;
+        mx -= this.offsetX;
+        my -= this.offsetY;
+
+        for (var t = 0; t < coordPlus.length; t++) {
+            var cx = mx + coordPlus[t].x;
+            var cy = my + coordPlus[t].y;
+
+            if (cx >= 0 && cx < this.width && cy >= 0 && cy < this.height) {
+                if (this.mapRefs[cx + (cy * this.width)] != null && this.mapRefs[cx + (cy * this.width)].active)
+                    pm += bit[t];
             }
         }
+
+        //for (var t = 0; t < this.mapInfo.length; t++) {
+        //    var m = getMapFromId(this.mapInfo[t].mapId);
+
+        //    if (m.active) {
+        //        if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my - 1)
+        //            pm += 1;
+        //        if (this.mapInfo[t].x == mx - 1 && this.mapInfo[t].y == my)
+        //            pm += 2;
+        //        if (this.mapInfo[t].x == mx + 1 && this.mapInfo[t].y == my)
+        //            pm += 4;
+        //        if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my + 1)
+        //            pm += 8;
+        //    }
+        //}
     }
 
     return pm;
@@ -67,6 +89,8 @@ function WorldMapInfo() {
     this.x = 0;
     this.y = 0;
     this.mapId = 0;
+
+    this.mapRef = null;
 }
 
 function initWorld() {
@@ -103,4 +127,30 @@ function initWorld() {
     item.y = -1;
     item.mapId = 4;
     mainWorld.mapInfo.push(item);
+}
+
+function finishInitWorld() {
+    for (var t = 0; t < mainWorld.mapInfo.length; t++) {
+        mainWorld.mapInfo[t].mapRef = getMapFromId(mainWorld.mapInfo[t].mapId);
+    }
+
+    var minLoc = mainWorld.getMinLoc();
+    var maxLoc = mainWorld.getMaxLoc();
+
+    mainWorld.offsetX = minLoc.x;
+    mainWorld.offsetY = minLoc.y;
+    mainWorld.width = maxLoc.x - minLoc.x + 1;
+    mainWorld.height = maxLoc.y - minLoc.y + 1;
+    mainWorld.mapRefs = [];
+
+    for (var y = 0; y < mainWorld.height; y++) {
+        for (var x = 0; x < mainWorld.width; x++) {
+            mainWorld.mapRefs[x + (y * mainWorld.width)] = null;
+
+            for (var t = 0; t < mainWorld.mapInfo.length; t++) {
+                if (mainWorld.mapInfo[t].x == x + mainWorld.offsetX && mainWorld.mapInfo[t].y == y + mainWorld.offsetY)
+                    mainWorld.mapRefs[x + (y * mainWorld.width)] = mainWorld.mapInfo[t].mapRef;
+            }
+        }
+    }
 }

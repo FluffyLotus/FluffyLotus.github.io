@@ -11,6 +11,8 @@ function EnemyInfo() {
     this.baseLife = 5;
     this.movementSpeed = 1000;
     this.totalKill = 0;
+
+    this.imageRef = null;
 }
 
 function getEnemyFromId(id) {
@@ -48,4 +50,10 @@ function initEnemy() {
     item.baseLife = 150;
     item.movementSpeed = 1000;
     enemies.push(item);
+}
+
+function finishInitEnemy() {
+    for (var t = 0; t < enemies.length; t++) {
+        enemies[t].imageRef = getImageFromId(enemies[t].imageId);
+    }
 }

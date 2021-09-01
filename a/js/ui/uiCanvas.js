@@ -9,7 +9,7 @@ function uiInitCanvas() {
 }
 
 function uiDrawMap() {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     ctx.clearRect(0, 0, c.width, c.height);
 
@@ -21,26 +21,26 @@ function uiDrawMap() {
 
             if (curState != null) {
                 if (curState.floorImageId >= 0) {
-                    img = getImageFromId(curState.floorImageId);
+                    img = curState.floorImageRef; //getImageFromId(curState.floorImageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
                 if (curState.objectImageId >= 0) {
-                    img = getImageFromId(curState.objectImageId);
+                    img = curState.objectImageRef; //getImageFromId(curState.objectImageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
             }
 
             if (curCell.buildingInstance != null) {
-                var building = getBuildingFromId(curCell.buildingInstance.buildingId);
+                var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
                 if (building.imageId == IMAGE_ROAD) {
                     var conNum = curMap.getConnectionNumber(x, y);
 
-                    img = getImageFromId(building.imageId);
+                    img = building.imageRef; //getImageFromId(building.imageId);
                     drawImage(ctx, img.cornerImg[conNum], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
                 else {
-                    img = getImageFromId(building.imageId);
+                    img = building.imageRef; //getImageFromId(building.imageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
 
@@ -59,9 +59,9 @@ function uiDrawMap() {
 
     for (var i = 0; i < curMap.enemies.length; i++) {
         var ei = curMap.enemies[i];
-        var curEnemy = getEnemyFromId(ei.enemyId);
+        var curEnemy = ei.enemyRef; //getEnemyFromId(ei.enemyId);
 
-        img = getImageFromId(curEnemy.imageId);
+        img = curEnemy.imageRef; //getImageFromId(curEnemy.imageId);
         drawImage(ctx, img.img, ei.x * GRID_WIDTH, ei.y * GRID_HEIGHT);
 
         drawText(ctx, ei.life, ei.x, ei.y);

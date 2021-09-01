@@ -291,3 +291,6 @@ function initImages() {
     item.img = document.getElementById("imgCloud");
     images.push(item);
 }
+
+function finishInitImages() {
+}

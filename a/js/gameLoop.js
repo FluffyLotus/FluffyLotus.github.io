@@ -2,6 +2,8 @@
 var selectedCellX = 0;
 var selectedCellY = 0;
 
+var selectedMapRef = null;
+
 //var drawFunc = null;
 
 function glInitAll() {
@@ -12,8 +14,8 @@ function glInitAll() {
     initBuilding();
     initEnemy();
     initQuest();
-    initTimer();
     initWorld();
+    initTimer();
 
     // Load map
 
@@ -24,10 +26,22 @@ function glInitAll() {
     }
 
     maps[0].active = true;
+
+    finishInitImages();
+    finishInitResource();
+    finishInitActions();
+    finishInitCellStates();
+    finishInitBuilding();
+    finishInitEnemy();
+    finishInitQuest();
+    finishInitWorld();
+
+    glChangeSelectedMap(0);
 }
 
 function glChangeSelectedMap(newMapId) {
     selectedMapId = newMapId;
+    selectedMapRef = getMapFromId(selectedMapId);
 }
 
 function glStartMainLoop(df) {
@@ -49,7 +63,7 @@ function glMainLoop() {
 }
 
 function glProcessClick(x, y) {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     selectedCellX = x;
     selectedCellY = y;
@@ -58,7 +72,7 @@ function glProcessClick(x, y) {
 }
 
 function glProcessDestroy(x, y) {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     selectedCellX = x;
     selectedCellY = y;
@@ -67,7 +81,7 @@ function glProcessDestroy(x, y) {
 }
 
 function glProcessBuyBuilding(x, y, buildingId) {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
     var building = getBuildingFromId(buildingId);
 
     selectedCellX = x;
@@ -92,25 +106,25 @@ function glLevelDownBuilding(x, y) {
 }
 
 function glLevelUpSelectedBuilding() {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     curMap.levelBuilding(selectedCellX, selectedCellY);
 }
 
 function glLevelDownSelectedBuilding() {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     curMap.levelDownBuilding(selectedCellX, selectedCellY);
 }
 
 function glStartSpawn() {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     curMap.startSpawn();
 }
 
 function glCompleteSelectedCellQuest() {
-    var curMap = getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
     curMap.completeQuest(selectedCellX, selectedCellY);
 }
