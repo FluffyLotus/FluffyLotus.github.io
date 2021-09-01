@@ -1,16 +1,42 @@
-﻿function uiClearTooltip() {
-    $("#toolTipCell").hide();
-    $("#toolTipQuest").hide();
-    $("#toolTipAction").hide();
-    $("#toolTipBuilding").hide();
-    $("#toolTipMessage").hide();
-    $("#toolTipResource").hide();
+﻿var TOOLTIP_TYPE_NONE = 0;
+var TOOLTIP_TYPE_CELL = 1;
+var TOOLTIP_TYPE_QUEST = 2;
+var TOOLTIP_TYPE_ACTION = 3;
+var TOOLTIP_TYPE_BUILDING = 4;
+var TOOLTIP_TYPE_MESSAGE = 5;
+var TOOLTIP_TYPE_RESOURCE = 6;
+
+var currentToolTipType = TOOLTIP_TYPE_NONE;
+var currentToolTipInfo = 0;
+
+function uiUpdateToolTip() {
+    if (currentToolTipType == TOOLTIP_TYPE_CELL)
+        uiUpdateCellTooltip(currentToolTipInfo.x, currentToolTipInfo.y);
+    if (currentToolTipType == TOOLTIP_TYPE_QUEST)
+        uiUpdateQuestTooltip(currentToolTipInfo);
+    if (currentToolTipType == TOOLTIP_TYPE_ACTION)
+        uiUpdateActionTooltip(currentToolTipInfo);
+    if (currentToolTipType == TOOLTIP_TYPE_BUILDING)
+        uiUpdateBuildingTooltip(currentToolTipInfo);
+    if (currentToolTipType == TOOLTIP_TYPE_MESSAGE)
+        uiUpdateTooltip(currentToolTipInfo);
+    if (currentToolTipType == TOOLTIP_TYPE_RESOURCE)
+        uiUpdateResourceTooltip(currentToolTipInfo);
 }
 
-//function uiShowToggleFastTooltip() {
-//}
+function uiClearTooltip() {
+    if (currentToolTipType != TOOLTIP_TYPE_CELL) $("#toolTipCell").hide();
+    if (currentToolTipType != TOOLTIP_TYPE_QUEST) $("#toolTipQuest").hide();
+    if (currentToolTipType != TOOLTIP_TYPE_ACTION) $("#toolTipAction").hide();
+    if (currentToolTipType != TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").hide();
+    if (currentToolTipType != TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").hide();
+    if (currentToolTipType != TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").hide();
+}
 
 function uiSetActionTooltip(actionId) {
+    currentToolTipType = TOOLTIP_TYPE_ACTION;
+    currentToolTipInfo = actionId;
+
     uiClearTooltip();
 
     if (actionId == ACTION_CLICK) {
@@ -33,7 +59,13 @@ function uiSetActionTooltip(actionId) {
     $("#toolTipAction").show();
 }
 
+function uiUpdateActionTooltip(actionId) {
+}
+
 function uiSetBuildingTooltip(buildingId) {
+    currentToolTipType = TOOLTIP_TYPE_BUILDING;
+    currentToolTipInfo = buildingId;
+
     uiClearTooltip();
 
     var curBuilding = getBuildingFromId(buildingId);
@@ -61,7 +93,32 @@ function uiSetBuildingTooltip(buildingId) {
     $("#toolTipBuilding").show();
 }
 
+function uiUpdateBuildingTooltip(buildingId) {
+    var curBuilding = getBuildingFromId(buildingId);
+
+    $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
+
+    if (curBuilding.getRequirement(1).length > 0) {
+        $("#toolTipBuilding_requirementRow").show();
+        $("#toolTipBuilding_requirement").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
+    }
+    else
+        $("#toolTipBuilding_requirementRow").hide();
+
+    if (curBuilding.getReward(1).length > 0) {
+        $("#toolTipBuilding_rewardRow").show();
+        $("#toolTipBuilding_reward").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
+    }
+    else
+        $("#toolTipBuilding_rewardRow").hide();
+
+    $("#toolTipBuilding").show();
+}
+
 function uiSetCellTooltip(x, y) {
+    currentToolTipType = TOOLTIP_TYPE_CELL;
+    currentToolTipInfo = { x: x, y: y };
+
     uiClearTooltip();
 
     var curMap = getMapFromId(selectedMapId);
@@ -99,24 +156,95 @@ function uiSetCellTooltip(x, y) {
     }
 }
 
+function uiUpdateCellTooltip(x, y) {
+    var curMap = getMapFromId(selectedMapId);
+    var curCell = curMap.cells[x + (y * MAP_WIDTH)];
+    var curState = getCellStateFromId(curCell.getStateId());
+
+    if (curState.questId >= 0) {
+        uiUpdateQuestTooltip(curState.questId);
+    }
+    else {
+        $("#toolTipCell_name").text(curState.name);
+
+        if (curCell.buildingInstance != null) {
+            $("#toolTipCell_buildingInfo").show();
+
+            curBuilding = getBuildingFromId(curCell.buildingInstance.buildingId);
+
+            if (curBuilding.canUpgrade) {
+                $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
+                $("#toolTipCell_description").text("");
+
+                $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
+                $("#toolTipCell_buildingUpgrade").show();
+            }
+            else {
+                $("#toolTipCell_buildingName").text(curBuilding.name);
+                $("#toolTipCell_description").text(curBuilding.description);
+                $("#toolTipCell_buildingUpgrade").hide();
+            }
+        }
+        else
+            $("#toolTipCell_buildingInfo").hide();
+
+        $("#toolTipCell").show();
+    }
+}
+
 function uiSetQuestTooltip(questId) {
+    currentToolTipType = TOOLTIP_TYPE_QUEST;
+    currentToolTipInfo = questId;
+
     uiClearTooltip();
 
     var curQuest = getQuestFromId(questId);
 
     $("#toolTipQuest_name").text(curQuest.title);
 
-    if (quest.completed)
-        $("#toolTipQuest_description").text(curQuest.completeDescription);    
-    else
-        $("#toolTipQuest_description").text(curQuest.description);    
+    if (curQuest.completed) {
+        $("#toolTipQuest_description").text(curQuest.completeDescription);
+        $("#completeQuest").hide();
+        $("#toolTipQuest_requirementRow").hide();
+        $("#toolTipQuest_completed").show();
+    }
+    else {
+        $("#toolTipQuest_description").text(curQuest.description);
+        $("#completeQuest").show
+        $("#toolTipQuest_requirementRow").show();
+        $("#toolTipQuest_completed").hide();
+    } 
 
     $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
 
     $("#toolTipQuest").show();
 }
 
+function uiUpdateQuestTooltip(questId) {
+    var curQuest = getQuestFromId(questId);
+
+    $("#toolTipQuest_name").text(curQuest.title);
+
+    if (curQuest.completed) {
+        $("#toolTipQuest_description").text(curQuest.completeDescription);
+        $("#completeQuest").hide();
+        $("#toolTipQuest_requirementRow").hide();
+        $("#toolTipQuest_completed").show();
+    }
+    else {
+        $("#toolTipQuest_description").text(curQuest.description);
+        $("#completeQuest").show();
+        $("#toolTipQuest_requirementRow").show();
+        $("#toolTipQuest_completed").hide();
+    }
+
+    $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
+}
+
 function uiSetResourceTooltip(resourceId) {
+    currentToolTipType = TOOLTIP_TYPE_RESOURCE;
+    currentToolTipInfo = resourceId;
+
     uiClearTooltip();
 
     var curResource = getResourceFromId(resourceId);
@@ -127,10 +255,22 @@ function uiSetResourceTooltip(resourceId) {
     $("#toolTipResource").show();
 }
 
+function uiUpdateResourceTooltip(resourceId) {
+    var curResource = getResourceFromId(resourceId);
+}
+
 function uiSetTooltip(message) {
+    currentToolTipType = TOOLTIP_TYPE_MESSAGE;
+    currentToolTipInfo = message;
+
+    uiClearTooltip();
+
     //$("#messageInnerText").html(message);
 
     $("#toolTipMessage").show();
+}
+
+function uiUpdateTooltip(message) {
 }
 
 function dataLinksToString(dl) {

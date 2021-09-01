@@ -9,6 +9,7 @@
     //resources[RESOURCE_PLANK].addAmount(20000);
 
     uiInitCanvas();
+    uiInitActions();
 
     uiDrawResources();
     uiDrawActions();
@@ -24,6 +25,8 @@ function drawCanvas(timestamp) {
 
     uiDrawResources();
     uiDrawWorldMap();
+    uiDrawActions();
+    uiUpdateToolTip();
 
     var curMap = getMapFromId(selectedMapId);
 
