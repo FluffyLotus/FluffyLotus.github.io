@@ -166,7 +166,7 @@ function initBuilding() {
 	item.name = "Axe";
 	item.description = "Put the building on a tree to get wood";
 	item.actionTime = 1000;
-	item.imageId = IMAGE_AXE;
+	item.imageId = "axe";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.isUserOwned = true;
@@ -181,7 +181,7 @@ function initBuilding() {
 	item.name = "Pickaxe";
 	item.description = "Put the building on a mountain to get stone";
 	item.actionTime = 1000;
-	item.imageId = IMAGE_PICKAXE;
+	item.imageId = "pickaxe";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.isUserOwned = true;
@@ -195,7 +195,7 @@ function initBuilding() {
 	item.id = 2;
 	item.name = "Storage";
 	item.description = "Store resources";
-	item.imageId = IMAGE_STORAGE;
+	item.imageId = "storage";
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.storage = true;
 	item.isUserOwned = true;
@@ -207,7 +207,7 @@ function initBuilding() {
 	item.id = 3;
 	item.name = "Road";
 	item.description = "Pass resource";
-	item.imageId = IMAGE_ROAD;
+	item.imageId = "road";
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.connection = true;
 	item.isUserOwned = true;
@@ -220,7 +220,7 @@ function initBuilding() {
 	item.description = "Deals 1 damage per level to one nearby enemies";
 	item.timerType = TRACLER_TYPE_DELAY;
 	item.actionTime = 1000;
-	item.imageId = IMAGE_TOWER;
+	item.imageId = "tower";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.keepActionReady = true;
@@ -236,7 +236,7 @@ function initBuilding() {
 	item.description = "Deals 1 damage per level to all nearby enemies";
 	item.timerType = TRACLER_TYPE_DELAY;
 	item.actionTime = 1000;
-	item.imageId = IMAGE_TOWER2;
+	item.imageId = "tower2";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.keepActionReady = true;
@@ -253,13 +253,13 @@ function initBuilding() {
 	item.actionTime = 5000;
 	item.canSpawn = true;
 	item.keepActionReady = true;
-	item.imageId = IMAGE_CRYSTAL;
+	item.imageId = "crystal";
 	buildings.push(item);
 
 	item = new BuildingInfo();
 	item.id = 7;
 	item.name = "Spawn End";
-	item.imageId = IMAGE_CRYSTAL2;
+	item.imageId = "crystal2";
 	buildings.push(item);
 
 	item = new BuildingInfo();
@@ -267,7 +267,7 @@ function initBuilding() {
 	item.name = "Plank";
 	item.description = "Convert wood to plank";
 	item.actionTime = 1000;
-	item.imageId = IMAGE_PLANK;
+	item.imageId = "plank";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.isUserOwned = true;
@@ -283,7 +283,7 @@ function initBuilding() {
 	item.name = "Coal";
 	item.description = "Convert wood to coal";
 	item.actionTime = 1000;
-	item.imageId = IMAGE_COAL;
+	item.imageId = "coal";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.isUserOwned = true;
@@ -298,7 +298,7 @@ function initBuilding() {
 	item.name = "Block";
 	item.description = "Convert stone to block";
 	item.actionTime = 1000;
-	item.imageId = IMAGE_BLOCK;
+	item.imageId = "block";
 	item.needConnection = true;
 	item.canUpgrade = true;
 	item.isUserOwned = true;
@@ -312,7 +312,7 @@ function initBuilding() {
 
 function finishInitBuilding() {
 	for (var t = 0; t < buildings.length; t++) {
-		buildings[t].imageRef = getImageFromId(buildings[t].imageId);
+		buildings[t].imageRef = getImageFromName(buildings[t].imageId);
 
 		finishDataLinksInit(buildings[t].cost);
 		finishDataLinksInit(buildings[t].requirement);

@@ -30,7 +30,7 @@ function initEnemy() {
     item = new EnemyInfo();
     item.id = 0;
     item.name = "Enemy 1";
-    item.imageId = IMAGE_ENEMY;
+    item.imageId = "enemy";
     item.baseLife = 5;
     item.movementSpeed = 500;
     enemies.push(item);
@@ -38,7 +38,7 @@ function initEnemy() {
     item = new EnemyInfo();
     item.id = 1;
     item.name = "Enemy 2";
-    item.imageId = IMAGE_ENEMY2;
+    item.imageId = "enemy2";
     item.baseLife = 15;
     item.movementSpeed = 1000;
     enemies.push(item);
@@ -46,7 +46,7 @@ function initEnemy() {
     item = new EnemyInfo();
     item.id = 2;
     item.name = "Enemy 3";
-    item.imageId = IMAGE_ENEMY3;
+    item.imageId = "enemy3";
     item.baseLife = 150;
     item.movementSpeed = 1000;
     enemies.push(item);
@@ -54,6 +54,6 @@ function initEnemy() {
 
 function finishInitEnemy() {
     for (var t = 0; t < enemies.length; t++) {
-        enemies[t].imageRef = getImageFromId(enemies[t].imageId);
+        enemies[t].imageRef = getImageFromName(enemies[t].imageId);
     }
 }

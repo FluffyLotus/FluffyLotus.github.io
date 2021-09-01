@@ -9,9 +9,9 @@ function CellStateInfo() {
 	this.id = 0;
 	this.name = "";
 	this.typeId = STATE_TYPE_NONE;
-	this.floorImageId = -1;
-	this.objectImageId = -1;
-	this.editorImageId = -1;
+	this.floorImageId = "";
+	this.objectImageId = "";
+	this.editorImageId = "";
 	this.clickActionId = -1;
 	this.enemyPath = false;
 
@@ -59,16 +59,16 @@ function initCellStates() {
 	item.id = 0;
 	item.name = "Grass";
 	item.typeId = STATE_TYPE_GROUND;
-	item.floorImageId = 2;
-	item.objectImageId = -1;
+	item.floorImageId = "grass";
+	item.objectImageId = "";
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 1;
 	item.name = "Forest";
 	item.typeId = STATE_TYPE_TREE;
-	item.floorImageId = 2;
-	item.objectImageId = 6;
+	item.floorImageId = "grass";
+	item.objectImageId = "tree";
 	item.clickActionId = ACTION_GIVE_WOOD;
 	cellStates.push(item);
 
@@ -76,8 +76,8 @@ function initCellStates() {
 	item.id = 2;
 	item.name = "Mountain";
 	item.typeId = STATE_TYPE_ROCK;
-	item.floorImageId = 2;
-	item.objectImageId = 3;
+	item.floorImageId = "grass";
+	item.objectImageId = "mountain";
 	item.clickActionId = ACTION_GIVE_STONE;
 	cellStates.push(item);
 
@@ -85,8 +85,8 @@ function initCellStates() {
 	item.id = 3;
 	item.name = "Path";
 	item.typeId = 0;
-	item.floorImageId = 4;
-	item.objectImageId = -1;
+	item.floorImageId = "path";
+	item.objectImageId = "";
 	item.enemyPath = true;
 	cellStates.push(item);
 
@@ -94,9 +94,9 @@ function initCellStates() {
 	item.id = 4;
 	item.name = "Grass Crystal From";
 	item.initialBuilding = BUILDING_SPAWNSTART;
-	item.floorImageId = 2;
-	item.objectImageId = -1;
-	item.editorImageId = 7;
+	item.floorImageId = "grass";
+	item.objectImageId = "";
+	item.editorImageId = "crystal";
 	item.enemyPath = true;
 	cellStates.push(item);
 
@@ -104,9 +104,9 @@ function initCellStates() {
 	item.id = 5;
 	item.name = "Grass Crystal To";
 	item.initialBuilding = BUILDING_SPAWNEND;
-	item.floorImageId = 2;
-	item.objectImageId = -1;
-	item.editorImageId = 13;
+	item.floorImageId = "grass";
+	item.objectImageId = "";
+	item.editorImageId = "crystal2";
 	item.enemyPath = true;
 	cellStates.push(item);
 
@@ -114,16 +114,16 @@ function initCellStates() {
 	item.id = 6;
 	item.name = "Water";
 	item.typeId = 0;
-	item.floorImageId = 15;
-	item.objectImageId = -1;
+	item.floorImageId = "water";
+	item.objectImageId = "";
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 7;
 	item.name = "Grass Flower";
 	item.typeId = STATE_TYPE_GROUND;
-	item.floorImageId = 2;
-	item.objectImageId = 19;
+	item.floorImageId = "grass";
+	item.objectImageId = "flower";
 	item.clickActionId = ACTION_GIVE_FLOWER;
 	item.changeStateOnClickAction = 14;
 	cellStates.push(item);
@@ -132,8 +132,8 @@ function initCellStates() {
 	item.id = 8;
 	item.name = "Fisherman";
 	item.typeId = 0;
-	item.floorImageId = 2;
-	item.objectImageId = 18;
+	item.floorImageId = "grass";
+	item.objectImageId = "fisherman";
 	item.questId = QUEST_FISHERMAN;
 	cellStates.push(item);
 
@@ -141,8 +141,8 @@ function initCellStates() {
 	item.id = 9;
 	item.name = "Port";
 	item.typeId = 0;
-	item.floorImageId = 16;
-	item.objectImageId = 17;
+	item.floorImageId = "water";
+	item.objectImageId = "port";
 	item.questId = QUEST_PORT;
 	cellStates.push(item);
 
@@ -150,9 +150,9 @@ function initCellStates() {
 	item.id = 10;
 	item.name = "Water to Fish";
 	item.typeId = 0;
-	item.floorImageId = 15;
-	item.objectImageId = -1;
-	item.editorImageId = 20;
+	item.floorImageId = "water";
+	item.objectImageId = "";
+	item.editorImageId = "fish";
 	item.actionTimerFrom = 30000;
 	item.actionTimerTo = 60000;
 	item.changeStateOnTimerAction = 11;
@@ -162,8 +162,8 @@ function initCellStates() {
 	item.id = 11;
 	item.name = "Fish to water";
 	item.typeId = 0;
-	item.floorImageId = 15;
-	item.objectImageId = 20;
+	item.floorImageId = "water";
+	item.objectImageId = "fish";
 	item.clickActionId = ACTION_GIVE_FISH;
 	item.changeStateOnClickAction = 10;
 	cellStates.push(item);
@@ -172,16 +172,16 @@ function initCellStates() {
 	item.id = 12;
 	item.name = "Man Standing";
 	item.typeId = 0;
-	item.floorImageId = 2;
-	item.objectImageId = 21;
+	item.floorImageId = "grass";
+	item.objectImageId = "standing";
 	item.questId = QUEST_STANDING;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 13;
 	item.name = "City";
-	item.floorImageId = 2;
-	item.objectImageId = 8;
+	item.floorImageId = "grass";
+	item.objectImageId = "house";
 	item.questId = QUEST_FIRST;
 	cellStates.push(item);
 
@@ -189,8 +189,8 @@ function initCellStates() {
 	item.id = 14;
 	item.name = "No flower";
 	item.typeId = 0;
-	item.floorImageId = 2;
-	item.objectImageId = 24;
+	item.floorImageId = "grass";
+	item.objectImageId = "floweroff";
 	item.actionTimerFrom = 30000;
 	item.actionTimerTo = 60000;
 	item.changeStateOnTimerAction = 7;
@@ -199,15 +199,15 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 15;
 	item.name = "Pillar - Nothing special";
-	item.floorImageId = 2;
-	item.objectImageId = 25;
+	item.floorImageId = "grass";
+	item.objectImageId = "pillar";
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 16;
 	item.name = "Broken Bridge";
-	item.floorImageId = 31;
-	item.objectImageId = -1;
+	item.floorImageId = "bridgebroken";
+	item.objectImageId = "";
 	item.questId = QUEST_BRIDGE;
 	item.changeStateOnQuestAction = 17;
 	cellStates.push(item);
@@ -215,55 +215,55 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 17;
 	item.name = "Fix Bridge";
-	item.floorImageId = 32;
-	item.objectImageId = -1;
+	item.floorImageId = "bridgefix";
+	item.objectImageId = "";
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 18;
 	item.name = "Carpenter";
-	item.floorImageId = 2;
-	item.objectImageId = IMAGE_STANDING;
+	item.floorImageId = "grass";
+	item.objectImageId = "standing";
 	item.questId = QUEST_BRIDGE;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 19;
 	item.name = "Port City";
-	item.floorImageId = 2;
-	item.objectImageId = 8;
+	item.floorImageId = "grass";
+	item.objectImageId = "house";
 	item.questId = QUEST_PORTCITY;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 20;
 	item.name = "Road Helper";
-	item.floorImageId = 2;
-	item.objectImageId = IMAGE_PERSON;
+	item.floorImageId = "grass";
+	item.objectImageId = "person";
 	item.questId = QUEST_ROAD;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 21;
 	item.name = "Lava Path";
-	item.floorImageId = IMAGE_LAVA;
-	item.objectImageId = -1;
+	item.floorImageId = "lava";
+	item.objectImageId = "";
 	item.enemyPath = true;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
 	item.id = 22;
 	item.name = "Volcano";
-	item.floorImageId = IMAGE_PATH;
-	item.objectImageId = IMAGE_VOLCANO;
+	item.floorImageId = "path";
+	item.objectImageId = "volcano";
 	cellStates.push(item);
 } 
 
 function finishInitCellStates() {
 	for (var t = 0; t < cellStates.length; t++) {
-		cellStates[t].floorImageRef = getImageFromId(cellStates[t].floorImageId);
-		cellStates[t].objectImageRef = getImageFromId(cellStates[t].objectImageId);
-		cellStates[t].editorImageRef = getImageFromId(cellStates[t].editorImageId);
+		cellStates[t].floorImageRef = getImageFromName(cellStates[t].floorImageId);
+		cellStates[t].objectImageRef = getImageFromName(cellStates[t].objectImageId);
+		cellStates[t].editorImageRef = getImageFromName(cellStates[t].editorImageId);
 
 		cellStates[t].clickActionRef = getActionFromId(cellStates[t].clickActionId);
 		cellStates[t].questRef = getQuestFromId(cellStates[t].questId);

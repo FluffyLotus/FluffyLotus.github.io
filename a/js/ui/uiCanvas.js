@@ -20,11 +20,11 @@ function uiDrawMap() {
             var curState = cellStates[curCell.getStateId()];
 
             if (curState != null) {
-                if (curState.floorImageId >= 0) {
+                if (curState.floorImageRef != null) {
                     img = curState.floorImageRef; //getImageFromId(curState.floorImageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
-                if (curState.objectImageId >= 0) {
+                if (curState.objectImageRef != null) {
                     img = curState.objectImageRef; //getImageFromId(curState.objectImageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
@@ -33,16 +33,26 @@ function uiDrawMap() {
             if (curCell.buildingInstance != null) {
                 var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
-                if (building.imageId == IMAGE_ROAD) {
-                    var conNum = curMap.getConnectionNumber(x, y);
+                img = building.imageRef;
 
-                    img = building.imageRef; //getImageFromId(building.imageId);
+                if (img.hasCorners()) {
+                    var conNum = curMap.getConnectionNumber(x, y);
                     drawImage(ctx, img.cornerImg[conNum], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
                 else {
-                    img = building.imageRef; //getImageFromId(building.imageId);
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
+
+                //if (building.imageId == "road") {
+                //    var conNum = curMap.getConnectionNumber(x, y);
+
+                //    img = building.imageRef; //getImageFromId(building.imageId);
+                //    drawImage(ctx, img.cornerImg[conNum], x * GRID_WIDTH, y * GRID_HEIGHT);
+                //}
+                //else {
+                //    img = building.imageRef; //getImageFromId(building.imageId);
+                //    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                //}
 
                 if (building.canUpgrade) {
                     drawText(ctx, curCell.buildingInstance.level, x, y);
@@ -50,7 +60,7 @@ function uiDrawMap() {
             }
 
             if (x == selectedCellX && y == selectedCellY) {
-                img = getImageFromId(IMAGE_SELECT);
+                img = getImageFromName(IMAGE_SELECT);
                 drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
             }
 
@@ -68,7 +78,7 @@ function uiDrawMap() {
     }
 
     // Try some clouds
-    img = getImageFromId(IMAGE_CLOUD);
+    img = getImageFromName(IMAGE_CLOUD);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
