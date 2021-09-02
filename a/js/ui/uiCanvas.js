@@ -69,6 +69,27 @@ function uiDrawMap() {
                 drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
             }
 
+
+        }
+    }
+
+    // Mouve cloud
+    for (var y = 0; y < MAP_HEIGHT; y++) {
+        for (var x = 0; x < MAP_WIDTH; x++) {
+            var img;
+            var curCell = curMap.cells[x + (y * MAP_WIDTH)];
+            var curState = cellStates[curCell.getStateId()];
+
+            if (curState.id == 22 || curState.id == 21) {
+                var m = cloud2X[(x + y) % cloud2X.length];
+
+                m = parseInt(m) % 64;
+                if (m > 32) m = 32 - (m - 32);
+                m -= 16;
+
+                img = getImageFromName(IMAGE_CLOUD2);
+                ctx.drawImage(img.img, 0, 0, 64, 64, x * GRID_WIDTH - 16 + m, y * GRID_HEIGHT - 16, 64, 64);
+            }
         }
     }
 
@@ -94,7 +115,13 @@ function uiDrawMap() {
 
     if (cloudX <= -800) cloudX += 800;
     if (cloudY <= -463) cloudY += 463;
+
+    for (var t = 0; t < cloud2X.length; t++) {
+        cloud2X[t] += 10 * (deltaTime / 1000); //0.08;
+    }
 }
+
+var cloud2X = [0, 8, 16, 24, 32, 40, 48, 54];
 
 var cloudX = 0;
 var cloudY = 0;

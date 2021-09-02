@@ -51,7 +51,7 @@ CellInfo.prototype.process = function () {
 
 	if (state.changeStateOnQuestAction >= 0){
 		//if(getQuestFromId(state.questId).completed)
-		if (getQuestFromId(state.questRef).completed)
+		if (state.questRef.completed)
 			this.changeState(state.changeStateOnQuestAction);
 	}
 

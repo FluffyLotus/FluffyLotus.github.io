@@ -10,6 +10,7 @@ var IMAGE_TRASHCAN = "trashcan";
 var IMAGE_SELECT = "select";
 var IMAGE_CLOUD = "cloud";
 var IMAGE_NOCONNECTION = "noconnection";
+var IMAGE_CLOUD2 = "cloud2";
 
 //var IMAGE_AXE = 0;
 //var IMAGE_ENEMY = 1;
@@ -163,6 +164,7 @@ function initImages() {
     createSingleImage("deepwater");
     createSingleImage("noconnection");
     createSingleImage("stream");
+    createSingleImage("cloud2");
     
     //var item;
 
