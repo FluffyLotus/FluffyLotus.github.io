@@ -13,6 +13,8 @@ var RESOURCE_BLOCK = 8;
 function ResourceInfo() {
     this.id = 0;
     this.name = "";
+    this.description = "";
+    this.alwaysHidden = false;
     this.amount = 0;
     this.deltaAmount = 0;
 
@@ -20,6 +22,8 @@ function ResourceInfo() {
 }
 
 ResourceInfo.prototype.isVisible = function () {
+    if (this.alwaysHidden)
+        return false;
     if (this.totalAmount > 0)
         return true;
     return false;
@@ -56,31 +60,39 @@ function initResource() {
     item = new ResourceInfo();
     item.id = 0;
     item.name = "Wood";
+    item.description = "";
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 1;
     item.name = "Stone";
+    item.description = "";
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 2;
     item.name = "Kill";
+    item.description = "";
+    item.alwaysHidden = true;
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 3;
     item.name = "Death";
+    item.description = "";
+    item.alwaysHidden = true;
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 4;
     item.name = "Flower";
+    item.description = "";
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 5;
     item.name = "Fish";
+    item.description = "";
     resources.push(item);
 
     item = new ResourceInfo();
@@ -91,11 +103,13 @@ function initResource() {
     item = new ResourceInfo();
     item.id = 7;
     item.name = "Coal";
+    item.description = "";
     resources.push(item);
 
     item = new ResourceInfo();
     item.id = 8;
     item.name = "Block";
+    item.description = "";
     resources.push(item);
 }
 

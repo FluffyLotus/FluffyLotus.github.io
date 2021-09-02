@@ -9,6 +9,7 @@ var IMAGE_DOWNGRADE = "downgrade";
 var IMAGE_TRASHCAN = "trashcan";
 var IMAGE_SELECT = "select";
 var IMAGE_CLOUD = "cloud";
+var IMAGE_NOCONNECTION = "noconnection";
 
 //var IMAGE_AXE = 0;
 //var IMAGE_ENEMY = 1;
@@ -159,7 +160,10 @@ function initImages() {
     createSingleImage("downgrade");
     createSingleImage("cursor");
     createSingleImage("cloud");
-
+    createSingleImage("deepwater");
+    createSingleImage("noconnection");
+    createSingleImage("stream");
+    
     //var item;
 
     //item = new ImageInfo();

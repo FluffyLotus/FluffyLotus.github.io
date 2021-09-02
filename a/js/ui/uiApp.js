@@ -2,7 +2,8 @@
 var deltaTime = 0;
 
 function loadApp() {
-    $('#helpModal').modal('show');
+    $('#tutorialModal').modal('show');
+    uiSetHardTooltip(TOOLTIP_TYPE_MESSAGE, "Click on a forest or mountain to gain resources.");
 
     glInitAll();
 

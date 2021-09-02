@@ -2,12 +2,14 @@
 var STATE_TYPE_ROCK = 1;
 var STATE_TYPE_TREE = 2;
 var STATE_TYPE_GROUND = 3;
+var STATE_TYPE_WATER = 4;
 
 var cellStates = [];
 
 function CellStateInfo() {
 	this.id = 0;
 	this.name = "";
+	this.editorName = "";
 	this.typeId = STATE_TYPE_NONE;
 	this.floorImageId = "";
 	this.objectImageId = "";
@@ -41,6 +43,21 @@ CellStateInfo.prototype.processClick = function () {
 	}
 
 	return false;
+}
+
+function getCellStateTypeName(typeId) {
+	if (typeId == STATE_TYPE_NONE)
+		return "None";
+	if (typeId == STATE_TYPE_ROCK)
+		return "Rock";
+	if (typeId == STATE_TYPE_TREE)
+		return "Tree";
+	if (typeId == STATE_TYPE_GROUND)
+		return "Ground";
+	if (typeId == STATE_TYPE_WATER)
+		return "Water";
+
+	return "";
 }
 
 function getCellStateFromId(id) {
@@ -113,7 +130,7 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 6;
 	item.name = "Water";
-	item.typeId = 0;
+	item.typeId = STATE_TYPE_WATER;
 	item.floorImageId = "water";
 	item.objectImageId = "";
 	cellStates.push(item);
@@ -148,7 +165,8 @@ function initCellStates() {
 
 	item = new CellStateInfo();
 	item.id = 10;
-	item.name = "Water to Fish";
+	item.name = "Water";
+	item.editorName = " to fish";
 	item.typeId = 0;
 	item.floorImageId = "water";
 	item.objectImageId = "";
@@ -160,7 +178,8 @@ function initCellStates() {
 
 	item = new CellStateInfo();
 	item.id = 11;
-	item.name = "Fish to water";
+	item.name = "Fish";
+	item.editorName = " to water";
 	item.typeId = 0;
 	item.floorImageId = "water";
 	item.objectImageId = "fish";
@@ -198,7 +217,7 @@ function initCellStates() {
 
 	item = new CellStateInfo();
 	item.id = 15;
-	item.name = "Pillar - Nothing special";
+	item.name = "Pillar";
 	item.floorImageId = "grass";
 	item.objectImageId = "pillar";
 	cellStates.push(item);
@@ -256,6 +275,22 @@ function initCellStates() {
 	item.name = "Volcano";
 	item.floorImageId = "path";
 	item.objectImageId = "volcano";
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 23;
+	item.name = "Deep Water";
+	item.typeId = STATE_TYPE_WATER;
+	item.floorImageId = "deepwater";
+	item.objectImageId = "";
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 24;
+	item.name = "Stream";
+	item.typeId = STATE_TYPE_NONE;
+	item.floorImageId = "stream";
+	item.objectImageId = "";
 	cellStates.push(item);
 } 
 

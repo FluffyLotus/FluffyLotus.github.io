@@ -6,17 +6,17 @@ var ACTION_DESTROY = -4;
 var selectedAction = ACTION_CLICK;
 
 function uiInitActions() {
-    $("#actionList").append('<div id="action-1" onclick="uiSelectAction(' + ACTION_CLICK + ');" onmouseover="uiActionHover(' + ACTION_CLICK + ');" class="buildingSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_CURSOR).img.src + '" width="32" height="32" /></div>');
-    $("#actionList").append('<div id="action-2" onclick="uiSelectAction(' + ACTION_UPGRADE + ');" onmouseover="uiActionHover(' + ACTION_UPGRADE + ');" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_UPGRADE).img.src + '" width = "32" height = "32" /></div>');
-    $("#actionList").append('<div id="action-3" onclick="uiSelectAction(' + ACTION_DOWNGRADE + ');" onmouseover="uiActionHover(' + ACTION_DOWNGRADE + ');" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_DOWNGRADE).img.src + '" width="32" height="32" /></div>');
-    $("#actionList").append('<div id="action-4" onclick="uiSelectAction(' + ACTION_DESTROY + ');" onmouseover="uiActionHover(' + ACTION_DESTROY + ');" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_TRASHCAN).img.src + '" width="32" height="32" /></div>');
+    $("#actionList").append('<div id="action-1" onclick="uiSelectAction(' + ACTION_CLICK + ');" onmouseover="uiActionHover(' + ACTION_CLICK + ');" onmouseout="uiClearSoftTooltip();" class="buildingSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_CURSOR).img.src + '" width="32" height="32" /></div>');
+    $("#actionList").append('<div id="action-2" onclick="uiSelectAction(' + ACTION_UPGRADE + ');" onmouseover="uiActionHover(' + ACTION_UPGRADE + ');" onmouseout="uiClearSoftTooltip();" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_UPGRADE).img.src + '" width = "32" height = "32" /></div>');
+    $("#actionList").append('<div id="action-3" onclick="uiSelectAction(' + ACTION_DOWNGRADE + ');" onmouseover="uiActionHover(' + ACTION_DOWNGRADE + ');" onmouseout="uiClearSoftTooltip();" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_DOWNGRADE).img.src + '" width="32" height="32" /></div>');
+    $("#actionList").append('<div id="action-4" onclick="uiSelectAction(' + ACTION_DESTROY + ');" onmouseover="uiActionHover(' + ACTION_DESTROY + ');" onmouseout="uiClearSoftTooltip();" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + getImageFromName(IMAGE_TRASHCAN).img.src + '" width="32" height="32" /></div>');
 }
 
 function uiDrawActions() {
     for (var t = 0; t < buildings.length; t++) {
         if (buildings[t].isVisible) {
             if ($("#action" + buildings[t].id).length == 0)
-                $("#actionBuildingList").append('<div id="action' + buildings[t].id + '" onclick="uiSelectAction(' + buildings[t].id + ');" onmouseover="uiBuildingHover(' + buildings[t].id + ');" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + buildings[t].imageRef.img.src + '" width="32" height="32" /></div>');
+                $("#actionBuildingList").append('<div id="action' + buildings[t].id + '" onclick="uiSelectAction(' + buildings[t].id + ');" onmouseover="uiBuildingHover(' + buildings[t].id + ');" onmouseout="uiClearSoftTooltip();" class="buildingNotSelected" style="margin: 2px; width: 34px; height: 34px; display: inline-block;"><img src="' + buildings[t].imageRef.img.src + '" width="32" height="32" /></div>');
         }
     }
     
@@ -31,18 +31,24 @@ function uiSelectAction(actionId) {
     $("#action" + selectedAction).removeClass("buildingNotSelected");
     $("#action" + selectedAction).addClass("buildingSelected");
 
-    if (selectedAction < 0)
-        uiActionHover(selectedAction);
-    else
-        uiBuildingHover(selectedAction);
+    if (selectedAction < 0) {
+        //uiActionHover(selectedAction);
+        uiSetHardTooltip(TOOLTIP_TYPE_ACTION, selectedAction);
+    }
+    else {
+        //uiBuildingHover(selectedAction);
+        uiSetHardTooltip(TOOLTIP_TYPE_BUILDING, selectedAction);
+    }
 }
 
 function uiActionHover(actionId) {
-    uiSetActionTooltip(actionId);
+    //uiSetActionTooltip(actionId);
+    uiSetSoftTooltip(TOOLTIP_TYPE_ACTION, actionId);
 }
 
 function uiBuildingHover(buildingId) {
-    uiSetBuildingTooltip(buildingId);
+    //uiSetBuildingTooltip(buildingId);
+    uiSetSoftTooltip(TOOLTIP_TYPE_BUILDING, buildingId);
 }
 
 function uiUpgradeBuilding() {

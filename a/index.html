@@ -281,6 +281,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div><span id="toolTipCell_name" style="font-weight: bold;"></span></div>
+                            <div>Type: <span id="toolTipCell_type"></span></div>
                         </div>
                         <div class="col-6" id="toolTipCell_buildingInfo">
                             <div><span id="toolTipCell_buildingName" style="font-weight: bold;"></span></div>
@@ -296,7 +297,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div><span id="toolTipQuest_name" style="font-weight: bold;"></span></div>
-                            <div id="toolTipQuest_requirementRow"><span>Requirement: </span><span id="toolTipQuest_requirement"></span></div>
+                            <div id="toolTipQuest_requirementRow"><span>Req.: </span><span id="toolTipQuest_requirement"></span></div>
                             <div id="toolTipQuest_completed">Completed</div>
                             <div>
                                 <button id="completeQuest" class="btn btn-sm btn-primary" type="button" onclick="uiCompleteQuest();">Complete Quest</button>
@@ -304,6 +305,9 @@
                         </div>
                         <div class="col-6">
                             <div><span id="toolTipQuest_description"></span></div>
+                            <div style="text-align: right;">
+                                <button class="btn btn-sm btn-primary" type="button" onclick="uiShowTooltipQuestInformation();">More Info</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,33 +329,16 @@
                     </div>
                 </div>
                 <div id="toolTipMessage" style="width: 100%; height: 100%; display: none;">
-
+                    <div style="color: yellow;">
+                        <span id="messageInnerText">
+                            qwqwe
+                        </span>
+                    </div>
                 </div>
                 <div id="toolTipResource" style="width: 100%; height: 100%; display: none;">
                     <div><span id="toolTipResource_name" style="font-weight: bold;"></span></div>
                     <div><span id="toolTipResource_description"></span></div>
                 </div>
-                <!--
-                        <div id="tooltipSection" style="        width: 100%;
-                height: 100%;
-                display: none;">
-                            <div class="row">
-                                <div id="tooltipSectionLeft" class="col-6"></div>
-                                <div id="tooltipSectionRight" class="col-6"></div>
-                            </div>
-                        </div>
-                        <div id="messageSection" style="width: 100%; height: 100%; display: block;">
-                            <div class="row">
-                                <div class="col-12" style="color: yellow;">
-                                    <span id="messageInnerText">
-                                        qwqwe
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                    <div class="col-12" style="text-align: center;"><button class="btn btn-sm btn-primary" onclick="uiCloseMessage();">Close this message to see tooltips</button></div>
-                </div>
-                        </div>-->
             </div>
 
             <div class="tab-content" id="myTabContent" style="width: 610px;">
@@ -548,6 +535,25 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    TODO
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tutorialModal" tabindex="-1" aria-labelledby="tutorialModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tutorialModalLabel">Tutorial</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <!--<p>Something strange is hapenning lately. The animals are more aggressive than usual. We need to make sure we are prepared.</p>-->
                     <p>Click on mountain and forest to get resources.</p>
                     <p><img src="images/tutorial/0.png" /></p>
@@ -576,6 +582,32 @@
                     <p>
                         Since you left, you gain <span id="timeEssenceAfterLoad" style="color: yellow;">0</span> Time Mana. These can be used to increase the speed of the game.
                     </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="questInfoModal" tabindex="-1" aria-labelledby="questInfoModal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questInfoModal-title">Quest</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="questInfoModal-desc">
+                    </p>
+                    <p id="questInfoModal-completeDesc">
+                    </p>
+                    <h3>Requirements</h3>
+                    <div id="questInfoModal-req">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -647,8 +679,11 @@
         <img id="img_downgrade" src="images/downgrade.png" />
         <img id="img_cursor" src="images/cursor.png" />
         <img id="img_cloud" src="images/cloud.png" />
+        <img id="img_deepwater" src="images/deepwater.png" />
+        <img id="img_noconnection" src="images/no_connection.png" />
+        <img id="img_stream" src="images/stream.png" />
     </div>
-
+    
     <footer style="pointer-events: none;">
         <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0; pointer-events: none;">
             <div id="toastTemplate" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000" style="pointer-events: auto;">
@@ -694,6 +729,7 @@
     <script src="js/ui/uiBuilding.js?v0.01.3"></script>
     <script src="js/ui/uiAction.js?v0.01.3"></script>
     <script src="js/ui/uiWorldMap.js?v0.01.3"></script>
+    <script src="js/ui/uiQuest.js?v0.01.3"></script>
     <script src="js/ui/uiApp.js?v0.01.3"></script>
 
     <script src="data/dataMap.js?v0.01.3"></script>

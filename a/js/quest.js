@@ -11,8 +11,13 @@ var QUEST_ROAD = 6;
 function QuestInformation() {
     this.id = 0;
     this.title = "";
+
     this.description = "";
     this.completeDescription = "";
+
+    this.descriptionSummary = "";
+    this.completeDescriptionSummary = "";
+
     this.requirements = [];
     this.rewards = [];
     this.completed = false;
@@ -51,9 +56,13 @@ function initQuest() {
 
     item = new QuestInformation();
     item.id = 0;
-    item.title = "Port";
-    item.description = "We need material to fix the ship.";
-    item.completeDescription = "Ended";
+    item.title = "Build Boat";
+    item.description += "- Our boat was damage in the latest storm.\n";
+    item.description += "- Help us gather planks to fix the boat.";
+    item.descriptionSummary = "Gather planks to fix the boat.";
+    item.completeDescription += "- With the boat fix.\n";
+    item.completeDescription += "- We can give you safe passage to the west.\n";
+    item.completeDescriptionSummary = "The passage to the west is now open.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 1000));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 2, 1));
     quests.push(item);
@@ -61,16 +70,26 @@ function initQuest() {
     item = new QuestInformation();
     item.id = 1;
     item.title = "Fisherman";
-    item.description = "I need fish.";
-    item.completeDescription = "Ended";
+    item.description += "- I'm having trouble gathering fish.\n";
+    item.description += "- Can you help me gather some fishes?.\n";
+    item.description += "- I won't give you anything since the developper did not finish my quest.";
+    item.descriptionSummary = "Gather fish for nothing.";
+    item.completeDescription += "- How...\n";
+    item.completeDescription += "- How can you gather so many fish?!";
+    item.completeDescriptionSummary = "... wow! ... that's all I can say.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FISH, 1000));
     quests.push(item);
 
     item = new QuestInformation();
     item.id = 2;
     item.title = "Standing Man";
-    item.description = "It's dangerous, show me you can handle it.";
-    item.completeDescription = "Ended";
+    item.description += "- It's very dangerous up north.\n";
+    item.description += "- I can't let anybody go there.\n";
+    item.description += "- Show me your strength and I will let you go.";
+    item.descriptionSummary = "It's dangerous, show me you can handle it.";
+    item.completeDescription += "- You are very strong.\n";
+    item.completeDescription += "- Good luck!";
+    item.completeDescriptionSummary = "The passage to the north is now open.";
     item.requirements.push(createDataLink(DLTYPE_ENEMY, DLSUBTYPE_KILL, ENEMY_FIRST, 100));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 3, 1));
     quests.push(item);
@@ -78,8 +97,13 @@ function initQuest() {
     item = new QuestInformation();
     item.id = 3;
     item.title = "Start your adventure";
-    item.description = "Build an axe and pickaxe with storage to move forward.";
-    item.completeDescription = "Ended";
+    item.description += "- You want to go up north?\n";
+    item.description += "- We really need you here...\n";
+    item.description += "- Can you help us gather some wood and stone before going on your journey?";
+    item.descriptionSummary = "Get wood and stone to continue the path north.";
+    item.completeDescription += "- With these resources, we will be able to keep the village running for a while.\n";
+    item.completeDescription += "- Good luck on your journey up north.";
+    item.completeDescriptionSummary = "After giving the resources, the path north was open.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 1000));
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 1000));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 1, 1));
@@ -87,9 +111,16 @@ function initQuest() {
 
     item = new QuestInformation();
     item.id = 4;
-    item.title = "Fix bridge";
-    item.description = "Need to fix the bridge.";
-    item.completeDescription = "I did an investigation.";
+    item.title = "Broken Bridge";
+    item.description += "- Help!\n";
+    item.description += "- I was investigating the crystal and the bridge collapse.\n";
+    item.description += "- Can you gather wood and help fix the bridge?";
+    item.descriptionSummary = "Gather wood to fix the bridge.";
+    item.completeDescription += "- I did some investigation.\n";
+    item.completeDescription += "- The crystal are getting active.\n";
+    item.completeDescription += "- I think we need to start protecting the city.\n";
+    item.completeDescription += "- Here are some blueprint.";
+    item.completeDescriptionSummary = "The carpender gave tower and plank blueprint.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 10000));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_TOWER1, 1));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_PLANK, 1));
@@ -98,17 +129,26 @@ function initQuest() {
     item = new QuestInformation();
     item.id = 5;
     item.title = "Port city";
-    item.description = "Our carpenter went to the west to investigage. Can you help us first?";
-    item.completeDescription = "Ended";
+    item.description += "- Our carpenter went to the west to investigage.\n";
+    item.description += "- Can you help us gather flowers?\n";
+    item.description += "- We will open the path to the west.";
+    item.descriptionSummary = "Gather flowers to open the path to the west.";
+    item.completeDescription += "- The path to the west is now open.\n";
+    item.completeDescription += "- Please, see if the carpenter is ok.";
+    item.completeDescriptionSummary = "The path to the west is open.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FLOWER, 20));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 4, 1));
     quests.push(item);
 
     item = new QuestInformation();
     item.id = 6;
-    item.title = "Road";
-    item.description = "I can show you have to build road.";
-    item.completeDescription = "Ended";
+    item.title = "Builder";
+    item.description += "- It will get difficult if you don't build roads.\n";
+    item.description += "- Bring me some stone and I'll teach you how.";
+    item.descriptionSummary = "Get stone to get the blueprint for roads.";
+    item.completeDescription += "- This is enought stone.\n";
+    item.completeDescription += "- Here's the blueprint on how to build roads.";
+    item.completeDescriptionSummary = "The builder gave the blueprint for roads.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 100));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_ROAD, 1));
     quests.push(item);

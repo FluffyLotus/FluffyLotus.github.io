@@ -6,54 +6,116 @@ var TOOLTIP_TYPE_BUILDING = 4;
 var TOOLTIP_TYPE_MESSAGE = 5;
 var TOOLTIP_TYPE_RESOURCE = 6;
 
-var currentToolTipType = TOOLTIP_TYPE_NONE;
-var currentToolTipInfo = 0;
+var currentHardToolTipType = TOOLTIP_TYPE_NONE;
+var currentHardToolTipInfo = 0;
+
+var currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+var currentSoftToolTipInfo = 0;
+
+//////////////////////
+
+function uiSetHardTooltip(toolTipType, info) {
+    if (toolTipType == TOOLTIP_TYPE_RESOURCE) uiSetResourceTooltip(info, true);
+    if (toolTipType == TOOLTIP_TYPE_ACTION) uiSetActionTooltip(info, true);
+    if (toolTipType == TOOLTIP_TYPE_BUILDING) uiSetBuildingTooltip(info, true);
+    if (toolTipType == TOOLTIP_TYPE_MESSAGE) uiSetMessageTooltip(info, true);
+}
+
+function uiSetSoftTooltip(toolTipType, info) {
+    if (toolTipType == TOOLTIP_TYPE_RESOURCE) uiSetResourceTooltip(info, false);
+    if (toolTipType == TOOLTIP_TYPE_ACTION) uiSetActionTooltip(info, false);
+    if (toolTipType == TOOLTIP_TYPE_BUILDING) uiSetBuildingTooltip(info, false);
+    if (toolTipType == TOOLTIP_TYPE_MESSAGE) uiSetMessageTooltip(info, false);
+}
+
+//////////////////////
 
 function uiUpdateToolTip() {
-    if (currentToolTipType == TOOLTIP_TYPE_CELL)
-        uiUpdateCellTooltip(currentToolTipInfo.x, currentToolTipInfo.y);
-    if (currentToolTipType == TOOLTIP_TYPE_QUEST)
-        uiUpdateQuestTooltip(currentToolTipInfo);
-    if (currentToolTipType == TOOLTIP_TYPE_ACTION)
-        uiUpdateActionTooltip(currentToolTipInfo);
-    if (currentToolTipType == TOOLTIP_TYPE_BUILDING)
-        uiUpdateBuildingTooltip(currentToolTipInfo);
-    if (currentToolTipType == TOOLTIP_TYPE_MESSAGE)
-        uiUpdateTooltip(currentToolTipInfo);
-    if (currentToolTipType == TOOLTIP_TYPE_RESOURCE)
-        uiUpdateResourceTooltip(currentToolTipInfo);
+    var toolTipType = currentSoftToolTipType;
+    var toolTipInfo = currentSoftToolTipInfo;
+
+    if (toolTipType == TOOLTIP_TYPE_NONE) {
+        toolTipType = currentHardToolTipType;
+        toolTipInfo = currentHardToolTipInfo;
+    }
+
+    if (toolTipType == TOOLTIP_TYPE_CELL)
+        uiUpdateCellTooltip(toolTipInfo.x, toolTipInfo.y);
+    if (toolTipType == TOOLTIP_TYPE_QUEST)
+        uiUpdateQuestTooltip(toolTipInfo);
+    if (toolTipType == TOOLTIP_TYPE_ACTION)
+        uiUpdateActionTooltip(toolTipInfo);
+    if (toolTipType == TOOLTIP_TYPE_BUILDING)
+        uiUpdateBuildingTooltip(toolTipInfo);
+    //if (toolTipType == TOOLTIP_TYPE_MESSAGE)
+    //    uiUpdateTooltip(toolTipInfo);
+    if (toolTipType == TOOLTIP_TYPE_RESOURCE)
+        uiUpdateResourceTooltip(toolTipInfo);
+}
+
+function uiClearSoftTooltip() {
+    currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+    currentSoftToolTipInfo = 0;
+
+    uiClearTooltip();
+    uiSetHardTooltip(currentHardToolTipType, currentHardToolTipInfo);
+    //uiUpdateToolTip();
 }
 
 function uiClearTooltip() {
-    if (currentToolTipType != TOOLTIP_TYPE_CELL) $("#toolTipCell").hide();
-    if (currentToolTipType != TOOLTIP_TYPE_QUEST) $("#toolTipQuest").hide();
-    if (currentToolTipType != TOOLTIP_TYPE_ACTION) $("#toolTipAction").hide();
-    if (currentToolTipType != TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").hide();
-    if (currentToolTipType != TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").hide();
-    if (currentToolTipType != TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").hide();
+    var toolTipType = currentSoftToolTipType;
+
+    if (toolTipType == TOOLTIP_TYPE_NONE) {
+        toolTipType = currentHardToolTipType;
+    }
+
+    if (toolTipType != TOOLTIP_TYPE_CELL) $("#toolTipCell").hide();
+    if (toolTipType != TOOLTIP_TYPE_QUEST) $("#toolTipQuest").hide();
+    if (toolTipType != TOOLTIP_TYPE_ACTION) $("#toolTipAction").hide();
+    if (toolTipType != TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").hide();
+    if (toolTipType != TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").hide();
+    if (toolTipType != TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").hide();
+
+    if (toolTipType == TOOLTIP_TYPE_CELL) $("#toolTipCell").show();
+    if (toolTipType == TOOLTIP_TYPE_QUEST) $("#toolTipQuest").show();
+    if (toolTipType == TOOLTIP_TYPE_ACTION) $("#toolTipAction").show();
+    if (toolTipType == TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").show();
+    if (toolTipType == TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").show();
+    if (toolTipType == TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").show();
 }
 
-function uiSetActionTooltip(actionId) {
-    currentToolTipType = TOOLTIP_TYPE_ACTION;
-    currentToolTipInfo = actionId;
+function uiSetActionTooltip(actionId, isHard) {
+    //uiClearSoftTooltip();
+
+    if (isHard) {
+        currentHardToolTipType = TOOLTIP_TYPE_ACTION;
+        currentHardToolTipInfo = actionId;
+
+        currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+        currentSoftToolTipInfo = 0;
+    }
+    else {
+        currentSoftToolTipType = TOOLTIP_TYPE_ACTION;
+        currentSoftToolTipInfo = actionId;
+    }
 
     uiClearTooltip();
 
     if (actionId == ACTION_CLICK) {
         $("#toolTipAction_name").text("Click");
-        $("#toolTipAction_description").text("Click on cell to select, view quest, execute actions.");
+        $("#toolTipAction_description").text("Click on a cell to select. View properties, quests and execute actions.");
     }
     else if (actionId == ACTION_UPGRADE) {
-        $("#toolTipAction_name").text("Update");
-        $("#toolTipAction_description").text("Click on cell to upgrade the building.");
+        $("#toolTipAction_name").text("Upgrade");
+        $("#toolTipAction_description").text("Click on a cell to upgrade the building.");
     }
     else if (actionId == ACTION_DOWNGRADE) {
         $("#toolTipAction_name").text("Downgrade");
-        $("#toolTipAction_description").text("Click on cell to downgrade the building.");
+        $("#toolTipAction_description").text("Click on a cell to downgrade the building. All resources will be given back.");
     }
     else if (actionId == ACTION_DESTROY) {
         $("#toolTipAction_name").text("Destroy");
-        $("#toolTipAction_description").text("Click on cell to destroy the building.");
+        $("#toolTipAction_description").text("Click on a cell to destroy the building. All resources will be given back.");
     }
 
     $("#toolTipAction").show();
@@ -62,9 +124,20 @@ function uiSetActionTooltip(actionId) {
 function uiUpdateActionTooltip(actionId) {
 }
 
-function uiSetBuildingTooltip(buildingId) {
-    currentToolTipType = TOOLTIP_TYPE_BUILDING;
-    currentToolTipInfo = buildingId;
+function uiSetBuildingTooltip(buildingId, isHard) {
+    //uiClearSoftTooltip();
+
+    if (isHard) {
+        currentHardToolTipType = TOOLTIP_TYPE_BUILDING;
+        currentHardToolTipInfo = buildingId;
+
+        currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+        currentSoftToolTipInfo = 0;
+    }
+    else {
+        currentSoftToolTipType = TOOLTIP_TYPE_BUILDING;
+        currentSoftToolTipInfo = buildingId;
+    }
 
     uiClearTooltip();
 
@@ -116,8 +189,8 @@ function uiUpdateBuildingTooltip(buildingId) {
 }
 
 function uiSetCellTooltip(x, y) {
-    currentToolTipType = TOOLTIP_TYPE_CELL;
-    currentToolTipInfo = { x: x, y: y };
+    currentHardToolTipType = TOOLTIP_TYPE_CELL;
+    currentHardToolTipInfo = { x: x, y: y };
 
     uiClearTooltip();
 
@@ -130,6 +203,7 @@ function uiSetCellTooltip(x, y) {
     }
     else {
         $("#toolTipCell_name").text(curState.name);
+        $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
         
         if (curCell.buildingInstance != null) {
             $("#toolTipCell_buildingInfo").show();
@@ -166,6 +240,7 @@ function uiUpdateCellTooltip(x, y) {
     }
     else {
         $("#toolTipCell_name").text(curState.name);
+        $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
 
         if (curCell.buildingInstance != null) {
             $("#toolTipCell_buildingInfo").show();
@@ -193,8 +268,8 @@ function uiUpdateCellTooltip(x, y) {
 }
 
 function uiSetQuestTooltip(questId) {
-    currentToolTipType = TOOLTIP_TYPE_QUEST;
-    currentToolTipInfo = questId;
+    currentHardToolTipType = TOOLTIP_TYPE_QUEST;
+    currentHardToolTipInfo = questId;
 
     uiClearTooltip();
 
@@ -203,13 +278,13 @@ function uiSetQuestTooltip(questId) {
     $("#toolTipQuest_name").text(curQuest.title);
 
     if (curQuest.completed) {
-        $("#toolTipQuest_description").text(curQuest.completeDescription);
+        $("#toolTipQuest_description").text(curQuest.completeDescriptionSummary);
         $("#completeQuest").hide();
         $("#toolTipQuest_requirementRow").hide();
         $("#toolTipQuest_completed").show();
     }
     else {
-        $("#toolTipQuest_description").text(curQuest.description);
+        $("#toolTipQuest_description").text(curQuest.descriptionSummary);
         $("#completeQuest").show
         $("#toolTipQuest_requirementRow").show();
         $("#toolTipQuest_completed").hide();
@@ -226,13 +301,13 @@ function uiUpdateQuestTooltip(questId) {
     $("#toolTipQuest_name").text(curQuest.title);
 
     if (curQuest.completed) {
-        $("#toolTipQuest_description").text(curQuest.completeDescription);
+        $("#toolTipQuest_description").text(curQuest.completeDescriptionSummary);
         $("#completeQuest").hide();
         $("#toolTipQuest_requirementRow").hide();
         $("#toolTipQuest_completed").show();
     }
     else {
-        $("#toolTipQuest_description").text(curQuest.description);
+        $("#toolTipQuest_description").text(curQuest.descriptionSummary);
         $("#completeQuest").show();
         $("#toolTipQuest_requirementRow").show();
         $("#toolTipQuest_completed").hide();
@@ -241,16 +316,27 @@ function uiUpdateQuestTooltip(questId) {
     $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
 }
 
-function uiSetResourceTooltip(resourceId) {
-    currentToolTipType = TOOLTIP_TYPE_RESOURCE;
-    currentToolTipInfo = resourceId;
+function uiSetResourceTooltip(resourceId, isHard) {
+    //uiClearSoftTooltip();
+
+    if (isHard) {
+        currentHardToolTipType = TOOLTIP_TYPE_RESOURCE;
+        currentHardToolTipInfo = resourceId;
+
+        currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+        currentSoftToolTipInfo = 0;
+    }
+    else {
+        currentSoftToolTipType = TOOLTIP_TYPE_RESOURCE;
+        currentSoftToolTipInfo = resourceId;
+    }
 
     uiClearTooltip();
 
     var curResource = getResourceFromId(resourceId);
 
     $("#toolTipResource_name").text(curResource.name);
-    $("#toolTipResource_description").text("Some description");
+    $("#toolTipResource_description").text(curResource.description);
 
     $("#toolTipResource").show();
 }
@@ -259,90 +345,27 @@ function uiUpdateResourceTooltip(resourceId) {
     var curResource = getResourceFromId(resourceId);
 }
 
-function uiSetTooltip(message) {
-    currentToolTipType = TOOLTIP_TYPE_MESSAGE;
-    currentToolTipInfo = message;
+function uiSetMessageTooltip(message, isHard) {
+    //uiClearSoftTooltip();
+
+    if (isHard) {
+        currentHardToolTipType = TOOLTIP_TYPE_MESSAGE;
+        currentHardToolTipInfo = message;
+
+        currentSoftToolTipType = TOOLTIP_TYPE_NONE;
+        currentSoftToolTipInfo = 0;
+    }
+    else {
+        currentSoftToolTipType = TOOLTIP_TYPE_MESSAGE;
+        currentSoftToolTipInfo = message;
+    }
 
     uiClearTooltip();
 
-    //$("#messageInnerText").html(message);
+    $("#messageInnerText").html(message);
 
     $("#toolTipMessage").show();
 }
 
 function uiUpdateTooltip(message) {
-}
-
-function dataLinksToString(dl) {
-    var str = "";
-
-    for (var t = 0; t < dl.length; t++) {
-        if (dl[t].typeId == DLTYPE_RESOURCE)
-            //str += getResourceFromId(dl[t].objectId).name + ": " + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + (dl[t].amount) + "<br />";
-        else if (dl[t].typeId == DLTYPE_ENEMY) {
-            //str += getEnemyFromId(dl[t].objectId).name + ": " + getEnemyFromId(dl[t].objectId).totalKill + "/" + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + dl[t].objectRef.totalKill + "/" + (dl[t].amount) + "<br />";
-        }
-        else
-            str += "???<br />";
-    }
-
-    return str;
-}
-
-function dataLinksToStringOneLine(dl) {
-    var str = "";
-
-    for (var t = 0; t < dl.length; t++) {
-        if (t > 0)
-            str += ", ";
-
-        if (dl[t].typeId == DLTYPE_RESOURCE)
-            //str += dl[t].amount + " " + getResourceFromId(dl[t].objectId).name;
-            str += dl[t].amount + " " + dl[t].objectRef.name;
-        else if (dl[t].typeId == DLTYPE_ENEMY) {
-            //str += getEnemyFromId(dl[t].objectId).name + ": " + getEnemyFromId(dl[t].objectId).totalKill + "/" + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + dl[t].objectRef.totalKill + "/" + (dl[t].amount) + "<br />";
-        }
-        else
-            str += "???";
-    }
-
-    return str;
-}
-
-function dataLinksToStringOneAvailableLine(dl) {
-    var str = "";
-
-    for (var t = 0; t < dl.length; t++) {
-        if (t > 0)
-            str += ", ";
-
-        var amt, needed, name;
-
-        if (dl[t].typeId == DLTYPE_RESOURCE) {
-            //amt = getResourceFromId(dl[t].objectId).amount;
-            amt = dl[t].objectRef.amount;
-            needed = dl[t].amount;
-            //name = getResourceFromId(dl[t].objectId).name;
-            name = dl[t].objectRef.name;
-        }
-        else if (dl[t].typeId == DLTYPE_ENEMY) {
-            //amt = getEnemyFromId(dl[t].objectId).totalKill;
-            amt = dl[t].objectRef.totalKill;
-            needed = dl[t].amount;
-            //name = getEnemyFromId(dl[t].objectId).name;
-            name = dl[t].objectRef.name;
-        }
-        else
-            str += "???";
-
-        if (amt < needed)
-            str += "<span style='color: lightgray;'>" + amt + "/" + needed + " " + name + "</span>";
-        else
-            str += "<span>" + amt + "/" + needed + " " + name + "</span>";
-    }
-
-    return str;
 }

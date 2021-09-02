@@ -57,8 +57,13 @@ function uiDrawMap() {
                 if (building.canUpgrade) {
                     drawText(ctx, curCell.buildingInstance.level, x, y);
                 }
-            }
 
+                if (!curCell.isConnection) {
+                    img = getImageFromName(IMAGE_NOCONNECTION);
+                    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                }
+            }
+            
             if (x == selectedCellX && y == selectedCellY) {
                 img = getImageFromName(IMAGE_SELECT);
                 drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);

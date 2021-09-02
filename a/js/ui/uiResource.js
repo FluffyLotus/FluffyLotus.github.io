@@ -21,9 +21,9 @@
 
                 $("#resourceInfoName" + curResource.id).text(curResource.name);
 
-                $(newElement).click({ id: curResource.id }, uiShowResourceTooltip);
-                $(newElement).mouseover({ id: curResource.id }, uiShowResourceTooltip);
-                $(newElement).mouseout(uiClearTooltip);
+                $(newElement).click({ id: curResource.id }, uiShowResourceTooltipClick);
+                $(newElement).mouseover({ id: curResource.id }, uiShowResourceTooltipHover);
+                $(newElement).mouseout(uiClearSoftTooltip);
             }
 
             //if (curResource.getAmountLimit() > 0 && !curResource.isSpecial) {
@@ -49,6 +49,11 @@
     }
 }
 
-function uiShowResourceTooltip(event) {
-    uiSetResourceTooltip(event.data.id);
+function uiShowResourceTooltipClick(event) {
+    uiSetHardTooltip(TOOLTIP_TYPE_RESOURCE, event.data.id);
+    
+}
+
+function uiShowResourceTooltipHover(event) {
+    uiSetSoftTooltip(TOOLTIP_TYPE_RESOURCE, event.data.id);
 }

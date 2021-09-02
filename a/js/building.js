@@ -164,7 +164,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 0;
 	item.name = "Axe";
-	item.description = "Put the building on a tree to get wood";
+	item.description = "Build on a tree to gather wood.";
 	item.actionTime = 1000;
 	item.imageId = "axe";
 	item.needConnection = true;
@@ -179,7 +179,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 1;
 	item.name = "Pickaxe";
-	item.description = "Put the building on a mountain to get stone";
+	item.description = "Build on a mountain to gather stone.";
 	item.actionTime = 1000;
 	item.imageId = "pickaxe";
 	item.needConnection = true;
@@ -194,7 +194,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 2;
 	item.name = "Storage";
-	item.description = "Store resources";
+	item.description = "Store gathered resources.";
 	item.imageId = "storage";
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.storage = true;
@@ -206,7 +206,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 3;
 	item.name = "Road";
-	item.description = "Pass resource";
+	item.description = "Help transfering resources from buildings to the storage unit.";
 	item.imageId = "road";
 	item.processOnCellType = [STATE_TYPE_GROUND];
 	item.connection = true;
@@ -217,7 +217,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 4;
 	item.name = "Tower 1";
-	item.description = "Deals 1 damage per level to one nearby enemies";
+	item.description = "Deals 1 damage per level to one nearby enemies.";
 	item.timerType = TRACLER_TYPE_DELAY;
 	item.actionTime = 1000;
 	item.imageId = "tower";
@@ -233,7 +233,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 5;
 	item.name = "Tower 2";
-	item.description = "Deals 1 damage per level to all nearby enemies";
+	item.description = "Deals 1 damage per level to all nearby enemies.";
 	item.timerType = TRACLER_TYPE_DELAY;
 	item.actionTime = 1000;
 	item.imageId = "tower2";
@@ -250,6 +250,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 6;
 	item.name = "Spawn Start";
+	item.description = "Enemies will start spawning here.";
 	item.actionTime = 5000;
 	item.canSpawn = true;
 	item.keepActionReady = true;
@@ -259,13 +260,14 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 7;
 	item.name = "Spawn End";
+	item.description = "When the map has no more life, it will explode and all building will disapear.";
 	item.imageId = "crystal2";
 	buildings.push(item);
 
 	item = new BuildingInfo();
 	item.id = 8;
 	item.name = "Plank";
-	item.description = "Convert wood to plank";
+	item.description = "Converts wood to plank.";
 	item.actionTime = 1000;
 	item.imageId = "plank";
 	item.needConnection = true;
@@ -281,7 +283,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 9;
 	item.name = "Coal";
-	item.description = "Convert wood to coal";
+	item.description = "Converts wood to coal.";
 	item.actionTime = 1000;
 	item.imageId = "coal";
 	item.needConnection = true;
@@ -296,7 +298,7 @@ function initBuilding() {
 	item = new BuildingInfo();
 	item.id = 10;
 	item.name = "Block";
-	item.description = "Convert stone to block";
+	item.description = "Converts stone to block.";
 	item.actionTime = 1000;
 	item.imageId = "block";
 	item.needConnection = true;
