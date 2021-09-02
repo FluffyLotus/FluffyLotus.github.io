@@ -1,4 +1,7 @@
-﻿function loadApp() {
+﻿var previousDrawCanvas = 0;
+var deltaTime = 0;
+
+function loadApp() {
     $('#helpModal').modal('show');
 
     glInitAll();
@@ -23,8 +26,11 @@
 }
 
 function drawCanvas(timestamp) {
-    uiDrawMap();
+    if (previousDrawCanvas > 0)
+        deltaTime = timestamp - previousDrawCanvas;
 
+    uiDrawMap();
+    
     uiDrawResources();
     uiDrawWorldMap();
     uiDrawActions();
@@ -43,6 +49,7 @@ function drawCanvas(timestamp) {
         $("#spawnSection").hide();
     }
         
+    previousDrawCanvas = timestamp;
 
     window.requestAnimationFrame(drawCanvas);
 }

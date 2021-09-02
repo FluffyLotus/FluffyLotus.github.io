@@ -84,8 +84,8 @@ function uiDrawMap() {
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY + 463, 800, 463);
 
-    cloudX -= 0.08;
-    cloudY -= 0.08;
+    cloudX -= 10 * (deltaTime / 1000); //0.08;
+    cloudY -= 10 * (deltaTime / 1000); //0.08;
 
     if (cloudX <= -800) cloudX += 800;
     if (cloudY <= -463) cloudY += 463;
