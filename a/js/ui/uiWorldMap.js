@@ -72,25 +72,41 @@ function uiDrawWorldMap() {
     else {
         $("#mapMovement").show();
 
-        if ((possibleMovement & 1) > 0)
+        if ((possibleMovement & 1) > 0) {
             $("#movementUp").show();
-        else
+            $("#movementUpOff").hide();
+        }
+        else {
             $("#movementUp").hide();
+            $("#movementUpOff").show();
+        }
 
-        if ((possibleMovement & 2) > 0)
+        if ((possibleMovement & 2) > 0) {
             $("#movementLeft").show();
-        else
+            $("#movementLeftOff").hide();
+        }
+        else {
             $("#movementLeft").hide();
+            $("#movementLeftOff").show();
+        }
 
-        if ((possibleMovement & 4) > 0)
+        if ((possibleMovement & 4) > 0) {
             $("#movementRight").show();
-        else
+            $("#movementRightOff").hide();
+        }
+        else {
             $("#movementRight").hide();
+            $("#movementRightOff").show();
+        }
 
-        if ((possibleMovement & 8) > 0)
+        if ((possibleMovement & 8) > 0) {
             $("#movementDown").show();
-        else
+            $("#movementDownOff").hide();
+        }
+        else {
             $("#movementDown").hide();
+            $("#movementDownOff").show();
+        }
     }
 
     if (getActiveMapCount() <= 1)

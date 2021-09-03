@@ -398,14 +398,42 @@
                                         <div class="card-body" style="padding: 5px;">
                                             <table>
                                                 <tr>
-                                                    <td><div style="width: 22px; height: 22px;"></div></td>
-                                                    <td><div style="width: 22px; height: 22px;"><a id="movementUp" href="javascript: uiMoveMap(0, -1);"><img src="images/arrow_up.png" border="0" style="margin: 5px;" /></a></div></td>
-                                                    <td><div style="width: 22px; height: 22px;"></div></td>
+                                                    <td><div></div></td>
+                                                    <td>
+                                                        <div id="movementUp">
+                                                            <a href="javascript: uiMoveMap(0, -1);"><img src="images/arrow_up.png" border="0" style="margin: 5px;" /></a>
+                                                        </div>
+                                                        <div id="movementUpOff">
+                                                            <img src="images/arrow_up_off.png" border="0" style="margin: 5px;" />
+                                                        </div>
+                                                    </td>
+                                                    <td><div></div></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><div style="width: 22px; height: 22px;"><a id="movementLeft" href="javascript: uiMoveMap(-1, 0);"><img src="images/arrow_left.png" border="0" style="margin: 5px;" /></a></div></td>
-                                                    <td><div style="width: 22px; height: 22px;"><a id="movementDown" href="javascript: uiMoveMap(0, 1);"><img src="images/arrow_down.png" border="0" style="margin: 5px;" /></a></div></td>
-                                                    <td><div style="width: 22px; height: 22px;"><a id="movementRight" href="javascript: uiMoveMap(1, 0);"><img src="images/arrow_right.png" border="0" style="margin: 5px;" /></a></div></td>
+                                                    <td>
+                                                        <div id="movementLeft">
+                                                            <a href="javascript: uiMoveMap(-1, 0);"><img src="images/arrow_left.png" border="0" style="margin: 5px;" /></a>
+                                                        </div>
+                                                        <div id="movementLeftOff">
+                                                            <img src="images/arrow_left_off.png" border="0" style="margin: 5px;" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div id="movementDown">
+                                                            <a href="javascript: uiMoveMap(0, 1);"><img src="images/arrow_down.png" border="0" style="margin: 5px;" /></a>
+                                                        </div>
+                                                        <div id="movementDownOff">
+                                                            <img src="images/arrow_down_off.png" border="0" style="margin: 5px;" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div id="movementRight">
+                                                            <a href="javascript: uiMoveMap(1, 0);"><img src="images/arrow_right.png" border="0" style="margin: 5px;" /></a>
+                                                        </div>
+                                                        <div id="movementRightOff">
+                                                            <img src="images/arrow_right_off.png" border="0" style="margin: 5px;" />
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -620,9 +648,9 @@
 
     <div style="display: none;">
         <!--<img src="images/SpriteSheet/tiles.png" id="tilesImage" />
-    <img src="images/SpriteSheet/character.png" id="characterImage" />
-    <img src="images/SpriteSheet/objects.png" id="objectsImage" />
-    <img src="images/SpriteSheet/objectsBig.png" id="objectsBigImage" />-->
+        <img src="images/SpriteSheet/character.png" id="characterImage" />
+        <img src="images/SpriteSheet/objects.png" id="objectsImage" />
+        <img src="images/SpriteSheet/objectsBig.png" id="objectsBigImage" />-->
         <img id="img_axe" src="images/axe.png" />
         <img id="img_enemy" src="images/enemy.png" />
         <img id="img_grass" src="images/grass.png" />
@@ -684,7 +712,7 @@
         <img id="img_stream" src="images/stream.png" />
         <img id="img_cloud2" src="images/cloud2.png" />
     </div>
-    
+
     <footer style="pointer-events: none;">
         <div id="toastContainer" class="position-absolute w-100 d-flex flex-column p-4" style="z-index: 5; right: 0; bottom: 0; pointer-events: none;">
             <div id="toastTemplate" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="200000" style="pointer-events: auto;">

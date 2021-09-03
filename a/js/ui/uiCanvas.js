@@ -3,9 +3,19 @@ var GRID_HEIGHT = 32;
 
 var c, ctx;
 
+var cachedImg_noConnection = null;
+var cachedImg_select = null;
+var cachedImg_cloud2 = null;
+var cachedImg_cloud = null;
+
 function uiInitCanvas() {
     c = document.getElementById("mainCanvas");
     ctx = c.getContext("2d");
+
+    cachedImg_noConnection = getImageFromName(IMAGE_NOCONNECTION);
+    cachedImg_select = getImageFromName(IMAGE_SELECT);
+    cachedImg_cloud2 = getImageFromName(IMAGE_CLOUD2);
+    cachedImg_cloud = getImageFromName(IMAGE_CLOUD);
 }
 
 function uiDrawMap() {
@@ -58,14 +68,14 @@ function uiDrawMap() {
                     drawText(ctx, curCell.buildingInstance.level, x, y);
                 }
 
-                if (!curCell.isConnection) {
-                    img = getImageFromName(IMAGE_NOCONNECTION);
+                if (!curCell.isConnection && building.needConnection) {
+                    img = cachedImg_noConnection;
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
             }
             
             if (x == selectedCellX && y == selectedCellY) {
-                img = getImageFromName(IMAGE_SELECT);
+                img = cachedImg_select;
                 drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
             }
 
@@ -80,14 +90,14 @@ function uiDrawMap() {
             var curCell = curMap.cells[x + (y * MAP_WIDTH)];
             var curState = cellStates[curCell.getStateId()];
 
-            if (curState.id == 22 || curState.id == 21) {
-                var m = cloud2X[(x + y) % cloud2X.length];
+            if (curState.effectCloud) {
+                var m = cloud2X + ((x + y) * 4);
 
                 m = parseInt(m) % 64;
                 if (m > 32) m = 32 - (m - 32);
                 m -= 16;
 
-                img = getImageFromName(IMAGE_CLOUD2);
+                img = cachedImg_cloud2;
                 ctx.drawImage(img.img, 0, 0, 64, 64, x * GRID_WIDTH - 16 + m, y * GRID_HEIGHT - 16, 64, 64);
             }
         }
@@ -104,7 +114,7 @@ function uiDrawMap() {
     }
 
     // Try some clouds
-    img = getImageFromName(IMAGE_CLOUD);
+    img = cachedImg_cloud;
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
@@ -116,13 +126,12 @@ function uiDrawMap() {
     if (cloudX <= -800) cloudX += 800;
     if (cloudY <= -463) cloudY += 463;
 
-    for (var t = 0; t < cloud2X.length; t++) {
-        cloud2X[t] += 10 * (deltaTime / 1000); //0.08;
-    }
+    cloud2X += 10 * (deltaTime / 1000); //0.08;
+
+    if (cloud2X > 64) cloud2X -= 64;
 }
 
-var cloud2X = [0, 8, 16, 24, 32, 40, 48, 54];
-
+var cloud2X = 0;
 var cloudX = 0;
 var cloudY = 0;
 

@@ -27,6 +27,8 @@ function CellStateInfo() {
 	this.changeStateOnTimerAction = -1;
 	this.changeStateOnQuestAction = -1;
 
+	this.effectCloud = false;
+
 	this.floorImageRef = null;
 	this.objectImageRef = null;
 	this.editorImageRef = null;
@@ -268,6 +270,7 @@ function initCellStates() {
 	item.floorImageId = "lava";
 	item.objectImageId = "";
 	item.enemyPath = true;
+	item.effectCloud = true;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
@@ -275,6 +278,7 @@ function initCellStates() {
 	item.name = "Volcano";
 	item.floorImageId = "path";
 	item.objectImageId = "volcano";
+	item.effectCloud = true;
 	cellStates.push(item);
 
 	item = new CellStateInfo();
