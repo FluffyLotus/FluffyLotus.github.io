@@ -1,5 +1,33 @@
 ﻿function nFormatter(x) {
-    return x;
+    var isNeg = false;
+    var pi = -1;
+    var p = ["K", "M", "B", "T", "q", "Q"]; // https://clickerheroes.fandom.com/wiki/Units
+    var str = "";
+
+    if (x < 0) {
+        x -= x;
+        isNeg = true;
+    }
+
+    while (x > 1000) {
+        x /= 1000;
+        pi++;
+    }
+
+    x = Math.floor(x * 10) / 10;
+
+    str = x;
+
+    if (pi >= 0)
+        str += p[pi];
+
+    if (isNeg)
+        return "-" + str;
+    return str;
+}
+
+function nComaFormatter(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function dataLinksToString(dl) {
@@ -8,10 +36,10 @@ function dataLinksToString(dl) {
     for (var t = 0; t < dl.length; t++) {
         if (dl[t].typeId == DLTYPE_RESOURCE)
             //str += getResourceFromId(dl[t].objectId).name + ": " + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + (dl[t].amount) + "<br />";
+            str += dl[t].objectRef.name + ": " + nFormatter(dl[t].amount) + "<br />";
         else if (dl[t].typeId == DLTYPE_ENEMY) {
             //str += getEnemyFromId(dl[t].objectId).name + ": " + getEnemyFromId(dl[t].objectId).totalKill + "/" + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + dl[t].objectRef.totalKill + "/" + (dl[t].amount) + "<br />";
+            str += dl[t].objectRef.name + ": " + nFormatter(dl[t].objectRef.totalKill) + "/" + nFormatter(dl[t].amount) + "<br />";
         }
         else
             str += "???<br />";
@@ -29,10 +57,10 @@ function dataLinksToStringOneLine(dl) {
 
         if (dl[t].typeId == DLTYPE_RESOURCE)
             //str += dl[t].amount + " " + getResourceFromId(dl[t].objectId).name;
-            str += dl[t].amount + " " + dl[t].objectRef.name;
+            str += nFormatter(dl[t].amount) + " " + dl[t].objectRef.name;
         else if (dl[t].typeId == DLTYPE_ENEMY) {
             //str += getEnemyFromId(dl[t].objectId).name + ": " + getEnemyFromId(dl[t].objectId).totalKill + "/" + (dl[t].amount) + "<br />";
-            str += dl[t].objectRef.name + ": " + dl[t].objectRef.totalKill + "/" + (dl[t].amount) + "<br />";
+            str += dl[t].objectRef.name + ": " + nFormatter(dl[t].objectRef.totalKill) + "/" + nFormatter(dl[t].amount) + "<br />";
         }
         else
             str += "???";
@@ -68,9 +96,9 @@ function dataLinksToStringOneAvailableLine(dl) {
             str += "???";
 
         if (amt < needed)
-            str += "<span style='color: lightgray;'>" + amt + "/" + needed + " " + name + "</span>";
+            str += "<span style='color: lightgray;'>" + nFormatter(amt) + "/" + nFormatter(needed) + " " + name + "</span>";
         else
-            str += "<span>" + amt + "/" + needed + " " + name + "</span>";
+            str += "<span>" + nFormatter(amt) + "/" + nFormatter(needed) + " " + name + "</span>";
     }
 
     return str;

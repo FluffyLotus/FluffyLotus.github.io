@@ -38,7 +38,8 @@ function drawCanvas(timestamp) {
     uiDrawActions();
     uiUpdateToolTip();
 
-    var curMap = getMapFromId(selectedMapId);
+    /////////////////////////
+    var curMap = selectedMapRef;
 
     if (curMap.id != 0) {
         $("#spawnSection").show();
@@ -46,12 +47,31 @@ function drawCanvas(timestamp) {
         document.getElementById("mapLife").innerText = curMap.life;
         document.getElementById("mapSpawnLevel").innerText = parseInt(curMap.spawnCount / 10) + 1;
         document.getElementById("mapMaxSpawnCount").innerText = curMap.maxSpawnCount;
+
+        if (!selectedMapRef.canSpawn)
+            $("#spawnButton").prop('disabled', false);
+        else
+            $("#spawnButton").prop('disabled', true);
     }
     else {
         $("#spawnSection").hide();
     }
-        
+    /////////////////////////
+
     previousDrawCanvas = timestamp;
 
     window.requestAnimationFrame(drawCanvas);
 }
+
+/////////////////////////
+function uiOpenSpawnModal() {
+    $('#spawnInfoModal').modal('show');
+}
+
+function uiStartSpawn() {
+    glStartSpawn();
+
+    $('#spawnInfoModal').modal('hide');
+}
+
+/////////////////////////

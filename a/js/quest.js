@@ -21,6 +21,8 @@ function QuestInformation() {
     this.requirements = [];
     this.rewards = [];
     this.completed = false;
+
+    this.clickCount = 0;
 }
 
 QuestInformation.prototype.canComplete = function () {
@@ -40,6 +42,10 @@ QuestInformation.prototype.complete = function () {
     this.completed = true;
 
     return true;
+}
+
+QuestInformation.prototype.isNewQuest = function () {
+    return this.clickCount == 0;
 }
 
 function getQuestFromId(id) {

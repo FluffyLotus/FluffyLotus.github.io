@@ -5,8 +5,10 @@ var c, ctx;
 
 var cachedImg_noConnection = null;
 var cachedImg_select = null;
-var cachedImg_cloud2 = null;
+var cachedImg_cloud2 = null
 var cachedImg_cloud = null;
+var cachedImg_exclamation = null;
+var cachedImg_smallUpgrade = null;
 
 function uiInitCanvas() {
     c = document.getElementById("mainCanvas");
@@ -16,6 +18,8 @@ function uiInitCanvas() {
     cachedImg_select = getImageFromName(IMAGE_SELECT);
     cachedImg_cloud2 = getImageFromName(IMAGE_CLOUD2);
     cachedImg_cloud = getImageFromName(IMAGE_CLOUD);
+    cachedImg_exclamation = getImageFromName(IMAGE_EXCLAMATION);
+    cachedImg_smallUpgrade = getImageFromName(IMAGE_SMALLUPGRADE);
 }
 
 function uiDrawMap() {
@@ -66,12 +70,34 @@ function uiDrawMap() {
 
                 if (building.canUpgrade) {
                     drawText(ctx, curCell.buildingInstance.level, x, y);
+
+                    if (selectedAction == ACTION_UPGRADE) {
+                        var cost = building.getUpgradeCost(curCell.buildingInstance.level);
+
+                        if (hasDataLinks(cost)) {
+                            var m = parseInt(exclamation) % 16;
+                            if (m > 8) m = 8 - (m - 8);
+                            //m -= 4;
+
+                            img = cachedImg_smallUpgrade;
+                            drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT + m);
+                        }
+                    }
                 }
 
                 if (!curCell.isConnection && building.needConnection) {
                     img = cachedImg_noConnection;
                     drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
+            }
+
+            if (curState.questRef != null && curState.questRef.isNewQuest()) {
+                var m = parseInt(exclamation) % 16;
+                if (m > 8) m = 8 - (m - 8);
+                //m -= 4;
+
+                img = cachedImg_exclamation;
+                drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT + m);
             }
             
             if (x == selectedCellX && y == selectedCellY) {
@@ -129,8 +155,13 @@ function uiDrawMap() {
     cloud2X += 10 * (deltaTime / 1000); //0.08;
 
     if (cloud2X > 64) cloud2X -= 64;
+
+    exclamation += 10 * (deltaTime / 1000); //0.08;
+
+    if (exclamation > 16) exclamation -= 16;
 }
 
+var exclamation = 0;
 var cloud2X = 0;
 var cloudX = 0;
 var cloudY = 0;

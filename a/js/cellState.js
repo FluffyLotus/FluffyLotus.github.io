@@ -37,6 +37,10 @@ function CellStateInfo() {
 }
 
 CellStateInfo.prototype.processClick = function () {
+	if (this.questRef != null) {
+		this.questRef.clickCount += 1;
+	}
+
 	if (this.clickActionId >= 0) {
 		var action = this.clickActionRef; //getActionFromId(this.clickActionId);
 

@@ -288,6 +288,11 @@ function uiSetQuestTooltip(questId) {
         $("#completeQuest").show
         $("#toolTipQuest_requirementRow").show();
         $("#toolTipQuest_completed").hide();
+
+        if (hasDataLinks(curQuest.requirements))
+            $("#completeQuest").prop('disabled', false);
+        else
+            $("#completeQuest").prop('disabled', true);
     } 
 
     $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
@@ -311,6 +316,11 @@ function uiUpdateQuestTooltip(questId) {
         $("#completeQuest").show();
         $("#toolTipQuest_requirementRow").show();
         $("#toolTipQuest_completed").hide();
+
+        if (hasDataLinks(curQuest.requirements))
+            $("#completeQuest").prop('disabled', false);
+        else
+            $("#completeQuest").prop('disabled', true);
     }
 
     $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
@@ -337,12 +347,15 @@ function uiSetResourceTooltip(resourceId, isHard) {
 
     $("#toolTipResource_name").text(curResource.name);
     $("#toolTipResource_description").text(curResource.description);
-
+    $("#toolTipResource_amount").text(nComaFormatter(curResource.amount));
+    
     $("#toolTipResource").show();
 }
 
 function uiUpdateResourceTooltip(resourceId) {
     var curResource = getResourceFromId(resourceId);
+
+    $("#toolTipResource_amount").text(nComaFormatter(curResource.amount));
 }
 
 function uiSetMessageTooltip(message, isHard) {

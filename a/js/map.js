@@ -8,7 +8,7 @@ function MapInfo() {
 	this.cells = [];
 	this.enemies = [];
 
-	this.canSpawn = false;
+	this.canSpawn = false; // more of a IsSpawning
 	this.life = 10;
 	this.spawnCount = 0;
 	this.maxSpawnCount = 0;
