@@ -9,6 +9,7 @@ var RESOURCE_FISH = 5;
 var RESOURCE_PLANK = 6;
 var RESOURCE_COAL = 7;
 var RESOURCE_BLOCK = 8;
+var RESOURCE_FRUIT = 9;
 
 function ResourceInfo() {
     this.id = 0;
@@ -109,6 +110,12 @@ function initResource() {
     item = new ResourceInfo();
     item.id = 8;
     item.name = "Block";
+    item.description = "";
+    resources.push(item);
+
+    item = new ResourceInfo();
+    item.id = 9;
+    item.name = "Fruit";
     item.description = "";
     resources.push(item);
 }

@@ -300,6 +300,45 @@ function initCellStates() {
 	item.floorImageId = "stream";
 	item.objectImageId = "";
 	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 25;
+	item.name = "Pickaxe Man";
+	item.typeId = STATE_TYPE_NONE;
+	item.floorImageId = "grass";
+	item.objectImageId = "pickaxeman";
+	item.questId = QUEST_PICKAXEMAN;
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 26;
+	item.name = "Mountain Hole";
+	item.typeId = STATE_TYPE_NONE;
+	item.floorImageId = "grass";
+	item.objectImageId = "mountainhole";
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 27;
+	item.name = "Grass Bush";
+	item.typeId = STATE_TYPE_GROUND;
+	item.floorImageId = "grass";
+	item.objectImageId = "bushon";
+	item.clickActionId = ACTION_GIVE_FRUIT;
+	item.changeStateOnClickAction = 28;
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 28;
+	item.name = "No bush";
+	item.typeId = 0;
+	item.floorImageId = "grass";
+	item.objectImageId = "bushoff";
+	item.actionTimerFrom = 30000;
+	item.actionTimerTo = 60000;
+	item.changeStateOnTimerAction = 27;
+	cellStates.push(item);
+
 } 
 
 function finishInitCellStates() {

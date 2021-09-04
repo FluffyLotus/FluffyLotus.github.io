@@ -13,6 +13,7 @@ var IMAGE_NOCONNECTION = "noconnection";
 var IMAGE_CLOUD2 = "cloud2";
 var IMAGE_EXCLAMATION = "exclamation";
 var IMAGE_SMALLUPGRADE = "smallupgrade";
+var IMAGE_REDMIST = "redmist";
 
 //var IMAGE_AXE = 0;
 //var IMAGE_ENEMY = 1;
@@ -169,7 +170,12 @@ function initImages() {
     createSingleImage("cloud2");
     createSingleImage("exclamation");
     createSingleImage("smallupgrade");
-    
+    createSingleImage("pickaxeman");
+    createSingleImage("mountainhole");
+    createSingleImage("bushoff");
+    createSingleImage("bushon");
+    createSingleImage("redmist");
+
     //var item;
 
     //item = new ImageInfo();

@@ -127,6 +127,30 @@ function initWorld() {
     item.y = -1;
     item.mapId = 4;
     mainWorld.mapInfo.push(item);
+
+    item = new WorldMapInfo();
+    item.x = -1;
+    item.y = -2;
+    item.mapId = 5;
+    mainWorld.mapInfo.push(item);
+
+    item = new WorldMapInfo();
+    item.x = 1;
+    item.y = -2;
+    item.mapId = 6;
+    mainWorld.mapInfo.push(item);
+
+    item = new WorldMapInfo();
+    item.x = -1;
+    item.y = 0;
+    item.mapId = 7;
+    mainWorld.mapInfo.push(item);
+
+    item = new WorldMapInfo();
+    item.x = 1;
+    item.y = 0;
+    item.mapId = 8;
+    mainWorld.mapInfo.push(item);
 }
 
 function finishInitWorld() {

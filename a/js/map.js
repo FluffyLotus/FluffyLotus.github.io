@@ -193,12 +193,14 @@ MapInfo.prototype.destroyBuilding = function (x, y) {
 		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
 		if (curBuilding.isUserOwned) {
-			while (curCell.buildingInstance.level > 1)
-				this.levelDownBuilding(x, y);
+			if (!this.canSpawn) {
+				while (curCell.buildingInstance.level > 1)
+					this.levelDownBuilding(x, y);
 
-			var cost = curBuilding.getBuildCost();
+				var cost = curBuilding.getBuildCost();
 
-			addDataLinks(cost);
+				addDataLinks(cost);
+			}
 
 			curCell.destroyBuilding();
 
@@ -244,9 +246,12 @@ MapInfo.prototype.levelDownBuilding = function (x, y) {
 
 		if (curBuilding.canUpgrade) {
 			if (curCell.buildingInstance.level > 1) {
-				var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level - 1);
+				if (!this.canSpawn) {
+					var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level - 1);
 
-				addDataLinks(cost);
+					addDataLinks(cost);
+				}
+
 				curCell.buildingInstance.level--;
 			}
 		}

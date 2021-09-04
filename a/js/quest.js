@@ -7,6 +7,7 @@ var QUEST_FIRST = 3;
 var QUEST_BRIDGE = 4;
 var QUEST_PORTCITY = 5;
 var QUEST_ROAD = 6;
+var QUEST_PICKAXEMAN = 7;
 
 function QuestInformation() {
     this.id = 0;
@@ -136,13 +137,13 @@ function initQuest() {
     item.id = 5;
     item.title = "Port city";
     item.description += "- Our carpenter went to the west to investigage.\n";
-    item.description += "- Can you help us gather flowers?\n";
+    item.description += "- Can you help us gather fruits?\n";
     item.description += "- We will open the path to the west.";
-    item.descriptionSummary = "Gather flowers to open the path to the west.";
+    item.descriptionSummary = "Gather fruits to open the path to the west.";
     item.completeDescription += "- The path to the west is now open.\n";
     item.completeDescription += "- Please, see if the carpenter is ok.";
     item.completeDescriptionSummary = "The path to the west is open.";
-    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FLOWER, 20));
+    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_FRUIT, 20));
     item.rewards.push(createDataLink(DLTYPE_MAP, DLSUBTYPE_ACTIVE, 4, 1));
     quests.push(item);
 
@@ -157,6 +158,19 @@ function initQuest() {
     item.completeDescriptionSummary = "The builder gave the blueprint for roads.";
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 100));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_ROAD, 1));
+    quests.push(item);
+
+    item = new QuestInformation();
+    item.id = 7;
+    item.title = "Miner";
+    item.description += "- ???.\n";
+    item.description += "- ???.";
+    item.descriptionSummary = "Get stone to get the blueprint for block.";
+    item.completeDescription += "- ???\n";
+    item.completeDescription += "- ???.";
+    item.completeDescriptionSummary = "The miner gave the blueprint for block.";
+    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 100000));
+    item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_BLOCK, 1));
     quests.push(item);
 }
 

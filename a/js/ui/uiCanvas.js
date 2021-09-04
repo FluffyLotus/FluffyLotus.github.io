@@ -9,6 +9,7 @@ var cachedImg_cloud2 = null
 var cachedImg_cloud = null;
 var cachedImg_exclamation = null;
 var cachedImg_smallUpgrade = null;
+var cachedImg_redMist = null;
 
 function uiInitCanvas() {
     c = document.getElementById("mainCanvas");
@@ -20,6 +21,7 @@ function uiInitCanvas() {
     cachedImg_cloud = getImageFromName(IMAGE_CLOUD);
     cachedImg_exclamation = getImageFromName(IMAGE_EXCLAMATION);
     cachedImg_smallUpgrade = getImageFromName(IMAGE_SMALLUPGRADE);
+    cachedImg_redMist = getImageFromName(IMAGE_REDMIST);
 }
 
 function uiDrawMap() {
@@ -140,7 +142,11 @@ function uiDrawMap() {
     }
 
     // Try some clouds
-    img = cachedImg_cloud;
+    if (curMap.canSpawn)
+        img = cachedImg_redMist
+    else
+        img = cachedImg_cloud;
+
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
     ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
