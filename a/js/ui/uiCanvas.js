@@ -10,6 +10,7 @@ var cachedImg_cloud = null;
 var cachedImg_exclamation = null;
 var cachedImg_smallUpgrade = null;
 var cachedImg_redMist = null;
+var cachedImg_cursor = null;
 
 function uiInitCanvas() {
     c = document.getElementById("mainCanvas");
@@ -22,6 +23,7 @@ function uiInitCanvas() {
     cachedImg_exclamation = getImageFromName(IMAGE_EXCLAMATION);
     cachedImg_smallUpgrade = getImageFromName(IMAGE_SMALLUPGRADE);
     cachedImg_redMist = getImageFromName(IMAGE_REDMIST);
+    cachedImg_cursor = getImageFromName(IMAGE_CURSOR);
 }
 
 function uiDrawMap() {
@@ -139,6 +141,20 @@ function uiDrawMap() {
         drawImage(ctx, img.img, ei.x * GRID_WIDTH, ei.y * GRID_HEIGHT);
 
         drawText(ctx, ei.life, ei.x, ei.y);
+    }
+
+    // Tutorial image
+    if(getResourceFromId(RESOURCE_WOOD).totalAmount == 0){
+                var m = parseInt(exclamation) % 16;
+                if (m > 8) m = 8 - (m - 8);
+
+        ctx.drawImage(cachedImg_cursor.img, 8 * GRID_WIDTH - 16, 3 * GRID_HEIGHT + 8 + m);
+    }
+    if(getResourceFromId(RESOURCE_STONE).totalAmount == 0){
+                var m = parseInt(exclamation) % 16;
+                if (m > 8) m = 8 - (m - 8);
+
+        ctx.drawImage(cachedImg_cursor.img, 6 * GRID_WIDTH - 16, 0 * GRID_HEIGHT + 8 + m);
     }
 
     // Try some clouds

@@ -7,6 +7,7 @@ var BUILDING_ROAD = 3;
 var BUILDING_TOWER1 = 4;
 var BUILDING_TOWER2 = 5;
 var BUILDING_SPAWNSTART = 6;
+        // TODO: Not needed, remove
 var BUILDING_SPAWNEND = 7;
 var BUILDING_PLANK = 8;
 var BUILDING_COAL = 9;
@@ -257,6 +258,7 @@ function initBuilding() {
 	item.imageId = "crystal";
 	buildings.push(item);
 
+        // TODO: Not needed, remove
 	item = new BuildingInfo();
 	item.id = 7;
 	item.name = "Spawn End";

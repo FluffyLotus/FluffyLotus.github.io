@@ -11,7 +11,7 @@
     else
         $("#questInfoModal-completeDesc").html("");
 
-    $("#questInfoModal-req").html(dataLinksToString(curQuest.requirements));
+    $("#questInfoModal-req").html(dataLinksToStringRequirementVertical(curQuest.requirements));
 
     $('#questInfoModal').modal('show');
 }

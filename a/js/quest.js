@@ -169,7 +169,7 @@ function initQuest() {
     item.completeDescription += "- ???\n";
     item.completeDescription += "- ???.";
     item.completeDescriptionSummary = "The miner gave the blueprint for block.";
-    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 100000));
+    item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 300000));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_BLOCK, 1));
     quests.push(item);
 }

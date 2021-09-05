@@ -154,27 +154,24 @@ MapInfo.prototype.process = function () {
 
 MapInfo.prototype.moveEnemies = function () {
 	for (var t = this.enemies.length - 1; t >= 0; t--) {
-		this.enemies[t].process(this);
+		if (this.enemies[t].life > 0) {
+					var curCell = this.cells[this.enemies[t].x + (this.enemies[t].y * MAP_WIDTH)];
+					var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
 
-		if (this.enemies[t].life <= 0) {
-			this.enemies.splice(t, 1);
-			getResourceFromId(RESOURCE_KILL).addAmount(1);
-		}
-		else {
-			for (var i = 0; i < coordPlus.length; i++) {
-				var nx = this.enemies[t].x + coordPlus[i].x;
-				var ny = this.enemies[t].y + coordPlus[i].y;
-
-				if (nx >= 0 && nx < MAP_WIDTH && ny >= 0 && ny < MAP_HEIGHT) {
-					var curCell = this.cells[nx + (ny * MAP_WIDTH)];
-
-					if (curCell.buildingInstance != null && curCell.buildingInstance.buildingId == BUILDING_SPAWNEND) {
+					if(curState.enemyPathEnd){
 						this.enemies.splice(t, 1);
 						getResourceFromId(RESOURCE_DEATH).addAmount(1);
 						this.life -= 1;
 						break;
 					}
-				}
+		}
+
+		if (this.enemies[t].life > 0){
+			this.enemies[t].process(this);
+
+			if (this.enemies[t].life <= 0) {
+				this.enemies.splice(t, 1);
+				getResourceFromId(RESOURCE_KILL).addAmount(1);
 			}
 		}
 	}

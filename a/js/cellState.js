@@ -15,7 +15,9 @@ function CellStateInfo() {
 	this.objectImageId = "";
 	this.editorImageId = "";
 	this.clickActionId = -1;
+
 	this.enemyPath = false;
+	this.enemyPathEnd = false;
 
 	this.questId = -1;
 
@@ -123,6 +125,7 @@ function initCellStates() {
 	item.enemyPath = true;
 	cellStates.push(item);
 
+        // TODO: Not needed, remove
 	item = new CellStateInfo();
 	item.id = 5;
 	item.name = "Grass Crystal To";
@@ -337,6 +340,17 @@ function initCellStates() {
 	item.actionTimerFrom = 30000;
 	item.actionTimerTo = 60000;
 	item.changeStateOnTimerAction = 27;
+	cellStates.push(item);
+
+	item = new CellStateInfo();
+	item.id = 29;
+	item.name = "Path End";
+	item.typeId = 0;
+	item.floorImageId = "path";
+	item.objectImageId = "";
+        item.editorImageId = "crystal2";
+	item.enemyPath = true;
+        item.enemyPathEnd = true;
 	cellStates.push(item);
 
 } 
