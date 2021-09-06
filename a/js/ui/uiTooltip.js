@@ -71,15 +71,15 @@ function uiClearTooltip() {
 
     if (toolTipType != TOOLTIP_TYPE_CELL) $("#toolTipCell").hide();
     if (toolTipType != TOOLTIP_TYPE_QUEST) $("#toolTipQuest").hide();
-    if (toolTipType != TOOLTIP_TYPE_ACTION) $("#toolTipAction").hide();
     if (toolTipType != TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").hide();
+    if (toolTipType != TOOLTIP_TYPE_ACTION) $("#toolTipAction").hide();
     if (toolTipType != TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").hide();
     if (toolTipType != TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").hide();
 
     if (toolTipType == TOOLTIP_TYPE_CELL) $("#toolTipCell").show();
     if (toolTipType == TOOLTIP_TYPE_QUEST) $("#toolTipQuest").show();
-    if (toolTipType == TOOLTIP_TYPE_ACTION) $("#toolTipAction").show();
     if (toolTipType == TOOLTIP_TYPE_BUILDING) $("#toolTipBuilding").show();
+    if (toolTipType == TOOLTIP_TYPE_ACTION) $("#toolTipAction").show();
     if (toolTipType == TOOLTIP_TYPE_MESSAGE) $("#toolTipMessage").show();
     if (toolTipType == TOOLTIP_TYPE_RESOURCE) $("#toolTipResource").show();
 }
@@ -124,66 +124,125 @@ function uiSetActionTooltip(actionId, isHard) {
 function uiUpdateActionTooltip(actionId) {
 }
 
-function uiSetBuildingTooltip(buildingId, isHard) {
+function uiSetBuildingTooltip(buildingInfo, isHard) {
     //uiClearSoftTooltip();
 
     if (isHard) {
         currentHardToolTipType = TOOLTIP_TYPE_BUILDING;
-        currentHardToolTipInfo = buildingId;
+        currentHardToolTipInfo = buildingInfo;
 
         currentSoftToolTipType = TOOLTIP_TYPE_NONE;
         currentSoftToolTipInfo = 0;
     }
     else {
         currentSoftToolTipType = TOOLTIP_TYPE_BUILDING;
-        currentSoftToolTipInfo = buildingId;
+        currentSoftToolTipInfo = buildingInfo;
     }
 
     uiClearTooltip();
 
-    var curBuilding = getBuildingFromId(buildingId);
+    var curBuilding = getBuildingFromId(buildingInfo.buildingId);
 
     $("#toolTipBuilding_name").text(curBuilding.name);
     $("#toolTipBuilding_description").text(curBuilding.description);
 
-    $("#toolTipBuilding_costRow").show();
-    $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
+    if (buildingInfo.level == 0) {
+        $("#toolTipBuilding_costRow").show();
+        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
+        $("#toolTipBuilding_costName").text("Cost: ");
 
-    if (curBuilding.getRequirement(1).length > 0) {
-        $("#toolTipBuilding_requirementRow").show();
-        $("#toolTipBuilding_requirement").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
-    }
-    else
-        $("#toolTipBuilding_requirementRow").hide();
+        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_reqRow").show();
+            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
+        }
+        else
+            $("#toolTipBuilding_reqRow").hide();
 
-    if (curBuilding.getReward(1).length > 0) {
-        $("#toolTipBuilding_rewardRow").show();
-        $("#toolTipBuilding_reward").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
+        if (curBuilding.getReward(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_rewRow").show();
+            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
+        }
+        else
+            $("#toolTipBuilding_rewRow").hide();
     }
-    else
-        $("#toolTipBuilding_rewardRow").hide();
+    else if (curBuilding.canUpgrade) {
+        $("#toolTipBuilding_costRow").show();
+        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(buildingInfo.level + 1)));
+        $("#toolTipBuilding_costName").text("Upgrade Cost: ");
+
+        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_reqRow").show();
+            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(buildingInfo.level)));
+        }
+        else
+            $("#toolTipBuilding_reqRow").hide();
+
+        if (curBuilding.getReward(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_rewRow").show();
+            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(buildingInfo.level)));
+        }
+        else
+            $("#toolTipBuilding_rewRow").hide();
+    }
+    else {
+        $("#toolTipBuilding_costRow").hide();
+        $("#toolTipBuilding_reqRow").hide();
+        $("#toolTipBuilding_rewRow").show();
+    }
 
     $("#toolTipBuilding").show();
 }
 
-function uiUpdateBuildingTooltip(buildingId) {
-    var curBuilding = getBuildingFromId(buildingId);
+function uiUpdateBuildingTooltip(buildingInfo) {
 
-    $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
+    var curBuilding = getBuildingFromId(buildingInfo.buildingId);
 
-    if (curBuilding.getRequirement(1).length > 0) {
-        $("#toolTipBuilding_requirementRow").show();
-        $("#toolTipBuilding_requirement").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
+    $("#toolTipBuilding_name").text(curBuilding.name);
+    $("#toolTipBuilding_description").text(curBuilding.description);
+
+    if (buildingInfo.level == 0) {
+        $("#toolTipBuilding_costRow").show();
+        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
+        $("#toolTipBuilding_costName").text("Cost: ");
+
+        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_reqRow").show();
+            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
+        }
+        else
+            $("#toolTipBuilding_reqRow").hide();
+
+        if (curBuilding.getReward(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_rewRow").show();
+            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
+        }
+        else
+            $("#toolTipBuilding_rewRow").hide();
     }
-    else
-        $("#toolTipBuilding_requirementRow").hide();
+    else if (curBuilding.canUpgrade) {
+        $("#toolTipBuilding_costRow").show();
+        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(buildingInfo.level + 1)));
+        $("#toolTipBuilding_costName").text("Upgrade Cost: ");
 
-    if (curBuilding.getReward(1).length > 0) {
-        $("#toolTipBuilding_rewardRow").show();
-        $("#toolTipBuilding_reward").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
+        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_reqRow").show();
+            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(buildingInfo.level)));
+        }
+        else
+            $("#toolTipBuilding_reqRow").hide();
+
+        if (curBuilding.getReward(buildingInfo.level).length > 0) {
+            $("#toolTipBuilding_rewRow").show();
+            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(buildingInfo.level)));
+        }
+        else
+            $("#toolTipBuilding_rewRow").hide();
     }
-    else
-        $("#toolTipBuilding_rewardRow").hide();
+    else {
+        $("#toolTipBuilding_costRow").hide();
+        $("#toolTipBuilding_reqRow").hide();
+        $("#toolTipBuilding_rewRow").show();
+    }
 
     $("#toolTipBuilding").show();
 }
@@ -200,6 +259,9 @@ function uiSetCellTooltip(x, y) {
 
     if (curState.questId >= 0) {
         uiSetQuestTooltip(curState.questId);
+    }
+    else if (curCell.buildingInstance != null) {
+        uiSetBuildingTooltip({ buildingId: curCell.buildingInstance.buildingId, level: curCell.buildingInstance.level}, true);
     }
     else {
         $("#toolTipCell_name").text(curState.name);
@@ -237,6 +299,9 @@ function uiUpdateCellTooltip(x, y) {
 
     if (curState.questId >= 0) {
         uiUpdateQuestTooltip(curState.questId);
+    }
+    else if (curCell.buildingInstance != null) {
+        uiUpdateBuildingTooltip({ buildingId: curCell.buildingInstance.buildingId, level: curCell.buildingInstance.level });
     }
     else {
         $("#toolTipCell_name").text(curState.name);

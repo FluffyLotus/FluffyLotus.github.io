@@ -56,6 +56,17 @@ function resetResourceDelta() {
 }
 
 function initResource() {
+    for (var t = 0; t < resourceData.length; t++) {
+        var item = new ResourceInfo();
+
+        item.id = resourceData[t].id;
+        item.name = resourceData[t].n;
+        item.description = resourceData[t].d;
+        item.alwaysHidden = resourceData[t].ah;
+        resources.push(item);
+    }
+
+    /*
     var item;
 
     item = new ResourceInfo();
@@ -118,6 +129,7 @@ function initResource() {
     item.name = "Fruit";
     item.description = "";
     resources.push(item);
+    */
 }
 
 function finishInitResource() {

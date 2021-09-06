@@ -1,19 +1,28 @@
 ﻿var previousDrawCanvas = 0;
 var deltaTime = 0;
 
+var isDebug = false; // true false
+
 function loadApp() {
-    $('#tutorialModal').modal('show');
     uiSetHardTooltip(TOOLTIP_TYPE_MESSAGE, "Click on a forest or mountain to gain resources.");
 
     glInitAll();
 
-    //resources[RESOURCE_STONE].amount = 40;
-    //resources[RESOURCE_WOOD].amount = 40;
+    if (isDebug) {
+        //resources[RESOURCE_STONE].amount = 40;
+        //resources[RESOURCE_WOOD].amount = 40;
 
-    //resources[RESOURCE_STONE].addAmount(20000);
-    //resources[RESOURCE_WOOD].addAmount(20000);
-    //resources[RESOURCE_PLANK].addAmount(20000);
-    //resources[RESOURCE_FLOWER].addAmount(20000);
+        //resources[RESOURCE_STONE].addAmount(20000);
+        //resources[RESOURCE_WOOD].addAmount(20000);
+        //resources[RESOURCE_PLANK].addAmount(20000);
+        //resources[RESOURCE_FLOWER].addAmount(20000);
+
+        for (var t = 0; t < resources.length; t++)
+            resources[t].addAmount(2000000);
+    }
+    else {
+        $('#tutorialModal').modal('show');
+    }
 
     uiInitCanvas();
     uiInitActions();

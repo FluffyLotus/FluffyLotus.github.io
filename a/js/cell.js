@@ -146,11 +146,20 @@ function getSaveCellInfo(item) {
 
 	return data;
 }
-
+/*
 function loadCellInfo(data) {
 	var item = new CellInfo();
 
 	item.originalState = data.os;
+	item.originalStateRef = getCellStateFromId(item.originalState);
+
+	return item;
+}
+*/
+function loadCellInfo2(cellStateId) {
+	var item = new CellInfo();
+
+	item.originalState = cellStateId;
 	item.originalStateRef = getCellStateFromId(item.originalState);
 
 	return item;

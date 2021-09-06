@@ -30,6 +30,11 @@ function nComaFormatter(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function getImageDiv(imageInfo) {
+    return "<div style=\"background: url(sheet/spritesheet.png) " + (-imageInfo.x) + "px " + (-imageInfo.y) + "px; width: " + imageInfo.w + "px; height: " + imageInfo.h + "px;\"></div>";
+    //return "<div style=\"background: url(sheet/spritesheet.png) -10px 0px; width: " + imageInfo.w + "px; height: " + imageInfo.h + "px;\"></div>";
+}
+
 function dataLinksToString(dl) {
     var str = "";
 

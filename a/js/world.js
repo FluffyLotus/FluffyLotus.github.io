@@ -94,6 +94,19 @@ function WorldMapInfo() {
 }
 
 function initWorld() {
+    mainWorld = new WorldInfo();
+
+    for (var t = 0; t < worldData[0].c.length; t++) {
+        var item = new WorldMapInfo();
+
+        item.x = worldData[0].c[t].x;
+        item.y = worldData[0].c[t].y;
+        item.mapId = worldData[0].c[t].m;
+
+        mainWorld.mapInfo.push(item);
+    }
+
+    /*
     var item;
 
     mainWorld = new WorldInfo();
@@ -151,6 +164,7 @@ function initWorld() {
     item.y = 0;
     item.mapId = 8;
     mainWorld.mapInfo.push(item);
+    */
 }
 
 function finishInitWorld() {

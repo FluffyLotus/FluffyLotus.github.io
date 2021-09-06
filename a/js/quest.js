@@ -13,11 +13,11 @@ function QuestInformation() {
     this.id = 0;
     this.title = "";
 
-    this.description = "";
-    this.completeDescription = "";
+    this.description = ""; // startStory
+    this.completeDescription = ""; // endStory
 
-    this.descriptionSummary = "";
-    this.completeDescriptionSummary = "";
+    this.descriptionSummary = ""; // startSummary
+    this.completeDescriptionSummary = ""; // endSummary
 
     this.requirements = [];
     this.rewards = [];
@@ -59,6 +59,31 @@ function getQuestFromId(id) {
 }
 
 function initQuest() {
+    for (var t = 0; t < questData.length; t++) {
+        var item = new QuestInformation();
+
+        item.id = questData[t].id;
+        item.title = questData[t].n;
+
+        item.description = questData[t].ss;
+        item.descriptionSummary = questData[t].su;
+
+        item.completeDescription = questData[t].es;
+        item.completeDescriptionSummary = questData[t].eu;
+
+        for (var tt = 0; tt < questData[t].rq.length; tt++) {
+            item.requirements.push(createDataLink(questData[t].rq[tt].t, questData[t].rq[tt].st, questData[t].rq[tt].o, questData[t].rq[tt].a));
+        }
+
+        for (var tt = 0; tt < questData[t].rw.length; tt++) {
+            item.rewards.push(createDataLink(questData[t].rw[tt].t, questData[t].rw[tt].st, questData[t].rw[tt].o, questData[t].rw[tt].a));
+        }
+
+        quests.push(item);
+    }
+
+
+    /*
     var item;
 
     item = new QuestInformation();
@@ -172,6 +197,7 @@ function initQuest() {
     item.requirements.push(createDataLink_ResourceAmount(RESOURCE_STONE, 300000));
     item.rewards.push(createDataLink(DLTYPE_BUILDING, DLSUBTYPE_VISIBLE, BUILDING_BLOCK, 1));
     quests.push(item);
+    */
 }
 
 function finishInitQuest() {

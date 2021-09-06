@@ -432,7 +432,7 @@ function getMapFromId(id) {
 
 	return null;
 }
-
+/*
 function createNewMap() {
 	var item = new MapInfo();
 
@@ -441,7 +441,27 @@ function createNewMap() {
 
 	return item;
 }
+*/
+function initMap() {
+	for (var t = 0; t < mapData.length; t++) {
+		var item = new MapInfo();
 
+		item.id = mapData[t].id;
+		item.name = mapData[t].n;
+
+		for (var i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
+			item.cells[i] = new CellInfo();
+
+			if (i < mapData[t].c.length)
+				item.cells[i] = loadCellInfo2(mapData[t].c[i]);
+		}
+
+		maps.push(item);
+	}
+
+}
+
+/*
 function getSaveMapInfo(item) {
 	var data = new Object();
 
@@ -465,3 +485,4 @@ function loadMapInfo(data) {
 
 	return item;
 }
+*/

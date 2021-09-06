@@ -44,6 +44,8 @@ CellStateInfo.prototype.processClick = function () {
 	}
 
 	if (this.clickActionId >= 0) {
+		if (this.clickActionRef == null)
+			alert(this.clickActionId);
 		var action = this.clickActionRef; //getActionFromId(this.clickActionId);
 
 		action.process();
@@ -78,6 +80,31 @@ function getCellStateFromId(id) {
 }
 
 function initCellStates() {
+	for (var t = 0; t < cellStateData.length; t++) {
+		var item = new CellStateInfo();
+
+		item.id = cellStateData[t].id;
+		item.name = cellStateData[t].n;
+		item.description = cellStateData[t].d
+		item.typeId = cellStateData[t].ty;
+		item.floorImageId = cellStateData[t].fi;
+		item.objectImageId = cellStateData[t].oi;
+		item.clickActionId = cellStateData[t].ca;
+		item.enemyPath = cellStateData[t].ep;
+		item.enemyPathEnd = cellStateData[t].epe;
+		item.questId = cellStateData[t].qu;
+		item.initialBuilding = cellStateData[t].ib;
+		item.actionTimerFrom = cellStateData[t].atf;
+		item.actionTimerTo = cellStateData[t].att;
+		item.changeStateOnClickAction = cellStateData[t].csc;
+		item.changeStateOnTimerAction = cellStateData[t].tsc;
+		item.changeStateOnQuestAction = cellStateData[t].qsc;
+		item.effectCloud = cellStateData[t].ec;
+
+		cellStates.push(item);
+	}
+
+	/*
 	var item;
 
 	item = new CellStateInfo();
@@ -234,7 +261,7 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 16;
 	item.name = "Broken Bridge";
-	item.floorImageId = "bridgebroken";
+	item.floorImageId = "bridge_broken";
 	item.objectImageId = "";
 	item.questId = QUEST_BRIDGE;
 	item.changeStateOnQuestAction = 17;
@@ -243,7 +270,7 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 17;
 	item.name = "Fix Bridge";
-	item.floorImageId = "bridgefix";
+	item.floorImageId = "bridge_fix";
 	item.objectImageId = "";
 	cellStates.push(item);
 
@@ -324,9 +351,8 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 27;
 	item.name = "Grass Bush";
-	item.typeId = STATE_TYPE_GROUND;
 	item.floorImageId = "grass";
-	item.objectImageId = "bushon";
+	item.objectImageId = "bush_on";
 	item.clickActionId = ACTION_GIVE_FRUIT;
 	item.changeStateOnClickAction = 28;
 	cellStates.push(item);
@@ -334,9 +360,8 @@ function initCellStates() {
 	item = new CellStateInfo();
 	item.id = 28;
 	item.name = "No bush";
-	item.typeId = 0;
 	item.floorImageId = "grass";
-	item.objectImageId = "bushoff";
+	item.objectImageId = "bush_off";
 	item.actionTimerFrom = 30000;
 	item.actionTimerTo = 60000;
 	item.changeStateOnTimerAction = 27;
@@ -352,6 +377,7 @@ function initCellStates() {
 	item.enemyPath = true;
         item.enemyPathEnd = true;
 	cellStates.push(item);
+	*/
 
 } 
 

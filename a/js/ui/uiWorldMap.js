@@ -52,6 +52,17 @@
     //data += "</table>";
 
     $("#fullMap").html(data);
+
+    //////////////
+
+    $("#movementUp").append(getImageDiv(getImageFromName("icon_arrow_up").info[0]));
+    $("#movementUpOff").append(getImageDiv(getImageFromName("icon_arrow_up_off").info[0]));
+    $("#movementLeft").append(getImageDiv(getImageFromName("icon_arrow_left").info[0]));
+    $("#movementLeftOff").append(getImageDiv(getImageFromName("icon_arrow_left_off").info[0]));
+    $("#movementDown").append(getImageDiv(getImageFromName("icon_arrow_down").info[0]));
+    $("#movementDownOff").append(getImageDiv(getImageFromName("icon_arrow_down_off").info[0]));
+    $("#movementRight").append(getImageDiv(getImageFromName("icon_arrow_right").info[0]));
+    $("#movementRightOff").append(getImageDiv(getImageFromName("icon_arrow_right_off").info[0]));
 }
 
 function uiDrawWorldMap() {

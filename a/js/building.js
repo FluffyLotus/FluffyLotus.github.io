@@ -160,6 +160,44 @@ function getBuildingFromId(id) {
 }
 
 function initBuilding() {
+	for (var t = 0; t < buildingData.length; t++) {
+		var item = new BuildingInfo();
+
+		item.id = buildingData[t].id;
+		item.name = buildingData[t].n;
+		item.description = buildingData[t].d;
+		item.timerType = buildingData[t].tt;
+		item.actionTime = buildingData[t].at;
+		item.processOnCellType[0] = buildingData[t].pc;
+		item.isUserOwned = buildingData[t].uo;
+		item.canUpgrade = buildingData[t].cu;
+		item.needConnection = buildingData[t].nc;
+		item.storage = buildingData[t].is;
+		item.connection = buildingData[t].ic;
+		item.canSpawn = buildingData[t].cs;
+		item.keepActionReady = buildingData[t].ka;
+		item.imageId = buildingData[t].im;
+
+		for (var tt = 0; tt < buildingData[t].co.length; tt++) {
+			item.cost.push(createDataLink(buildingData[t].co[tt].t, buildingData[t].co[tt].st, buildingData[t].co[tt].o, buildingData[t].co[tt].a));
+		}
+
+		for (var tt = 0; tt < buildingData[t].rq.length; tt++) {
+			item.requirement.push(createDataLink(buildingData[t].rq[tt].t, buildingData[t].rq[tt].st, buildingData[t].rq[tt].o, buildingData[t].rq[tt].a));
+		}
+
+		for (var tt = 0; tt < buildingData[t].rw.length; tt++) {
+			item.reward.push(createDataLink(buildingData[t].rw[tt].t, buildingData[t].rw[tt].st, buildingData[t].rw[tt].o, buildingData[t].rw[tt].a));
+		}
+
+		buildings.push(item);
+	}
+
+	buildings[BUILDING_AXE].isVisible = true;
+	buildings[BUILDING_PICKAXE].isVisible = true;
+	buildings[BUILDING_STORAGE].isVisible = true;
+
+	/*
 	var item;
 
 	item = new BuildingInfo();
@@ -312,6 +350,7 @@ function initBuilding() {
 	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_STONE, 8));
 	item.reward.push(createDataLink_ResourceAmount(RESOURCE_BLOCK, 1));
 	buildings.push(item);
+	*/
 }
 
 function finishInitBuilding() {

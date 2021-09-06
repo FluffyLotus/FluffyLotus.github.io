@@ -26,6 +26,20 @@ function getActionFromId(id) {
 }
 
 function initActions() {
+    for (var t = 0; t < actionData.length; t++) {
+        var item = new ActionInfo();
+
+        item.id = actionData[t].id;
+        item.name = actionData[t].n;
+
+        for (var tt = 0; tt < actionData[t].rw.length; tt++) {
+            item.reward.push(createDataLink(actionData[t].rw[tt].t, actionData[t].rw[tt].st, actionData[t].rw[tt].o, actionData[t].rw[tt].a));
+        }
+
+        actions.push(item);
+    }
+
+    /*
     var item;
 
     item = new ActionInfo();
@@ -57,6 +71,7 @@ function initActions() {
     item.name = "Give Fruit";
     item.reward.push(createDataLink_ResourceAmount(RESOURCE_FRUIT, 1));
     actions.push(item);
+    */
 }
 
 function finishInitActions() {

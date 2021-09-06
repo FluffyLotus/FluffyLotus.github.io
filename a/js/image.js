@@ -1,19 +1,21 @@
 var images = [];
 
+var spriteSheetImage;
+
 var IMAGE_WIDTH = 32;
 var IMAGE_HEIGHT = 32;
 
-var IMAGE_CURSOR = "cursor";
-var IMAGE_UPGRADE = "upgrade";
-var IMAGE_DOWNGRADE = "downgrade";
-var IMAGE_TRASHCAN = "trashcan";
-var IMAGE_SELECT = "select";
-var IMAGE_CLOUD = "cloud";
-var IMAGE_NOCONNECTION = "noconnection";
-var IMAGE_CLOUD2 = "cloud2";
-var IMAGE_EXCLAMATION = "exclamation";
-var IMAGE_SMALLUPGRADE = "smallupgrade";
-var IMAGE_REDMIST = "redmist";
+var IMAGE_CURSOR = "_cursor";
+var IMAGE_UPGRADE = "_upgrade";
+var IMAGE_DOWNGRADE = "_downgrade";
+var IMAGE_TRASHCAN = "_trashcan";
+var IMAGE_SELECT = "_select";
+var IMAGE_CLOUD = "large_cloud";
+var IMAGE_NOCONNECTION = "_no_connection";
+var IMAGE_CLOUD2 = "_cloud2";
+var IMAGE_EXCLAMATION = "_exclamation";
+var IMAGE_SMALLUPGRADE = "_small_upgrade";
+var IMAGE_REDMIST = "large_redmist";
 
 //var IMAGE_AXE = 0;
 //var IMAGE_ENEMY = 1;
@@ -65,6 +67,7 @@ var IMAGE_REDMIST = "redmist";
 //         1000:8
 //
 
+/*
 function ImageInfo() {
     this.id = 0;
     this.name = "";
@@ -121,60 +124,111 @@ function createCornerImage(name) {
 
     return item;
 }
+*/
+
+function ImageGroupInfo() {
+    this.name = "";
+    this.info = [];
+}
+
+ImageGroupInfo.prototype.hasCorners = function () {
+    return this.info.length > 1;
+}
+
+function ImageInfo() {
+    this.x = 0;
+    this.y = 0;
+    this.w = 0;
+    this.h = 0;
+}
+
+function getImageFromName(name) {
+    for (var i = 0; i < images.length; i++)
+        if (images[i].name == name)
+            return images[i];
+
+    for (var i = 0; i < images.length; i++)
+        if (images[i].name == "_" + name)
+            return images[i];
+    //console.log(name);
+    return null;
+}
 
 function initImages() {
-    createSingleImage("axe");
-    createSingleImage("enemy");
-    createSingleImage("grass");
-    createSingleImage("mountain");
-    createSingleImage("path");
-    createSingleImage("pickaxe");
-    createSingleImage("tree");
-    createSingleImage("crystal");
-    createSingleImage("crystal2");
-    createSingleImage("house");
-    createSingleImage("tower");
-    createSingleImage("tower2");
-    createSingleImage("storage");
-    createSingleImage("select");
-    createSingleImage("water");
-    createSingleImage("port");
-    createSingleImage("porthouse");
-    createSingleImage("fisherman");
-    createSingleImage("flower");
-    createSingleImage("fish");
-    createSingleImage("standing");
-    createSingleImage("explosion1");
-    createSingleImage("explosion2");
-    createSingleImage("floweroff");
-    createSingleImage("pillar");
-    createSingleImage("enemy2");
-    createSingleImage("plank");
-    createCornerImage("road");
-    createSingleImage("coal");
-    createSingleImage("block");
-    createSingleImage("enemy3");
-    createSingleImage("bridgebroken");
-    createSingleImage("bridgefix");
-    createSingleImage("person");
-    createSingleImage("lava");
-    createSingleImage("volcano");
-    createSingleImage("trashcan");
-    createSingleImage("upgrade");
-    createSingleImage("downgrade");
-    createSingleImage("cursor");
-    createSingleImage("cloud");
-    createSingleImage("deepwater");
-    createSingleImage("noconnection");
-    createSingleImage("stream");
-    createSingleImage("cloud2");
-    createSingleImage("exclamation");
-    createSingleImage("smallupgrade");
-    createSingleImage("pickaxeman");
-    createSingleImage("mountainhole");
-    createSingleImage("bushoff");
-    createSingleImage("bushon");
-    createSingleImage("redmist");
+    spriteSheetImage = document.getElementById("spritesheet");
+
+    for (var t = 0; t < spritesheetData.length; t++) {
+        var group = getImageFromName(spritesheetData[t].n);
+
+        if (group == null) {
+            group = new ImageGroupInfo();
+            group.name = spritesheetData[t].n;
+
+            images.push(group);
+        }
+
+        var info = new ImageInfo();
+
+        info.x = spritesheetData[t].x;
+        info.y = spritesheetData[t].y;
+        info.w = spritesheetData[t].w;
+        info.h = spritesheetData[t].h;
+
+        group.info[spritesheetData[t].i] = info;
+    }
+
+    //createSingleImage("axe");
+    //createSingleImage("enemy");
+    //createSingleImage("grass");
+    //createSingleImage("mountain");
+    //createSingleImage("path");
+    //createSingleImage("pickaxe");
+    //createSingleImage("tree");
+    //createSingleImage("crystal");
+    //createSingleImage("crystal2");
+    //createSingleImage("house");
+    //createSingleImage("tower");
+    //createSingleImage("tower2");
+    //createSingleImage("storage");
+    //createSingleImage("select");
+    //createSingleImage("water");
+    //createSingleImage("port");
+    //createSingleImage("porthouse");
+    //createSingleImage("fisherman");
+    //createSingleImage("flower");
+    //createSingleImage("fish");
+    //createSingleImage("standing");
+    //createSingleImage("explosion1");
+    //createSingleImage("explosion2");
+    //createSingleImage("floweroff");
+    //createSingleImage("pillar");
+    //createSingleImage("enemy2");
+    //createSingleImage("plank");
+    //createCornerImage("road");
+    //createSingleImage("coal");
+    //createSingleImage("block");
+    //createSingleImage("enemy3");
+    //createSingleImage("bridgebroken");
+    //createSingleImage("bridgefix");
+    //createSingleImage("person");
+    //createSingleImage("lava");
+    //createSingleImage("volcano");
+    //createSingleImage("trashcan");
+    //createSingleImage("upgrade");
+    //createSingleImage("downgrade");
+    //createSingleImage("cursor");
+    //createSingleImage("cloud");
+    //createSingleImage("deepwater");
+    //createSingleImage("noconnection");
+    //createSingleImage("stream");
+    //createSingleImage("cloud2");
+    //createSingleImage("exclamation");
+    //createSingleImage("smallupgrade");
+    //createSingleImage("pickaxeman");
+    //createSingleImage("mountainhole");
+    //createSingleImage("bushoff");
+    //createSingleImage("bushon");
+    //createSingleImage("redmist");
 
     //var item;
 

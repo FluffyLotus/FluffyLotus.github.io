@@ -25,6 +25,18 @@ function getEnemyFromId(id) {
 }
 
 function initEnemy() {
+    for (var t = 0; t < enemyData.length; t++) {
+        var item = new EnemyInfo();
+
+        item.id = enemyData[t].id;
+        item.name = enemyData[t].n;
+        item.imageId = enemyData[t].im;
+        item.baseLife = enemyData[t].bl;
+        item.movementSpeed = enemyData[t].ms;
+        enemies.push(item);
+    }
+
+    /*
     var item;
 
     item = new EnemyInfo();
@@ -50,6 +62,7 @@ function initEnemy() {
     item.baseLife = 150;
     item.movementSpeed = 1000;
     enemies.push(item);
+    */
 }
 
 function finishInitEnemy() {

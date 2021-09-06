@@ -29,7 +29,7 @@ function uiInitCanvas() {
 function uiDrawMap() {
     var curMap = selectedMapRef; //getMapFromId(selectedMapId);
 
-    ctx.clearRect(0, 0, c.width, c.height);
+    //ctx.clearRect(0, 0, c.width, c.height);
 
     for (var y = 0; y < MAP_HEIGHT; y++) {
         for (var x = 0; x < MAP_WIDTH; x++) {
@@ -40,11 +40,11 @@ function uiDrawMap() {
             if (curState != null) {
                 if (curState.floorImageRef != null) {
                     img = curState.floorImageRef; //getImageFromId(curState.floorImageId);
-                    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                    drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
                 if (curState.objectImageRef != null) {
                     img = curState.objectImageRef; //getImageFromId(curState.objectImageId);
-                    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                    drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
             }
 
@@ -55,10 +55,10 @@ function uiDrawMap() {
 
                 if (img.hasCorners()) {
                     var conNum = curMap.getConnectionNumber(x, y);
-                    drawImage(ctx, img.cornerImg[conNum], x * GRID_WIDTH, y * GRID_HEIGHT);
+                    drawImage(ctx, img.info[conNum], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
                 else {
-                    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                    drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
 
                 //if (building.imageId == "road") {
@@ -69,7 +69,7 @@ function uiDrawMap() {
                 //}
                 //else {
                 //    img = building.imageRef; //getImageFromId(building.imageId);
-                //    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                //    drawImage(ctx, img, x * GRID_WIDTH, y * GRID_HEIGHT);
                 //}
 
                 if (building.canUpgrade) {
@@ -84,14 +84,14 @@ function uiDrawMap() {
                             //m -= 4;
 
                             img = cachedImg_smallUpgrade;
-                            drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT + m);
+                            drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT + m);
                         }
                     }
                 }
 
                 if (!curCell.isConnection && building.needConnection) {
                     img = cachedImg_noConnection;
-                    drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                    drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
                 }
             }
 
@@ -101,12 +101,12 @@ function uiDrawMap() {
                 //m -= 4;
 
                 img = cachedImg_exclamation;
-                drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT + m);
+                drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT + m);
             }
             
             if (x == selectedCellX && y == selectedCellY) {
                 img = cachedImg_select;
-                drawImage(ctx, img.img, x * GRID_WIDTH, y * GRID_HEIGHT);
+                drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
             }
 
 
@@ -128,7 +128,8 @@ function uiDrawMap() {
                 m -= 16;
 
                 img = cachedImg_cloud2;
-                ctx.drawImage(img.img, 0, 0, 64, 64, x * GRID_WIDTH - 16 + m, y * GRID_HEIGHT - 16, 64, 64);
+                //ctx.drawImage(img, 0, 0, 64, 64, x * GRID_WIDTH - 16 + m, y * GRID_HEIGHT - 16, 64, 64);
+                drawFullImage(ctx, img.info[0], x * GRID_WIDTH - 16 + m, y * GRID_HEIGHT - 16);
             }
         }
     }
@@ -138,7 +139,7 @@ function uiDrawMap() {
         var curEnemy = ei.enemyRef; //getEnemyFromId(ei.enemyId);
 
         img = curEnemy.imageRef; //getImageFromId(curEnemy.imageId);
-        drawImage(ctx, img.img, ei.x * GRID_WIDTH, ei.y * GRID_HEIGHT);
+        drawImage(ctx, img.info[0], ei.x * GRID_WIDTH, ei.y * GRID_HEIGHT);
 
         drawText(ctx, ei.life, ei.x, ei.y);
     }
@@ -148,13 +149,15 @@ function uiDrawMap() {
                 var m = parseInt(exclamation) % 16;
                 if (m > 8) m = 8 - (m - 8);
 
-        ctx.drawImage(cachedImg_cursor.img, 8 * GRID_WIDTH - 16, 3 * GRID_HEIGHT + 8 + m);
+        //ctx.drawImage(cachedImg_cursor, 8 * GRID_WIDTH - 16, 3 * GRID_HEIGHT + 8 + m);
+        drawFullImage(ctx, cachedImg_cursor.info[0], 8 * GRID_WIDTH - 16, 3 * GRID_HEIGHT + 8 + m);
     }
     if(getResourceFromId(RESOURCE_STONE).totalAmount == 0){
                 var m = parseInt(exclamation) % 16;
                 if (m > 8) m = 8 - (m - 8);
 
-        ctx.drawImage(cachedImg_cursor.img, 6 * GRID_WIDTH - 16, 0 * GRID_HEIGHT + 8 + m);
+        //ctx.drawImage(cachedImg_cursor, 6 * GRID_WIDTH - 16, 0 * GRID_HEIGHT + 8 + m);
+        drawFullImage(ctx, cachedImg_cursor.info[0], 6 * GRID_WIDTH - 16, 0 * GRID_HEIGHT + 8 + m);
     }
 
     // Try some clouds
@@ -163,10 +166,15 @@ function uiDrawMap() {
     else
         img = cachedImg_cloud;
 
-    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
-    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
-    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
-    ctx.drawImage(img.img, 0, 0, 800, 463, cloudX + 800, cloudY + 463, 800, 463);
+    //ctx.drawImage(img, 0, 0, 800, 463, cloudX, cloudY, 800, 463);
+    //ctx.drawImage(img, 0, 0, 800, 463, cloudX + 800, cloudY, 800, 463);
+    //ctx.drawImage(img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
+    //ctx.drawImage(img, 0, 0, 800, 463, cloudX + 800, cloudY + 463, 800, 463);
+
+    drawFullImage(ctx, img.info[0], cloudX, cloudY);
+    drawFullImage(ctx, img.info[0], cloudX + 800, cloudY);
+    drawFullImage(ctx, img.info[0], cloudX, cloudY + 463);
+    drawFullImage(ctx, img.info[0], cloudX + 800, cloudY + 463);
 
     cloudX -= 10 * (deltaTime / 1000); //0.08;
     cloudY -= 10 * (deltaTime / 1000); //0.08;
@@ -189,7 +197,12 @@ var cloudX = 0;
 var cloudY = 0;
 
 function drawImage(ctx, img, x, y) {
-    ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, x, y, GRID_WIDTH, GRID_HEIGHT);
+    //ctx.drawImage(img, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, x, y, GRID_WIDTH, GRID_HEIGHT);
+    ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x, y, GRID_WIDTH, GRID_HEIGHT);
+}
+
+function drawFullImage(ctx, img, x, y) {
+    ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x, y, img.w, img.h);
 }
 
 function drawText(ctx, txt, x, y) {

@@ -16,14 +16,15 @@ function glInitAll() {
     initQuest();
     initWorld();
     initTimer();
+    initMap();
 
     // Load map
 
-    maps = [];
+    //maps = [];
 
-    for (var i = 0; i < mapsData.length; i++) {
-        maps[i] = loadMapInfo(mapsData[i]);
-    }
+    //for (var i = 0; i < mapsData.length; i++) {
+    //    maps[i] = loadMapInfo(mapsData[i]);
+    //}
 
     maps[0].active = true;
 
