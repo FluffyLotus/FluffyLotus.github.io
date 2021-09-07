@@ -221,7 +221,7 @@ function uiUpdateBuildingTooltip(buildingInfo) {
     }
     else if (curBuilding.canUpgrade) {
         $("#toolTipBuilding_costRow").show();
-        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(buildingInfo.level + 1)));
+        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(buildingInfo.level)));
         $("#toolTipBuilding_costName").text("Upgrade Cost: ");
 
         if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
@@ -267,26 +267,26 @@ function uiSetCellTooltip(x, y) {
         $("#toolTipCell_name").text(curState.name);
         $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
         
-        if (curCell.buildingInstance != null) {
-            $("#toolTipCell_buildingInfo").show();
+        //if (curCell.buildingInstance != null) {
+        //    $("#toolTipCell_buildingInfo").show();
 
-            curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+        //    curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
-            if (curBuilding.canUpgrade) {
-                $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
-                $("#toolTipCell_description").text("");
+        //    if (curBuilding.canUpgrade) {
+        //        $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
+        //        $("#toolTipCell_description").text("");
                 
-                $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
-                $("#toolTipCell_buildingUpgrade").show();
-            }
-            else {
-                $("#toolTipCell_buildingName").text(curBuilding.name);
-                $("#toolTipCell_description").text(curBuilding.description);
-                $("#toolTipCell_buildingUpgrade").hide();
-            }
-        }
-        else
-            $("#toolTipCell_buildingInfo").hide();
+        //        $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
+        //        $("#toolTipCell_buildingUpgrade").show();
+        //    }
+        //    else {
+        //        $("#toolTipCell_buildingName").text(curBuilding.name);
+        //        $("#toolTipCell_description").text(curBuilding.description);
+        //        $("#toolTipCell_buildingUpgrade").hide();
+        //    }
+        //}
+        //else
+        //    $("#toolTipCell_buildingInfo").hide();
 
         $("#toolTipCell").show();
     }
@@ -307,26 +307,26 @@ function uiUpdateCellTooltip(x, y) {
         $("#toolTipCell_name").text(curState.name);
         $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
 
-        if (curCell.buildingInstance != null) {
-            $("#toolTipCell_buildingInfo").show();
+        //if (curCell.buildingInstance != null) {
+        //    $("#toolTipCell_buildingInfo").show();
 
-            curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+        //    curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
 
-            if (curBuilding.canUpgrade) {
-                $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
-                $("#toolTipCell_description").text("");
+        //    if (curBuilding.canUpgrade) {
+        //        $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
+        //        $("#toolTipCell_description").text("");
 
-                $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
-                $("#toolTipCell_buildingUpgrade").show();
-            }
-            else {
-                $("#toolTipCell_buildingName").text(curBuilding.name);
-                $("#toolTipCell_description").text(curBuilding.description);
-                $("#toolTipCell_buildingUpgrade").hide();
-            }
-        }
-        else
-            $("#toolTipCell_buildingInfo").hide();
+        //        $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
+        //        $("#toolTipCell_buildingUpgrade").show();
+        //    }
+        //    else {
+        //        $("#toolTipCell_buildingName").text(curBuilding.name);
+        //        $("#toolTipCell_description").text(curBuilding.description);
+        //        $("#toolTipCell_buildingUpgrade").hide();
+        //    }
+        //}
+        //else
+        //    $("#toolTipCell_buildingInfo").hide();
 
         $("#toolTipCell").show();
     }
