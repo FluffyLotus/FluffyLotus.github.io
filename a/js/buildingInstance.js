@@ -16,6 +16,8 @@ BuildingInstanceInfo.prototype.canProcessOnCellState = function (state) {
 
     if (building.processOnCellType.length == 0)
         return true;
+    if (building.processOnCellType[0] == -1)
+        return true;
 
     for (var t = 0; t < building.processOnCellType.length; t++)
         if (building.processOnCellType[t] == state.typeId)

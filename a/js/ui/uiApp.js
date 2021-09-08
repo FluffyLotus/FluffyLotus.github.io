@@ -19,6 +19,8 @@ function loadApp() {
 
         for (var t = 0; t < resources.length; t++)
             resources[t].addAmount(2000000);
+        for (var t = 0; t < enemies.length; t++)
+            enemies[t].totalKill = 10000;
     }
     else {
         $('#tutorialModal').modal('show');
@@ -41,7 +43,15 @@ function drawCanvas(timestamp) {
         deltaTime = timestamp - previousDrawCanvas;
 
     uiDrawMap();
-    
+    drawUI();
+    //setTimeout(drawUI, 1);
+
+    previousDrawCanvas = timestamp;
+
+    window.requestAnimationFrame(drawCanvas);
+}
+
+function drawUI() {
     uiDrawResources();
     uiDrawWorldMap();
     uiDrawActions();
@@ -50,11 +60,13 @@ function drawCanvas(timestamp) {
     /////////////////////////
     var curMap = selectedMapRef;
 
-    if (curMap.id != 0) {
+    if (curMap.spawnInfo.length > 0) {
         $("#spawnSection").show();
 
+        $("#mapMaxSpawnLevel").text(curMap.spawnInfo.length);
+
         document.getElementById("mapLife").innerText = curMap.life;
-        document.getElementById("mapSpawnLevel").innerText = parseInt(curMap.spawnCount / 10) + 1;
+        document.getElementById("mapSpawnLevel").innerText = curMap.findSpawnLevel(curMap.spawnCount); //parseInt(curMap.spawnCount / 10) + 1;
         document.getElementById("mapMaxSpawnCount").innerText = curMap.maxSpawnCount;
 
         if (!selectedMapRef.canSpawn)
@@ -66,10 +78,6 @@ function drawCanvas(timestamp) {
         $("#spawnSection").hide();
     }
     /////////////////////////
-
-    previousDrawCanvas = timestamp;
-
-    window.requestAnimationFrame(drawCanvas);
 }
 
 /////////////////////////

@@ -1,5 +1,5 @@
 var quests = [];
-
+/*
 var QUEST_PORT = 0;
 var QUEST_FISHERMAN = 1;
 var QUEST_STANDING = 2;
@@ -8,7 +8,7 @@ var QUEST_BRIDGE = 4;
 var QUEST_PORTCITY = 5;
 var QUEST_ROAD = 6;
 var QUEST_PICKAXEMAN = 7;
-
+*/
 function QuestInformation() {
     this.id = 0;
     this.title = "";

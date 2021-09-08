@@ -244,12 +244,12 @@ function uiSave() {
 }
 
 function uiDownloadImage() {
-	drawMapCanvas(false);
+	drawMapCanvas(true);
 
 	var img = document.getElementById("map_canvas").toDataURL("image/png");
 	download_img_using_blob("map_" + selectedId + ".png", "data:" + img);
 
-	drawMapCanvas(true);
+	drawMapCanvas(false);
 }
 
 function goToItem(section, idElem) {

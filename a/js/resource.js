@@ -2,14 +2,14 @@
 
 var RESOURCE_WOOD = 0;
 var RESOURCE_STONE = 1;
-var RESOURCE_KILL = 2;
-var RESOURCE_DEATH = 3;
-var RESOURCE_FLOWER = 4;
-var RESOURCE_FISH = 5;
-var RESOURCE_PLANK = 6;
-var RESOURCE_COAL = 7;
-var RESOURCE_BLOCK = 8;
-var RESOURCE_FRUIT = 9;
+//var RESOURCE_KILL = 2;
+//var RESOURCE_DEATH = 3;
+//var RESOURCE_FLOWER = 4;
+//var RESOURCE_FISH = 5;
+//var RESOURCE_PLANK = 6;
+//var RESOURCE_COAL = 7;
+//var RESOURCE_BLOCK = 8;
+//var RESOURCE_FRUIT = 9;
 
 function ResourceInfo() {
     this.id = 0;

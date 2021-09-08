@@ -13,7 +13,7 @@
 
             if (map != null) {
                 //data += "<a href=\"javascript: uiSetSelectedMap(" + mainWorld.mapInfo[t].mapId + ");\" id=\"map" + mainWorld.mapInfo[t].mapId + "\">Map " + mainWorld.mapInfo[t].mapId + "</a>";
-                data += "<a href=\"javascript: uiSetSelectedMap(" + map.id + ");\" id=\"map" + map.id + "\"><img src=\"images/map/map" + map.id + ".png\" border=\"0\" class=\"testHover\" /></a>";
+                data += "<a href=\"javascript: uiSetSelectedMap(" + map.id + ");\" id=\"map" + map.id + "\"><img src=\"images/map/map_" + map.id + ".png\" border=\"0\" class=\"testHover\" /></a>";
             }
 
             data += "</td>";

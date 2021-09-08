@@ -99,15 +99,14 @@ CellInfo.prototype.destroyBuilding = function () {
 	}
 }
 
-CellInfo.prototype.canPutBuilding = function (buildingId) {
+CellInfo.prototype.canPutBuilding = function (buildingRef) {
 	if (this.buildingInstance != null)
 		return false;
 
 	var state = this.getStateRef(); //getCellStateFromId(this.getStateId());
-	var building = getBuildingFromId(buildingId);
 
-	for (var t = 0; t < building.processOnCellType.length; t++) {
-		if (building.processOnCellType[t] == state.typeId)
+	for (var t = 0; t < buildingRef.processOnCellType.length; t++) {
+		if (buildingRef.processOnCellType[t] == state.typeId)
 			return true;
 	}
 
@@ -115,7 +114,9 @@ CellInfo.prototype.canPutBuilding = function (buildingId) {
 }
 
 CellInfo.prototype.putBuilding = function (buildingId) {
-	if (!this.canPutBuilding(buildingId))
+	var building = getBuildingFromId(buildingId);
+
+	if (!this.canPutBuilding(building))
 		return;
 
 	this.buildingInstance = createBuildingInstance(buildingId);

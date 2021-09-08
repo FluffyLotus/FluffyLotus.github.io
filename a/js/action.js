@@ -1,11 +1,11 @@
 ﻿var actions = [];
-
+/*
 var ACTION_GIVE_WOOD = 0;
 var ACTION_GIVE_STONE = 1;
 var ACTION_GIVE_FLOWER = 2;
 var ACTION_GIVE_FISH = 3;
 var ACTION_GIVE_FRUIT = 4;
-
+*/
 function ActionInfo() {
     this.id = 0;
     this.name = "";

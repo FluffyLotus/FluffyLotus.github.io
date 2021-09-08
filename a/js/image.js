@@ -16,6 +16,7 @@ var IMAGE_CLOUD2 = "_cloud2";
 var IMAGE_EXCLAMATION = "_exclamation";
 var IMAGE_SMALLUPGRADE = "_small_upgrade";
 var IMAGE_REDMIST = "large_redmist";
+var IMAGE_BLACKER = "_blacker";
 
 //var IMAGE_AXE = 0;
 //var IMAGE_ENEMY = 1;

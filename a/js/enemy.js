@@ -1,8 +1,10 @@
 ﻿var enemies = [];
 
+/*
 var ENEMY_FIRST = 0;
 var ENEMY_FIRST2 = 1;
 var ENEMY_HARD = 2;
+*/
 
 function EnemyInfo() {
     this.id = 0;

@@ -44,10 +44,24 @@ function loadSelectedMap() {
 	$("#map_editorName").val(item.en);
 	$("#map_description").val(item.d);
 
+	////////////
+	$("#map_spawnInfo").val("");
+
+	if (item.sp != null) {
+		var temp = "";
+
+		for (var t = 0; t < item.sp.length; t++) {
+			temp += item.sp[t].d + "," + item.sp[t].e + "," + item.sp[t].l + "," + item.sp[t].c + "\n";
+		}
+
+		$("#map_spawnInfo").val(temp);
+	}
+	////////////
+
 	$("#item_header").text(item.id + "- " + item.n);
 
 	selectMapCell(0, 0);
-	drawMapCanvas(true);
+	drawMapCanvas(false);
 }
 
 function saveSelectedMap() {
@@ -59,6 +73,29 @@ function saveSelectedMap() {
 	item.n = $("#map_name").val();
 	item.en = $("#map_editorName").val();
 	item.d = $("#map_description").val();
+
+	////////////
+	item.sp = [];
+
+	var temp = $("#map_spawnInfo").val();
+	var lines = temp.split('\n');
+
+	for (var t = 0; t < lines.length; t++) {
+		var vals = lines[t].split(",");
+
+		if (vals.length == 4) {
+			var spawnItem = new Object();
+
+			spawnItem.d = parseInt(vals[0]);
+			spawnItem.e = parseInt(vals[1]);
+			spawnItem.l = parseInt(vals[2]);
+			spawnItem.c = parseInt(vals[3]);
+
+			item.sp.push(spawnItem);
+		}
+	}
+
+	////////////
 }
 
 function createNewMap() {
@@ -69,6 +106,7 @@ function createNewMap() {
 	item.en = "";
 	item.d = "";
 	item.c = [];
+	item.sp = [];
 
 	for (var t = 0; t < MAP_WIDTH * MAP_HEIGHT; t++) {
 		item.c[t] = 0;
@@ -104,7 +142,7 @@ function loadMapDropDown(elementId) {
 	uiLoadDropDown(elementId, mapData);
 }
 
-function drawMapCanvas(showSelectedCell) {
+function drawMapCanvas(isForDownload) {
 	var item = getMapFromId(selectedId);
 
 	var c = document.getElementById("map_canvas");
@@ -125,11 +163,13 @@ function drawMapCanvas(showSelectedCell) {
 				img = getImageFromName(state.oi);
 				if (img != null) ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x * GRID_WIDTH, y * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT);
 
-				img = getImageFromName(state.ei);
-				if (img != null) ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x * GRID_WIDTH, y * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT);
+				if (!isForDownload) {
+					img = getImageFromName(state.ei);
+					if (img != null) ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x * GRID_WIDTH, y * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT);
+				}
 			}
 
-			if (showSelectedCell) {
+			if (!isForDownload) {
 				if (x == selectedCellX && y == selectedCellY) {
 					img = getImageFromName("_select");
 					ctx.drawImage(spriteSheetImage, img.x, img.y, img.w, img.h, x * GRID_WIDTH, y * GRID_HEIGHT, GRID_WIDTH, GRID_HEIGHT);
@@ -157,7 +197,7 @@ function uiClearMap() {
 		item.c[t] = cellStateId;
 	}
 
-	drawMapCanvas(true);
+	drawMapCanvas(false);
 	selectMapCell(selectedCellX, selectedCellY);
 }
 
@@ -172,7 +212,7 @@ function canvasClick(e, evt) {
 		item.c[selectedCellX + (selectedCellY * MAP_WIDTH)] = parseInt($("#map_globalCell").val());
 
 	selectMapCell(selectedCellX, selectedCellY);
-	drawMapCanvas(true);
+	drawMapCanvas(false);
 }
 
 function getMousePos(canvas, evt) {

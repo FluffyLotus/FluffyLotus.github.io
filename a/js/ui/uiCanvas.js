@@ -11,6 +11,7 @@ var cachedImg_exclamation = null;
 var cachedImg_smallUpgrade = null;
 var cachedImg_redMist = null;
 var cachedImg_cursor = null;
+var cachedImg_blacker = null;
 
 function uiInitCanvas() {
     c = document.getElementById("mainCanvas");
@@ -24,10 +25,16 @@ function uiInitCanvas() {
     cachedImg_smallUpgrade = getImageFromName(IMAGE_SMALLUPGRADE);
     cachedImg_redMist = getImageFromName(IMAGE_REDMIST);
     cachedImg_cursor = getImageFromName(IMAGE_CURSOR);
+    cachedImg_blacker = getImageFromName(IMAGE_BLACKER);
 }
 
 function uiDrawMap() {
     var curMap = selectedMapRef; //getMapFromId(selectedMapId);
+
+    var actionBuilding = null;
+    if (selectedAction >= 0) {
+        actionBuilding = getBuildingFromId(selectedAction);
+    }
 
     //ctx.clearRect(0, 0, c.width, c.height);
 
@@ -109,10 +116,15 @@ function uiDrawMap() {
                 drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
             }
 
-
+            if (actionBuilding != null) {
+                if (!curCell.canPutBuilding(actionBuilding)) {
+                    img = cachedImg_blacker;
+                    drawImage(ctx, img.info[0], x * GRID_WIDTH, y * GRID_HEIGHT);
+                }
+            }
         }
     }
-
+    
     // Mouve cloud
     for (var y = 0; y < MAP_HEIGHT; y++) {
         for (var x = 0; x < MAP_WIDTH; x++) {
@@ -171,10 +183,10 @@ function uiDrawMap() {
     //ctx.drawImage(img, 0, 0, 800, 463, cloudX, cloudY + 463, 800, 463);
     //ctx.drawImage(img, 0, 0, 800, 463, cloudX + 800, cloudY + 463, 800, 463);
 
-    drawFullImage(ctx, img.info[0], cloudX, cloudY);
-    drawFullImage(ctx, img.info[0], cloudX + 800, cloudY);
-    drawFullImage(ctx, img.info[0], cloudX, cloudY + 463);
-    drawFullImage(ctx, img.info[0], cloudX + 800, cloudY + 463);
+    drawFullImage(ctx, img.info[0], parseInt(cloudX), parseInt(cloudY));
+    drawFullImage(ctx, img.info[0], parseInt(cloudX) + 800, parseInt(cloudY));
+    drawFullImage(ctx, img.info[0], parseInt(cloudX), parseInt(cloudY) + 463);
+    drawFullImage(ctx, img.info[0], parseInt(cloudX) + 800, parseInt(cloudY) + 463);
 
     cloudX -= 10 * (deltaTime / 1000); //0.08;
     cloudY -= 10 * (deltaTime / 1000); //0.08;

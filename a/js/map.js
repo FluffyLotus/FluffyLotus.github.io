@@ -6,7 +6,7 @@ var maps = [];
 function MapInfo() {
 	this.id = 0;
 	this.cells = [];
-	this.enemies = [];
+	this.spawnInfo = [];
 
 	this.canSpawn = false; // more of a IsSpawning
 	this.life = 10;
@@ -14,6 +14,15 @@ function MapInfo() {
 	this.maxSpawnCount = 0;
 
 	this.active = false;
+
+	this.enemies = [];
+}
+
+function MapSpawnInfo() {
+	this.delay = 1000;
+	this.enemyId = 0;
+	this.level = 0;
+	this.count = 0;
 }
 
 MapInfo.prototype.startSpawn = function () {
@@ -22,19 +31,45 @@ MapInfo.prototype.startSpawn = function () {
 	this.spawnCount = 0;
 }
 
+MapInfo.prototype.findSpawnLevel = function (spawnCount) {
+	var level = 0;
+
+	for (var t = 0; t < this.spawnInfo.length; t++) {
+		spawnCount -= this.spawnInfo[t].count;
+
+		if (spawnCount < 0)
+			break;
+
+		level++;
+	}
+
+	if (level >= this.spawnInfo.length)
+		level = this.spawnInfo.length - 1;
+	if (level < 0)
+		level = 0;
+
+	return level;
+}
+
 MapInfo.prototype.spawnNewEnemy = function (x, y) {
+
 	if (this.canSpawn) {
 		var ei;
 
-		if (this.id == 4) {
-			ei = createEnemyInstance(x, y, ENEMY_HARD, parseInt(this.spawnCount / 10) + 1);
-		}
-		else {
-			if ((this.spawnCount % 10) == 9)
-				ei = createEnemyInstance(x, y, ENEMY_FIRST2, parseInt(this.spawnCount / 10) + 1);
-			else
-				ei = createEnemyInstance(x, y, ENEMY_FIRST, parseInt(this.spawnCount / 10) + 1);
-		}
+		var level = this.findSpawnLevel(this.spawnCount);
+		var spawn = this.spawnInfo[level];
+
+		ei = createEnemyInstance(x, y, spawn.enemyId, spawn.level);
+
+		//if (this.id == 4) {
+		//	ei = createEnemyInstance(x, y, ENEMY_HARD, parseInt(this.spawnCount / 10) + 1);
+		//}
+		//else {
+		//	if ((this.spawnCount % 10) == 9)
+		//		ei = createEnemyInstance(x, y, ENEMY_FIRST2, parseInt(this.spawnCount / 10) + 1);
+		//	else
+		//		ei = createEnemyInstance(x, y, ENEMY_FIRST, parseInt(this.spawnCount / 10) + 1);
+		//}
 
 		this.spawnCount++;
 
@@ -97,7 +132,7 @@ MapInfo.prototype.process = function () {
 							enemyRange[index].life -= curCell.buildingInstance.level; // * this.level;
 
 							if (enemyRange[index].life <= 0) {
-								resources[RESOURCE_KILL].addAmount(1);
+								//resources[RESOURCE_KILL].addAmount(1);
 								//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
 								enemyRange[index].enemyRef.totalKill++;
 							}
@@ -131,7 +166,7 @@ MapInfo.prototype.process = function () {
 
 								if (enemyRange[i].life <= 0) {
 									//resources[RESOURCE_KILL].addAmount(1);
-									getResourceFromId(RESOURCE_KILL).addAmount(1);
+									//getResourceFromId(RESOURCE_KILL).addAmount(1);
 
 									//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
 									enemyRange[index].enemyRef.totalKill++;
@@ -155,24 +190,24 @@ MapInfo.prototype.process = function () {
 MapInfo.prototype.moveEnemies = function () {
 	for (var t = this.enemies.length - 1; t >= 0; t--) {
 		if (this.enemies[t].life > 0) {
-					var curCell = this.cells[this.enemies[t].x + (this.enemies[t].y * MAP_WIDTH)];
-					var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+			var curCell = this.cells[this.enemies[t].x + (this.enemies[t].y * MAP_WIDTH)];
+			var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
 
-					if(curState.enemyPathEnd){
-						this.enemies.splice(t, 1);
-						getResourceFromId(RESOURCE_DEATH).addAmount(1);
-						this.life -= 1;
-						break;
-					}
+			if (curState.enemyPathEnd) {
+				this.enemies.splice(t, 1);
+				//getResourceFromId(RESOURCE_DEATH).addAmount(1);
+				this.life -= 1;
+				break;
+			}
 		}
 
-		if (this.enemies[t].life > 0){
+		if (this.enemies[t].life > 0) {
 			this.enemies[t].process(this);
+		}
 
-			if (this.enemies[t].life <= 0) {
-				this.enemies.splice(t, 1);
-				getResourceFromId(RESOURCE_KILL).addAmount(1);
-			}
+		if (this.enemies[t].life <= 0) {
+			this.enemies.splice(t, 1);
+			//getResourceFromId(RESOURCE_KILL).addAmount(1);
 		}
 	}
 }
@@ -210,7 +245,7 @@ MapInfo.prototype.buyBuilding = function (x, y, buildingId) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 	var building = getBuildingFromId(buildingId);
 
-	if (building.canBuy() && curCell.canPutBuilding(buildingId)) {
+	if (building.canBuy() && curCell.canPutBuilding(building)) {
 		building.buy();
 		curCell.putBuilding(buildingId);
 
@@ -448,12 +483,24 @@ function initMap() {
 
 		item.id = mapData[t].id;
 		item.name = mapData[t].n;
+		item.spawnInfo = [];
 
 		for (var i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
 			item.cells[i] = new CellInfo();
 
 			if (i < mapData[t].c.length)
 				item.cells[i] = loadCellInfo2(mapData[t].c[i]);
+		}
+
+		for (var i = 0; i < mapData[t].sp.length; i++) {
+			var spawn = new MapSpawnInfo();
+
+			spawn.delay = mapData[t].sp[i].d;
+			spawn.enemyId = mapData[t].sp[i].e;
+			spawn.level = mapData[t].sp[i].l;
+			spawn.count = mapData[t].sp[i].c;
+
+			item.spawnInfo.push(spawn);
 		}
 
 		maps.push(item);
