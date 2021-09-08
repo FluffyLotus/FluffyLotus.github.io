@@ -1,0 +1,877 @@
+﻿<!doctype html>
+<!-- saved from url=(0016)http://localhost -->
+<html lang="en">
+<head>
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <link href="3rd/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="3rd/bootstrap-darkmode-master/atom-one-dark.min.css" rel="stylesheet" />
+
+    <title>Editor</title>
+
+    <style type="text/css">
+    </style>
+</head>
+<body onload="loadApp();">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <h3>Editor</h3>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a id="menu_enemy" class="nav-link" href="javascript: uiSelectSection('enemy');">Enemy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_resource" class="nav-link active" href="javascript: uiSelectSection('resource');">Resource</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_cellState" class="nav-link" href="javascript: uiSelectSection('cellState');">Cell State</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_image" class="nav-link" href="javascript: uiSelectSection('image');">Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_map" class="nav-link" href="javascript: uiSelectSection('map');">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_action" class="nav-link" href="javascript: uiSelectSection('action');">Action</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_building" class="nav-link" href="javascript: uiSelectSection('building');">Building</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_quest" class="nav-link" href="javascript: uiSelectSection('quest');">Quest</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="menu_world" class="nav-link" href="javascript: uiSelectSection('world');">World</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 50px;">
+                        <button type="button" class="btn btn-success" onclick="uiSave();">Save</button>
+                    </li>
+                </ul>
+                <div class="my-2 my-lg-0">
+                    <a class="nav-link" href="http://localhost/td/editor.html">WebServer</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-3" style="height: 600px; overflow-y: scroll;" id="itemListSection">
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-success btn-block" onclick="uiCreateNewItem();">Add New</button>
+            </div>
+            <div class="list-group" id="itemList">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    The current link item
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">A second link item</a>
+                <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+                <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+            </div>
+        </div>
+        <div class="col-9" id="itemDataSection">
+
+            <div class="row">
+                <div class="col-9">
+                    <h3 id="item_header">Header</h3>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-danger" onclick="uiDeleteItem();">Delete</button>
+                </div>
+            </div>
+            <form>
+
+                <div id="section_resource" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="resource_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="resource_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="resource_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="resource_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="resource_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="resource_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="resource_alwaysHidden" class="col-2 col-form-label">Always Hidden</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="resource_alwaysHidden" value="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_enemy" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="enemy_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="enemy_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="enemy_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="enemy_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="enemy_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="enemy_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="enemy_image" class="col-2 col-form-label">Image</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="enemy_image" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="button" onclick="selectImage('enemy_image');"><div id="enemy_image_graph"></div></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="enemy_baseLife" class="col-2 col-form-label">Base Life</label>
+                        <div class="col-5">
+                            <input type="text" id="enemy_baseLife" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="enemy_movementSpeed" class="col-2 col-form-label">Movement Speed</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="enemy_movementSpeed" class="form-control" />
+                            <div class="input-group-append">
+                                <span>Miliseconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_cellState" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="cellState_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="cellState_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="cellState_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="cellState_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_type" class="col-2 col-form-label">Type</label>
+                        <div class="col-5">
+                            <select id="cellState_type" class="form-control">
+                                <option value="0">None</option>
+                                <option value="1">Rock</option>
+                                <option value="2">Tree</option>
+                                <option value="3">Ground</option>
+                                <option value="4">Water</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_floorImage" class="col-2 col-form-label">Floor Image</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="cellState_floorImage" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="button" onclick="selectImage('cellState_floorImage');"><div id="cellState_floorImage_graph"></div></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_objectImage" class="col-2 col-form-label">Object Image</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="cellState_objectImage" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="button" onclick="selectImage('cellState_objectImage');"><div id="cellState_objectImage_graph"></div></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_editorImage" class="col-2 col-form-label">Editor Image</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="cellState_editorImage" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="button" onclick="selectImage('cellState_editorImage');"><div id="cellState_editorImage_graph"></div></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_isEnemyPath" class="col-2 col-form-label">Is Enemy Path</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="cellState_isEnemyPath" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_isEnemyPathEnd" class="col-2 col-form-label">Is Enemy Path End</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="cellState_isEnemyPathEnd" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_clickAction" class="col-2 col-form-label">Click Action</label>
+                        <div class="col-5">
+                            <select id="cellState_clickAction" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('action', 'cellState_clickAction');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_quest" class="col-2 col-form-label">Quest</label>
+                        <div class="col-5">
+                            <select id="cellState_quest" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('quest', 'cellState_quest');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_initialBuilding" class="col-2 col-form-label">Initial Building</label>
+                        <div class="col-5">
+                            <select id="cellState_initialBuilding" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('building', 'cellState_initialBuilding');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_actionTimerFrom" class="col-2 col-form-label">Action Timer From</label>
+                        <div class="col-4">
+                            <input type="text" id="cellState_actionTimerFrom" class="form-control" />
+                        </div>
+                        <label for="cellState_actionTimerTo" class="col-2 col-form-label">Action Timer To</label>
+                        <div class="col-4">
+                            <input type="text" id="cellState_actionTimerTo" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_clickStateChange" class="col-2 col-form-label">Click State Change</label>
+                        <div class="col-5">
+                            <select id="cellState_clickStateChange" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('cellState', 'cellState_clickStateChange');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_timerStateChange" class="col-2 col-form-label">Timer State Change</label>
+                        <div class="col-5">
+                            <select id="cellState_timerStateChange" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('cellState', 'cellState_timerStateChange');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_questStateChange" class="col-2 col-form-label">Quest State Change</label>
+                        <div class="col-5">
+                            <select id="cellState_questStateChange" class="form-control">
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript: goToItem('cellState', 'cellState_questStateChange');">Visit</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="cellState_effectCloud" class="col-2 col-form-label">Effect Cloud</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="cellState_effectCloud" value="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_image" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="image_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="image_name" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>X</th>
+                                <th>Y</th>
+                                <th>W</th>
+                                <th>H</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody id="image_info">
+                            <tr>
+                                <td><span>0</span></td>
+                                <td><span>0</span></td>
+                                <td><span>0</span></td>
+                                <td><span>0</span></td>
+                                <td><span>0</span></td>
+                                <td><img src="" width="32" height="32" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="section_map" style="display: none;">
+
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <canvas id="map_canvas" width="384" height="384" style="width: 384px; height: 384px; border: 1px solid black;" onmousedown="canvasClick(this, event)" />
+                        </div>
+                        <div class="col-5">
+                            <div>
+                                <span id="map_selectedPosition">0, 0</span>
+                            </div>
+                            <label for="map_selectedCell" class="col-form-label">Selected Cell</label>
+                            <select class="form-control" id="map_selectedCell">
+                                <option value="-1">None</option>
+                            </select>
+                            <div>
+                                <a href="javascript: goToItem('cellState', 'map_selectedCell');">Visit</a>
+                            </div>
+                            <hr />
+                            <label for="map_globalCell" class="col-form-label">Global Cell</label>
+                            <select class="form-control" id="map_globalCell">
+                                <option value="-1">None</option>
+                            </select>
+                            <div>
+                                <a href="javascript: goToItem('cellState', 'map_globalCell');">Visit</a>
+                                |
+                                <a href="javascript: $('#map_globalCell').val(-1);">Set None</a>
+                                |
+                                <a href="javascript: $('#map_globalCell').val($('#map_selectedCell').val());">Set Selected</a>
+                            </div>
+                            <button class="btn btn-primary" type="button" onclick="uiClearMap();">Clear Map</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-5">
+                            <button class="btn btn-primary" type="button" onclick="uiDownloadImage();">Download Image</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="map_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="map_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="map_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="map_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="map_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="map_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="map_spawnInfo" class="col-2 col-form-label">Spawn</label>
+                        <div class="col-5">
+                            <div>{ms between spawn},{enemy id},{enemy level},{enemy count}</div>
+                            <textarea id="map_spawnInfo" class="form-control" style="height: 400px;"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="section_world" style="display: none;">
+
+<div style="position: fixed; top: 0px; right: 0px; width: 200px; border: 1px solid black; background-color: white;">
+Map <span id="fullWorldSelectedMap"></span> (<span id="fullWorldSelectedX"></span>, <span id="fullWorldSelectedY"></span>) - <span id="fullWorldSelectedMapName"></span>
+</div>
+
+<div class="row">
+<div class="col-1">Map: </div>
+<div class="col-2"><input type="text" class="form-control" id="worldNewMapId" /></div>
+<div class="col-1">X: </div>
+<div class="col-2"><input type="text" class="form-control" id="worldNewMapX" /></div>
+<div class="col-1">Y: </div>
+<div class="col-2"><input type="text" class="form-control" id="worldNewMapY" /></div>
+<div class="col-1"><button class="btn btn-success" type="button" onclick="addNewMapToWorld();">Add</button></div>
+</div>
+
+<div>
+                    <canvas id="world_fullMap" style="border: 1px solid black;" onmousedown="fullWorldCanvasClick(this, event);" onmousemove="fullWorldCanvasOver(this, event);" onmouseout="fullWorldCanvasOut(this, event);" />
+</div>
+
+                </div>
+
+                <div id="section_action" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="action_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="action_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="action_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="action_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="action_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="action_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Requirement</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="action_reward">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('action_reward');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_building" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="building_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="building_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="building_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="building_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_timerType" class="col-2 col-form-label">Timer Type</label>
+                        <div class="col-5">
+                            <select id="building_timerType" class="form-control">
+                                <option value="0">TRACKER_TYPE_MODULO</option>
+                                <option value="1">TRACLER_TYPE_DELAY</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_actionTime" class="col-2 col-form-label">Action Time</label>
+                        <div class="col-5">
+                            <input type="text" id="building_actionTime" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_processOnCell" class="col-2 col-form-label">Process On Cell</label>
+                        <div class="col-5">
+                            <select id="building_processOnCell" class="form-control">
+                                <option value="-1">Any</option>
+                                <option value="0">STATE_TYPE_NONE</option>
+                                <option value="1">STATE_TYPE_ROCK</option>
+                                <option value="2">STATE_TYPE_TREE</option>
+                                <option value="3">STATE_TYPE_GROUND</option>
+                                <option value="4">STATE_TYPE_WATER</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_image" class="col-2 col-form-label">Image</label>
+                        <div class="col-5 input-group">
+                            <input type="text" id="building_image" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="button" onclick="selectImage('building_image');"><div id="building_image_graph"></div></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_isUserOwned" class="col-2 col-form-label">Is User Owned</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_isUserOwned" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_canUpgrade" class="col-2 col-form-label">Can Upgrade</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_canUpgrade" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_needConnection" class="col-2 col-form-label">Need Connection</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_needConnection" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_isStorage" class="col-2 col-form-label">Is Storage</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_isStorage" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_isConnection" class="col-2 col-form-label">Is Connection</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_isConnection" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_canSpawn" class="col-2 col-form-label">Can Spawn</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_canSpawn" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="building_keepActionReady" class="col-2 col-form-label">Keep Action Ready</label>
+                        <div class="col-5">
+                            <input type="checkbox" id="building_keepActionReady" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Cost</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="building_cost">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('building_cost');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Requirement</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="building_requirement">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('building_requirement');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Reward</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="building_reward">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('building_reward');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section_quest" style="display: none;">
+                    <div class="row mb-3">
+                        <label for="quest_name" class="col-2 col-form-label">Name</label>
+                        <div class="col-5">
+                            <input type="text" id="quest_name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_editorName" class="col-2 col-form-label">Editor Name</label>
+                        <div class="col-5">
+                            <input type="text" id="quest_editorName" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_description" class="col-2 col-form-label">Description</label>
+                        <div class="col-5">
+                            <input type="text" id="quest_description" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_startStory" class="col-2 col-form-label">Start Story</label>
+                        <div class="col-5">
+                            <textarea id="quest_startStory" class="form-control" style="height: 150px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_startSummary" class="col-2 col-form-label">Start Summary</label>
+                        <div class="col-5">
+                            <textarea id="quest_startSummary" class="form-control" height="4"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_endStory" class="col-2 col-form-label">End Story</label>
+                        <div class="col-5">
+                            <textarea id="quest_endStory" class="form-control" style="height: 150px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="quest_endSummary" class="col-2 col-form-label">End Summary</label>
+                        <div class="col-5">
+                            <textarea id="quest_endSummary" class="form-control" height="4"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Requirement</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="quest_requirement">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('quest_requirement');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-2 col-form-label">Reward</div>
+                        <div class="col-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Sub Type</th>
+                                        <th>Object</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="quest_reward">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"><button class="btn btn-primary" type="button" onclick="uiDataLinkAdd('quest_reward');">Add</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imagesModal" tabindex="-1" aria-labelledby="imagesModal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imagesModal-title">Images</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="imagesModal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <textarea id="debug" style="width: 400px; height: 400px; display: none;"></textarea>
+
+    <div style="display: none;">
+        <table>
+            <tbody>
+                <tr id="datalink_row">
+                    <td>
+                        <select id="datalink_type" name="datalink_type" class="form-control">
+                            <option value="0">RESOURCE</option>
+                            <option value="1">MAP</option>
+                            <option value="2">BUILDING</option>
+                            <option value="3">ENEMY</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="datalink_subtype" name="datalink_subtype" class="form-control">
+                            <option value="0">AMOUNT</option>
+                            <option value="1">ACTIVE</option>
+                            <option value="2">VISIBLE</option>
+                            <option value="3">KILL</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="datalink_object" name="datalink_object" class="form-control">
+                            <option></option>
+                        </select>
+                    </td>
+                    <td><input type="text" id="datalink_amount" name="datalink_amount" class="form-control" /></td>
+                    <td><button class="btn btn-danger" type="button" onclick="uiDataLinkRemove(this);">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <img id="spritesheet" src="sheet/spritesheet.png" />
+    </div>
+
+    <script src="3rd/jquery/jquery-3.5.1.min.js"></script>
+    <script src="3rd/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+
+    <script src="sheet/spritesheet.js"></script>
+    <script src="data/allData.js"></script>
+
+    <script src="js/editor/editorAction.js"></script>
+    <script src="js/editor/editorApp.js"></script>
+    <script src="js/editor/editorBuilding.js"></script>
+    <script src="js/editor/editorCellState.js"></script>
+    <script src="js/editor/editorEnemy.js"></script>
+    <script src="js/editor/editorFull.js"></script>
+    <script src="js/editor/editorGeneral.js"></script>
+    <script src="js/editor/editorImage.js"></script>
+    <script src="js/editor/editorMap.js"></script>
+    <script src="js/editor/editorQuest.js"></script>
+    <script src="js/editor/editorResource.js"></script>
+    <script src="js/editor/editorWorld.js"></script>
+    <script src="js/editor/editorDataLink.js"></script>
+    
+</body>
+</html>
