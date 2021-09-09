@@ -82,6 +82,15 @@ function drawUI() {
 
 /////////////////////////
 function uiOpenSpawnModal() {
+    if (getBuildingFromId(BUILDING_TOWER1).isVisible) {
+        $('#spawnInfoModal-button').show();
+        $('#spawnInfoModal-noButton').hide();
+    }
+    else {
+        $('#spawnInfoModal-button').hide();
+        $('#spawnInfoModal-noButton').show();
+    }
+
     $('#spawnInfoModal').modal('show');
 }
 

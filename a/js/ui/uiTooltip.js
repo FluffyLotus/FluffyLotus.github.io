@@ -266,6 +266,11 @@ function uiSetCellTooltip(x, y) {
     else {
         $("#toolTipCell_name").text(curState.name);
         $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
+
+        if (curState.description == null || curState.description == undefined) // Should not be needed
+            $("#toolTipCell_description").text("");
+        else
+            $("#toolTipCell_description").text(curState.description);
         
         //if (curCell.buildingInstance != null) {
         //    $("#toolTipCell_buildingInfo").show();
@@ -306,6 +311,11 @@ function uiUpdateCellTooltip(x, y) {
     else {
         $("#toolTipCell_name").text(curState.name);
         $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
+
+        if (curState.description == null || curState.description == undefined) // Should not be needed
+            $("#toolTipCell_description").text("");
+        else
+            $("#toolTipCell_description").text(curState.description);
 
         //if (curCell.buildingInstance != null) {
         //    $("#toolTipCell_buildingInfo").show();
