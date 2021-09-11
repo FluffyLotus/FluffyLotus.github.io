@@ -8,7 +8,7 @@ function MapInfo() {
 	this.cells = [];
 	this.spawnInfo = [];
 
-	this.canSpawn = false; // more of a IsSpawning
+	this.isSpawning = false;
 	this.life = 10;
 	this.spawnCount = 0;
 	this.maxSpawnCount = 0;
@@ -16,6 +16,8 @@ function MapInfo() {
 	this.active = false;
 
 	this.enemies = [];
+
+	this.imageRef = null;
 }
 
 function MapSpawnInfo() {
@@ -26,7 +28,7 @@ function MapSpawnInfo() {
 }
 
 MapInfo.prototype.startSpawn = function () {
-	this.canSpawn = true;
+	this.isSpawning = true;
 	this.life = 10;
 	this.spawnCount = 0;
 }
@@ -53,23 +55,13 @@ MapInfo.prototype.findSpawnLevel = function (spawnCount) {
 
 MapInfo.prototype.spawnNewEnemy = function (x, y) {
 
-	if (this.canSpawn) {
+	if (this.isSpawning) {
 		var ei;
 
 		var level = this.findSpawnLevel(this.spawnCount);
 		var spawn = this.spawnInfo[level];
 
 		ei = createEnemyInstance(x, y, spawn.enemyId, spawn.level);
-
-		//if (this.id == 4) {
-		//	ei = createEnemyInstance(x, y, ENEMY_HARD, parseInt(this.spawnCount / 10) + 1);
-		//}
-		//else {
-		//	if ((this.spawnCount % 10) == 9)
-		//		ei = createEnemyInstance(x, y, ENEMY_FIRST2, parseInt(this.spawnCount / 10) + 1);
-		//	else
-		//		ei = createEnemyInstance(x, y, ENEMY_FIRST, parseInt(this.spawnCount / 10) + 1);
-		//}
 
 		this.spawnCount++;
 
@@ -91,91 +83,33 @@ MapInfo.prototype.process = function () {
 			curCell.process();
 
 			if (curCell.buildingInstance != null && curCell.buildingInstance.actionReady) {
-				var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+				var building = curCell.buildingInstance.buildingRef;
+				var enemyToHit = [];
 
 				if (building.canSpawn) {
 					this.spawnNewEnemy(x, y);
 					curCell.resetBuildingTimer();
 				}
 				else if (curCell.buildingInstance.buildingId == BUILDING_TOWER1) {
-					var enemyRange = [];
-
-					for (var i = 0; i < coordPlus.length; i++) {
-						var mx = x + coordPlus[i].x;
-						var my = y + coordPlus[i].y;
-
-						if (mx >= 0 && mx < MAP_WIDTH && my >= 0 && my < MAP_HEIGHT) {
-							for (var t = 0; t < this.enemies.length; t++) {
-								if (this.enemies[t].x == mx && this.enemies[t].y == my) {
-									enemyRange.push(this.enemies[t]);
-								}
-							}
-						}
-					}
-
-					if (enemyRange.length > 0) {
-						var max = 0;
-						var index = -1;
-
-						for (var i = 0; i < enemyRange.length; i++) {
-							if (enemyRange[i].distance > max) { // will not capture enemy with distance of 0
-								max = enemyRange[i].distance;
-								index = i;
-							}
-						}
-
-						if (index != -1) {
-							//getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
-							curCell.buildingInstance.buildingRef.process(curCell.buildingInstance.level);
-							curCell.resetBuildingTimer();
-
-							enemyRange[index].life -= curCell.buildingInstance.level; // * this.level;
-
-							if (enemyRange[index].life <= 0) {
-								//resources[RESOURCE_KILL].addAmount(1);
-								//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
-								enemyRange[index].enemyRef.totalKill++;
-							}
-						}
-					}
+					enemyToHit = this.getFarthestEnemy(x, y);
 				}
 				else if (curCell.buildingInstance.buildingId == BUILDING_TOWER2) {
-					var enemyRange = [];
+					enemyToHit = this.getAllSuroundEnemy(x, y);
+				}
 
-					for (var i = 0; i < coordPlus.length; i++) {
-						var mx = x + coordPlus[i].x;
-						var my = y + coordPlus[i].y;
+				if (enemyToHit.length > 0) {
+					curCell.buildingInstance.buildingRef.process(curCell.buildingInstance.level);
+					curCell.resetBuildingTimer();
 
-						if (mx >= 0 && mx < MAP_WIDTH && my >= 0 && my < MAP_HEIGHT) {
-							for (var t = 0; t < this.enemies.length; t++) {
-								if (this.enemies[t].x == mx && this.enemies[t].y == my) {
-									enemyRange.push(this.enemies[t]);
-								}
-							}
+					for (var i = 0; i < enemyToHit.length; i++) {
+						var hit = building.getReward(curCell.buildingInstance.level);
+
+						enemyToHit[i].life -= hit[0].amount;
+
+						if (enemyToHit[i].life <= 0) {
+							enemyToHit[i].enemyRef.totalKill++;
 						}
 					}
-
-					if (index != -1) {
-						if (enemyRange.length > 0) {
-							//getBuildingFromId(curCell.buildingInstance.buildingId).process(curCell.buildingInstance.level);
-							curCell.buildingInstance.buildingRef.process(curCell.buildingInstance.level);
-							curCell.resetBuildingTimer();
-
-							for (var i = 0; i < enemyRange.length; i++) {
-								enemyRange[i].life -= curCell.buildingInstance.level; // * this.level;
-
-								if (enemyRange[i].life <= 0) {
-									//resources[RESOURCE_KILL].addAmount(1);
-									//getResourceFromId(RESOURCE_KILL).addAmount(1);
-
-									//getEnemyFromId(enemyRange[index].enemyId).totalKill++;
-									enemyRange[index].enemyRef.totalKill++;
-								}
-							}
-						}
-					}
-
-					curCell.towerShoot = 0;
 				}
 			}
 		}
@@ -187,15 +121,71 @@ MapInfo.prototype.process = function () {
 		this.resetMap();
 }
 
+MapInfo.prototype.getFarthestEnemy = function (x, y) {
+
+	var ret = [];
+	var enemyRange = [];
+
+	for (var i = 0; i < coordPlus.length; i++) {
+		var mx = x + coordPlus[i].x;
+		var my = y + coordPlus[i].y;
+
+		if (mx >= 0 && mx < MAP_WIDTH && my >= 0 && my < MAP_HEIGHT) {
+			for (var t = 0; t < this.enemies.length; t++) {
+				if (this.enemies[t].x == mx && this.enemies[t].y == my) {
+					enemyRange.push(this.enemies[t]);
+				}
+			}
+		}
+	}
+
+	if (enemyRange.length > 0) {
+		var max = 0;
+		var index = -1;
+
+		for (var i = 0; i < enemyRange.length; i++) {
+			if (enemyRange[i].distance > max) { // will not capture enemy with distance of 0
+				max = enemyRange[i].distance;
+				index = i;
+			}
+		}
+
+		if (index != -1) {
+			ret[0] = enemyRange[index];
+		}
+	}
+
+	return ret;
+}
+
+MapInfo.prototype.getAllSuroundEnemy = function (x, y) {
+
+	var enemyRange = [];
+
+	for (var i = 0; i < coordPlus.length; i++) {
+		var mx = x + coordPlus[i].x;
+		var my = y + coordPlus[i].y;
+
+		if (mx >= 0 && mx < MAP_WIDTH && my >= 0 && my < MAP_HEIGHT) {
+			for (var t = 0; t < this.enemies.length; t++) {
+				if (this.enemies[t].x == mx && this.enemies[t].y == my) {
+					enemyRange.push(this.enemies[t]);
+				}
+			}
+		}
+	}
+
+	return enemyRange;
+}
+
 MapInfo.prototype.moveEnemies = function () {
 	for (var t = this.enemies.length - 1; t >= 0; t--) {
 		if (this.enemies[t].life > 0) {
 			var curCell = this.cells[this.enemies[t].x + (this.enemies[t].y * MAP_WIDTH)];
-			var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+			var curState = curCell.getStateRef();
 
 			if (curState.enemyPathEnd) {
 				this.enemies.splice(t, 1);
-				//getResourceFromId(RESOURCE_DEATH).addAmount(1);
 				this.life -= 1;
 				break;
 			}
@@ -207,7 +197,6 @@ MapInfo.prototype.moveEnemies = function () {
 
 		if (this.enemies[t].life <= 0) {
 			this.enemies.splice(t, 1);
-			//getResourceFromId(RESOURCE_KILL).addAmount(1);
 		}
 	}
 }
@@ -222,10 +211,10 @@ MapInfo.prototype.destroyBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef;
 
 		if (curBuilding.isUserOwned) {
-			if (!this.canSpawn) {
+			if (!this.isSpawning) {
 				while (curCell.buildingInstance.level > 1)
 					this.levelDownBuilding(x, y);
 
@@ -257,7 +246,7 @@ MapInfo.prototype.levelBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef;
 
 		if (curBuilding.canUpgrade) {
 			var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level);
@@ -274,11 +263,11 @@ MapInfo.prototype.levelDownBuilding = function (x, y) {
 	var curCell = this.cells[x + (y * MAP_WIDTH)];
 
 	if (curCell.buildingInstance != null) {
-		var curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+		var curBuilding = curCell.buildingInstance.buildingRef;
 
 		if (curBuilding.canUpgrade) {
 			if (curCell.buildingInstance.level > 1) {
-				if (!this.canSpawn) {
+				if (!this.isSpawning) {
 					var cost = curBuilding.getUpgradeCost(curCell.buildingInstance.level - 1);
 
 					addDataLinks(cost);
@@ -305,7 +294,7 @@ MapInfo.prototype.resetMap = function () {
 
 	this.calculateConnections();
 
-	this.canSpawn = false;
+	this.isSpawning = false;
 	this.life = 10;
 	this.spawnCount = 0;
 }
@@ -315,7 +304,7 @@ MapInfo.prototype.findEnemyPathAround = function (x, y) {
 
 	for (var i = 0; i < coordPlus.length; i++) {
 		var curCell = this.cells[x + coordPlus[i].x + ((y + coordPlus[i].y) * MAP_WIDTH)];
-		var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+		var curState = curCell.getStateRef();
 
 		if (curState.enemyPath) {
 			d.x = coordPlus[i].x;
@@ -332,14 +321,14 @@ MapInfo.prototype.getEnemyMovement = function (x, y, dx, dy) {
 	var ny = y + dy;
 
 	var curCell = this.cells[nx + (ny * MAP_WIDTH)];
-	var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+	var curState = curCell.getStateRef();
 
 	if (!curState.enemyPath) {
 		nx = x + dy;
 		ny = y + dx;
 
 		curCell = this.cells[nx + (ny * MAP_WIDTH)];
-		curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+		curState = curCell.getStateRef();
 
 		if (curState.enemyPath) {
 			var tmp = dx;
@@ -369,7 +358,7 @@ MapInfo.prototype.calculateConnections = function () {
 			curCell.isConnection = false;
 
 			if (curCell.buildingInstance != null) {
-				var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+				var building = curCell.buildingInstance.buildingRef;
 
 				if (building.storage) {
 					toProcess.push({ x: x, y: y });
@@ -393,7 +382,7 @@ MapInfo.prototype.calculateConnections = function () {
 				var curCell = this.cells[newX + (newY * MAP_WIDTH)];
 
 				if (curCell.buildingInstance != null) {
-					var building = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
+					var building = curCell.buildingInstance.buildingRef;
 
 					if (building.connection) {
 						var found = false;
@@ -467,16 +456,7 @@ function getMapFromId(id) {
 
 	return null;
 }
-/*
-function createNewMap() {
-	var item = new MapInfo();
 
-	for (var i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++)
-		item.cells[i] = new CellInfo();
-
-	return item;
-}
-*/
 function initMap() {
 	for (var t = 0; t < mapData.length; t++) {
 		var item = new MapInfo();
@@ -508,28 +488,8 @@ function initMap() {
 
 }
 
-/*
-function getSaveMapInfo(item) {
-	var data = new Object();
-
-	data.id = item.id;
-	data.c = [];
-
-	for (var i = 0; i < item.cells.length; i++)
-		data.c[i] = getSaveCellInfo(item.cells[i]);
-
-	return data;
-}
-
-function loadMapInfo(data) {
-	var item = new MapInfo();
-
-	item.id = data.id;
-
-	for (var i = 0; i < data.c.length; i++) {
-		item.cells[i] = loadCellInfo(data.c[i]);
+function finishInitMap() {
+	for (var t = 0; t < maps.length; t++) {
+		maps[t].imageRef = getImageFromName("map_map_" + maps[t].id);
 	}
-
-	return item;
 }
-*/

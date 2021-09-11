@@ -32,22 +32,18 @@ function uiSelectAction(actionId) {
     $("#action" + selectedAction).addClass("buildingSelected");
 
     if (selectedAction < 0) {
-        //uiActionHover(selectedAction);
         uiSetHardTooltip(TOOLTIP_TYPE_ACTION, selectedAction);
     }
     else {
-        //uiBuildingHover(selectedAction);
         uiSetHardTooltip(TOOLTIP_TYPE_BUILDING, { buildingId: selectedAction, level: 0 });
     }
 }
 
 function uiActionHover(actionId) {
-    //uiSetActionTooltip(actionId);
     uiSetSoftTooltip(TOOLTIP_TYPE_ACTION, actionId);
 }
 
 function uiBuildingHover(buildingId) {
-    //uiSetBuildingTooltip(buildingId);
     uiSetSoftTooltip(TOOLTIP_TYPE_BUILDING, { buildingId: buildingId, level: 0 });
 }
 

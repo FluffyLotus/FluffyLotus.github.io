@@ -1,7 +1,6 @@
 ﻿var mainWorld = null;
 
 function WorldInfo() {
-    // TODO: dynamically build an array with an offset x, y
     this.mapInfo = [];
 
     this.offsetX = 0;
@@ -65,21 +64,6 @@ WorldInfo.prototype.getPosibleMovement = function (middleMapId) {
                     pm += bit[t];
             }
         }
-
-        //for (var t = 0; t < this.mapInfo.length; t++) {
-        //    var m = getMapFromId(this.mapInfo[t].mapId);
-
-        //    if (m.active) {
-        //        if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my - 1)
-        //            pm += 1;
-        //        if (this.mapInfo[t].x == mx - 1 && this.mapInfo[t].y == my)
-        //            pm += 2;
-        //        if (this.mapInfo[t].x == mx + 1 && this.mapInfo[t].y == my)
-        //            pm += 4;
-        //        if (this.mapInfo[t].x == mx && this.mapInfo[t].y == my + 1)
-        //            pm += 8;
-        //    }
-        //}
     }
 
     return pm;
@@ -105,66 +89,6 @@ function initWorld() {
 
         mainWorld.mapInfo.push(item);
     }
-
-    /*
-    var item;
-
-    mainWorld = new WorldInfo();
-
-    item = new WorldMapInfo();
-    item.x = 0;
-    item.y = 0;
-    item.mapId = 0;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = 0;
-    item.y = -1;
-    item.mapId = 1;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = 1;
-    item.y = -1;
-    item.mapId = 2;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = 0;
-    item.y = -2;
-    item.mapId = 3;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = -1;
-    item.y = -1;
-    item.mapId = 4;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = -1;
-    item.y = -2;
-    item.mapId = 5;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = 1;
-    item.y = -2;
-    item.mapId = 6;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = -1;
-    item.y = 0;
-    item.mapId = 7;
-    mainWorld.mapInfo.push(item);
-
-    item = new WorldMapInfo();
-    item.x = 1;
-    item.y = 0;
-    item.mapId = 8;
-    mainWorld.mapInfo.push(item);
-    */
 }
 
 function finishInitWorld() {

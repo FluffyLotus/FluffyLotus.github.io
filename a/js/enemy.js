@@ -1,11 +1,5 @@
 ﻿var enemies = [];
 
-/*
-var ENEMY_FIRST = 0;
-var ENEMY_FIRST2 = 1;
-var ENEMY_HARD = 2;
-*/
-
 function EnemyInfo() {
     this.id = 0;
     this.name = "";
@@ -37,34 +31,6 @@ function initEnemy() {
         item.movementSpeed = enemyData[t].ms;
         enemies.push(item);
     }
-
-    /*
-    var item;
-
-    item = new EnemyInfo();
-    item.id = 0;
-    item.name = "Enemy 1";
-    item.imageId = "enemy";
-    item.baseLife = 5;
-    item.movementSpeed = 500;
-    enemies.push(item);
-
-    item = new EnemyInfo();
-    item.id = 1;
-    item.name = "Enemy 2";
-    item.imageId = "enemy2";
-    item.baseLife = 15;
-    item.movementSpeed = 1000;
-    enemies.push(item);
-
-    item = new EnemyInfo();
-    item.id = 2;
-    item.name = "Enemy 3";
-    item.imageId = "enemy3";
-    item.baseLife = 150;
-    item.movementSpeed = 1000;
-    enemies.push(item);
-    */
 }
 
 function finishInitEnemy() {

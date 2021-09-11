@@ -9,14 +9,6 @@ function loadApp() {
     glInitAll();
 
     if (isDebug) {
-        //resources[RESOURCE_STONE].amount = 40;
-        //resources[RESOURCE_WOOD].amount = 40;
-
-        //resources[RESOURCE_STONE].addAmount(20000);
-        //resources[RESOURCE_WOOD].addAmount(20000);
-        //resources[RESOURCE_PLANK].addAmount(20000);
-        //resources[RESOURCE_FLOWER].addAmount(20000);
-
         for (var t = 0; t < resources.length; t++)
             resources[t].addAmount(2000000);
         for (var t = 0; t < enemies.length; t++)
@@ -28,6 +20,7 @@ function loadApp() {
 
     uiInitCanvas();
     uiInitActions();
+    uiInitEffect();
 
     uiDrawResources();
     uiDrawActions();
@@ -42,9 +35,9 @@ function drawCanvas(timestamp) {
     if (previousDrawCanvas > 0)
         deltaTime = timestamp - previousDrawCanvas;
 
+    uiUpdateEffect();
     uiDrawMap();
     drawUI();
-    //setTimeout(drawUI, 1);
 
     previousDrawCanvas = timestamp;
 
@@ -56,48 +49,5 @@ function drawUI() {
     uiDrawWorldMap();
     uiDrawActions();
     uiUpdateToolTip();
-
-    /////////////////////////
-    var curMap = selectedMapRef;
-
-    if (curMap.spawnInfo.length > 0) {
-        $("#spawnSection").show();
-
-        $("#mapMaxSpawnLevel").text(curMap.spawnInfo.length);
-
-        document.getElementById("mapLife").innerText = curMap.life;
-        document.getElementById("mapSpawnLevel").innerText = curMap.findSpawnLevel(curMap.spawnCount); //parseInt(curMap.spawnCount / 10) + 1;
-        document.getElementById("mapMaxSpawnCount").innerText = curMap.maxSpawnCount;
-
-        if (!selectedMapRef.canSpawn)
-            $("#spawnButton").prop('disabled', false);
-        else
-            $("#spawnButton").prop('disabled', true);
-    }
-    else {
-        $("#spawnSection").hide();
-    }
-    /////////////////////////
+    uiDrawSpawn();
 }
-
-/////////////////////////
-function uiOpenSpawnModal() {
-    if (getBuildingFromId(BUILDING_TOWER1).isVisible) {
-        $('#spawnInfoModal-button').show();
-        $('#spawnInfoModal-noButton').hide();
-    }
-    else {
-        $('#spawnInfoModal-button').hide();
-        $('#spawnInfoModal-noButton').show();
-    }
-
-    $('#spawnInfoModal').modal('show');
-}
-
-function uiStartSpawn() {
-    glStartSpawn();
-
-    $('#spawnInfoModal').modal('hide');
-}
-
-/////////////////////////

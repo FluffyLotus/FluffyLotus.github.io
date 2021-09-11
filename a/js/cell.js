@@ -33,24 +33,22 @@ CellInfo.prototype.resetBuildingTimer = function () {
 }
 
 CellInfo.prototype.process = function () {
-	var state = this.getStateRef(); //getCellStateFromId(this.getStateId());
+	var state = this.getStateRef();
 
 	if (this.buildingInstance == null && state.initialBuilding >= 0) {
 		this.buildingInstance = createBuildingInstance(state.initialBuilding);
 	}
 
 	// If a connection is lost, the building timer need to reset and not increase
-	//if (this.buildingInstance != null && (this.isConnection || !getBuildingFromId(this.buildingInstance.buildingId).needConnection)) {
 	if (this.buildingInstance != null && (this.isConnection || !this.buildingInstance.buildingRef.needConnection)) {
 		if (this.buildingInstance.canProcessOnCellState(state)) {
 			if (this.buildingInstance.process()) {
-				//var curBuilding = getBuildingFromId(this.buildingInstance.buildingId);
+
 			}
 		}
 	}
 
 	if (state.changeStateOnQuestAction >= 0){
-		//if(getQuestFromId(state.questId).completed)
 		if (state.questRef.completed)
 			this.changeState(state.changeStateOnQuestAction);
 	}
@@ -81,7 +79,7 @@ CellInfo.prototype.changeState = function (newState) {
 }
 
 CellInfo.prototype.processClick = function () {
-	var state = this.getStateRef(); //getCellStateFromId(this.getStateId());
+	var state = this.getStateRef();
 
 	if (state.processClick()) {
 		if (state.changeStateOnClickAction >= 0) {
@@ -92,7 +90,7 @@ CellInfo.prototype.processClick = function () {
 
 CellInfo.prototype.destroyBuilding = function () {
 	if (this.buildingInstance != null) {
-		var building = this.buildingInstance.buildingRef; //getBuildingFromId(this.buildingInstance.buildingId);
+		var building = this.buildingInstance.buildingRef;
 
 		building.destroy();
 		this.buildingInstance = null;
@@ -103,7 +101,7 @@ CellInfo.prototype.canPutBuilding = function (buildingRef) {
 	if (this.buildingInstance != null)
 		return false;
 
-	var state = this.getStateRef(); //getCellStateFromId(this.getStateId());
+	var state = this.getStateRef();
 
 	for (var t = 0; t < buildingRef.processOnCellType.length; t++) {
 		if (buildingRef.processOnCellType[t] == state.typeId)
@@ -123,10 +121,10 @@ CellInfo.prototype.putBuilding = function (buildingId) {
 }
 
 CellInfo.prototype.completeQuest = function () {
-	var state = this.getStateRef(); //getCellStateFromId(this.getStateId());
+	var state = this.getStateRef();
 
 	if (state.questId >= 0) {
-		var quest = state.questRef; //getQuestFromId(state.questId);
+		var quest = state.questRef;
 
 		quest.complete();
 	}
@@ -147,16 +145,7 @@ function getSaveCellInfo(item) {
 
 	return data;
 }
-/*
-function loadCellInfo(data) {
-	var item = new CellInfo();
 
-	item.originalState = data.os;
-	item.originalStateRef = getCellStateFromId(item.originalState);
-
-	return item;
-}
-*/
 function loadCellInfo2(cellStateId) {
 	var item = new CellInfo();
 

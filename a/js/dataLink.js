@@ -51,14 +51,12 @@ function createDataLink_ResourceAmount(objectId, amount) {
 function hasDataLink(link) {
     if (link.typeId == DLTYPE_RESOURCE) {
         if (link.subTypeId == DLSUBTYPE_AMOUNT) {
-            //if (getResourceFromId(link.objectId).amount >= link.amount)
             if (link.objectRef.amount >= link.amount)
                 return true;
         }
     }
     if (link.typeId == DLTYPE_ENEMY) {
         if (link.subTypeId ==DLSUBTYPE_KILL) {
-            //if (getEnemyFromId(link.objectId).totalKill >= link.amount)
             if (link.objectRef.totalKill >= link.amount)
                 return true;
         }
@@ -70,7 +68,6 @@ function hasDataLink(link) {
 function removeDataLink(link) {
     if (link.typeId == DLTYPE_RESOURCE) {
         if (link.subTypeId == DLSUBTYPE_AMOUNT) {
-            //getResourceFromId(link.objectId).addAmount(-link.amount);
             link.objectRef.addAmount(-link.amount);
         }
     }
@@ -79,19 +76,16 @@ function removeDataLink(link) {
 function addDataLink(link) {
     if (link.typeId == DLTYPE_RESOURCE) {
         if (link.subTypeId == DLSUBTYPE_AMOUNT) {
-            //getResourceFromId(link.objectId).addAmount(link.amount);
             link.objectRef.addAmount(link.amount);
         }
     }
     if (link.typeId == DLTYPE_MAP) {
         if (link.subTypeId == DLSUBTYPE_ACTIVE) {
-            //getMapFromId(link.objectId).active = (link.amount == 1);
             link.objectRef.active = (link.amount == 1);
         }
     }
     if (link.typeId == DLTYPE_BUILDING) {
         if (link.subTypeId == DLSUBTYPE_VISIBLE) {
-            //getBuildingFromId(link.objectId).isVisible = (link.amount == 1);
             link.objectRef.isVisible = (link.amount == 1);
         }
     }

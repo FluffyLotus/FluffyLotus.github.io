@@ -59,7 +59,6 @@ function uiClearSoftTooltip() {
 
     uiClearTooltip();
     uiSetHardTooltip(currentHardToolTipType, currentHardToolTipInfo);
-    //uiUpdateToolTip();
 }
 
 function uiClearTooltip() {
@@ -85,8 +84,6 @@ function uiClearTooltip() {
 }
 
 function uiSetActionTooltip(actionId, isHard) {
-    //uiClearSoftTooltip();
-
     if (isHard) {
         currentHardToolTipType = TOOLTIP_TYPE_ACTION;
         currentHardToolTipInfo = actionId;
@@ -118,15 +115,14 @@ function uiSetActionTooltip(actionId, isHard) {
         $("#toolTipAction_description").text("Click on a cell to destroy the building. All resources will be given back.");
     }
 
-    $("#toolTipAction").show();
+    uiUpdateActionTooltip(actionId);
 }
 
 function uiUpdateActionTooltip(actionId) {
+    $("#toolTipAction").show();
 }
 
 function uiSetBuildingTooltip(buildingInfo, isHard) {
-    //uiClearSoftTooltip();
-
     if (isHard) {
         currentHardToolTipType = TOOLTIP_TYPE_BUILDING;
         currentHardToolTipInfo = buildingInfo;
@@ -146,73 +142,26 @@ function uiSetBuildingTooltip(buildingInfo, isHard) {
     $("#toolTipBuilding_name").text(curBuilding.name);
     $("#toolTipBuilding_description").text(curBuilding.description);
 
-    if (buildingInfo.level == 0) {
-        $("#toolTipBuilding_costRow").show();
-        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
-        $("#toolTipBuilding_costName").text("Cost: ");
-
-        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
-            $("#toolTipBuilding_reqRow").show();
-            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
-        }
-        else
-            $("#toolTipBuilding_reqRow").hide();
-
-        if (curBuilding.getReward(buildingInfo.level).length > 0) {
-            $("#toolTipBuilding_rewRow").show();
-            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
-        }
-        else
-            $("#toolTipBuilding_rewRow").hide();
-    }
-    else if (curBuilding.canUpgrade) {
-        $("#toolTipBuilding_costRow").show();
-        $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(buildingInfo.level + 1)));
-        $("#toolTipBuilding_costName").text("Upgrade Cost: ");
-
-        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
-            $("#toolTipBuilding_reqRow").show();
-            $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(buildingInfo.level)));
-        }
-        else
-            $("#toolTipBuilding_reqRow").hide();
-
-        if (curBuilding.getReward(buildingInfo.level).length > 0) {
-            $("#toolTipBuilding_rewRow").show();
-            $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(buildingInfo.level)));
-        }
-        else
-            $("#toolTipBuilding_rewRow").hide();
-    }
-    else {
-        $("#toolTipBuilding_costRow").hide();
-        $("#toolTipBuilding_reqRow").hide();
-        $("#toolTipBuilding_rewRow").show();
-    }
-
-    $("#toolTipBuilding").show();
+    uiUpdateBuildingTooltip(buildingInfo);
 }
 
 function uiUpdateBuildingTooltip(buildingInfo) {
 
     var curBuilding = getBuildingFromId(buildingInfo.buildingId);
 
-    $("#toolTipBuilding_name").text(curBuilding.name);
-    $("#toolTipBuilding_description").text(curBuilding.description);
-
     if (buildingInfo.level == 0) {
         $("#toolTipBuilding_costRow").show();
         $("#toolTipBuilding_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getBuildCost()));
         $("#toolTipBuilding_costName").text("Cost: ");
 
-        if (curBuilding.getRequirement(buildingInfo.level).length > 0) {
+        if (curBuilding.getRequirement(buildingInfo.level).length > 0 && !curBuilding.canSpawn) {
             $("#toolTipBuilding_reqRow").show();
             $("#toolTipBuilding_req").html(dataLinksToStringOneLine(curBuilding.getRequirement(1)));
         }
         else
             $("#toolTipBuilding_reqRow").hide();
 
-        if (curBuilding.getReward(buildingInfo.level).length > 0) {
+        if (curBuilding.getReward(buildingInfo.level).length > 0 && !curBuilding.canSpawn) {
             $("#toolTipBuilding_rewRow").show();
             $("#toolTipBuilding_rew").html(dataLinksToStringOneLine(curBuilding.getReward(1)));
         }
@@ -241,7 +190,7 @@ function uiUpdateBuildingTooltip(buildingInfo) {
     else {
         $("#toolTipBuilding_costRow").hide();
         $("#toolTipBuilding_reqRow").hide();
-        $("#toolTipBuilding_rewRow").show();
+        $("#toolTipBuilding_rewRow").hide();
     }
 
     $("#toolTipBuilding").show();
@@ -253,15 +202,15 @@ function uiSetCellTooltip(x, y) {
 
     uiClearTooltip();
 
-    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
+    var curMap = selectedMapRef;
     var curCell = curMap.cells[x + (y * MAP_WIDTH)];
-    var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+    var curState = curCell.getStateRef();
 
     if (curState.questId >= 0) {
         uiSetQuestTooltip(curState.questId);
     }
     else if (curCell.buildingInstance != null) {
-        uiSetBuildingTooltip({ buildingId: curCell.buildingInstance.buildingId, level: curCell.buildingInstance.level}, true);
+        uiSetBuildingTooltip({ buildingId: curCell.buildingInstance.buildingId, level: curCell.buildingInstance.level }, true);
     }
     else {
         $("#toolTipCell_name").text(curState.name);
@@ -272,35 +221,14 @@ function uiSetCellTooltip(x, y) {
         else
             $("#toolTipCell_description").text(curState.description);
         
-        //if (curCell.buildingInstance != null) {
-        //    $("#toolTipCell_buildingInfo").show();
-
-        //    curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
-
-        //    if (curBuilding.canUpgrade) {
-        //        $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
-        //        $("#toolTipCell_description").text("");
-                
-        //        $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
-        //        $("#toolTipCell_buildingUpgrade").show();
-        //    }
-        //    else {
-        //        $("#toolTipCell_buildingName").text(curBuilding.name);
-        //        $("#toolTipCell_description").text(curBuilding.description);
-        //        $("#toolTipCell_buildingUpgrade").hide();
-        //    }
-        //}
-        //else
-        //    $("#toolTipCell_buildingInfo").hide();
-
-        $("#toolTipCell").show();
+        uiUpdateCellTooltip(x, y);
     }
 }
 
 function uiUpdateCellTooltip(x, y) {
-    var curMap = selectedMapRef; //getMapFromId(selectedMapId);
+    var curMap = selectedMapRef; 
     var curCell = curMap.cells[x + (y * MAP_WIDTH)];
-    var curState = curCell.getStateRef(); //getCellStateFromId(curCell.getStateId());
+    var curState = curCell.getStateRef();
 
     if (curState.questId >= 0) {
         uiUpdateQuestTooltip(curState.questId);
@@ -309,35 +237,6 @@ function uiUpdateCellTooltip(x, y) {
         uiUpdateBuildingTooltip({ buildingId: curCell.buildingInstance.buildingId, level: curCell.buildingInstance.level });
     }
     else {
-        $("#toolTipCell_name").text(curState.name);
-        $("#toolTipCell_type").text(getCellStateTypeName(curState.typeId));
-
-        if (curState.description == null || curState.description == undefined) // Should not be needed
-            $("#toolTipCell_description").text("");
-        else
-            $("#toolTipCell_description").text(curState.description);
-
-        //if (curCell.buildingInstance != null) {
-        //    $("#toolTipCell_buildingInfo").show();
-
-        //    curBuilding = curCell.buildingInstance.buildingRef; //getBuildingFromId(curCell.buildingInstance.buildingId);
-
-        //    if (curBuilding.canUpgrade) {
-        //        $("#toolTipCell_buildingName").text(curBuilding.name + " level " + curCell.buildingInstance.level);
-        //        $("#toolTipCell_description").text("");
-
-        //        $("#toolTipCell_cost").html(dataLinksToStringOneAvailableLine(curBuilding.getUpgradeCost(curCell.buildingInstance.level)));
-        //        $("#toolTipCell_buildingUpgrade").show();
-        //    }
-        //    else {
-        //        $("#toolTipCell_buildingName").text(curBuilding.name);
-        //        $("#toolTipCell_description").text(curBuilding.description);
-        //        $("#toolTipCell_buildingUpgrade").hide();
-        //    }
-        //}
-        //else
-        //    $("#toolTipCell_buildingInfo").hide();
-
         $("#toolTipCell").show();
     }
 }
@@ -352,42 +251,20 @@ function uiSetQuestTooltip(questId) {
 
     $("#toolTipQuest_name").text(curQuest.title);
 
-    if (curQuest.completed) {
-        $("#toolTipQuest_description").text(curQuest.completeDescriptionSummary);
-        $("#completeQuest").hide();
-        $("#toolTipQuest_requirementRow").hide();
-        $("#toolTipQuest_completed").show();
-    }
-    else {
-        $("#toolTipQuest_description").text(curQuest.descriptionSummary);
-        $("#completeQuest").show
-        $("#toolTipQuest_requirementRow").show();
-        $("#toolTipQuest_completed").hide();
-
-        if (hasDataLinks(curQuest.requirements))
-            $("#completeQuest").prop('disabled', false);
-        else
-            $("#completeQuest").prop('disabled', true);
-    } 
-
-    $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
-
-    $("#toolTipQuest").show();
+    uiUpdateQuestTooltip(questId);
 }
 
 function uiUpdateQuestTooltip(questId) {
     var curQuest = getQuestFromId(questId);
 
-    $("#toolTipQuest_name").text(curQuest.title);
-
     if (curQuest.completed) {
-        $("#toolTipQuest_description").text(curQuest.completeDescriptionSummary);
+        $("#toolTipQuest_description").text(curQuest.endSummary);
         $("#completeQuest").hide();
         $("#toolTipQuest_requirementRow").hide();
         $("#toolTipQuest_completed").show();
     }
     else {
-        $("#toolTipQuest_description").text(curQuest.descriptionSummary);
+        $("#toolTipQuest_description").text(curQuest.startSummary);
         $("#completeQuest").show();
         $("#toolTipQuest_requirementRow").show();
         $("#toolTipQuest_completed").hide();
@@ -399,11 +276,11 @@ function uiUpdateQuestTooltip(questId) {
     }
 
     $("#toolTipQuest_requirement").html(dataLinksToStringOneLine(curQuest.requirements));
+
+    $("#toolTipQuest").show();
 }
 
 function uiSetResourceTooltip(resourceId, isHard) {
-    //uiClearSoftTooltip();
-
     if (isHard) {
         currentHardToolTipType = TOOLTIP_TYPE_RESOURCE;
         currentHardToolTipInfo = resourceId;
@@ -422,20 +299,19 @@ function uiSetResourceTooltip(resourceId, isHard) {
 
     $("#toolTipResource_name").text(curResource.name);
     $("#toolTipResource_description").text(curResource.description);
-    $("#toolTipResource_amount").text(nComaFormatter(curResource.amount));
     
-    $("#toolTipResource").show();
+    uiUpdateResourceTooltip(resourceId);
 }
 
 function uiUpdateResourceTooltip(resourceId) {
     var curResource = getResourceFromId(resourceId);
 
     $("#toolTipResource_amount").text(nComaFormatter(curResource.amount));
+
+    $("#toolTipResource").show();
 }
 
 function uiSetMessageTooltip(message, isHard) {
-    //uiClearSoftTooltip();
-
     if (isHard) {
         currentHardToolTipType = TOOLTIP_TYPE_MESSAGE;
         currentHardToolTipInfo = message;
@@ -452,8 +328,9 @@ function uiSetMessageTooltip(message, isHard) {
 
     $("#messageInnerText").html(message);
 
-    $("#toolTipMessage").show();
+    uiUpdateTooltip(message);
 }
 
 function uiUpdateTooltip(message) {
+    $("#toolTipMessage").show();
 }

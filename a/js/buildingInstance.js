@@ -12,7 +12,7 @@
 }
 
 BuildingInstanceInfo.prototype.canProcessOnCellState = function (state) {
-    var building = this.buildingRef; //getBuildingFromId(this.buildingId);
+    var building = this.buildingRef;
 
     if (building.processOnCellType.length == 0)
         return true;
@@ -27,12 +27,12 @@ BuildingInstanceInfo.prototype.canProcessOnCellState = function (state) {
 }
 
 BuildingInstanceInfo.prototype.process = function () {
-    var building = this.buildingRef; //getBuildingFromId(this.buildingId);
+    var building = this.buildingRef;
 
     if (!building.keepActionReady)
         this.actionReady = false;
 
-    if (building.actionTime > 0) { //  && this.timeTracker != null
+    if (building.actionTime > 0) {
         if (this.timeTracker.canExecute()) {
             this.actionReady = true;
         }

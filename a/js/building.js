@@ -3,15 +3,15 @@
 var BUILDING_AXE = 0
 var BUILDING_PICKAXE = 1;
 var BUILDING_STORAGE = 2;
-var BUILDING_ROAD = 3;
+//var BUILDING_ROAD = 3;
 var BUILDING_TOWER1 = 4;
 var BUILDING_TOWER2 = 5;
-var BUILDING_SPAWNSTART = 6;
-        // TODO: Not needed, remove
-var BUILDING_SPAWNEND = 7;
-var BUILDING_PLANK = 8;
-var BUILDING_COAL = 9;
-var BUILDING_BLOCK = 10;
+//var BUILDING_SPAWNSTART = 6;
+//        // TODO: Not needed, remove
+//var BUILDING_SPAWNEND = 7;
+//var BUILDING_PLANK = 8;
+//var BUILDING_COAL = 9;
+//var BUILDING_BLOCK = 10;
 
 function BuildingInfo() {
 	this.id = 0;
@@ -34,6 +34,8 @@ function BuildingInfo() {
 	this.canSpawn = false;
 	this.keepActionReady = false; // Keep the flag on until the action is needed
 
+	this.powerCostPerUnit = 0;
+
 	this.cost = [];
 	this.requirement = [];
 	this.reward = [];
@@ -43,15 +45,10 @@ function BuildingInfo() {
 
 BuildingInfo.prototype.getBuildCost = function () {
 	var ret = duplicateDataLinks(this.cost);
-	
-	if (this.id == BUILDING_STORAGE) {
+
+	if (this.powerCostPerUnit > 0) {
 		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(4, this.totalCount) * 10);
-		}
-	}
-	else if (this.id == BUILDING_ROAD) {
-		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(1.13, this.totalCount) * 10);
+			ret[i].amount = parseInt(Math.pow(this.powerCostPerUnit, this.totalCount) * ret[i].amount);
 		}
 	}
 
@@ -61,29 +58,9 @@ BuildingInfo.prototype.getBuildCost = function () {
 BuildingInfo.prototype.getUpgradeCost = function (level) {
 	var ret = this.getBuildCost();
 
-	if (this.id == BUILDING_AXE || this.id == BUILDING_PICKAXE) {
+	if (this.powerUpgradePerLevel > 0) {
 		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(2.5, level) * 20);
-		}
-	}
-	else if (this.id == BUILDING_PLANK || this.id == BUILDING_BLOCK) {
-		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(2.5, level) * 400);
-		}
-	}
-	else if (this.id == BUILDING_TOWER1 || this.id == BUILDING_TOWER2) {
-		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(2.5, level) * 4);
-		}
-	}
-	else if (this.id == BUILDING_COAL) {
-		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount = parseInt(Math.pow(2.5, level) * 5000);
-		}
-	}
-	else {
-		for (var i = 0; i < ret.length; i++) {
-			ret[i].amount *= level + 1;
+			ret[i].amount = parseInt(Math.pow(this.powerUpgradePerLevel, level) * ret[i].amount);
 		}
 	}
 
@@ -93,13 +70,10 @@ BuildingInfo.prototype.getUpgradeCost = function (level) {
 BuildingInfo.prototype.getReward = function (level) {
 	var ret = duplicateDataLinks(this.reward);
 
-	if (this.id == BUILDING_AXE || this.id == BUILDING_PICKAXE) {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount = parseInt(Math.pow(2, level-1));
-	}
-	else {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount *= level;
+	if (this.powerRewardPerLevel > 0) {
+		for (var i = 0; i < ret.length; i++) {
+			ret[i].amount = parseInt(Math.pow(this.powerRewardPerLevel, level - 1) * ret[i].amount);
+		}
 	}
 
 	return ret;
@@ -108,21 +82,10 @@ BuildingInfo.prototype.getReward = function (level) {
 BuildingInfo.prototype.getRequirement = function (level) {
 	var ret = duplicateDataLinks(this.requirement);
 
-	if (this.id == BUILDING_PLANK || this.id == BUILDING_BLOCK) {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount = parseInt(Math.pow(2, level - 1)) * 8;
-	}
-	else if (this.id == BUILDING_COAL) {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount = parseInt(Math.pow(2, level - 1)) * 8;
-	}
-	else if (this.id == BUILDING_TOWER1 || this.id == BUILDING_TOWER1) {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount *= level * level;
-	}
-	else {
-		for (var i = 0; i < ret.length; i++)
-			ret[i].amount *= level;
+	if (this.powerRequirementPerLevel > 0) {
+		for (var i = 0; i < ret.length; i++) {
+			ret[i].amount = parseInt(Math.pow(this.powerRequirementPerLevel, level - 1) * ret[i].amount);
+		}
 	}
 
 	return ret;
@@ -178,6 +141,11 @@ function initBuilding() {
 		item.keepActionReady = buildingData[t].ka;
 		item.imageId = buildingData[t].im;
 
+		item.powerCostPerUnit = buildingData[t].cop;
+		item.powerUpgradePerLevel = buildingData[t].upp;
+		item.powerRequirementPerLevel = buildingData[t].rqp;
+		item.powerRewardPerLevel = buildingData[t].rwp;
+
 		for (var tt = 0; tt < buildingData[t].co.length; tt++) {
 			item.cost.push(createDataLink(buildingData[t].co[tt].t, buildingData[t].co[tt].st, buildingData[t].co[tt].o, buildingData[t].co[tt].a));
 		}
@@ -192,165 +160,6 @@ function initBuilding() {
 
 		buildings.push(item);
 	}
-
-	buildings[BUILDING_AXE].isVisible = true;
-	buildings[BUILDING_PICKAXE].isVisible = true;
-	buildings[BUILDING_STORAGE].isVisible = true;
-
-	/*
-	var item;
-
-	item = new BuildingInfo();
-	item.id = 0;
-	item.name = "Axe";
-	item.description = "Build on a tree to gather wood.";
-	item.actionTime = 1000;
-	item.imageId = "axe";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_TREE];
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 20));
-	item.reward.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 1));
-	item.isVisible = true;
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 1;
-	item.name = "Pickaxe";
-	item.description = "Build on a mountain to gather stone.";
-	item.actionTime = 1000;
-	item.imageId = "pickaxe";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_ROCK];
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 20));
-	item.reward.push(createDataLink_ResourceAmount(RESOURCE_STONE, 1));
-	item.isVisible = true;
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 2;
-	item.name = "Storage";
-	item.description = "Store gathered resources.";
-	item.imageId = "storage";
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.storage = true;
-	item.isUserOwned = true;
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 10));
-	item.isVisible = true;
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 3;
-	item.name = "Road";
-	item.description = "Help transfering resources from buildings to the storage unit.";
-	item.imageId = "road";
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.connection = true;
-	item.isUserOwned = true;
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 10));
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 4;
-	item.name = "Tower 1";
-	item.description = "Deals 1 damage per level to one nearby enemies.";
-	item.timerType = TRACLER_TYPE_DELAY;
-	item.actionTime = 1000;
-	item.imageId = "tower";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.keepActionReady = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 1));
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 4));
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 5;
-	item.name = "Tower 2";
-	item.description = "Deals 1 damage per level to all nearby enemies.";
-	item.timerType = TRACLER_TYPE_DELAY;
-	item.actionTime = 1000;
-	item.imageId = "tower2";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.keepActionReady = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 8));
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 4));
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_BLOCK, 4));
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 6;
-	item.name = "Spawn Start";
-	item.description = "Enemies will start spawning here.";
-	item.actionTime = 5000;
-	item.canSpawn = true;
-	item.keepActionReady = true;
-	item.imageId = "crystal";
-	buildings.push(item);
-
-        // TODO: Not needed, remove
-	item = new BuildingInfo();
-	item.id = 7;
-	item.name = "Spawn End";
-	item.description = "When the map has no more life, it will explode and all building will disapear.";
-	item.imageId = "crystal2";
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 8;
-	item.name = "Plank";
-	item.description = "Converts wood to plank.";
-	item.actionTime = 1000;
-	item.imageId = "plank";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 400));
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 400));
-	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 8));
-	item.reward.push(createDataLink_ResourceAmount(RESOURCE_PLANK, 1));
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 9;
-	item.name = "Coal";
-	item.description = "Converts wood to coal.";
-	item.actionTime = 1000;
-	item.imageId = "coal";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 5000));
-	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 8));
-	item.reward.push(createDataLink_ResourceAmount(RESOURCE_COAL, 1));
-	buildings.push(item);
-
-	item = new BuildingInfo();
-	item.id = 10;
-	item.name = "Block";
-	item.description = "Converts stone to block.";
-	item.actionTime = 1000;
-	item.imageId = "block";
-	item.needConnection = true;
-	item.canUpgrade = true;
-	item.isUserOwned = true;
-	item.processOnCellType = [STATE_TYPE_GROUND];
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_WOOD, 400));
-	item.cost.push(createDataLink_ResourceAmount(RESOURCE_STONE, 400));
-	item.requirement.push(createDataLink_ResourceAmount(RESOURCE_STONE, 8));
-	item.reward.push(createDataLink_ResourceAmount(RESOURCE_BLOCK, 1));
-	buildings.push(item);
-	*/
 }
 
 function finishInitBuilding() {

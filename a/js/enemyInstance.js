@@ -11,7 +11,7 @@
 }
 
 EnemyInstance.prototype.process = function (map) {
-    var enemy = this.enemyRef; //getEnemyFromId(this.enemyId);
+    var enemy = this.enemyRef;
 
     if (mainTimer.canExecute(enemy.movementSpeed)) {
         if (this.mx == 0 && this.my == 0) {
