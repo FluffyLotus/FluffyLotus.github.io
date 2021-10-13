@@ -19,137 +19,141 @@
 
     <style type="text/css">
 
-        .pulse:hover{
-    animation-name: animationtest;
-    animation-duration: 0.5s;
-    background-color:darkgray;
-    /*
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;    
-    animation-play-state: running;
-        */
-        }
-
-        @keyframes animationtest {
-    0.0%  {background-color:white;}
-    100.0%  {background-color:darkgray;}
-
-}
-        
-    .spriteSheetBackground {
-        background-image: url('images/spritesheet.png?v0.02.1')
-    }
-
-               /*
-        .pulse:hover {
-            animation: pulse 0.5s infinite;
-            animation-timing-function: linear;
-            image-rendering: pixelated;
-        }
- 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
+            .pulse:hover {
+                animation-name: animationtest;
+                animation-duration: 0.5s;
+                background-color: darkgray;
+                /*
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-play-state: running;
             */
-        body {
-            color: white;
-            background-color: #343a40;
-        }
+            }
 
-        .list-group-item-dark {
-            background-color: #343a40;
-            color: white;
-        }
+            @keyframes animationtest {
+                0.0% {
+                    background-color: white;
+                }
 
-        .input-transparent .form-control {
-            background-color: transparent;
-            color: white;
-        }
+                100.0% {
+                    background-color: darkgray;
+                }
+            }
 
-        select.form-control {
-            background-color: #343a40;
-            color: white;
-        }
+            .spriteSheetBackground {
+                background-image: url('images/spritesheet.png?v0.02.1')
+            }
 
-        .textarea-dark {
-            background-color: #343a40;
-            color: white;
-        }
+            /*
+            .pulse:hover {
+                animation: pulse 0.5s infinite;
+                animation-timing-function: linear;
+                image-rendering: pixelated;
+            }
 
-        option {
-            background-color: #343a40;
-            color: white;
-        }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
 
-        .card {
-            margin: 10px;
-            border-color: #454D55;
-        }
+                50% {
+                    transform: scale(1.2);
+                }
 
-        .card-title {
-            color: white;
-        }
+                100% {
+                    transform: scale(1);
+                }
+            }
+                */
+            body {
+                color: white;
+                background-color: #343a40;
+            }
 
-        .card-text {
-            color: white;
-        }
+            .list-group-item-dark {
+                background-color: #343a40;
+                color: white;
+            }
 
-        .card-body {
-            background-color: #343a40;
-        }
+            .input-transparent .form-control {
+                background-color: transparent;
+                color: white;
+            }
 
-        .btn {
-            border: 1px solid black;
-        }
+            select.form-control {
+                background-color: #343a40;
+                color: white;
+            }
 
-        .modal-content {
-            background-color: #343a40;
-        }
+            .textarea-dark {
+                background-color: #343a40;
+                color: white;
+            }
 
-        h2 {
-        }
+            option {
+                background-color: #343a40;
+                color: white;
+            }
 
-        .toast {
-            flex-basis: auto;
-            border-color: black;
-        }
+            .card {
+                margin: 10px;
+                border-color: #454D55;
+            }
 
-        .toast-header {
-            color: yellow;
-            background-color: #303030;
-        }
+            .card-title {
+                color: white;
+            }
 
-        .toast-body {
-            background-color: #444444;
-        }
+            .card-text {
+                color: white;
+            }
 
-        footer {
-            position: fixed;
-            height: 100px;
-            bottom: 0;
-            width: 100%;
-        }
+            .card-body {
+                background-color: #343a40;
+            }
 
-        button.close {
-            color: white;
-        }
+            .btn {
+                border: 1px solid black;
+            }
 
-        .buildingLevel {
-            margin-left: 5px;
-            color: white;
-            font-weight: bold;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
+            .modal-content {
+                background-color: #343a40;
+            }
+
+            h2 {
+            }
+
+            .toast {
+                flex-basis: auto;
+                border-color: black;
+            }
+
+            .toast-header {
+                color: yellow;
+                background-color: #303030;
+            }
+
+            .toast-body {
+                background-color: #444444;
+            }
+
+            footer {
+                position: fixed;
+                height: 100px;
+                bottom: 0;
+                width: 100%;
+            }
+
+            button.close {
+                color: white;
+            }
+
+            .buildingLevel {
+                margin-left: 5px;
+                color: white;
+                font-weight: bold;
+                text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            }
     </style>
 
     <style type="text/css">
@@ -275,10 +279,10 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#settingModal">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript: uiOpenSettingModal();">Settings</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#tutorialModal">Tutorial</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">Help</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript: uiOpenAboutModal();">About</a></li>
                     <li class="nav-item"><div id="endOfGameSection" style="color: yellow; border: 1px solid red; padding: 2px; display: none;">There is no content behond Forest 2300</div></li>
                 </ul>
             </div>
@@ -322,10 +326,15 @@
             <div style="height: 80px; border-bottom: 1px dashed gray; vertical-align: top; width: 610px;">
                 <div id="toolTipCell" style="width: 100%; height: 100%; display: none;">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <div><span id="toolTipCell_name" style="font-weight: bold;"></span></div>
                             <div>Type: <span id="toolTipCell_type"></span></div>
                             <div id="toolTipCell_description"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="toolTipCell_cavePlaceHolder">
+                                <button class="btn btn-success" onclick="uiEnterCave();">Go to cave</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -449,38 +458,43 @@
                                     </div>
                                     <div id="collapseFour" class="collapse show" aria-labelledby="headingFour">
                                         <div class="card-body" style="padding: 5px;">
-                                            <table>
-                                                <tr>
-                                                    <td><div></div></td>
-                                                    <td>
-                                                        <div id="movementUp" onclick="uiMoveMap(0, -1);" style="cursor: pointer;">
-                                                        </div>
-                                                        <div id="movementUpOff">
-                                                        </div>
-                                                    </td>
-                                                    <td><div></div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div id="movementLeft" onclick="uiMoveMap(-1, 0);" style="cursor: pointer;">
-                                                        </div>
-                                                        <div id="movementLeftOff">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div id="movementDown" onclick="uiMoveMap(0, 1);" style="cursor: pointer;">
-                                                        </div>
-                                                        <div id="movementDownOff">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div id="movementRight" onclick="uiMoveMap(1, 0);" style="cursor: pointer;">
-                                                        </div>
-                                                        <div id="movementRightOff">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                            <div id="mapMovement_arrow">
+                                                <table>
+                                                    <tr>
+                                                        <td><div></div></td>
+                                                        <td>
+                                                            <div id="movementUp" onclick="uiMoveMap(0, -1);" style="cursor: pointer;">
+                                                            </div>
+                                                            <div id="movementUpOff">
+                                                            </div>
+                                                        </td>
+                                                        <td><div></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div id="movementLeft" onclick="uiMoveMap(-1, 0);" style="cursor: pointer;">
+                                                            </div>
+                                                            <div id="movementLeftOff">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div id="movementDown" onclick="uiMoveMap(0, 1);" style="cursor: pointer;">
+                                                            </div>
+                                                            <div id="movementDownOff">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div id="movementRight" onclick="uiMoveMap(1, 0);" style="cursor: pointer;">
+                                                            </div>
+                                                            <div id="movementRightOff">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="mapMovement_exitCave">
+                                                <button class="btn btn-success" type="button" onclick="uiExitCave();">Exit Cave</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -542,18 +556,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="p-3 mb-2 bg-danger text-white">TODO: Not implemented</div>
                     <p>It's important to export your save game on your local computer. Some website like itch delete the save states when there's an update.</p>
+                    <p>
+                        Game save every <span id="saveSecond"></span> seconds. Last save on <span id="lastSaveTime"></span>.
+                    </p>
                     <div>
-                        <button class="btn btn-dark" onclick="uiGetSaveGame();" disabled>Export Save Game</button>
-                        <button class="btn btn-dark" onclick="storeSaveState();" disabled>Save</button>
+                        <button class="btn btn-dark" onclick="uiDisplaySaveState();" type="button">Export Save Game</button>
+                        <button class="btn btn-dark" onclick="uiSaveGame(); uiLoadSettingModal();" type="button">Save</button>
                     </div>
                     <div style="margin-top: 15px; margin-bottom: 15px;">
                         <textarea id="gameStateData" class="form-control textarea-dark" style="height: 100px;"></textarea>
                     </div>
                     <div>
-                        <button class="btn btn-dark" onclick="uiLoadSaveGame();" disabled>Import Save Game</button>
-                        <button class="btn btn-danger" onclick="if(confirm('Are you sure?')) { clearSaveState(); location.reload(); } " disabled>Clear Save</button>
+                        <button class="btn btn-dark" onclick="uiForceLoadSaveState(); uiLoadSettingModal();" type="button">Import Save Game</button>
+                        <button class="btn btn-danger" onclick="if(confirm('Are you sure?')) { uiClearSaveState(); location.reload(); } " type="button">Clear Save</button>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -574,16 +590,10 @@
                 </div>
                 <div class="modal-body">
                     Hope you enjoy this game! You can reach me on <a href="https://fluffy-lotus.itch.io/" target="_new">itch.io</a>.
-                    <!--<hr />
-                    <p>
-                        <span id="tickCount"></span> tick for a simulated time of <span id="tickTime"></span>.
-                    </p>
+                    <hr />
                     <p>
                         The game has been running for <span id="realTimeElapse"></span>.
                     </p>
-                    <p>
-                        Game save every <span id="saveSecond"></span> seconds. Last save on <span id="lastSaveTime"></span>.
-                    </p>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -744,14 +754,12 @@
     
     
     <script src="script.min.js?v0.02.1"></script>
+    <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
+    
 
     <script>
-        (function (w, d, a, m) { var s = 'script'; var g = 'GameAnalytics'; w[g] = w[g] || function () { (w[g].q = w[g].q || []).push(arguments) }, a = d.createElement(s), m = d.getElementsByTagName(s)[0]; a.async = 1; a.src = 'https://download.gameanalytics.com/js/GameAnalytics-4.2.3.min.js'; m.parentNode.insertBefore(a, m) })(window, document);
-
-        //GameAnalytics("setEnabledInfoLog", true);
-        GameAnalytics("initialize", "ad6410ab8dfce84fea07945fd6517484", "0981ad110a98d553d79bd1e53a9e35cd6bf1a2f5");
+        initAnalytics();
     </script>
-    
 
 </body>
 </html>
