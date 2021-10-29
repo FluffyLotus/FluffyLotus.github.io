@@ -14,7 +14,7 @@
     <link href="3rd/dark-bootstrap.min.css" rel="stylesheet" />
         -->
 
-    <title>Secret Of The Basilisk v0.02.2</title>
+    <title>Secret Of The Basilisk v0.02.3</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <style type="text/css">
@@ -41,7 +41,7 @@
             }
 
             .spriteSheetBackground {
-                background-image: url('images/spritesheet.png?v0.02.2')
+                background-image: url('images/spritesheet.png?v0.02.3')
             }
 
             /*
@@ -153,6 +153,10 @@
                 color: white;
                 font-weight: bold;
                 text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            }
+
+            button.collapsed:after {
+                content: " (closed)";
             }
     </style>
 
@@ -272,7 +276,7 @@
     <textarea id="debug" style="display: none;"></textarea> <!--  style="display: none;" -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.02.2</small></a>
+            <a class="navbar-brand" href="#">Secret Of The Basilisk <small>v0.02.3</small></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -568,7 +572,7 @@
                         <textarea id="gameStateData" class="form-control textarea-dark" style="height: 100px;"></textarea>
                     </div>
                     <div>
-                        <button class="btn btn-dark" onclick="uiForceLoadSaveState(); uiLoadSettingModal();" type="button">Import Save Game</button>
+                        <button class="btn btn-dark" onclick="uiForceLoadSaveState(); uiCloseSettingModal();" type="button">Import Save Game</button>
                         <button class="btn btn-danger" onclick="if(confirm('Are you sure?')) { uiClearSaveState(); location.reload(); } " type="button">Clear Save</button>
                     </div>
                 </div>
@@ -727,7 +731,7 @@
     <textarea id="debug" style="width: 400px; height: 400px; display: none;"></textarea>
 
     <div style="display: none;">
-        <img id="spritesheet" src="images/spritesheet.png?v0.02.2" />
+        <img id="spritesheet" src="images/spritesheet.png?v0.02.3" />
     </div>
 
     <footer style="pointer-events: none;">
@@ -753,13 +757,9 @@
 
     
     
-    <script src="script.min.js?v0.02.2"></script>
+    <script src="script.min.js?v0.02.3"></script>
     <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
     
-
-    <script>
-        initAnalytics();
-    </script>
 
 </body>
 </html>
