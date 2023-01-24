@@ -1,0 +1,316 @@
+<body onload="initApp();">
+
+    <script>
+
+        function CellInfo() {
+            this.isBomb = false;
+            this.bombCount = 0;
+            this.isVisible = false;
+            this.isSelected = false;
+        }
+
+        function MapInfo() {
+            this.cells = [];
+        }
+
+        MapInfo.prototype.init = function () {
+            this.cells = [];
+
+            for (var y = 0; y < 9; y++) {
+                for (var x = 0; x < 9; x++) {
+                    this.cells[x + (y * 9)] = new CellInfo();
+                }
+            }
+
+            var curBomb = 10;
+
+            while (curBomb > 0) {
+                var x = Math.floor(Math.random() * 9);
+                var y = Math.floor(Math.random() * 9);
+
+                if (!this.cells[x + (y * 9)].isBomb) {
+                    this.cells[x + (y * 9)].isBomb = true;
+                    curBomb--;
+
+                    for (iy = -1; iy <= 1; iy++) {
+                        for (ix = -1; ix <= 1; ix++) {
+                            if (x + ix >= 0 && x + ix < 9 && y + iy >= 0 && y + iy < 9) {
+                                this.cells[(x + ix) + ((y + iy) * 9)].bombCount++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        MapInfo.prototype.selectCell = function (x, y) {
+            this.cells[x + (y * 9)].isSelected = true;
+        }
+
+        MapInfo.prototype.unselectCell = function (x, y) {
+            this.cells[x + (y * 9)].isSelected = false;
+        }
+
+        MapInfo.prototype.getSelectCellCount = function () {
+            var ret = 0;
+
+            for (var y = 0; y < 9; y++) {
+                for (var x = 0; x < 9; x++) {
+                    if (this.cells[x + (y * 9)].isSelected)
+                        ret++;
+                }
+            }
+
+            return ret;
+        }
+
+        MapInfo.prototype.isOver = function () {
+            if (this.getFoundBomb() == 10)
+                return true;
+            return false;
+        }
+
+        MapInfo.prototype.handleSelect = function () {
+            var found = false;
+
+            do {
+                found = false;
+
+                for (var y = 0; y < 9; y++) {
+                    for (var x = 0; x < 9; x++) {
+                        if (this.cells[x + (y * 9)].isSelected) {
+                            found = true;
+
+                            this.cells[x + (y * 9)].isSelected = false;
+                            this.cells[x + (y * 9)].isVisible = true;
+
+                            if (this.cells[x + (y * 9)].bombCount == 0) {
+
+                                for (iy = -1; iy <= 1; iy++) {
+                                    for (ix = -1; ix <= 1; ix++) {
+                                        if (x + ix >= 0 && x + ix < 9 && y + iy >= 0 && y + iy < 9) {
+                                            if (!this.cells[(x + ix) + ((y + iy) * 9)].isVisible)
+                                                this.cells[(x + ix) + ((y + iy) * 9)].isSelected = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } while (found);
+        }
+
+        MapInfo.prototype.getFoundBomb = function () {
+            var ret = 0;
+
+            for (var y = 0; y < 9; y++) {
+                for (var x = 0; x < 9; x++) {
+                    if (this.cells[x + (y * 9)].isVisible && this.cells[x + (y * 9)].isBomb)
+                        ret++;
+                }
+            }
+
+            return ret;
+        }
+
+        //////////////////////////////////
+
+        var map = new MapInfo();
+
+        function initApp() {
+            map.init();
+
+            drawMap();
+            document.getElementById("curSelectedCount").innerText = map.getSelectCellCount();
+            document.getElementById("curBombFound").innerText = map.getFoundBomb();
+        }
+
+        function cellClick(cx, cy) {
+            document.getElementById("cell_" + cx + "_" + cy).classList.toggle('gameCellHighlight');
+
+            if (document.getElementById("cell_" + cx + "_" + cy).classList.contains('gameCellHighlight')) {
+                map.selectCell(cx, cy);
+            }
+            else {
+                map.unselectCell(cx, cy);
+            }
+
+            verifyTurnEnd();
+
+            drawMap();
+            document.getElementById("curSelectedCount").innerText = map.getSelectCellCount();
+            document.getElementById("curBombFound").innerText = map.getFoundBomb();
+        }
+
+        function verifyTurnEnd() {
+            selectCount = map.getSelectCellCount();
+
+            if (selectCount == 3) {
+                var beforeBomb = map.getFoundBomb();
+
+                for (var y = 0; y < 9; y++) {
+                    for (var x = 0; x < 9; x++) {
+                        if (document.getElementById("cell_" + x + "_" + y).classList.contains('gameCellHighlight')) {
+                            document.getElementById("cell_" + x + "_" + y).classList.toggle('gameCellHighlight');
+                        }
+                    }
+                }
+
+                map.handleSelect();
+
+                var afterBomb = map.getFoundBomb();
+
+                var str = "Your ship hit the enemy for " + (afterBomb - beforeBomb) + " damage.<br />";
+                document.getElementById("message").innerHTML = str + document.getElementById("message").innerHTML;
+
+                if (map.isOver()) {
+                    map.init();
+                }
+            }
+        }
+
+        function drawMap() {
+            for (var y = 0; y < 9; y++) {
+                for (var x = 0; x < 9; x++) {
+                    if (map.cells[x + (y * 9)].isVisible) {
+                        if (map.cells[x + (y * 9)].isBomb) {
+                            document.getElementById("cell_" + x + "_" + y).innerText = "X";
+                        }
+                        else {
+                            document.getElementById("cell_" + x + "_" + y).innerText = map.cells[x + (y * 9)].bombCount;
+                        }
+                    }
+                    else {
+                        document.getElementById("cell_" + x + "_" + y).innerText = "";
+                    }
+                }
+            }
+        }
+
+    </script>
+
+    <style>
+
+        .gameCell {
+            width: 32px;
+            height: 32px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .gameCellHighlight {
+            border: 1px solid red;
+            background-color: #FFEEEE;
+        }
+    </style>
+
+    <p>Select 3 cells, if you found a bomb, you will hit the enemy.</p>
+
+    <table>
+        <tr>
+            <td class="gameCell" id="cell_0_0" onclick="cellClick(0, 0);"></td>
+            <td class="gameCell" id="cell_1_0" onclick="cellClick(1, 0);"></td>
+            <td class="gameCell" id="cell_2_0" onclick="cellClick(2, 0);"></td>
+            <td class="gameCell" id="cell_3_0" onclick="cellClick(3, 0);"></td>
+            <td class="gameCell" id="cell_4_0" onclick="cellClick(4, 0);"></td>
+            <td class="gameCell" id="cell_5_0" onclick="cellClick(5, 0);"></td>
+            <td class="gameCell" id="cell_6_0" onclick="cellClick(6, 0);"></td>
+            <td class="gameCell" id="cell_7_0" onclick="cellClick(7, 0);"></td>
+            <td class="gameCell" id="cell_8_0" onclick="cellClick(8, 0);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_1" onclick="cellClick(0, 1);"></td>
+            <td class="gameCell" id="cell_1_1" onclick="cellClick(1, 1);"></td>
+            <td class="gameCell" id="cell_2_1" onclick="cellClick(2, 1);"></td>
+            <td class="gameCell" id="cell_3_1" onclick="cellClick(3, 1);"></td>
+            <td class="gameCell" id="cell_4_1" onclick="cellClick(4, 1);"></td>
+            <td class="gameCell" id="cell_5_1" onclick="cellClick(5, 1);"></td>
+            <td class="gameCell" id="cell_6_1" onclick="cellClick(6, 1);"></td>
+            <td class="gameCell" id="cell_7_1" onclick="cellClick(7, 1);"></td>
+            <td class="gameCell" id="cell_8_1" onclick="cellClick(8, 1);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_2" onclick="cellClick(0, 2);"></td>
+            <td class="gameCell" id="cell_1_2" onclick="cellClick(1, 2);"></td>
+            <td class="gameCell" id="cell_2_2" onclick="cellClick(2, 2);"></td>
+            <td class="gameCell" id="cell_3_2" onclick="cellClick(3, 2);"></td>
+            <td class="gameCell" id="cell_4_2" onclick="cellClick(4, 2);"></td>
+            <td class="gameCell" id="cell_5_2" onclick="cellClick(5, 2);"></td>
+            <td class="gameCell" id="cell_6_2" onclick="cellClick(6, 2);"></td>
+            <td class="gameCell" id="cell_7_2" onclick="cellClick(7, 2);"></td>
+            <td class="gameCell" id="cell_8_2" onclick="cellClick(8, 2);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_3" onclick="cellClick(0, 3);"></td>
+            <td class="gameCell" id="cell_1_3" onclick="cellClick(1, 3);"></td>
+            <td class="gameCell" id="cell_2_3" onclick="cellClick(2, 3);"></td>
+            <td class="gameCell" id="cell_3_3" onclick="cellClick(3, 3);"></td>
+            <td class="gameCell" id="cell_4_3" onclick="cellClick(4, 3);"></td>
+            <td class="gameCell" id="cell_5_3" onclick="cellClick(5, 3);"></td>
+            <td class="gameCell" id="cell_6_3" onclick="cellClick(6, 3);"></td>
+            <td class="gameCell" id="cell_7_3" onclick="cellClick(7, 3);"></td>
+            <td class="gameCell" id="cell_8_3" onclick="cellClick(8, 3);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_4" onclick="cellClick(0, 4);"></td>
+            <td class="gameCell" id="cell_1_4" onclick="cellClick(1, 4);"></td>
+            <td class="gameCell" id="cell_2_4" onclick="cellClick(2, 4);"></td>
+            <td class="gameCell" id="cell_3_4" onclick="cellClick(3, 4);"></td>
+            <td class="gameCell" id="cell_4_4" onclick="cellClick(4, 4);"></td>
+            <td class="gameCell" id="cell_5_4" onclick="cellClick(5, 4);"></td>
+            <td class="gameCell" id="cell_6_4" onclick="cellClick(6, 4);"></td>
+            <td class="gameCell" id="cell_7_4" onclick="cellClick(7, 4);"></td>
+            <td class="gameCell" id="cell_8_4" onclick="cellClick(8, 4);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_5" onclick="cellClick(0, 5);"></td>
+            <td class="gameCell" id="cell_1_5" onclick="cellClick(1, 5);"></td>
+            <td class="gameCell" id="cell_2_5" onclick="cellClick(2, 5);"></td>
+            <td class="gameCell" id="cell_3_5" onclick="cellClick(3, 5);"></td>
+            <td class="gameCell" id="cell_4_5" onclick="cellClick(4, 5);"></td>
+            <td class="gameCell" id="cell_5_5" onclick="cellClick(5, 5);"></td>
+            <td class="gameCell" id="cell_6_5" onclick="cellClick(6, 5);"></td>
+            <td class="gameCell" id="cell_7_5" onclick="cellClick(7, 5);"></td>
+            <td class="gameCell" id="cell_8_5" onclick="cellClick(8, 5);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_6" onclick="cellClick(0, 6);"></td>
+            <td class="gameCell" id="cell_1_6" onclick="cellClick(1, 6);"></td>
+            <td class="gameCell" id="cell_2_6" onclick="cellClick(2, 6);"></td>
+            <td class="gameCell" id="cell_3_6" onclick="cellClick(3, 6);"></td>
+            <td class="gameCell" id="cell_4_6" onclick="cellClick(4, 6);"></td>
+            <td class="gameCell" id="cell_5_6" onclick="cellClick(5, 6);"></td>
+            <td class="gameCell" id="cell_6_6" onclick="cellClick(6, 6);"></td>
+            <td class="gameCell" id="cell_7_6" onclick="cellClick(7, 6);"></td>
+            <td class="gameCell" id="cell_8_6" onclick="cellClick(8, 6);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_7" onclick="cellClick(0, 7);"></td>
+            <td class="gameCell" id="cell_1_7" onclick="cellClick(1, 7);"></td>
+            <td class="gameCell" id="cell_2_7" onclick="cellClick(2, 7);"></td>
+            <td class="gameCell" id="cell_3_7" onclick="cellClick(3, 7);"></td>
+            <td class="gameCell" id="cell_4_7" onclick="cellClick(4, 7);"></td>
+            <td class="gameCell" id="cell_5_7" onclick="cellClick(5, 7);"></td>
+            <td class="gameCell" id="cell_6_7" onclick="cellClick(6, 7);"></td>
+            <td class="gameCell" id="cell_7_7" onclick="cellClick(7, 7);"></td>
+            <td class="gameCell" id="cell_8_7" onclick="cellClick(8, 7);"></td>
+        </tr>
+        <tr>
+            <td class="gameCell" id="cell_0_8" onclick="cellClick(0, 8);"></td>
+            <td class="gameCell" id="cell_1_8" onclick="cellClick(1, 8);"></td>
+            <td class="gameCell" id="cell_2_8" onclick="cellClick(2, 8);"></td>
+            <td class="gameCell" id="cell_3_8" onclick="cellClick(3, 8);"></td>
+            <td class="gameCell" id="cell_4_8" onclick="cellClick(4, 8);"></td>
+            <td class="gameCell" id="cell_5_8" onclick="cellClick(5, 8);"></td>
+            <td class="gameCell" id="cell_6_8" onclick="cellClick(6, 8);"></td>
+            <td class="gameCell" id="cell_7_8" onclick="cellClick(7, 8);"></td>
+            <td class="gameCell" id="cell_8_8" onclick="cellClick(8, 8);"></td>
+        </tr>
+    </table>
+
+    <div>Selection: <span id="curSelectedCount"></span> / 3</div>
+    <div>Bomb: <span id="curBombFound"></span> / 10</div>
+    <div id="message"></div>
+
+</body>
