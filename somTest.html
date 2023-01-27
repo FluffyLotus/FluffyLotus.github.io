@@ -2,6 +2,15 @@
 
     <script>
 
+        var playerLife = 50;
+        var playerDeath = 0;
+
+        var enemyLife = 5 + Math.floor(Math.random() * 10);
+        var enemyDeath = 0;
+
+        var GRID_WIDTH = 9;
+        var GRID_HEIGHT = 9;
+
         function CellInfo() {
             this.isBomb = false;
             this.bombCount = 0;
@@ -10,32 +19,34 @@
         }
 
         function MapInfo() {
+            this.bombCount = 10;
+            this.availSelection = 3;
             this.cells = [];
         }
 
         MapInfo.prototype.init = function () {
             this.cells = [];
 
-            for (var y = 0; y < 9; y++) {
-                for (var x = 0; x < 9; x++) {
-                    this.cells[x + (y * 9)] = new CellInfo();
+            for (var y = 0; y < GRID_HEIGHT; y++) {
+                for (var x = 0; x < GRID_WIDTH; x++) {
+                    this.cells[x + (y * GRID_WIDTH)] = new CellInfo();
                 }
             }
 
-            var curBomb = 10;
+            var curBomb = this.bombCount;
 
             while (curBomb > 0) {
-                var x = Math.floor(Math.random() * 9);
-                var y = Math.floor(Math.random() * 9);
+                var x = Math.floor(Math.random() * GRID_WIDTH);
+                var y = Math.floor(Math.random() * GRID_HEIGHT);
 
-                if (!this.cells[x + (y * 9)].isBomb) {
-                    this.cells[x + (y * 9)].isBomb = true;
+                if (!this.cells[x + (y * GRID_WIDTH)].isBomb) {
+                    this.cells[x + (y * GRID_WIDTH)].isBomb = true;
                     curBomb--;
 
                     for (iy = -1; iy <= 1; iy++) {
                         for (ix = -1; ix <= 1; ix++) {
-                            if (x + ix >= 0 && x + ix < 9 && y + iy >= 0 && y + iy < 9) {
-                                this.cells[(x + ix) + ((y + iy) * 9)].bombCount++;
+                            if (x + ix >= 0 && x + ix < GRID_WIDTH && y + iy >= 0 && y + iy < GRID_HEIGHT) {
+                                this.cells[(x + ix) + ((y + iy) * GRID_WIDTH)].bombCount++;
                             }
                         }
                     }
@@ -44,19 +55,19 @@
         }
 
         MapInfo.prototype.selectCell = function (x, y) {
-            this.cells[x + (y * 9)].isSelected = true;
+            this.cells[x + (y * GRID_WIDTH)].isSelected = true;
         }
 
         MapInfo.prototype.unselectCell = function (x, y) {
-            this.cells[x + (y * 9)].isSelected = false;
+            this.cells[x + (y * GRID_WIDTH)].isSelected = false;
         }
 
         MapInfo.prototype.getSelectCellCount = function () {
             var ret = 0;
 
-            for (var y = 0; y < 9; y++) {
-                for (var x = 0; x < 9; x++) {
-                    if (this.cells[x + (y * 9)].isSelected)
+            for (var y = 0; y < GRID_HEIGHT; y++) {
+                for (var x = 0; x < GRID_WIDTH; x++) {
+                    if (this.cells[x + (y * GRID_WIDTH)].isSelected)
                         ret++;
                 }
             }
@@ -65,7 +76,7 @@
         }
 
         MapInfo.prototype.isOver = function () {
-            if (this.getFoundBomb() == 10)
+            if (this.getFoundBomb() == this.bombCount)
                 return true;
             return false;
         }
@@ -76,21 +87,21 @@
             do {
                 found = false;
 
-                for (var y = 0; y < 9; y++) {
-                    for (var x = 0; x < 9; x++) {
-                        if (this.cells[x + (y * 9)].isSelected) {
+                for (var y = 0; y < GRID_HEIGHT; y++) {
+                    for (var x = 0; x < GRID_WIDTH; x++) {
+                        if (this.cells[x + (y * GRID_WIDTH)].isSelected) {
                             found = true;
 
-                            this.cells[x + (y * 9)].isSelected = false;
-                            this.cells[x + (y * 9)].isVisible = true;
+                            this.cells[x + (y * GRID_WIDTH)].isSelected = false;
+                            this.cells[x + (y * GRID_WIDTH)].isVisible = true;
 
-                            if (this.cells[x + (y * 9)].bombCount == 0) {
+                            if (this.cells[x + (y * GRID_WIDTH)].bombCount == 0) {
 
                                 for (iy = -1; iy <= 1; iy++) {
                                     for (ix = -1; ix <= 1; ix++) {
-                                        if (x + ix >= 0 && x + ix < 9 && y + iy >= 0 && y + iy < 9) {
-                                            if (!this.cells[(x + ix) + ((y + iy) * 9)].isVisible)
-                                                this.cells[(x + ix) + ((y + iy) * 9)].isSelected = true;
+                                        if (x + ix >= 0 && x + ix < GRID_WIDTH && y + iy >= 0 && y + iy < GRID_HEIGHT) {
+                                            if (!this.cells[(x + ix) + ((y + iy) * GRID_WIDTH)].isVisible)
+                                                this.cells[(x + ix) + ((y + iy) * GRID_WIDTH)].isSelected = true;
                                         }
                                     }
                                 }
@@ -104,9 +115,9 @@
         MapInfo.prototype.getFoundBomb = function () {
             var ret = 0;
 
-            for (var y = 0; y < 9; y++) {
-                for (var x = 0; x < 9; x++) {
-                    if (this.cells[x + (y * 9)].isVisible && this.cells[x + (y * 9)].isBomb)
+            for (var y = 0; y < GRID_HEIGHT; y++) {
+                for (var x = 0; x < GRID_WIDTH; x++) {
+                    if (this.cells[x + (y * GRID_WIDTH)].isVisible && this.cells[x + (y * GRID_WIDTH)].isBomb)
                         ret++;
                 }
             }
@@ -121,36 +132,33 @@
         function initApp() {
             map.init();
 
-            drawMap();
-            document.getElementById("curSelectedCount").innerText = map.getSelectCellCount();
-            document.getElementById("curBombFound").innerText = map.getFoundBomb();
+            drawAll();
         }
 
         function cellClick(cx, cy) {
-            document.getElementById("cell_" + cx + "_" + cy).classList.toggle('gameCellHighlight');
+            if (!map.cells[cx + (cy * GRID_WIDTH)].isVisible) {
+                document.getElementById("cell_" + cx + "_" + cy).classList.toggle('gameCellHighlight');
 
-            if (document.getElementById("cell_" + cx + "_" + cy).classList.contains('gameCellHighlight')) {
-                map.selectCell(cx, cy);
+                if (document.getElementById("cell_" + cx + "_" + cy).classList.contains('gameCellHighlight')) {
+                    map.selectCell(cx, cy);
+                }
+                else {
+                    map.unselectCell(cx, cy);
+                }
+
+                verifyTurnEnd();
+                drawAll();
             }
-            else {
-                map.unselectCell(cx, cy);
-            }
-
-            verifyTurnEnd();
-
-            drawMap();
-            document.getElementById("curSelectedCount").innerText = map.getSelectCellCount();
-            document.getElementById("curBombFound").innerText = map.getFoundBomb();
         }
 
         function verifyTurnEnd() {
             selectCount = map.getSelectCellCount();
 
-            if (selectCount == 3) {
+            if (selectCount == map.availSelection) {
                 var beforeBomb = map.getFoundBomb();
 
-                for (var y = 0; y < 9; y++) {
-                    for (var x = 0; x < 9; x++) {
+                for (var y = 0; y < GRID_HEIGHT; y++) {
+                    for (var x = 0; x < GRID_WIDTH; x++) {
                         if (document.getElementById("cell_" + x + "_" + y).classList.contains('gameCellHighlight')) {
                             document.getElementById("cell_" + x + "_" + y).classList.toggle('gameCellHighlight');
                         }
@@ -161,8 +169,23 @@
 
                 var afterBomb = map.getFoundBomb();
 
-                var str = "Your ship hit the enemy for " + (afterBomb - beforeBomb) + " damage.<br />";
+                var hit = afterBomb - beforeBomb;
+
+                var str = "Your ship hit the enemy for " + hit + " damage.<br />";
                 document.getElementById("message").innerHTML = str + document.getElementById("message").innerHTML;
+
+                playerLife -= 1;
+                enemyLife -= hit;
+
+                if (playerLife <= 0) {
+                    playerLife = 50;
+                    playerDeath++;
+                }
+
+                if (enemyLife <= 0) {
+                    enemyLife = 5 + Math.floor(Math.random() * 10);
+                    enemyDeath++;
+                }
 
                 if (map.isOver()) {
                     map.init();
@@ -170,15 +193,29 @@
             }
         }
 
+        function drawAll() {
+            drawMap();
+            document.getElementById("curSelectedCount").innerText = map.getSelectCellCount();
+            document.getElementById("availSelect2").innerText = map.availSelection;
+
+            document.getElementById("curBombFound").innerText = map.getFoundBomb();
+            document.getElementById("curBombCount").innerText = map.bombCount;
+            
+            document.getElementById("playerLife").innerText = playerLife;
+            document.getElementById("playerDeath").innerText = playerDeath;
+            document.getElementById("enemyLife").innerText = enemyLife;
+            document.getElementById("enemyDeath").innerText = enemyDeath;
+        }
+
         function drawMap() {
-            for (var y = 0; y < 9; y++) {
-                for (var x = 0; x < 9; x++) {
-                    if (map.cells[x + (y * 9)].isVisible) {
-                        if (map.cells[x + (y * 9)].isBomb) {
+            for (var y = 0; y < GRID_HEIGHT; y++) {
+                for (var x = 0; x < GRID_WIDTH; x++) {
+                    if (map.cells[x + (y * GRID_WIDTH)].isVisible) {
+                        if (map.cells[x + (y * GRID_WIDTH)].isBomb) {
                             document.getElementById("cell_" + x + "_" + y).innerText = "X";
                         }
                         else {
-                            document.getElementById("cell_" + x + "_" + y).innerText = map.cells[x + (y * 9)].bombCount;
+                            document.getElementById("cell_" + x + "_" + y).innerText = map.cells[x + (y * GRID_WIDTH)].bombCount;
                         }
                     }
                     else {
@@ -199,13 +236,17 @@
             text-align: center;
         }
 
+            .gameCell:hover {
+                border: 1px solid #FF6666;
+            }
+
         .gameCellHighlight {
-            border: 1px solid red;
+            border: 1px solid red !important;
             background-color: #FFEEEE;
         }
     </style>
 
-    <p>Select 3 cells, if you found a bomb, you will hit the enemy.</p>
+    <p>Select <span id="availSelect1"></span> cells, if you found a bomb, you will hit the enemy.</p>
 
     <table>
         <tr>
@@ -309,9 +350,26 @@
         </tr>
     </table>
 
-    <div>Selection: <span id="curSelectedCount"></span> / 3</div>
-    <div>Bomb: <span id="curBombFound"></span> / 10</div>
+    <div>Selection: <span id="curSelectedCount"></span> / <span id="availSelect2"></span></div>
+    <div>Bomb: <span id="curBombFound"></span> / <span id="curBombCount"></span></div>
+
     <hr />
+
+    <table border="0" width="400">
+        <tr>
+            <td>
+                <div>Player Life: <span id="playerLife"></span></div>
+                <div>Player Death: <span id="playerDeath"></span></div>
+            </td>
+            <td>
+                <div>Enemy Life: <span id="enemyLife"></span></div>
+                <div>Enemy Death: <span id="enemyDeath"></span></div>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
     <div id="message"></div>
 
 </body>
