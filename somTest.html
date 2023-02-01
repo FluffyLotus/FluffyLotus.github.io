@@ -158,44 +158,48 @@
             selectCount = map.getSelectCellCount();
 
             if (selectCount == map.availSelection) {
-                var beforeBomb = map.getFoundBomb();
+                processSelection();
+            }
+        }
 
-                for (var y = 0; y < GRID_HEIGHT; y++) {
-                    for (var x = 0; x < GRID_WIDTH; x++) {
-                        if (document.getElementById("cell_" + x + "_" + y).classList.contains('gameCellHighlight')) {
-                            document.getElementById("cell_" + x + "_" + y).classList.toggle('gameCellHighlight');
-                        }
+        function processSelection() {
+            var beforeBomb = map.getFoundBomb();
+
+            for (var y = 0; y < GRID_HEIGHT; y++) {
+                for (var x = 0; x < GRID_WIDTH; x++) {
+                    if (document.getElementById("cell_" + x + "_" + y).classList.contains('gameCellHighlight')) {
+                        document.getElementById("cell_" + x + "_" + y).classList.toggle('gameCellHighlight');
                     }
                 }
+            }
 
-                map.handleSelect();
+            map.handleSelect();
 
-                var afterBomb = map.getFoundBomb();
+            var afterBomb = map.getFoundBomb();
 
-                var hit = afterBomb - beforeBomb;
+            var hit = afterBomb - beforeBomb;
 
-                var str = "Your ship hit the enemy for " + hit + " damage.\n";
-                document.getElementById("message").value = str + document.getElementById("message").value;
+            var str = "Your ship hit the enemy for " + hit + " damage.\n";
+            document.getElementById("message").value = str + document.getElementById("message").value;
 
-                playerLife -= 1;
-                enemyLife -= hit;
+            playerLife -= 1;
+            enemyLife -= hit;
 
-                addPlayerBullet(hit);
-                addEnemyBullet(1);
+            addPlayerBullet(hit);
+            addEnemyBullet(1);
 
-                if (playerLife <= 0) {
-                    playerLife = 50;
-                    playerDeath++;
-                }
+            if (playerLife <= 0) {
+                playerLife = 50;
+                playerDeath++;
+            }
 
-                if (enemyLife <= 0) {
-                    enemyLife = 5 + Math.floor(Math.random() * 10);
-                    enemyDeath++;
-                }
+            if (enemyLife <= 0) {
+                enemyLife = 5 + Math.floor(Math.random() * 10);
+                enemyDeath++;
+            }
 
-                if (map.isOver()) {
-                    map.init();
-                }
+            if (map.isOver()) {
+                map.init();
             }
         }
 
@@ -309,7 +313,7 @@
 
             for (var t = 0; t < 50; t++) {
                 if (bullets[t].death == 0) {
-                    if(bullets[t].speed > 0)
+                    if (bullets[t].speed > 0)
                         ctx.drawImage(document.getElementById("bullet1"), bullets[t].x, bullets[t].y);
                     else
                         ctx.drawImage(document.getElementById("bullet2"), bullets[t].x, bullets[t].y);
@@ -472,7 +476,7 @@
         </tr>
     </table>
 
-    <div>Selection: <span id="curSelectedCount"></span> / <span id="availSelect2"></span></div>
+    <div>Selection: <span id="curSelectedCount"></span> / <span id="availSelect2"></span> <button onclick="processSelection(); drawAll();">Next Round</button></div>
     <div>Minerals Found: <span id="curBombFound"></span> / <span id="curBombCount"></span></div>
 
     <hr />
