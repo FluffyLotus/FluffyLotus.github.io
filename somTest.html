@@ -132,6 +132,9 @@
         function initApp() {
             map.init();
 
+            initCanvas();
+            setInterval(handleBullets, 50);
+
             drawAll();
         }
 
@@ -171,11 +174,14 @@
 
                 var hit = afterBomb - beforeBomb;
 
-                var str = "Your ship hit the enemy for " + hit + " damage.<br />";
-                document.getElementById("message").innerHTML = str + document.getElementById("message").innerHTML;
+                var str = "Your ship hit the enemy for " + hit + " damage.\n";
+                document.getElementById("message").value = str + document.getElementById("message").value;
 
                 playerLife -= 1;
                 enemyLife -= hit;
+
+                addPlayerBullet(hit);
+                addEnemyBullet(1);
 
                 if (playerLife <= 0) {
                     playerLife = 50;
@@ -200,7 +206,7 @@
 
             document.getElementById("curBombFound").innerText = map.getFoundBomb();
             document.getElementById("curBombCount").innerText = map.bombCount;
-            
+
             document.getElementById("playerLife").innerText = playerLife;
             document.getElementById("playerDeath").innerText = playerDeath;
             document.getElementById("enemyLife").innerText = enemyLife;
@@ -225,6 +231,97 @@
             }
         }
 
+        /////////////////////////////////////////////
+
+        var canvas, ctx;
+        var bullets = [];
+
+        var EXPLOSION_DELAY = 10;
+
+        function BulletInformation() {
+            this.x = 0;
+            this.y = 0;
+            this.speed = 0;
+            this.death = 0;
+        }
+
+        function addPlayerBullet(cnt) {
+            for (var c = 0; c < cnt; c++) {
+                for (var t = 0; t < 50; t++) {
+                    if (bullets[t].death >= EXPLOSION_DELAY) {
+                        bullets[t].x = 32;
+                        bullets[t].y = Math.floor(Math.random() * 10) + 8;
+                        bullets[t].speed = 15;
+                        bullets[t].death = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function addEnemyBullet(cnt) {
+            for (var c = 0; c < cnt; c++) {
+                for (var t = 0; t < 50; t++) {
+                    if (bullets[t].death >= EXPLOSION_DELAY) {
+                        bullets[t].x = 150;
+                        bullets[t].y = Math.floor(Math.random() * 10) + 8;
+                        bullets[t].speed = -15;
+                        bullets[t].death = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function handleBullets() {
+            for (var t = 0; t < 50; t++) {
+                if (bullets[t].death == 0) {
+                    bullets[t].x += bullets[t].speed;
+
+                    if (bullets[t].x < 32 || bullets[t].x > 150)
+                        bullets[t].death = 1;
+                }
+                else if (bullets[t].death < EXPLOSION_DELAY) {
+                    bullets[t].death++;
+                }
+            }
+        }
+
+        function initCanvas() {
+            canvas = document.getElementById("mainCanvas");
+            ctx = canvas.getContext("2d");
+
+            for (var t = 0; t < 50; t++) {
+                var b = new BulletInformation();
+                b.death = EXPLOSION_DELAY;
+                bullets.push(b);
+            }
+
+            requestAnimationFrame(drawCanvas);
+        }
+
+        function drawCanvas() {
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, 200, 50);
+
+            ctx.drawImage(document.getElementById("ship1"), 10, 9);
+            ctx.drawImage(document.getElementById("ship2"), 150, 9);
+
+            for (var t = 0; t < 50; t++) {
+                if (bullets[t].death == 0) {
+                    if(bullets[t].speed > 0)
+                        ctx.drawImage(document.getElementById("bullet1"), bullets[t].x, bullets[t].y);
+                    else
+                        ctx.drawImage(document.getElementById("bullet2"), bullets[t].x, bullets[t].y);
+                }
+                else if (bullets[t].death < EXPLOSION_DELAY) {
+                    ctx.drawImage(document.getElementById("explosion"), bullets[t].x, bullets[t].y);
+                }
+            }
+
+            requestAnimationFrame(drawCanvas);
+        }
+
     </script>
 
     <style>
@@ -246,7 +343,32 @@
         }
     </style>
 
-    <p>Select <span id="availSelect1"></span> cells, if you found a bomb, you will hit the enemy.</p>
+    <canvas id="mainCanvas" width="200" height="50" style="border: 1px solid black; width: 400px; height: 100px;"></canvas>
+
+    <div style="display: none;">
+        <img id="ship1" src="ship1.png" />
+        <img id="ship2" src="ship2.png" />
+        <img id="bullet1" src="bullet1.png" />
+        <img id="bullet2" src="bullet2.png" />
+        <img id="explosion" src="explosion.png" />
+    </div>
+
+    <table border="0" width="400">
+        <tr>
+            <td>
+                <div>Player Life: <span id="playerLife"></span></div>
+                <div>Player Death: <span id="playerDeath"></span></div>
+            </td>
+            <td>
+                <div>Enemy Life: <span id="enemyLife"></span></div>
+                <div>Enemy Death: <span id="enemyDeath"></span></div>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <p>Need to mine mineral for our energy weapon. Select <span id="availSelect1"></span> cells, if you find minerals, you will hit the enemy.</p>
 
     <table>
         <tr>
@@ -351,25 +473,10 @@
     </table>
 
     <div>Selection: <span id="curSelectedCount"></span> / <span id="availSelect2"></span></div>
-    <div>Bomb: <span id="curBombFound"></span> / <span id="curBombCount"></span></div>
+    <div>Minerals Found: <span id="curBombFound"></span> / <span id="curBombCount"></span></div>
 
     <hr />
 
-    <table border="0" width="400">
-        <tr>
-            <td>
-                <div>Player Life: <span id="playerLife"></span></div>
-                <div>Player Death: <span id="playerDeath"></span></div>
-            </td>
-            <td>
-                <div>Enemy Life: <span id="enemyLife"></span></div>
-                <div>Enemy Death: <span id="enemyDeath"></span></div>
-            </td>
-        </tr>
-    </table>
-
-    <hr />
-
-    <div id="message"></div>
+    <textarea id="message" style="width: 400px; height: 100px;"></textarea>
 
 </body>
